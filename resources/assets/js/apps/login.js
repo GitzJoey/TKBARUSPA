@@ -1,0 +1,3 @@
+var LoginVue = new Vue({
+
+});
