@@ -6,7 +6,7 @@
  * Time: 7:31 AM
  */
 
-namespace App\Util;
+namespace App\Utils;
 
 class RandomNumberGenerator
 {

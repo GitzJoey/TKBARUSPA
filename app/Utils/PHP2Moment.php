@@ -6,7 +6,7 @@
  * Time: 11:17 AM
  */
 
-namespace App\Util;
+namespace App\Utils;
 
 /**
  * Class PHP2Moment
