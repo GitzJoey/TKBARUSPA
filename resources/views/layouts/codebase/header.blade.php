@@ -42,9 +42,10 @@
                         <i class="fa fa-wrench fa-fw"></i> Settings
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
+                    <a href="/logout" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-power-off fa-fw"></i> Sign Out
                     </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }}</form>
                 </div>
             </div>
 

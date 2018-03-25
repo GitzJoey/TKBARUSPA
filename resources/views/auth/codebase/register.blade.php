@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="col-6">
                                             <a class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="#" data-toggle="modal" data-target="#modal-terms">
-                                                <i class="fa fa-book text-muted mr-10"></i> @lang('buttons.read_terms')
+                                                <i class="fa fa-book text-muted mr-10"></i> @lang('buttons.read_term_button')
                                             </a>
                                         </div>
                                         <div class="col-6">
