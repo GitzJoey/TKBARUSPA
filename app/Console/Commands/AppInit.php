@@ -11,14 +11,14 @@ class AppInit extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'app:init';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'App Initialization';
 
     /**
      * Create a new command instance.

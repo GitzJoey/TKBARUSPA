@@ -11,14 +11,14 @@ class AppHelper extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'app:helper';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'App Helper';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,6 @@ class AppHelper extends Command
      */
     public function handle()
     {
-        //
+        
     }
 }
