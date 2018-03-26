@@ -1,9 +1,9 @@
 <?php 
 
 return [
+    'title' => 'Sign In To Start',
     'email' => 'Email',
     'password' => 'Password',
-    'title' => 'Sign In To Start',
     'remember_me' => 'Remember Me',
     'forgot_pass' => 'Forgot Password',
     'register' => [

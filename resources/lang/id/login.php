@@ -2,6 +2,8 @@
 
 return [
     'title' => 'Silahkan Login Untuk Memulai',
+    'email' => 'Email',
+    'password' => 'Password',
     'remember_me' => 'Ingat Aku',
     'forgot_pass' => 'Lupa Password',
     'register' => [
@@ -22,5 +24,5 @@ return [
     ],
     'reset' => [
         'title' => 'Masukan Password Baru Anda',
-    ]
+    ],
 ];
