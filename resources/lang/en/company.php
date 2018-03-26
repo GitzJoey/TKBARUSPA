@@ -2,20 +2,20 @@
 
 return [
     'index' => [
-        'title' => '',
-        'page_title' => '',
+        'title' => 'Company',
+        'page_title' => 'Company',
         'page_title_desc' => '',
         'table' => [
             'company_list' => [
-                'title' => '',
+                'title' => 'Company Lists',
                 'header' => [
-                    'name' => '',
-                    'address' => '',
-                    'tax_id' => '',
-                    'default' => '',
-                    'frontweb' => '',
-                    'status' => '',
-                    'remarks' => '',
+                    'name' => 'Name',
+                    'address' => 'Address',
+                    'tax_id' => 'Tax ID',
+                    'default' => 'Default',
+                    'frontweb' => 'Front Web',
+                    'status' => 'Status',
+                    'remarks' => 'Remarks',
                 ],
             ],
         ],
