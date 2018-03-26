@@ -1,7 +1,7 @@
-var companyVue = new Vue ({
-    el: 'companyVue',
+var priceLevelVue = new Vue ({
+    el: 'priceLevelVue',
     data: {
-        company: []
+        priceLevel: []
     },
     mounted: function () {
 
@@ -12,4 +12,4 @@ var companyVue = new Vue ({
     function: {
 
     }
-});
+}); 

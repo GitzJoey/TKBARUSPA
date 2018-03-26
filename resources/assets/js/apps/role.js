@@ -1,7 +1,7 @@
-var companyVue = new Vue ({
-    el: 'companyVue',
+var roleVue = new Vue ({
+    el: 'roleVue',
     data: {
-        company: []
+        role: []
     },
     mounted: function () {
 
@@ -12,4 +12,4 @@ var companyVue = new Vue ({
     function: {
 
     }
-});
+}); 

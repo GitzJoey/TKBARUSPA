@@ -1,7 +1,28 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: gitzj
- * Date: 3/26/2018
- * Time: 1:40 AM
- */
+@extends('layouts.codebase.master')
+
+@section('title')
+
+@endsection
+
+@section('page_title')
+
+@endsection
+
+@section('page_title_desc')
+
+@endsection
+
+@section('breadcrumbs')
+
+@endsection
+
+@section('content')
+
+@endsection
+
+@section('custom_js')
+    <script type="application/javascript">
+
+    </script>
+    <script type="application/javascript" sr="{{ mix('js/apps/user.js') }}"/>
+@endsection
