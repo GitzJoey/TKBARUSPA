@@ -14,7 +14,7 @@
                     </button>
 
                     <div class="content-header-item">
-                        <div class="animated flip">
+                        <div class="{{ mt_rand(1, 5) == 1 ? 'animated flip':'' }}">
                             <a class="link-effect font-w700" href="{{ route('db') }}">
                                 <span class="font-size-xl text-dual-primary-dark">TK</span><span class="font-size-xl text-primary">BARU</span>
                             </a>

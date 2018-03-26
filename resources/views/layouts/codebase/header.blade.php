@@ -13,7 +13,7 @@
         <div class="content-header-section">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-rounded btn-dual-secondary disabled" id="timeoutCount">
-                    01:59:59
+                    00:00:00
                 </button>
                 <a class="btn btn-rounded btn-dual-secondary">
                     <span class="fa fa-external-link fa-fw" title="Back To Frontpage"></span>
