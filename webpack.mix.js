@@ -25,6 +25,7 @@ mix.js('resources/assets/js/codebase.js', 'public/js/codebase')
     .minify('public/js/apps/company.js')
     .sass('resources/assets/sass/codebase.scss', 'public/css/codebase')
     .styles([
+        'node_modules/fullcalendar/dist/fullcalendar.css',
         'public/css/codebase/codebase.css',
         'node_modules/animate.css/animate.css'
     ], 'public/css/codebase/codebase.css')

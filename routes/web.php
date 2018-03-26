@@ -25,5 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('', 'DashboardController@index')->name('db');
 
-    Route::get('company', 'CompanyController@index')->name('db.company');
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('company', 'CompanyController@index')->name('db.settings.company');
+    });
 });

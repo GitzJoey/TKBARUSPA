@@ -16,7 +16,7 @@
         </div>
 
         <div class="content-side">
-
+            <div id="calendar"></div>
         </div>
     </div>
 </aside>

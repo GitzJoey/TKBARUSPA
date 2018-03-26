@@ -22,6 +22,7 @@
     "dependencies": {
         "animate.css": "^3.6.1",
         "font-awesome": "^4.7.0",
+        "fullcalendar": "^3.9.0",
         "jquery-countto": "^1.2.0",
         "jquery-gotop": "^1.1.2",
         "jquery-scroll-lock": "^3.1.3",

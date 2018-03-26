@@ -203,11 +203,13 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="{{ active_class(if_route_pattern('db.settings.*'), 'open') }}">
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cog fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.settings')</span></a>
                         <ul>
                             <li>
-                                <a href="{{ route('db.company') }}"><span class="fa fa-umbrella fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.company')</a>
+                                <a class="{{ active_class(if_route_pattern('db.settings.company') || if_route_pattern('db.settings.company.*')) }}" href="{{ route('db.settings.company') }}">
+                                    <span class="fa fa-umbrella fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.company')
+                                </a>
                             </li>
                             <li>
                                 <a href="#"><span class="fa fa-user fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.user')</a>

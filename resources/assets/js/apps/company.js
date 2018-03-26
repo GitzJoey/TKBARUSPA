@@ -1,5 +1,5 @@
 var companyVue = new Vue ({
-    el: 'companyVue',
+    el: '#companyVue',
     data: {
         company: []
     },
