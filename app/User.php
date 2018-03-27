@@ -58,15 +58,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function hId() {
+    public function hId()
+    {
         return HashIds::encode($this->attributes['id']);
     }
 
-    public function profile() {
+    public function profile()
+    {
         return $this->hasOne('App\Models\Profile');
     }
 
-    public function company() {
+    public function company()
+    {
         return $this->belongsTo('App\Models\Company', 'company_id');
     }
 }
