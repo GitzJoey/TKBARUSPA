@@ -114,8 +114,6 @@ class RegisterController extends Controller
             $usr->attachRole('user');
         }
 
-        $usr->createToken(Config::get('const.PASSPORT_TOKEN_NAME.WEBAPI'));
-
         return $usr;
     }
 
