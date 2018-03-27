@@ -11,3 +11,11 @@ heading {
   margin-bottom: 0px;
   padding-top: 0px;
 }
+
+.block {
+  transition: box-shadow 1s;
+}
+
+.block:hover {
+  box-shadow: 0 0 3px rgba(33,33,33,.2);
+}

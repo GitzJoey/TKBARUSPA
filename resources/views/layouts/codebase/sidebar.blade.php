@@ -29,12 +29,12 @@
                 </div>
 
                 <div class="sidebar-mini-hidden-b text-center">
-                    <a class="img-link" href="be_pages_generic_profile.html">
+                    <a class="img-link" href="#">
                         <img class="img-avatar" src="{{ asset('images/def-user.png') }}" alt="">
                     </a>
                     <ul class="list-inline mt-10">
                         <li class="list-inline-item">
-                            <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="be_pages_generic_profile.html">Administrator</a>
+                            <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="#">{{ strtoupper(Auth::user()->roles()->first()->display_name) }}</a>
                         </li>
                     </ul>
                 </div>
