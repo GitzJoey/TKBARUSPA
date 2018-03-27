@@ -75,4 +75,14 @@ class CompanyServiceImpl implements CompanyService
     {
         // TODO: Implement delete() method.
     }
+
+    public function createDefaultCompany($companyName)
+    {
+        // TODO: Implement createDefaultCompany() method.
+    }
+
+    public function setDefaultCompany($id)
+    {
+        // TODO: Implement setDefaultCompany() method.
+    }
 }

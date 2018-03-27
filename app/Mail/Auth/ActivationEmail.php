@@ -37,6 +37,6 @@ class ActivationEmail extends Mailable
         return $this
             ->subject(LaravelLocalization::getCurrentLocale() == 'id' ? 'Aktifkan Akun Anda':'Activate Your Account')
             ->markdown('emails.auth.activationemail')
-            ->with('token', $this->user->activation_token);
+            ->with('token', $this->user->email_activation_token);
     }
 }

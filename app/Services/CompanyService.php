@@ -53,4 +53,8 @@ interface CompanyService
         $ribbon
     );
     public function delete($id);
+
+    public function createDefaultCompany($companyName);
+
+    public function setDefaultCompany($id);
 }

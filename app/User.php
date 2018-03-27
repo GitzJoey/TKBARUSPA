@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -29,6 +30,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @property-read \App\Models\Company $company
+ * @property-read \App\Models\Profile $profile
  */
 class User extends Authenticatable
 {
@@ -52,4 +55,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function hId() {
+        return HashIds::encode($this->attributes['id']);
+    }
+
+    public function profile() {
+        return $this->hasOne('App\Models\Profile');
+    }
+
+    public function company() {
+        return $this->belongsTo('App\Models\Company', 'company_id');
+    }
 }

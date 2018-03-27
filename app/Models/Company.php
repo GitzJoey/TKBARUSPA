@@ -14,6 +14,21 @@ use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Company
+ *
+ * @property-read mixed $date_format
+ * @property-read mixed $date_time_format
+ * @property-read mixed $numeral_format
+ * @property-read mixed $time_format
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Company extends Model
 {
     use SoftDeletes;
@@ -111,17 +126,17 @@ class Company extends Model
 
     public function products()
     {
-        return $this->hasMany('App\Models\Product');
+        return null;//$this->hasMany('App\Models\Product');
     }
 
     public function purchaseOrders()
     {
-        return $this->hasMany('App\Models\PurchaseOrder');
+        return null;//$this->hasMany('App\Models\PurchaseOrder');
     }
 
     public function bankAccounts()
     {
-        return $this->morphMany('App\Models\BankAccount', 'owner');
+        return null;//$this->morphMany('App\Models\BankAccount', 'owner');
     }
 
     public static function boot()
