@@ -85,17 +85,17 @@
                                     <div class="form-group row gutters-tiny">
                                         <div class="col-12 mb-10">
                                             <button type="submit" class="btn btn-block btn-hero btn-noborder btn-rounded btn-alt-success">
-                                                <i class="fa fa-user-plus mr-10"></i> @lang('buttons.register_button')
+                                                <i class="si si-user-follow mr-10"></i> @lang('buttons.register_button')
                                             </button>
                                         </div>
                                         <div class="col-6">
                                             <a class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="#" data-toggle="modal" data-target="#modal-terms">
-                                                <i class="fa fa-book text-muted mr-10"></i> @lang('buttons.read_term_button')
+                                                <i class="si si-book-open text-muted mr-10"></i> @lang('buttons.read_term_button')
                                             </a>
                                         </div>
                                         <div class="col-6">
                                             <a class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="{{ url('/login') }}">
-                                                <i class="fa fa-sign-in text-muted mr-10"></i> @lang('buttons.login_button')
+                                                <i class="si si-login text-muted mr-10"></i> @lang('buttons.login_button')
                                             </a>
                                         </div>
                                     </div>
