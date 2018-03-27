@@ -81,5 +81,8 @@
 
 @import '~font-awesome/scss/font-awesome';
 
+$simple-line-icon-prefix: "si-";
+@import '~simple-line-icons/scss/simple-line-icons.scss';
+
 @import './codebase/vendor/fullcalendar';
 @import './codebase/vendor/custom';
