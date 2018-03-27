@@ -12,6 +12,12 @@ return [
         'USER_SO_LIST' => 'userSOs',
     ],
 
+    'PASSPORT_TOKEN_NAME' => [
+        'WEBAPI' => 'WEBAPI_TOKEN',
+        'API' => 'API_TOKEN',
+        'EXTERNAL' => 'EXTERNAL_API_TOKEN',
+    ],
+
     'RANDOMSTRINGRANGE' => [
         'ALPHABET' => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
         'NUMERIC' => [3,4,7,9],

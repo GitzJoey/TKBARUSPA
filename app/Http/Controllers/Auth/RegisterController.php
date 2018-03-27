@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Models\Profile;
 
+use Config;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -112,6 +113,8 @@ class RegisterController extends Controller
         } else {
             $usr->attachRole('user');
         }
+
+        $usr->createToken(Config::get('const.PASSPORT_TOKEN_NAME.WEBAPI'));
 
         return $usr;
     }
