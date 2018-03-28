@@ -18,7 +18,7 @@
 
 @section('content')
     <div id="companyVue">
-        <div class="block">
+        <div class="block block-shadow-on-hover">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('company.index.table.company_list.title')</h3>
             </div>

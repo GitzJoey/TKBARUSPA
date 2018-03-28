@@ -12,10 +12,10 @@ heading {
   padding-top: 0px;
 }
 
-.block {
+.block.block-shadow-on-hover {
   transition: box-shadow 1s;
 }
 
-.block:hover {
+.block.block-shadow-on-hover:hover {
   box-shadow: 0 0 3px rgba(33,33,33,.2);
 }
