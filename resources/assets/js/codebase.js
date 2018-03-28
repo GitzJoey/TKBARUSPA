@@ -15,7 +15,6 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
-    require('./codebase/codebase');
 } catch (e) {
     console.error(e.message);
 }

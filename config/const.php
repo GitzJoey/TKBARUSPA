@@ -38,9 +38,4 @@ return [
     'DECIMAL_DIGIT' => 2,
 
     'PAGINATION' => 10,
-
-
-    'SETTING_KEY' => [
-
-    ],
 ];

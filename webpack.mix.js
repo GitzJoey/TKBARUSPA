@@ -19,6 +19,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
 mix.js('resources/assets/js/codebase.js', 'public/js/codebase')
     .scripts([
         'public/js/codebase/codebase.js',
+        'resources/assets/js/codebase/codebase.js',
         'resources/assets/js/codebase/app.js'
     ], 'public/js/codebase/codebase.js')
     .copy('node_modules/popper.js/dist/umd/popper.js.map', 'public/js/codebase')

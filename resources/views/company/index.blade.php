@@ -18,9 +18,16 @@
 
 @section('content')
     <div id="companyVue">
-        <div class="block block-shadow-on-hover">
+        <div class="block block-shadow-on-hover block-mode-loading-energy" id="companyListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('company.index.table.company_list.title')</h3>
+                <div class="block-options">
+                    <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                    <button type="button" class="btn-block-option" v-on:click="getAllCompany">
+                        <i class="si si-refresh"></i>
+                    </button>
+                    <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                </div>
             </div>
             <div class="block-content">
                 <div class="table-responsive">
