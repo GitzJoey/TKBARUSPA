@@ -57,4 +57,10 @@ interface CompanyService
     public function createDefaultCompany($companyName);
 
     public function setDefaultCompany($id);
+
+    public function isEmptyCompanyTable();
+
+    public function defaultStorePresent();
+
+    public function getDefaultCompany();
 }

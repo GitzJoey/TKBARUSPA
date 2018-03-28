@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Models\Profile;
 
-use Config;
+use App\Services\CompanyService;
+
+use App\Events\Auth\UserActivationEmail;
+
+use Session;
+use Validator;
 use Carbon\Carbon;
+use LaravelLocalization;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -27,6 +32,7 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    private $companyService;
     /**
      * Where to redirect users after registration.
      *
@@ -39,9 +45,10 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CompanyService $companyService)
     {
         $this->middleware('guest');
+        $this->companyService = $companyService;
     }
 
     /**
@@ -117,8 +124,92 @@ class RegisterController extends Controller
         return $usr;
     }
 
-    public function showRegistrationForm()
+    /**
+     * Override the RegistersUsers@showRegistrationForm
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showRegistrationForm(Request $req)
     {
-        return view('auth.codebase.register');
+        $companyDDL = $this->companyService->readAll();
+        $company_id = 0;
+        $company_name = '';
+
+        if (!empty($req->query('mode'))) {
+            if ($req->query('mode') == 'create') {
+                $company_mode = 'create';
+            } else if ($req->query('company_mode') == 'company_pick' && !$this->companyService->isEmptyCompanyTable()) {
+                $company_mode = 'company_pick';
+            } else {
+                if ($this->companyService->isEmptyCompanyTable()) {
+                    $company_mode = 'create';
+                } else if ($this->companyService->defaultStorePresent()) {
+                    $company_mode = 'use_default';
+                    $company_id = $this->companyService->getDefaultCompany()->id;
+                    $company_name = $this->companyService->getDefaultCompany()->name;
+                } else {
+                    $company_mode = 'company_pick';
+                }
+            }
+        } else {
+            if ($this->companyService->isEmptyCompanyTable()) {
+                $company_mode = 'create';
+            } else if ($this->companyService->defaultStorePresent()) {
+                $company_mode = 'use_default';
+                $company_id = $this->companyService->getDefaultCompany()->id;
+                $company_name = $this->companyService->getDefaultCompany()->name;
+            } else {
+                $company_mode = 'company_pick';
+            }
+        }
+
+        $company_mode = '';
+
+        return view('auth.codebase.register', compact('company_mode', 'companyDDL', 'company_id', 'company_name'));
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if (env('MAIL_USER_ACTIVATION', false)) {
+            event(new UserActivationEmail($user));
+
+            $this->guard()->logout();
+
+            return redirect()->route('login')->withSuccess(
+                LaravelLocalization::getCurrentLocale() == 'id' ?
+                    'Harap Cek Email Untuk Aktivasi':
+                    'Please Check Your Email For Activation'
+            );
+        }
+    }
+
+    protected function activate(Request $request, $token)
+    {
+        $usr = User::where('email_activation_token', '=', $token)->first();
+
+        if (count($usr) > 0) {
+            $usr->active = true;
+            $usr->save();
+
+            Session::flash('success', LaravelLocalization::getCurrentLocale() == 'id' ?
+                'Akun Anda Sudah Diaktifkan':
+                'Your Account Successfully Activated.');
+
+            return view('auth.codebase.login');
+        } else {
+            Session::flash('error', LaravelLocalization::getCurrentLocale() == 'id' ?
+                'Kode Aktivasi Salah Atau Tidak Ditemukan':
+                'Activation Code Is Invalid Or Not Found');
+
+            return view('auth.codebase.passwords.activate');
+        }
+    }
+
+    protected function activateResend(Request $request)
+    {
+        $usr = User::whereEmail($request->email)->first();
+
+        if (count($usr) > 0) event(new UserActivationEmail($usr));
+
+        return view('auth.codebase.login');
     }
 }

@@ -41,6 +41,29 @@
                             <div class="col-sm-8 col-md-6 col-xl-4">
                                 <form action="{{ url('/register') }}" method="post">
                                     @csrf
+                                    @if ($company_mode == 'create')
+                                        <div class="form-group row">
+                                            <div class="col-12">
+                                                <div class="form-material floating">
+                                                    <input type="text" class="form-control" id="company_name" name="company_name">
+                                                    <label for="name">@lang('login.register.company_name')</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif ($company_mode == 'use_default')
+                                        <input type="hidden" name="company_id" value="{{ $company_id }}">
+                                    @elseif ($company_mode == 'company_pick')
+                                        <div class="form-group row">
+                                            <div class="col-12">
+                                                <div class="form-material floating">
+                                                    <select name="picked_company_id" class="form-control">
+                                                        <option>@lang('labels.PLEASE_SELECT')</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                    @endif
                                     <div class="form-group row">
                                         <div class="col-12">
                                             <div class="form-material floating">

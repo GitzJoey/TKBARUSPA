@@ -6,6 +6,9 @@ use App\User;
 
 use App\Services\DatabaseService;
 
+use Validator;
+use LaravelLocalization;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 

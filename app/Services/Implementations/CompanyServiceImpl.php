@@ -85,4 +85,19 @@ class CompanyServiceImpl implements CompanyService
     {
         // TODO: Implement setDefaultCompany() method.
     }
+
+    public function isEmptyCompanyTable()
+    {
+        // TODO: Implement isEmptyCompanyTable() method.
+    }
+
+    public function defaultStorePresent()
+    {
+        // TODO: Implement defaultStorePresent() method.
+    }
+
+    public function getDefaultCompany()
+    {
+        // TODO: Implement getDefaultCompany() method.
+    }
 }
