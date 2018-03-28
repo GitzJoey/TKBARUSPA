@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
+
+use App\Services\DatabaseService;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
+    private $databaseService;
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -32,13 +37,49 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DatabaseService $databaseService)
     {
         $this->middleware('guest')->except('logout');
+        $this->databaseService = $databaseService;
     }
 
     public function showLoginForm()
     {
+        if (!$this->databaseService->isOnline()) {
+            return "Database Is Not Online";
+        }
+
+        if (isset($_SERVER['HTTP_USER_AGENT']) &&
+            (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/') !== false)) {
+            return "Internet Explorer Browser Is Not Supported";
+        }
+
         return view('auth.codebase.login');
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        Validator::extend('is_allowed_login', function($attribute, $value, $parameters, $validator) {
+            return true;
+        });
+
+        Validator::extend('is_activated', function($attribute, $value, $parameters, $validator) {
+            $usr = User::where('email', '=', $value);
+
+            if (count($usr->first()) == 0) return false;
+
+            if (!env('MAIL_USER_ACTIVATION', false)) return true;
+
+            if ($usr->first()->active) return true;
+            else return false;
+        });
+
+        $this->validate($request, [
+            $this->username() => 'required|string|is_allowed_login|is_activated',
+            'password' => 'required|string',
+        ], [
+            $this->username().'.is_allowed_login' => LaravelLocalization::getCurrentLocale() == 'en' ? 'Login Not Allowed':'Tidak Diperkenankan Login',
+            $this->username().'.is_activated' => LaravelLocalization::getCurrentLocale() == 'en' ? 'Email Has Not Been Activated':'Email Belum Di Aktivasi'
+        ]);
     }
 }

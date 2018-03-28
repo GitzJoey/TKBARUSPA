@@ -19,3 +19,7 @@ heading {
 .block.block-shadow-on-hover:hover {
   box-shadow: 0 0 3px rgba(33,33,33,.2);
 }
+
+.is-invalid {
+  color: red;
+}
