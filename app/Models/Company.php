@@ -28,6 +28,58 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company withoutTrashed()
  * @mixin \Eloquent
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $address
+ * @property float|null $latitude
+ * @property float|null $longitude
+ * @property string|null $phone_num
+ * @property string|null $fax_num
+ * @property string|null $tax_id
+ * @property string|null $status
+ * @property string|null $is_default
+ * @property string|null $frontweb
+ * @property string|null $image_filename
+ * @property string|null $remarks
+ * @property string|null $thousand_separator
+ * @property string|null $decimal_separator
+ * @property int $decimal_digit
+ * @property string|null $ribbon
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereDateFormat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereDecimalDigit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereDecimalSeparator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereFaxNum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereFrontweb($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereImageFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereIsDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company wherePhoneNum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereRibbon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereTaxId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereThousandSeparator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereTimeFormat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereUpdatedBy($value)
+ * @property-read mixed $date_display_format
+ * @property-read mixed $date_time_display_format
+ * @property-read mixed $numeral_display_format
+ * @property-read mixed $time_display_format
  */
 class Company extends Model
 {
@@ -68,13 +120,13 @@ class Company extends Model
     ];
 
     protected $appends = [
-        'numeralFormat',
-        'dateFormat',
-        'timeFormat',
-        'dateTimeformat'
+        'numeralDisplayFormat',
+        'dateDisplayFormat',
+        'timeDisplayFormat',
+        'dateTimeDisplayFormat'
     ];
 
-    public function getNumeralFormatAttribute()
+    public function getNumeralDisplayFormatAttribute()
     {
         $thousandSeparator = is_null($this->attributes['thousand_separator']) ? ',':$this->attributes['thousand_separator'];
         $decimalSeparator = is_null($this->attributes['decimal_separator']) ? '.':$this->attributes['decimal_separator'];
@@ -91,7 +143,7 @@ class Company extends Model
         return '0'.$thousandSeparator.'0'.'['.$decimalSeparator.']'.$decimalDigit;
     }
 
-    public function getDateFormatAttribute()
+    public function getDateDisplayFormatAttribute()
     {
         if (is_null($this->attributes['date_format']) || empty($this->attributes['date_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_DATE');
@@ -100,7 +152,7 @@ class Company extends Model
         }
     }
 
-    public function getTimeFormatAttribute()
+    public function getTimeDisplayFormatAttribute()
     {
         if (is_null($this->attributes['time_format']) || empty($this->attributes['time_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_TIME');
@@ -109,7 +161,7 @@ class Company extends Model
         }
     }
 
-    public function getDateTimeFormatAttribute()
+    public function getDateTimeDisplayFormatAttribute()
     {
         return $this->getDateFormatAttribute() . ' ' . $this->getTimeFormatAttribute();
     }

@@ -89,7 +89,6 @@ class RegisterController extends Controller
         $usr->created_at = Carbon::now();
         $usr->updated_at = Carbon::now();
 
-        /*
         if (!empty($data['company_name'])) {
             $id = $this->companyService->createDefaultCompany($data['company_name']);
             $usr->company_id = $id;
@@ -101,7 +100,7 @@ class RegisterController extends Controller
         } else {
 
         }
-        */
+
         $usr->save();
 
         $profile = new Profile();
@@ -161,8 +160,6 @@ class RegisterController extends Controller
                 $company_mode = 'company_pick';
             }
         }
-
-        $company_mode = '';
 
         return view('auth.codebase.register', compact('company_mode', 'companyDDL', 'company_id', 'company_name'));
     }

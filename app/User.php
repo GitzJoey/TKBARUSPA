@@ -33,6 +33,14 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @property-read \App\Models\Company $company
  * @property-read \App\Models\Profile $profile
+ * @property int|null $company_id
+ * @property string|null $email_activation_token
+ * @property int $active
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailActivationToken($value)
  */
 class User extends Authenticatable
 {

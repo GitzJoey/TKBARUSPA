@@ -23,6 +23,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile withoutTrashed()
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $address
+ * @property string|null $ic_num
+ * @property string|null $image_filename
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereIcNum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereImageFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUserId($value)
  */
 class Profile extends Model
 {

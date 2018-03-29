@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
-        <title>Login - TKBARU</title>
+        <title>Register - TKBARU</title>
 
         <meta name="description" content="Toko Baru - GitzJoey's Laravel Implementations For General Trading System">
         <meta name="author" content="GitzJoey">
@@ -36,6 +36,9 @@
                                 <img src="{{ asset('images/loginlogo_notext.png') }}" width="125" height="100"/>
                             </div>
                         </div>
+                        <div class="py-30 px-5 text-center">
+                            <h2 class="h4 font-w400 text-muted mb-0">@lang('login.register.title')</h2>
+                        </div>
 
                         <div class="row justify-content-center px-5">
                             <div class="col-sm-8 col-md-6 col-xl-4">
@@ -64,45 +67,60 @@
                                         </div>
                                     @else
                                     @endif
-                                    <div class="form-group row">
+                                    <div class="form-group row {{ $errors->has('name') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating">
                                                 <input type="text" class="form-control" id="name" name="name">
                                                 <label for="name">@lang('login.register.full_name')</label>
                                             </div>
+                                            @if ($errors->has('name'))
+                                                <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row {{ $errors->has('email') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating">
                                                 <input type="email" class="form-control" id="email" name="email">
                                                 <label for="email">@lang('login.register.email')</label>
                                             </div>
+                                            @if ($errors->has('email'))
+                                                <div class="invalid-feedback">{{ $errors->first('email') }}</div>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row {{ $errors->has('password') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating">
                                                 <input type="password" class="form-control" id="password" name="password">
                                                 <label for="password">@lang('login.register.password')</label>
                                             </div>
+                                            @if ($errors->has('password'))
+                                                <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row {{ $errors->has('password_confirmation') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating">
                                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                                 <label for="password_confirmation">@lang('login.register.retype_password')</label>
                                             </div>
+                                            @if ($errors->has('password_confirmation'))
+                                                <div class="invalid-feedback">{{ $errors->first('password_confirmation') }}</div>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group row text-center">
+                                    <div class="form-group row {{ $errors->has('terms') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <label class="css-control css-control-primary css-checkbox">
                                                 <input type="checkbox" class="css-control-input" id="terms" name="terms">
                                                 <span class="css-control-indicator"></span>
                                                 @lang('login.register.agree_1') &amp; @lang('login.register.agree_2')
                                             </label>
+                                            @if ($errors->has('password_confirmation'))
+                                                <div class="invalid-feedback">{{ $errors->first('terms') }}</div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="form-group row gutters-tiny">

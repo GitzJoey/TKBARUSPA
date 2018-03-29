@@ -29,23 +29,27 @@
                         Indonesia
                     </a>
                 </div>
+                <a href="/logout" class="btn btn-rounded btn-dual-secondary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa fa-sign-out fa-fw"></i>
+                </a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }}</form>
             </div>
+
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    J. Smith<i class="fa fa-angle-down ml-5"></i>
+                <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-company-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ Auth::user()->company->name }}<i class="fa fa-angle-down ml-5"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right min-width-150" aria-labelledby="page-header-user-dropdown">
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-user fa-fw"></i> Profile
-                    </a>
-                    <a class="dropdown-item" href="#" data-toggle="layout" data-action="side_overlay_toggle">
-                        <i class="fa fa-wrench fa-fw"></i> Settings
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="/logout" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fa fa-power-off fa-fw"></i> Sign Out
-                    </a>
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }}</form>
+                <div class="dropdown-menu dropdown-menu-right min-width-150" aria-labelledby="page-header-company-dropdown">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <img class="img-thumbnail" src="{{ empty(Auth::user()->company->image_filename) ? asset('images/def-images.png') : asset('images/'.Auth::user()->company->image_filename) }}"/>
+                        </div>
+                    </div>
+                    <h6 class="dropdown-header text-center">{{ Auth::user()->company->name }}</h6>
+                    <p class="text-center">
+                        <small>{{ Auth::user()->company->address }}</small><br/>
+                        <small>{{ Auth::user()->company->tax_id }}</small>
+                    </p>
                 </div>
             </div>
 

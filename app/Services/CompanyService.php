@@ -33,6 +33,7 @@ interface CompanyService
     public function read($id);
     public function readAll($limit = 0);
     public function update(
+        $id,
         $name,
         $address,
         $latitude,

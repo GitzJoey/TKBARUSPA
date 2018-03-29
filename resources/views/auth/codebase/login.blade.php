@@ -44,20 +44,20 @@
                                     @csrf
                                     <div class="form-group {{ $errors->has('email') ? 'is-invalid':'' }}">
                                         <div class="form-material">
-                                            <input type="text" class="form-control" id="email" name="email" {{ $errors->has('email') ? 'aria-describedby="email-error" aria-invalid="true"':'' }}>
+                                            <input type="text" class="form-control" id="email" name="email">
                                             <label for="email">@lang('login.email')</label>
                                         </div>
                                         @if ($errors->has('email'))
-                                            <div id="email-error" class="invalid-feedback animated fadeInDown">{{ $errors->first('email') }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                         @endif
                                     </div>
                                     <div class="form-group {{ $errors->has('password') ? 'is-invalid':'' }}">
                                         <div class="form-material floating">
-                                            <input type="password" class="form-control" id="password" name="password" {{ $errors->has('password') ? 'aria-describedby="password-error" aria-invalid="true"':'' }}>
+                                            <input type="password" class="form-control" id="password" name="password">
                                             <label for="login-password">@lang('login.password')</label>
                                         </div>
                                         @if ($errors->has('password'))
-                                            <div id="password-error" class="invalid-feedback animated fadeInDown">{{ $errors->first('password') }}</div>
+                                            <div id="password-error" class="invalid-feedback">{{ $errors->first('password') }}</div>
                                         @endif
                                     </div>
                                     <div class="form-group row">
