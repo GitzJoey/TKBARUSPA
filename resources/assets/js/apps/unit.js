@@ -1,5 +1,5 @@
 var unitVue = new Vue ({
-    el: 'unitVue',
+    el: '#unitVue',
     data: {
         unit: []
     },
@@ -8,13 +8,14 @@ var unitVue = new Vue ({
     },
     methods: {
         getAllUnit: function() {
-            Codebase.blocks('#companyListBlock', 'state_toggle');
-            axios.get('').then(response => {
+            Codebase.blocks('#unitListBlock', 'state_toggle');
+            axios.get('/api/get/unit/readAll').then(response => {
+                console.log(response.data);
                 this.unit = response.data;
 
-                Codebase.blocks('#companyListBlock', 'state_toggle');
+                Codebase.blocks('#unitListBlock', 'state_toggle');
             }).catch(e => {
-                this.errors.push(e);
+                console.log(e);
             });
         }
     },

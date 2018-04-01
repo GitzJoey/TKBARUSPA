@@ -12,7 +12,11 @@ class CompanyController extends Controller
 
     public function __construct(CompanyService $companyService)
     {
-        $this->middleware('auth');
+        $this->middleware('auth', [
+            'except' => [
+                'readAll',
+            ]
+        ]);
         $this->companyService = $companyService;
     }
 
@@ -24,11 +28,14 @@ class CompanyController extends Controller
     public function readAll(Request $request)
     {
         $limit = $request->query('l');
-
-        if (empty($limit)) {
-            return $this->companyService->readAll();
-        } else {
-            return $this->companyService->readAll($limit);
+        try {
+            if (empty($limit)) {
+                return $this->companyService->readAll();
+            } else {
+                return $this->companyService->readAll($limit);
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
         }
     }
 }

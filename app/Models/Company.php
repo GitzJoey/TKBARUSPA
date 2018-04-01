@@ -163,7 +163,7 @@ class Company extends Model
 
     public function getDateTimeDisplayFormatAttribute()
     {
-        return $this->getDateFormatAttribute() . ' ' . $this->getTimeFormatAttribute();
+        return $this->getDateDisplayFormatAttribute() . ' ' . $this->getTimeDisplayFormatAttribute();
     }
 
     public function hId()

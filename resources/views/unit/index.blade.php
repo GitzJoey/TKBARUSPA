@@ -37,7 +37,6 @@
                             <th class="text-center">@lang('unit.index.table.unit_list.header.symbol')</th>
                             <th class="text-center">@lang('unit.index.table.unit_list.header.status')</th>
                             <th class="text-center">@lang('unit.index.table.unit_list.header.remarks')</th>
-                            <th class="text-center">@lang('labels.ACTION')</th>
                         </thead>
                         <tbody>
 
@@ -53,5 +52,5 @@
     <script type="application/javascript">
 
     </script>
-    <script type="application/javascript" sr="{{ mix('js/apps/unit.js') }}"/>
+    <script type="application/javascript" src="{{ mix('js/apps/unit.min.js') }}"></script>
 @endsection

@@ -29,6 +29,11 @@ class UnitController extends Controller
         return view('unit.index');
     }
 
+    public function readAll(Request $request)
+    {
+        return $this->unitService->readAll();
+    }
+
     public function store(Request $req)
     {
         Validator::make($req->all(), [
