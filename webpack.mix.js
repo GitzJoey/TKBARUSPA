@@ -24,6 +24,7 @@ mix.js('resources/assets/js/codebase.js', 'public/js/codebase')
     ], 'public/js/codebase/codebase.js')
     .copy('node_modules/popper.js/dist/umd/popper.js.map', 'public/js/codebase')
     .copy('resources/assets/js/apps/company.js', 'public/js/apps')
+    .copy('resources/assets/js/apps/unit.js', 'public/js/apps')
     .minify('public/js/apps/company.js')
     .sass('resources/assets/sass/codebase.scss', 'public/css/codebase')
     .styles([

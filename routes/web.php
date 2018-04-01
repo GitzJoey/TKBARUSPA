@@ -27,5 +27,6 @@ Route::group(['prefix' => 'dashboard'], function () {
 
     Route::group(['prefix' => 'settings'], function () {
         Route::get('company', 'CompanyController@index')->name('db.settings.company');
+        Route::get('unit', 'UnitController@index')->name('db.settings.unit');
     });
 });

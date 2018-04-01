@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(LaratrustSeeder::class);
         $this->call(OverrideLaratrustDefaultUser::class);
-        //$this->call(DefaultListUnitTableSeeder::class);
+        $this->call(DefaultUnitTableSeeder::class);
         //$this->call(PhoneProviderTableSeeder::class);
         //$this->call(CurrenciesTableSeeder::class);
 

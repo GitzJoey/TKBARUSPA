@@ -6,9 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Services\DatabaseService;
 use App\Services\CompanyService;
+use App\Services\UnitService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
+use App\Services\Implementations\UnitServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CompanyService::class, function (){
             return new CompanyServiceImpl();
         });
+
+        $this->app->singleton(UnitService::class, function (){
+            return new UnitServiceImpl();
+        });
     }
 
     /**
@@ -48,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         return [
             'App\Services\DatabaseService',
             'App\Services\CompanyService',
+            'App\Services\UnitService',
         ];
     }
 }

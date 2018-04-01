@@ -69,7 +69,7 @@ class LoginController extends Controller
         Validator::extend('is_activated', function($attribute, $value, $parameters, $validator) {
             $usr = User::where('email', '=', $value);
 
-            if (count($usr->first()) == 0) return false;
+            if (count($usr->first()) == 0) return true;
 
             if (!env('MAIL_USER_ACTIVATION', false)) return true;
 

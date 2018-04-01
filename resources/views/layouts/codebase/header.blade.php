@@ -12,10 +12,10 @@
 
         <div class="content-header-section">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-rounded btn-dual-secondary disabled" id="timeoutCount">
+                <button type="button" class="btn btn-rounded btn-dual-secondary disabled" id="timeoutCount" data-toggle="tooltip" data-placement="bottom" title="Timeout Counter">
                     00:00:00
                 </button>
-                <a class="btn btn-rounded btn-dual-secondary">
+                <a class="btn btn-rounded btn-dual-secondary" data-toggle="tooltip" data-placement="bottom" title="Back To Frontpage">
                     <span class="fa fa-external-link fa-fw" title="Back To Frontpage"></span>
                 </a>
                 <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-language-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,7 +29,7 @@
                         Indonesia
                     </a>
                 </div>
-                <a href="/logout" class="btn btn-rounded btn-dual-secondary" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="/logout" class="btn btn-rounded btn-dual-secondary" data-toggle="tooltip" data-placement="bottom" title="Logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out fa-fw"></i>
                 </a>
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }}</form>
