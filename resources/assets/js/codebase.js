@@ -15,6 +15,7 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
+    window.Noty = window.noty = require('noty');
 } catch (e) {
     console.error(e.message);
 }
@@ -41,6 +42,25 @@ Vue.use(VeeValidate, {
     dictionary: VeeValidateID
 });
 
-Vue.component('passport-clients', require('./components/passport/Clients.vue'));
-Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
-Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue'));
+//Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+//Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
+//Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue'));
+
+Vue.mixin({
+    methods: {
+        handleErrors: function(e) {
+            //Catch For Laravel Validation
+            if (e.response.data.errors != undefined && Object.keys(e.response.data.errors).length > 0) {
+                for (var key in e.response.data.errors) {
+                    for (var i = 0; i < e.response.data.errors[key].length; i++) {
+                        this.$validator.errors.add('', e.response.data.errors[key][i], 'server', '__global__');
+                    }
+                }
+            } else {
+                //Catch From Controller
+                this.$validator.errors.add('', e.response.data.message + ' (' +e.response.status + ' ' + e.response.statusText + ')', 'server', '__global__');
+            }
+        }
+    }
+});
+

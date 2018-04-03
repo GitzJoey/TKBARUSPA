@@ -38,19 +38,19 @@ class UnitController extends Controller
     {
         Validator::make($req->all(), [
             'name' => 'required|string|max:255',
+            //Sample Exception From Validation
+            //'symbol' => 'required|string|min:255',
             'symbol' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
+            'status' => 'required',
         ])->validate();
 
-        try {
-            $this->unitService->create($req['name'], $req['symbol'], $req['status'], $req['remarks']);
+        //Sample Force Exception
+        //No Need Try Catch Wrapper In Controller
+        //throw new Exception('Test Laravel Exception');
 
-            return response()->json();
-        } catch (Exception $e) {
-            return response()->json([
-                'errors' => $e->getMessage()
-            ]);
-        }
+        $this->unitService->create($req['name'], $req['symbol'], $req['status'], $req['remarks']);
+
+        return response()->json();
     }
 
     public function update($id, Request $req)
@@ -58,23 +58,17 @@ class UnitController extends Controller
         Validator::make($req->all(), [
             'name' => 'required|string|max:255',
             'symbol' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
+            'status' => 'required',
         ])->validate();
 
-        try {
-            $this->unitService->update($id, $req['name'], $req['symbol'], $req['status'], $req['remarks']);
+        $this->unitService->update($id, $req['name'], $req['symbol'], $req['status'], $req['remarks']);
 
-            return response()->json();
-        } catch (Exception $e) {
-            return response()->json([
-                'errors' => $e->getMessage()
-            ]);
-        }
+        return response()->json();
     }
 
     public function delete($id)
     {
-
+        $this->unitService->delete($id);
 
         return response()->json();
     }

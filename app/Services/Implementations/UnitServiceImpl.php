@@ -54,7 +54,7 @@ class UnitServiceImpl implements UnitService
     {
         $unit = Unit::find($id);
 
-        if (!is_null) {
+        if (!is_null($unit)) {
             $unit->name = $name;
             $unit->symbol = $symbol;
             $unit->status = $status;

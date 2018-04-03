@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Auth;
+use Lang;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +32,7 @@ class Unit extends Model
     ];
 
     protected $hidden = [
+        'id',
         'created_by',
         'created_at',
         'updated_by',
@@ -39,7 +41,12 @@ class Unit extends Model
         'deleted_at',
     ];
 
-    public function hId()
+    protected $appends = [
+        'hId',
+        'statusI18n'
+    ];
+
+    public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
     }
@@ -49,6 +56,11 @@ class Unit extends Model
         return $this->attributes['name'] . ' (' . $this->attributes['symbol'] . ')';
     }
 
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
+    }
+    
     public function productUnits()
     {
         //return $this->hasMany('App\Models\ProductUnit', 'unit_id');

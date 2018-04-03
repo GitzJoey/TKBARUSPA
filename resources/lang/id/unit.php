@@ -16,5 +16,12 @@ return [
                 ],
             ],
         ],
+        'field' => [
+            'title' => '',
+            'name' => 'Nama',
+            'symbol' => 'Symbol',
+            'status' => 'Status',
+            'remarks' => 'Keterangan',
+        ],
     ],
 ];

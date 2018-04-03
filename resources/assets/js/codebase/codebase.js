@@ -1037,6 +1037,8 @@ var Codebase = function() {
             table.addClass('js-table-sections-enabled');
 
             // When a row is clicked in tbody.js-table-sections-header
+            /*
+             * Override To Be Handled By Vue
             jQuery('.js-table-sections-header > tr', table).on('click.cb.helpers', function(e) {
                 if (e.target.type !== 'checkbox'
                         && e.target.type !== 'button'
@@ -1052,6 +1054,7 @@ var Codebase = function() {
                     tbody.toggleClass('show table-active');
                 }
             });
+            */
         });
     };
 
