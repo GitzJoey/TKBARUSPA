@@ -16,7 +16,7 @@ return [
                 ],
             ],
         ],
-        'field' => [
+        'fields' => [
             'title' => '',
             'name' => 'Name',
             'symbol' => 'Symbol',

@@ -19,5 +19,25 @@ return [
                 ],
             ],
         ],
+        'field' => [
+            'title' => '',
+        ],
+        'tabs' => [
+            'company' => 'Data Perusahaan',
+            'bank_account' => 'Rekening Bank',
+            'currencies' => 'Mata Uang',
+            'settings' => 'Pengaturan',
+        ],
+    ],
+    'fields' => [
+        'name' => 'Nama',
+        'address' => 'Alamat',
+        'phone' => 'Telepon',
+        'fax' => 'Fax',
+        'tax_id' => 'NPWP No.',
+        'status' => 'Status',
+        'default' => 'Utama',
+        'frontweb' => 'Web Utama',
+        'remarks' => 'Keterangan',
     ],
 ];

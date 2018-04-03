@@ -15,11 +15,13 @@ class APILocalization
      */
     public function handle($request, Closure $next)
     {
-        // Check header request and determine localizaton
-        $local = ($request->hasHeader('X-localization')) ? $request->header('X-localization') : 'en';
+        $currentLocale = app()->getLocale();
 
-        // set laravel localization
-        app()->setLocale($local);
+        $incomingLocale = ($request->hasHeader('X-localization')) ? $request->header('X-localization') : 'en';
+
+        if ($currentLocale != $incomingLocale) {
+            app()->setLocale($incomingLocale);
+        }
 
         return $next($request);
     }

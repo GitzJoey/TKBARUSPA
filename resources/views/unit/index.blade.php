@@ -79,9 +79,9 @@
                 </div>
             </div>
         </div>
-        <div class="block block-shadow-on-hover block-mode-loading-energy" id="unitCRUDBlock">
+        <div class="block block-shadow-on-hover" id="unitCRUDBlock">
             <div class="block-header block-header-default">
-                <h3 class="block-title">@lang('unit.index.field.title')</h3>
+                <h3 class="block-title">@lang('unit.index.fields.title')</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
@@ -91,25 +91,25 @@
                 <form id="unitForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <input type="hidden" v-model="unit.hId" name="hId" value=""/>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('name') }">
-                        <label class="col-12" for="inputName">@lang('unit.index.field.name')</label>
+                        <label class="col-12" for="inputName">@lang('unit.index.fields.name')</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="inputName" name="name" placeholder="@lang('unit.index.field.name')"
+                            <input type="text" class="form-control" id="inputName" name="name" placeholder="@lang('unit.index.fields.name')"
                                    v-model="unit.name"
                                    v-validate="'required'">
                             <div v-show="errors.has('name')" class="invalid-feedback">@{{ errors.first('name') }}</div>
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('symbol') }">
-                        <label class="col-12" for="inputSymbol">@lang('unit.index.field.symbol')</label>
+                        <label class="col-12" for="inputSymbol">@lang('unit.index.fields.symbol')</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="inputSymbol" name="symbol" placeholder="@lang('unit.index.field.symbol')"
+                            <input type="text" class="form-control" id="inputSymbol" name="symbol" placeholder="@lang('unit.index.fields.symbol')"
                                    v-model="unit.symbol"
                                    v-validate="'required'">
                             <div v-show="errors.has('symbol')" class="invalid-feedback">@{{ errors.first('symbol') }}</div>
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('status') }">
-                        <label class="col-12" for="inputStatus">@lang('unit.index.field.status')</label>
+                        <label class="col-12" for="inputStatus">@lang('unit.index.fields.status')</label>
                         <div class="col-md-9">
                             <select class="form-control" id="inputStatus" name="status" v-model="unit.status" v-validate="'required'">
                                 <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
@@ -119,9 +119,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-12" for="inputRemarks">@lang('unit.index.field.remarks')</label>
+                        <label class="col-12" for="inputRemarks">@lang('unit.index.fields.remarks')</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('unit.index.field.remarks')"
+                            <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('unit.index.fields.remarks')"
                                    v-model="unit.remarks">
                         </div>
                     </div>

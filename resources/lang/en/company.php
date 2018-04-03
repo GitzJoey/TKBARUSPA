@@ -19,5 +19,25 @@ return [
                 ],
             ],
         ],
+        'field' => [
+            'title' => '',
+        ],
+        'tabs' => [
+            'company' => 'Company Data',
+            'bank_account' => 'Bank Account',
+            'currencies' => 'Currencies',
+            'settings' => 'Settings',
+        ],
+    ],
+    'fields' => [
+        'name' => 'Name',
+        'address' => 'Address',
+        'phone' => 'Phone',
+        'fax' => 'Fax',
+        'tax_id' => 'TaxOutput ID',
+        'status' => 'Status',
+        'default' => 'Default',
+        'frontweb' => 'Front Web',
+        'remarks' => 'Remarks',
     ],
 ];
