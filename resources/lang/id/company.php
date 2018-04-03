@@ -2,20 +2,20 @@
 
 return [
     'index' => [
-        'title' => '',
-        'page_title' => '',
+        'title' => 'Perusahaan',
+        'page_title' => 'Perusahaan',
         'page_title_desc' => '',
         'table' => [
             'company_list' => [
-                'title' => '',
+                'title' => 'Daftar Perusahaan',
                 'header' => [
-                    'name' => '',
-                    'address' => '',
-                    'tax_id' => '',
-                    'default' => '',
-                    'frontweb' => '',
-                    'status' => '',
-                    'remarks' => '',
+                    'name' => 'Nama',
+                    'address' => 'Alamat',
+                    'tax_id' => 'NPWP No.',
+                    'default' => 'Utama',
+                    'frontweb' => 'Web Utama',
+                    'status' => 'Status',
+                    'remarks' => 'Keterangan',
                 ],
             ],
         ],

@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Auth;
+use Lang;
 use Config;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
@@ -111,6 +112,7 @@ class Company extends Model
     ];
 
     protected $hidden = [
+        'id',
         'created_by',
         'created_at',
         'updated_by',
@@ -120,13 +122,17 @@ class Company extends Model
     ];
 
     protected $appends = [
-        'numeralDisplayFormat',
-        'dateDisplayFormat',
-        'timeDisplayFormat',
-        'dateTimeDisplayFormat'
+        'hId',
+        'statusI18n',
+        'frontwebI18n',
+        'defaultI18n',
+        'numeralFormat',
+        'dateFormat',
+        'timeFormat',
+        'dateTimeFormat'
     ];
 
-    public function getNumeralDisplayFormatAttribute()
+    public function getNumeralFormatAttribute()
     {
         $thousandSeparator = is_null($this->attributes['thousand_separator']) ? ',':$this->attributes['thousand_separator'];
         $decimalSeparator = is_null($this->attributes['decimal_separator']) ? '.':$this->attributes['decimal_separator'];
@@ -143,7 +149,7 @@ class Company extends Model
         return '0'.$thousandSeparator.'0'.'['.$decimalSeparator.']'.$decimalDigit;
     }
 
-    public function getDateDisplayFormatAttribute()
+    public function getDateFormatAttribute()
     {
         if (is_null($this->attributes['date_format']) || empty($this->attributes['date_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_DATE');
@@ -152,7 +158,7 @@ class Company extends Model
         }
     }
 
-    public function getTimeDisplayFormatAttribute()
+    public function getTimeFormatAttribute()
     {
         if (is_null($this->attributes['time_format']) || empty($this->attributes['time_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_TIME');
@@ -161,14 +167,29 @@ class Company extends Model
         }
     }
 
-    public function getDateTimeDisplayFormatAttribute()
+    public function getDateTimeFormatAttribute()
     {
-        return $this->getDateDisplayFormatAttribute() . ' ' . $this->getTimeDisplayFormatAttribute();
+        return $this->getDateFormatAttribute() . ' ' . $this->getTimeFormatAttribute();
     }
 
-    public function hId()
+    public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
+    }
+
+    public function getDefaultI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['is_default']);
+    }
+
+    public function getFrontwebI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['frontweb']);
     }
 
     public function users()

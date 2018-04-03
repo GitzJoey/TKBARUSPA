@@ -28,7 +28,7 @@
             <p>@lang('labels.GENERAL_ERROR_DESC')</p>
             <ul v-for="(e, eIdx) in errors.all()"><li>@{{ e }}</li></ul>
         </div>
-        <div class="block block-shadow-on-hover block-mode-loading-energy" id="unitListBlock">
+        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="unitListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('unit.index.table.unit_list.title')</h3>
                 <div class="block-options">
@@ -131,7 +131,7 @@
                                 <button type="submit" class="btn btn-primary min-width-125">
                                     @lang('buttons.submit_button')
                                 </button>
-                                <button type="button" class="btn btn-default min-width-125">
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
                                     @lang('buttons.cancel_button')
                                 </button>
                             </template>
