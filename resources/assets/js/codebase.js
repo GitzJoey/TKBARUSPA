@@ -24,11 +24,16 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
+let language = document.documentElement.lang;
 
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+if (token && language) {
+    window.axios.defaults.headers.common = {
+        'X-CSRF-TOKEN': token.content,
+        'X-localization': language
+    };
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('X-localization not found.');
 }
 
 window.Vue = require('vue');

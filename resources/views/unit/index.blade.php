@@ -127,23 +127,25 @@
                     </div>
                     <div class="row items-push-2x text-center text-sm-left">
                         <div class="col-sm-6 col-xl-4">
-                            <button type="submit" class="btn btn-primary min-width-125" v-show="mode == 'create' || mode == 'edit'">
-                                @lang('buttons.submit_button')
-                            </button>
-                            <button type="button" class="btn btn-default min-width-125" v-on:click="backToList" v-show="mode == 'create' || mode == 'edit'">
-                                @lang('buttons.cancel_button')
-                            </button>
-                            <button type="button" class="btn btn-default min-width-125" v-on:click="backToList" v-show="mode == 'show'">
-                                @lang('buttons.back_button')
-                            </button>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button type="submit" class="btn btn-primary min-width-125">
+                                    @lang('buttons.submit_button')
+                                </button>
+                                <button type="button" class="btn btn-default min-width-125">
+                                    @lang('buttons.cancel_button')
+                                </button>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList" v-show="mode == 'show'">
+                                    @lang('buttons.back_button')
+                                </button>
+                            </template>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    {{ LaravelLocalization::getCurrentLocale() }}AAA
-    {{ env('APP_LOCALE') }}
 @endsection
 
 @section('custom_js')
