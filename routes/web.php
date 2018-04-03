@@ -22,11 +22,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('', 'DashboardController@index')->name('db');
+Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('', 'DashboardController@index')->name('db');
 
-    Route::group(['prefix' => 'settings'], function () {
-        Route::get('company', 'CompanyController@index')->name('db.settings.company');
-        Route::get('unit', 'UnitController@index')->name('db.settings.unit');
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('company', 'CompanyController@index')->name('db.settings.company');
+            Route::get('unit', 'UnitController@index')->name('db.settings.unit');
+        });
     });
 });

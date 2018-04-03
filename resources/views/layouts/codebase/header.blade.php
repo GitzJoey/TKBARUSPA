@@ -22,12 +22,15 @@
                     <i class="fa fa-globe"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right min-width-150" aria-labelledby="page-header-language-dropdown">
-                    <a class="dropdown-item" href="#">
-                        <strong>English</strong>
-                    </a>
-                    <a class="dropdown-item" href="#" data-toggle="layout" data-action="side_overlay_toggle">
-                        Indonesia
-                    </a>
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <a class="dropdown-item" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                            @if (App::getLocale() == $localeCode)
+                                <strong>{{ $properties['native'] }}</strong>
+                            @else
+                                {{ $properties['native'] }}
+                            @endif
+                        </a>
+                    @endforeach
                 </div>
                 <a href="/logout" class="btn btn-rounded btn-dual-secondary" data-toggle="tooltip" data-placement="bottom" title="Logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out fa-fw"></i>

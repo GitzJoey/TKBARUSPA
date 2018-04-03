@@ -142,6 +142,8 @@
             </div>
         </div>
     </div>
+    {{ LaravelLocalization::getCurrentLocale() }}AAA
+    {{ env('APP_LOCALE') }}
 @endsection
 
 @section('custom_js')

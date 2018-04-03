@@ -15,7 +15,6 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
-    window.Noty = window.noty = require('noty');
 } catch (e) {
     console.error(e.message);
 }
