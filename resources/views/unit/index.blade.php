@@ -136,7 +136,7 @@
                                 </button>
                             </template>
                             <template v-if="mode == 'show'">
-                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList" v-show="mode == 'show'">
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
                                     @lang('buttons.back_button')
                                 </button>
                             </template>

@@ -28,9 +28,13 @@ return [
             'currencies' => 'Currencies',
             'settings' => 'Settings',
         ],
+        'fields' => [
+            'title' => '',
+        ],
     ],
     'fields' => [
         'name' => 'Name',
+        'logo' => 'Logo',
         'address' => 'Address',
         'phone' => 'Phone',
         'fax' => 'Fax',
@@ -39,5 +43,14 @@ return [
         'default' => 'Default',
         'frontweb' => 'Front Web',
         'remarks' => 'Remarks',
+        'date_format' => 'Date Format',
+        'time_format' => 'Time Format',
+        'thousand_separator' => 'Thousand Separator',
+        'decimal_separator' => 'Decimal Separator',
+        'decimal_digit' => 'Decimal Digit',
+        'comma' => 'Comma',
+        'dot' => 'Dot',
+        'space' => 'Space',
+        'color_theme' => 'Color Theme',
     ],
 ];

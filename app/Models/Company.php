@@ -15,6 +15,8 @@ use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Utils\PHP2Moment;
+
 /**
  * App\Models\Company
  *
@@ -127,9 +129,12 @@ class Company extends Model
         'frontwebI18n',
         'defaultI18n',
         'numeralFormat',
-        'dateFormat',
-        'timeFormat',
-        'dateTimeFormat'
+        'phpDateFormat',
+        'phpTimeFormat',
+        'phpDateTimeFormat',
+        'momentDateFormat',
+        'momentTimeFormat',
+        'momentDateTimeFormat'
     ];
 
     public function getNumeralFormatAttribute()
@@ -149,7 +154,7 @@ class Company extends Model
         return '0'.$thousandSeparator.'0'.'['.$decimalSeparator.']'.$decimalDigit;
     }
 
-    public function getDateFormatAttribute()
+    public function getPhpDateFormatAttribute()
     {
         if (is_null($this->attributes['date_format']) || empty($this->attributes['date_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_DATE');
@@ -158,7 +163,7 @@ class Company extends Model
         }
     }
 
-    public function getTimeFormatAttribute()
+    public function getPhpTimeFormatAttribute()
     {
         if (is_null($this->attributes['time_format']) || empty($this->attributes['time_format'])) {
             return Config::get('const.DATETIME_FORMAT.PHP_TIME');
@@ -167,9 +172,24 @@ class Company extends Model
         }
     }
 
-    public function getDateTimeFormatAttribute()
+    public function getPhpDateTimeFormatAttribute()
     {
-        return $this->getDateFormatAttribute() . ' ' . $this->getTimeFormatAttribute();
+        return $this->getPhpDateFormatAttribute() . ' ' . $this->getPhpTimeFormatAttribute();
+    }
+
+    public function getMomentDateFormatAttribute()
+    {
+        return PHP2Moment::convertToMoment($this->attributes['date_format']);
+    }
+
+    public function getMomentTimeFormatAttribute()
+    {
+        return PHP2Moment::convertToMoment($this->attributes['time_format']);
+    }
+
+    public function getMomentDateTimeFormatAttribute()
+    {
+        return $this->getMomentDateFormatAttribute() . ' ' . $this->getMomentTimeFormatAttribute();
     }
 
     public function getHIdAttribute()

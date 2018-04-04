@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "animate.css": "^3.6.1",
+        "bootstrap-fileinput": "^4.4.7",
         "font-awesome": "^4.7.0",
         "fullcalendar": "^3.9.0",
         "jquery-countto": "^1.2.0",

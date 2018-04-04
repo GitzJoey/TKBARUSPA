@@ -32,6 +32,10 @@ mix.js('resources/assets/js/codebase.js', 'public/js/codebase')
     .copyDirectory('resources/assets/css/codebase/themes', 'public/css/codebase/themes')
     .version();
 
+mix.copy('node_modules/bootstrap-fileinput/js/fileinput.js', 'public/js/codebase/fileinput')
+    .copy('node_modules/bootstrap-fileinput/js/locales/id.js', 'public/js/codebase/fileinput')
+    .copy('node_modules/bootstrap-fileinput/css/fileinput.css', 'public/css/codebase/fileinput')
+
 mix.copy('resources/assets/js/apps/company.js', 'public/js/apps')
     .copy('resources/assets/js/apps/unit.js', 'public/js/apps')
     .minify('public/js/apps/company.js')
