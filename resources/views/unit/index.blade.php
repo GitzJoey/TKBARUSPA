@@ -18,16 +18,7 @@
 
 @section('content')
     <div id="unitVue">
-        <div class="alert alert-danger alert-dismissable" role="alert" v-show="errors.count() > 0">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h3 class="alert-heading font-size-h4 font-w400">
-                @lang('labels.GENERAL_ERROR_TITLE')
-            </h3>
-            <p>@lang('labels.GENERAL_ERROR_DESC')</p>
-            <ul v-for="(e, eIdx) in errors.all()"><li>@{{ e }}</li></ul>
-        </div>
+        @include ('layouts.common.error');
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="unitListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('unit.index.panel.list_panel.title')</h3>

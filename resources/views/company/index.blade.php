@@ -18,6 +18,7 @@
 
 @section('content')
     <div id="companyVue">
+        @include ('layouts.common.error');
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="companyListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('company.index.panel.list_panel.title')</h3>
@@ -89,7 +90,7 @@
                 </div>
             </div>
             <div class="block-content">
-                <form id="unitForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                <form id="companyForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" href="#tabs_company">
@@ -212,9 +213,9 @@
                                         <select class="form-control"
                                                 name="status"
                                                 v-model="company.status"
-                                                v-validate="'required|checkactive'"
+                                                v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.status') }}"
-                                                data-vv-scope="tabs_store">
+                                                data-vv-scope="tabs_company">
                                             <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
                                         </select>
@@ -234,7 +235,7 @@
                                                 v-model="company.is_default"
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.default') }}"
-                                                data-vv-scope="tabs_store">
+                                                data-vv-scope="tabs_company">
                                             <option v-bind:value="defaultYesNo">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(yn, ynIdx) in yesnoDDL" v-bind:value="yn.code">@{{ yn.description }}</option>
                                         </select>
@@ -254,7 +255,7 @@
                                                 v-model="company.frontweb"
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.frontweb') }}"
-                                                data-vv-scope="tabs_store">
+                                                data-vv-scope="tabs_company">
                                             <option v-bind:value="defaultYesNo">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(yn, ynIdx) in yesnoDDL" v-bind:value="yn.code">@{{ yn.description }}</option>
                                         </select>
@@ -359,26 +360,58 @@
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <div class="custom-control custom-radio mb-5">
-                                            <input class="custom-control-input" type="radio" name="example-radios" id="example-radio1" value="option1" checked>
-                                            <label class="custom-control-label" for="example-radio1">Option 1</label>
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonDefault" value="default"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'default'">
+                                            <label class="custom-control-label text-default" for="inputRibbonDefault">Default</label>
                                         </div>
                                         <div class="custom-control custom-radio mb-5">
-                                            <input class="custom-control-input" type="radio" name="example-radios" id="example-radio2" value="option2">
-                                            <label class="custom-control-label" for="example-radio2">Option 2</label>
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonCorporate" value="corporate"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'corporate'">
+                                            <label class="custom-control-label text-corporate" for="inputRibbonCorporate">Corporate</label>
                                         </div>
                                         <div class="custom-control custom-radio mb-5">
-                                            <input class="custom-control-input" type="radio" name="example-radios" id="example-radio3" value="option3">
-                                            <label class="custom-control-label" for="example-radio3">Option 3</label>
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonEarth" value="earth"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'earth'">
+                                            <label class="custom-control-label text-earth" for="inputRibbonEarth">Earth</label>
+                                        </div>
+                                        <div class="custom-control custom-radio mb-5">
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonElegance" value="elegance"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'elegance'">
+                                            <label class="custom-control-label text-elegance" for="inputRibbonElegance">Elegance</label>
+                                        </div>
+                                        <div class="custom-control custom-radio mb-5">
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonFlat" value="flat"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'flat'">
+                                            <label class="custom-control-label text-flat" for="inputRibbonFlat">Flat</label>
+                                        </div>
+                                        <div class="custom-control custom-radio mb-5">
+                                            <input class="custom-control-input" type="radio" name="ribbon" id="inputRibbonPulse" value="pulse"
+                                                   v-model="company.ribbon"
+                                                   v-bind:checked="company.ribbon == 'pulse'">
+                                            <label class="custom-control-label text-pulse" for="inputRibbonPulse">Pulse</label>
                                         </div>
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">@{{  }}</div>
+                                        <div class="form-control-plaintext">
+                                            <template v-if="company.ribbon == 'default'"><div class="form-control-plaintext text-default">Default</div></template>
+                                            <template v-if="company.ribbon == 'corporate'"><div class="form-control-plaintext text-corporate">Corporate</div></template>
+                                            <template v-if="company.ribbon == 'earth'"><div class="form-control-plaintext text-earth">Earth</div></template>
+                                            <template v-if="company.ribbon == 'elegance'"><div class="form-control-plaintext text-elegance">Elegance</div></template>
+                                            <template v-if="company.ribbon == 'flat'"><div class="form-control-plaintext text-flat">Flat</div></template>
+                                            <template v-if="company.ribbon == 'pulse'"><div class="form-control-plaintext text-pulse">Pulse</div></template>
+                                        </div>
                                     </template>
                                 </div>
                             </div>
                         </div>
-                        <div class="row items-push-2x text-center text-sm-left">
-                            <div class="col-sm-6 col-xl-4">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
+                            <div class="col-10">
                                 <template v-if="mode == 'create' || mode == 'edit'">
                                     <button type="submit" class="btn btn-primary min-width-125">
                                         @lang('buttons.submit_button')
@@ -403,7 +436,7 @@
 
 @section('custom_js')
     <script type="application/javascript">
-        var unitVue = new Vue ({
+        var companyVue = new Vue ({
             el: '#companyVue',
             data: {
                 companyList: [],
@@ -420,10 +453,10 @@
             },
             methods: {
                 validateBeforeSubmit: function() {
-                    this.$validator.validateAll().then(isValid => {
+                    this.$validator.validateScopes().then(isValid => {
                         if (!isValid) return;
                         if (this.mode == 'create') {
-                            axios.post('/api/post/company/save', new FormData($('#unitForm')[0])).then(response => {
+                            axios.post('/api/post/company/save', new FormData($('#companyForm')[0])).then(response => {
                                 this.backToList();
                             }).catch(e => { this.handleErrors(e); });
                         } else if (this.mode == 'edit') {
@@ -442,11 +475,11 @@
                 },
                 createNew: function() {
                     this.mode = 'create';
-                    this.unit = this.emptyCompany();
+                    this.company = this.emptyCompany();
                 },
                 editSelected: function(idx) {
                     this.mode = 'edit';
-                    this.unit = this.companyList[idx];
+                    this.company = this.companyList[idx];
                 },
                 showSelected: function(idx) {
                     this.mode = 'show';
@@ -467,6 +500,8 @@
                         hId: '',
                         name: '',
                         status: '',
+                        is_default: '',
+                        frontweb: '',
                         remarks: ''
                     }
                 },
