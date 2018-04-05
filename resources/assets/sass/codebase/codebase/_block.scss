@@ -302,7 +302,6 @@ a.block {
     }
 
     &.block-link-rotate {
-        &.block-link-rotate-hover,
         &:hover {
             transform: rotate(1deg);
             opacity: 1;
@@ -314,7 +313,6 @@ a.block {
     }
 
     &.block-link-pop {
-        &.block-link-pop-hover,
         &:hover {
             box-shadow: 0 2px 30px darken($body-bg, 8%);
             transform: translateY(-3px);
@@ -328,7 +326,6 @@ a.block {
     }
 
     &.block-link-shadow {
-        &.block-link-pop-hover,
         &:hover {
             box-shadow: 0 0 36px darken($body-bg, 8%);
             opacity: 1;
@@ -337,6 +334,25 @@ a.block {
         &:active {
             box-shadow: 0 0 10px darken($body-bg, 4%);
         }
+    }
+}
+
+// Block Effects
+.block {
+    &.block-fx-rotate {
+        transform: rotate(1deg);
+        opacity: 1;
+    }
+
+    &.block-fx-pop {
+        box-shadow: 0 2px 30px darken($body-bg, 8%);
+        transform: translateY(-3px);
+        opacity: 1;
+    }
+
+    &.block-fx-shadow {
+        box-shadow: 0 0 36px darken($body-bg, 8%);
+        opacity: 1;
     }
 }
 
@@ -350,13 +366,16 @@ a.block {
         padding: 6px 5px;
         line-height: 1.2;
 
-        .block.block-themed & {
+        .block.block-themed > .block-header & {
             color: $white;
         }
     }
 
     .block-options-item,
-    .dropdown {
+    .dropdown,
+    .dropup,
+    .dropright,
+    .dropleft {
         display: inline-block;
     }
 }
@@ -385,6 +404,7 @@ a.block {
     color: $gray-dark;
     background: none;
     border: none;
+    cursor: pointer;
 
     .si {
         position: relative;
@@ -409,7 +429,19 @@ a.block {
         color: $gray-dark;
     }
 
-    .block.block-themed & {
+    @at-root {
+        a#{&}:focus,
+        .active > a#{&},
+        .show > button#{&} {
+            text-decoration: none;
+            color: $gray-darker;
+        }
+    }
+}
+
+.block.block-themed > .block-header > .block-options,
+.block.block-themed > .block-content > .block-options {
+    .btn-block-option {
         color: $white;
         opacity: .7;
 
@@ -418,18 +450,16 @@ a.block {
             opacity: 1;
         }
 
-        @at-root {
-            a#{&}:focus,
-            .active > a#{&},
-            .show > button#{&} {
-                color: $white;
-                opacity: 1;
-            }
-        }
-
         &:active {
             color: $white;
             opacity: .6;
         }
+    }
+
+    a.btn-block-option:focus,
+    .active > a.btn-block-option,
+    .show > button.btn-block-option {
+        color: $white;
+        opacity: 1;
     }
 }

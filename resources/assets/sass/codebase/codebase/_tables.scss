@@ -26,8 +26,12 @@
     }
 }
 
-.table-responsive {
-    -webkit-overflow-scrolling: touch;
+// Table Responsive
+.table-responsive,
+[class*="table-responsive-"] {
+    > .table.table-bordered thead th {
+        border-top: 1px solid $table-border-color;
+    }
 }
 
 // Table backgrounds

@@ -20,10 +20,10 @@ heading {
   box-shadow: 0 0 3px rgba(33,33,33,.2);
 }
 
-.is-invalid {
-  color: red;
-}
-
 .table th.action-column-width {
   width: 50px;
+}
+
+.red-asterisk {
+  color: red;
 }

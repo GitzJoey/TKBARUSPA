@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 // Bootstrap functions (original)
-@import '../../bootstrap/functions';
+@import '~bootstrap/scss/functions';
 
 // Codebase functions/variables and Bootstrap overrides
 @import '../functions';
@@ -12,8 +12,8 @@
 @import '../variables-bootstrap';
 
 // Bootstrap variables and mixins (original)
-@import '../../bootstrap/variables';
-@import '../../bootstrap/mixins';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 // Codebase mixins and Bootstrap overrides
 @import '../mixins';

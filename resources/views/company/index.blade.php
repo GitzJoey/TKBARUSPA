@@ -16,10 +16,6 @@
 
 @endsection
 
-@section('custom_css')
-    <link rel="stylesheet" href="{{ asset('css/codebase/fileinput/fileinput.css') }}">
-@endsection
-
 @section('content')
     <div id="companyVue">
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="companyListBlock">
@@ -82,25 +78,25 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#tabs_company">
                                 @lang('company.index.tabs.company')
-                                &nbsp;<span id="companyDataTabError" v-bind:class="{'is-invalid':true, 'hidden':errors.any('tabs_company')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                &nbsp;<span id="companyDataTabError" v-bind:class="{'red-asterisk':errors.any('tabs_company')?false:true}"><i class="fa fa-close fa-fw"></i></span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_bankaccount">
                                 @lang('company.index.tabs.bank_account')
-                                &nbsp;<span id="bankAccountTabError" v-bind:class="{'is-invalid':true, 'hidden':errors.any('tabs_bankaccount')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                &nbsp;<span id="bankAccountTabError" v-bind:class="{'red-asterisk':errors.any('tabs_bankaccount')?false:true}"><i class="fa fa-close fa-fw"></i></span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_currencies">
                                 @lang('company.index.tabs.currencies')
-                                &nbsp;<span id="currenciesTabError" v-bind:class="{'is-invalid':true, 'hidden':errors.any('tabs_currencies')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                &nbsp;<span id="currenciesTabError" v-bind:class="{'red-asterisk':errors.any('tabs_currencies')?false:true}"><i class="fa fa-close fa-fw"></i></span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_settings">
                                 @lang('company.index.tabs.settings')
-                                &nbsp;<span id="settingsTabError" v-bind:class="{'is-invalid':true, 'hidden':errors.any('tabs_settings')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                &nbsp;<span id="settingsTabError" v-bind:class="{'red-asterisk':errors.any('tabs_settings')?false:true}"><i class="fa fa-close fa-fw"></i></span>
                             </a>
                         </li>
                     </ul>
@@ -120,6 +116,11 @@
                                     <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
                                     <input id="inputImage" name="image_path" type="file" class="file form-control"
                                            data-show-upload="false" data-allowed-file-extensions='["jpg","png"]'>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="example-file-input-custom" name="example-file-input-custom">
+                                        <label class="custom-file-label" for="example-file-input-custom">Choose file</label>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -264,22 +265,17 @@
                             <div class="form-group row">
                                 <label for="inputRibbon" class="col-12">@lang('company.fields.color_theme')</label>
                                 <div class="col-md-8">
-                                    <div class="custom-controls-stacked">
-                                        <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="example-radio1" name="example-radios" value="option1" checked>
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">Option 1</span>
-                                        </label>
-                                        <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="example-radio2" name="example-radios" value="option2">
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">Option 2</span>
-                                        </label>
-                                        <label class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="example-radio3" name="example-radios" value="option3">
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description">Option 3</span>
-                                        </label>
+                                    <div class="custom-control custom-radio mb-5">
+                                        <input class="custom-control-input" type="radio" name="example-radios" id="example-radio1" value="option1" checked>
+                                        <label class="custom-control-label" for="example-radio1">Option 1</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mb-5">
+                                        <input class="custom-control-input" type="radio" name="example-radios" id="example-radio2" value="option2">
+                                        <label class="custom-control-label" for="example-radio2">Option 2</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mb-5">
+                                        <input class="custom-control-input" type="radio" name="example-radios" id="example-radio3" value="option3">
+                                        <label class="custom-control-label" for="example-radio3">Option 3</label>
                                     </div>
                                 </div>
                             </div>
@@ -309,9 +305,6 @@
 @endsection
 
 @section('custom_js')
-    <script type="application/javascript" src="{{ mix('js/codebase/fileinput/fileinput.js') }}"></script>
-    <script type="application/javascript" src="{{ mix('js/codebase/fileinput/id.js') }}"></script>
-
     <script type="application/javascript">
         var unitVue = new Vue ({
             el: '#companyVue',

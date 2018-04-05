@@ -3,14 +3,36 @@
 // --------------------------------------------------
 
 @mixin form-validation-state($state, $color) {
+    .#{$state}-feedback {
+        display: none;
+        margin-top: .25rem;
+        font-size: .875rem;
+        color: $color;
+    }
+
+    .#{$state}-tooltip {
+        position: absolute;
+        top: 100%;
+        z-index: 5;
+        display: none;
+        width: 250px;
+        padding: .5rem;
+        margin-top: .1rem;
+        font-size: .875rem;
+        line-height: 1;
+        color: #fff;
+        background-color: rgba($color,.8);
+        border-radius: .2rem;
+    }
+
     .form-control,
     .custom-select {
         .was-validated &:#{$state},
         &.is-#{$state} {
             border-color: $color;
 
-            ~ .invalid-feedback,
-            ~ .invalid-tooltip {
+            ~ .#{$state}-feedback,
+            ~ .#{$state}-tooltip {
                 display: block;
             }
         }
@@ -25,63 +47,68 @@
         }
     }
 
-    // custom radios and checks
+    // Custom radios and checks
     .custom-control-input {
         .was-validated &:#{$state},
         &.is-#{$state} {
-            ~ .custom-control-indicator {
-                background-color: rgba($color, .25);
-            }
-            ~ .custom-control-description {
+            ~ .custom-control-label {
                 color: $color;
+
+                &::before {
+                    background-color: lighten($color, 25%);
+                }
+            }
+
+            ~ .#{$state}-feedback,
+            ~ .#{$state}-tooltip {
+                display: block;
+            }
+
+            &:checked {
+                ~ .custom-control-label::before {
+                    @include gradient-bg(lighten($color, 10%));
+                }
             }
         }
     }
 
-    // custom file
+    // Custom file
     .custom-file-input {
         .was-validated &:#{$state},
         &.is-#{$state} {
-            ~ .custom-file-control {
+            ~ .custom-file-label {
                 border-color: $color;
 
                 &::before { border-color: inherit; }
             }
+
+            ~ .#{$state}-feedback,
+            ~ .#{$state}-tooltip {
+                display: block;
+            }
         }
     }
 
-    // Codebase custom
+    // Custom
     .is-#{$state} {
         .form-control {
             border-color: $color;
         }
 
-        .form-check-input {
-            .form-check-label {
-                color: $color;
-            }
+        .form-check-input ~ .form-check-label {
+            color: $color;
         }
 
-        .custom-control-input {
-            .custom-control-indicator {
+        .custom-control-input ~ .custom-control-label {
+            color: $color;
+
+            &::before {
                 background-color: rgba($color, .25);
             }
-
-            .custom-control-description {
-                color: $color;
-            }
         }
 
-        .custom-file-input {
-            .custom-file-control {
-                border-color: $color;
-
-                &::before { border-color: inherit; }
-            }
-        }
-
-        .invalid-feedback,
-        .invalid-tooltip {
+        .#{$state}-feedback,
+        .#{$state}-tooltip {
             display: block;
         }
     }
@@ -95,7 +122,7 @@
             color: $color;
         }
 
-        ~ .input-group-addon {
+        ~ .input-group-append {
             color: $color;
             box-shadow: 0 2px $color;
         }
@@ -107,6 +134,11 @@
         > .form-control {
             box-shadow: 0 1px 0 $color;
 
+            ~ .input-group-append {
+                color: $color;
+                box-shadow: 0 1px 0 $color;
+            }
+
             &:focus {
                 box-shadow: 0 2px $color;
 
@@ -114,15 +146,10 @@
                     color: $color;
                 }
 
-                ~ .input-group-addon {
+                ~ .input-group-append {
                     color: $color;
                     box-shadow: 0 2px $color;
                 }
-            }
-
-            ~ .input-group-addon {
-                color: $color;
-                box-shadow: 0 1px 0 $color;
             }
         }
 

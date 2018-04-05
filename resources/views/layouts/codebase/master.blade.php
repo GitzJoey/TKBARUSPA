@@ -21,8 +21,8 @@
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/codebase.css') }}">
-        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.min.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
+        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
 
         @yield('custom_css')
     </head>
@@ -55,7 +55,7 @@
 
         <input type="hidden" id="appSettings" value="{{ Config::get('session.lifetime') }}-0"/>
 
-        <script src="{{ mix('js/codebase/codebase.js') }}"></script>
+        <script src="{{ mix('js/codebase/main.js') }}"></script>
 
         @yield('custom_js')
     </body>

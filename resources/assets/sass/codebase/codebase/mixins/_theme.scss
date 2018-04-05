@@ -262,8 +262,8 @@
 
         @include hover-focus {
             color: $body-color-dark;
-            background-color: darken($body-bg-dark, 10%);
-            border-color: darken($body-bg-dark, 10%);
+            background-color: $body-bg-dark;
+            border-color: $body-bg-dark;
         }
     }
 
@@ -458,6 +458,18 @@
         tbody + tbody {
             border-top-color: $body-bg-dark;
         }
+
+        .thead-dark {
+            th {
+                background-color: $brand-dark;
+            }
+        }
+
+        .thead-light {
+            th {
+                background-color: $body-bg-dark;
+            }
+        }
     }
 
     .table-bordered {
@@ -471,19 +483,7 @@
     @include table-row-variant("active", $body-bg);
     @include table-row-variant("primary", $brand-lighter);
 
-    .thead-inverse {
-        th {
-            background-color: $brand-dark;
-        }
-    }
-
-    .thead-default {
-        th {
-            background-color: $body-bg-dark;
-        }
-    }
-
-    .table-inverse {
+    .table-dark {
         background-color: $brand-dark;
 
         th,
@@ -493,12 +493,23 @@
         }
     }
 
+    .table-responsive,
+    [class*="table-responsive-"] {
+        > .table.table-bordered thead th {
+            border-top: 1px solid $body-bg-dark;
+        }
+    }
+
     // Forms
     .form-control,
-    .input-group-addon {
+    .input-group-text {
         color: $input-color;
         background-color: $input-bg;
         border-color: $input-border-color;
+    }
+
+    .input-group-text {
+        background-color: $body-bg-light;
     }
 
     .form-control:focus {
@@ -515,22 +526,25 @@
     }
 
     // Custom Forms
-    .custom-control-input {
-        &:checked ~ .custom-control-indicator {
-            background-color: $brand-primary;
-        }
+    .custom-checkbox,
+    .custom-radio {
+        .custom-control-input {
+            &:checked ~ .custom-control-label::before {
+                background-color: $brand-primary;
+            }
 
-        &:focus ~ .custom-control-indicator {
-            box-shadow: 0 0 0 1px $body-bg, 0 0 0 3px $brand-primary;
-        }
+            &:focus ~ .custom-control-label::before {
+                box-shadow: 0 0 0 1px $body-bg, 0 0 0 3px $brand-primary;
+            }
 
-        &:active ~ .custom-control-indicator {
-            background-color: lighten($brand-primary, 35%);
+            &:active ~ .custom-control-label::before {
+                background-color: lighten($brand-primary, 10%);
+            }
         }
     }
 
     .custom-checkbox {
-        .custom-control-input:indeterminate ~ .custom-control-indicator {
+        .custom-control-input:indeterminate ~ .custom-control-label::before {
             background-color: $brand-primary;
         }
     }
@@ -569,6 +583,10 @@
             border-color: transparent;
             box-shadow: 0 1px 0 $input-border-color;
 
+            ~ .input-group-append {
+                box-shadow: 0 1px 0 $input-border-color;
+            }
+
             &:focus {
                 box-shadow: 0 2px 0 $input-focus-border-color;
 
@@ -576,14 +594,10 @@
                     color: $body-color;
                 }
 
-                ~ .input-group-addon {
+                ~ .input-group-append {
                     box-shadow: 0 2px 0 $input-focus-border-color;
                 }
             }
-        }
-
-        &.input-group .input-group-addon {
-            box-shadow: 0 1px 0 $input-border-color;
         }
 
         // Form Focus Variations
@@ -754,7 +768,6 @@
         }
 
         &.block-link-pop {
-            &.block-link-pop-hover,
             &:hover {
                 box-shadow: 0 2px 30px darken($body-bg, 8%);
             }
@@ -765,7 +778,6 @@
         }
 
         &.block-link-shadow {
-            &.block-link-pop-hover,
             &:hover {
                 box-shadow: 0 0 36px darken($body-bg, 8%);
             }
@@ -773,6 +785,17 @@
             &:active {
                 box-shadow: 0 0 10px darken($body-bg, 4%);
             }
+        }
+    }
+
+    // Block Effects
+    .block {
+        &.block-fx-pop {
+            box-shadow: 0 2px 30px darken($body-bg, 8%);
+        }
+
+        &.block-fx-shadow {
+            box-shadow: 0 0 36px darken($body-bg, 8%);
         }
     }
 

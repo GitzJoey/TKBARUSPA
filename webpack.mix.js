@@ -16,25 +16,25 @@ mix.disableNotifications();
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
 
-mix.js('resources/assets/js/codebase.js', 'public/js/codebase')
+mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
     .scripts([
-        'public/js/codebase/codebase.js',
+        'public/js/codebase/main.js',
         'resources/assets/js/codebase/codebase.js',
         'resources/assets/js/codebase/app.js'
-    ], 'public/js/codebase/codebase.js')
+    ], 'public/js/codebase/main.js')
     .copy('node_modules/popper.js/dist/umd/popper.js.map', 'public/js/codebase')
-    .sass('resources/assets/sass/codebase.scss', 'public/css/codebase')
+    .sass('resources/assets/sass/codebase/main.scss', 'public/css/codebase')
+    .sass('resources/assets/sass/codebase/codebase/themes/corporate.scss', 'public/css/codebase/themes')
+    .sass('resources/assets/sass/codebase/codebase/themes/earth.scss', 'public/css/codebase/themes')
+    .sass('resources/assets/sass/codebase/codebase/themes/elegance.scss', 'public/css/codebase/themes')
+    .sass('resources/assets/sass/codebase/codebase/themes/flat.scss', 'public/css/codebase/themes')
+    .sass('resources/assets/sass/codebase/codebase/themes/pulse.scss', 'public/css/codebase/themes')
     .styles([
         'node_modules/fullcalendar/dist/fullcalendar.css',
-        'public/css/codebase/codebase.css',
+        'public/css/codebase/main.css',
         'node_modules/animate.css/animate.css'
-    ], 'public/css/codebase/codebase.css')
-    .copyDirectory('resources/assets/css/codebase/themes', 'public/css/codebase/themes')
+    ], 'public/css/codebase/main.css')
     .version();
-
-mix.copy('node_modules/bootstrap-fileinput/js/fileinput.js', 'public/js/codebase/fileinput')
-    .copy('node_modules/bootstrap-fileinput/js/locales/id.js', 'public/js/codebase/fileinput')
-    .copy('node_modules/bootstrap-fileinput/css/fileinput.css', 'public/css/codebase/fileinput')
 
 mix.copy('resources/assets/js/apps/company.js', 'public/js/apps')
     .copy('resources/assets/js/apps/unit.js', 'public/js/apps')

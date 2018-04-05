@@ -13,6 +13,9 @@ $theme-colors: (
     danger: $brand-danger
 ) !default;
 
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold:          200 !default;
+
 
 // Components
 $line-height-lg:                    $pbf-line-height-lg !default;
@@ -62,11 +65,11 @@ $table-border-color:                $body-bg-dark !default;
 $table-head-bg:                     $body-bg-dark !default;
 $table-head-color:                  $body-color !default;
 
-$table-inverse-bg:                  $brand-dark !default;
-$table-inverse-accent-bg:           rgba(0,0,0,.1) !default;
-$table-inverse-hover-bg:            rgba(0,0,0,.18) !default;
-$table-inverse-border-color:        lighten($brand-dark, 5%) !default;
-$table-inverse-color:               $body-color-light !default;
+$table-dark-bg:                     $brand-dark !default;
+$table-dark-accent-bg:              rgba(0,0,0,.1) !default;
+$table-dark-hover-bg:               rgba(0,0,0,.18) !default;
+$table-dark-border-color:           lighten($brand-dark, 5%) !default;
+$table-dark-color:                  $body-color-light !default;
 
 
 // Buttons
@@ -82,8 +85,9 @@ $input-btn-padding-y-lg:            $pbf-padding-y-lg !default;
 $input-btn-padding-x-lg:            18px !default;
 $input-btn-line-height-lg:          $pbf-line-height-lg !default;
 
+$input-btn-focus-box-shadow:        none !default;
+
 $btn-font-weight:                   600 !default;
-$btn-box-shadow:                    none !default;
 $btn-focus-box-shadow:              none !default;
 $btn-active-box-shadow:             none !default;
 
@@ -99,7 +103,6 @@ $input-box-shadow:                  none !default;
 $input-focus-bg:                    $input-bg !default;
 $input-focus-border-color:          darken($body-bg-dark, 25%) !default;
 $input-focus-box-shadow:            none !default;
-$input-focus-color:                 $input-color !default;
 
 $input-height-border:               $input-btn-border-width * 2 !default;
 
@@ -120,29 +123,11 @@ $input-group-addon-bg:              $body-bg-light !default;
 $input-group-addon-border-color:    $input-border-color !default;
 
 $custom-control-gutter:             24px !default;
-$custom-control-spacer-y:           4px !default;
 $custom-control-spacer-x:           16px !default;
 
 $custom-control-indicator-size:     16px !default;
-$custom-control-indicator-bg:       #ddd !default;
-
-$custom-control-indicator-checked-color:        $white !default;
-$custom-control-indicator-checked-bg:           theme-color("primary") !default;
 
 $custom-control-indicator-focus-box-shadow:     0 0 0 1px $body-bg, 0 0 0 3px theme-color("primary") !default;
-
-$custom-control-indicator-active-color:         $white !default;
-$custom-control-indicator-active-bg:            lighten(theme-color("primary"), 35%) !default;
-$custom-control-indicator-active-box-shadow:    none !default;
-
-$custom-checkbox-indeterminate-bg:  theme-color("primary") !default;
-
-$custom-select-height:              $input-height !default;
-$custom-select-line-height:         $input-btn-line-height !default;
-$custom-select-color:               $input-color !default;
-$custom-select-bg:                  $white !default;
-$custom-select-border-width:        $input-btn-border-width !default;
-$custom-select-border-color:        $input-border-color !default;
 
 $custom-select-focus-border-color:  lighten(theme-color("primary"), 25%) !default;
 $custom-select-focus-box-shadow:    inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5) !default;
@@ -156,14 +141,10 @@ $custom-file-border-color:          $input-border-color !default;
 $custom-file-button-color:          $custom-file-color !default;
 
 
-// Form validation
-$form-feedback-valid-color:         theme-color("success") !default;
-$form-feedback-invalid-color:       theme-color("danger") !default;
-
-
 // Dropdowns
 $dropdown-padding-y:                8px !default;
 $dropdown-border-color:             $body-bg-dark !default;
+$dropdown-border-radius:            2px !default;
 $dropdown-divider-bg:               $body-bg-dark !default;
 $dropdown-box-shadow:               0 15px 25px rgba(0,0,0,.05) !default;
 
