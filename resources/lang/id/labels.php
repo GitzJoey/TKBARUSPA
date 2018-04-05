@@ -14,4 +14,5 @@ return [
     'GENERAL_ERROR_DESC' => 'Ada masalah dengan masukan anda.',
     'DATA_NOT_FOUND' => 'Data tidak ditemukan.',
     'CREATE_NEW' => 'Buat Baru',
+    'CHOOSE_FILE' => 'Pilih File',
 ];

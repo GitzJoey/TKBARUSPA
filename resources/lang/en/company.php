@@ -5,9 +5,18 @@ return [
         'title' => 'Company',
         'page_title' => 'Company',
         'page_title_desc' => '',
+        'panel' => [
+            'list_panel' => [
+                'title' => 'Company Lists',
+            ],
+            'crud_panel' => [
+                'title_create' => 'Create Company',
+                'title_show' => 'Show Company',
+                'title_edit' => 'Edit Company',
+            ],
+        ],
         'table' => [
             'company_list' => [
-                'title' => 'Company Lists',
                 'header' => [
                     'name' => 'Name',
                     'address' => 'Address',
@@ -19,17 +28,11 @@ return [
                 ],
             ],
         ],
-        'field' => [
-            'title' => '',
-        ],
         'tabs' => [
             'company' => 'Company Data',
             'bank_account' => 'Bank Account',
             'currencies' => 'Currencies',
             'settings' => 'Settings',
-        ],
-        'fields' => [
-            'title' => '',
         ],
     ],
     'fields' => [
@@ -38,7 +41,7 @@ return [
         'address' => 'Address',
         'phone' => 'Phone',
         'fax' => 'Fax',
-        'tax_id' => 'TaxOutput ID',
+        'tax_id' => 'Tax ID',
         'status' => 'Status',
         'default' => 'Default',
         'frontweb' => 'Front Web',

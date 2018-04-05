@@ -14,4 +14,5 @@ return [
     'GENERAL_ERROR_DESC' => 'There were some problems with your input.',
     'DATA_NOT_FOUND' => 'Data not found.',
     'CREATE_NEW' => 'Create New',
+    'CHOOSE_FILE' => 'Choose File',
 ];

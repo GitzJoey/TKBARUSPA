@@ -12,11 +12,7 @@ class CompanyController extends Controller
 
     public function __construct(CompanyService $companyService)
     {
-        $this->middleware('auth', [
-            'except' => [
-                'readAll',
-            ]
-        ]);
+        $this->middleware('auth');
         $this->companyService = $companyService;
     }
 

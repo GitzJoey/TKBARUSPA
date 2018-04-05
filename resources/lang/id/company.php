@@ -5,9 +5,18 @@ return [
         'title' => 'Perusahaan',
         'page_title' => 'Perusahaan',
         'page_title_desc' => '',
+        'panel' => [
+            'list_panel' => [
+                'title' => 'Daftar Perusahaan',
+            ],
+            'crud_panel' => [
+                'title_create' => 'Tambah Perusahaan',
+                'title_show' => 'Tampilkan Perusahaan',
+                'title_edit' => 'Ubah Perusahaan',
+            ],
+        ],
         'table' => [
             'company_list' => [
-                'title' => 'Daftar Perusahaan',
                 'header' => [
                     'name' => 'Nama',
                     'address' => 'Alamat',
@@ -19,17 +28,11 @@ return [
                 ],
             ],
         ],
-        'field' => [
-            'title' => '',
-        ],
         'tabs' => [
             'company' => 'Data Perusahaan',
             'bank_account' => 'Rekening Bank',
             'currencies' => 'Mata Uang',
             'settings' => 'Pengaturan',
-        ],
-        'fields' => [
-            'title' => '',
         ],
     ],
     'fields' => [

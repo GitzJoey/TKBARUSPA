@@ -21,7 +21,7 @@
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/codebase.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
         <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.min.css') }}">
 
         @yield('custom_css')
@@ -173,6 +173,6 @@
 
         <input type="hidden" id="appSettings" value=""/>
 
-        <script src="{{ mix('js/codebase/codebase.js') }}"></script>
+        <script src="{{ mix('js/codebase/main.js') }}"></script>
     </body>
 </html>

@@ -5,9 +5,18 @@ return [
         'title' => 'Unit',
         'page_title' => 'Unit',
         'page_title_desc' => '',
+        'panel' => [
+            'list_panel' => [
+                'title' => 'Unit Lists',
+            ],
+            'crud_panel' => [
+                'title_create' => 'Create Unit',
+                'title_show' => 'Show Unit',
+                'title_edit' => 'Edit Unit',
+            ],
+        ],
         'table' => [
             'unit_list' => [
-                'title' => 'Unit Lists',
                 'header' => [
                     'name' => 'Name',
                     'symbol' => 'Symbol',
@@ -17,7 +26,6 @@ return [
             ],
         ],
         'fields' => [
-            'title' => '',
             'name' => 'Name',
             'symbol' => 'Symbol',
             'status' => 'Status',
