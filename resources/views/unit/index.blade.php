@@ -18,7 +18,7 @@
 
 @section('content')
     <div id="unitVue">
-        @include ('layouts.common.error');
+        @include ('layouts.common.error')
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="unitListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('unit.index.panel.list_panel.title')</h3>

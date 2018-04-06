@@ -45,7 +45,7 @@ return [
     'menu.rpt.monthly' => 'Monthly',
     'menu.rpt.quarterly' => 'Quarterly',
     'menu.rpt.yearly' => 'Yearly',
-    'menu.settings' => 'Admin Menu',
+    'menu.settings' => 'Settings',
     'menu.settings.company' => 'Company',
     'menu.settings.user' => 'User',
     'menu.settings.roles' => 'Roles',

@@ -15,6 +15,21 @@ $(document).ready(function () {
 
     $('#goTop').goTop({ "src": "fa fa-chevron-up fa-fw" });
 
-
     $('#calendar').fullCalendar();
+
+    $('[data-toggle="layout"][data-action="sidebar_toggle"]').click(function() {
+        if (typeof(Storage) != 'undefined') {
+            if ($('#page-container').attr('class').includes('sidebar-o')) {
+                localStorage.setItem('sidebar_mode', '');
+            } else {
+                localStorage.setItem('sidebar_mode', 'sidebar-o');
+            }
+        }
+    });
+
+    if (typeof(Storage) != 'undefined') {
+        if (localStorage.getItem('sidebar_mode').length == 0) {
+            $('#page-container').removeClass('sidebar-o');
+        }
+    }
 });
