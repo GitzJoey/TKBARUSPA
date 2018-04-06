@@ -30,5 +30,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('company', 'CompanyController@index')->name('db.settings.company');
             Route::get('unit', 'UnitController@index')->name('db.settings.unit');
         });
+
+        Route::post('search', 'SearchController@search')->name('db.search');
     });
 });

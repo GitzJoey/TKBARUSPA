@@ -65,14 +65,15 @@
 
     <div id="page-header-search" class="overlay-header">
         <div class="content-header content-header-fullrow">
-            <form action="#" method="post">
+            <form action="{{ route('db.search') }}" method="post">
+                @csrf
                 <div class="input-group">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-secondary" data-toggle="layout" data-action="header_search_off">
                             <i class="fa fa-times"></i>
                         </button>
                     </span>
-                    <input type="text" class="form-control" placeholder="Search or hit ESC.." id="page-header-search-input" name="page-header-search-input">
+                    <input type="text" class="form-control" placeholder="Search or hit ESC.." name="query" id="page-header-search-input" name="page-header-search-input">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-secondary">
                             <i class="fa fa-search"></i>

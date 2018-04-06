@@ -16,16 +16,17 @@ Breadcrumbs::register('settings_company', function($breadcrumbs){
     $breadcrumbs->push(trans('breadcrumb.settings.company'), route('db.settings.company'));
 });
 
+Breadcrumbs::register('search', function ($breadcrumbs){
+    $breadcrumbs->parent('dashboard');
+    $breadcrumbs->push(trans('breadcrumb.search'), route('db.search'));
+});
+
 /*
 Breadcrumbs::register('daily_log', function ($breadcrumbs){
     $breadcrumbs->parent('dashboard');
     $breadcrumbs->push(trans('breadcrumb.daily_log'), route('db.daily_log'));
 });
 
-Breadcrumbs::register('search', function ($breadcrumbs){
-    $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push(trans('breadcrumb.search'), route('db.search'));
-});
 
 Breadcrumbs::register('create_purchase_order', function ($breadcrumbs){
     $breadcrumbs->parent('dashboard');

@@ -21,8 +21,23 @@
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/codebase.css') }}">
-        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.min.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
+
+        @if (!empty(Auth::user()->company->ribbon))
+            @if (Auth::user()->company->ribbon == 'corporate')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'earth')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/earth.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'elegance')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/elegance.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'flat')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/flat.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'pulse')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/pulse.css') }}">
+            @else
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/default.css') }}">
+            @endif
+        @endif
     </head>
 
     <body>
@@ -49,8 +64,12 @@
             </div>
         </div>
 
-        <input type="hidden" id="appSettings" value=""/>
+        <div id="goTop"></div>
 
-        <script src="{{ mix('js/codebase/codebase.js') }}"></script>
+        <input type="hidden" id="appSettings" value="{{ Config::get('session.lifetime') }}-0"/>
+
+        <script src="{{ mix('js/codebase/main.js') }}"></script>
+
+        @yield('custom_js')
     </body>
 </html>

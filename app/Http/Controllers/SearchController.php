@@ -51,6 +51,8 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
+        $query = $request['query'];
+        $resultCount = 1;
         /*
         $po = [];
         $so = [];
@@ -74,6 +76,6 @@ class SearchController extends Controller
         return view('search.result',
             compact('po', 'so', 'payment', 'stocks', 'supplier', 'customer', 'product'));
         */
-        return view('search.result');
+        return view('search.result', compact('query', 'resultCount'));
     }
 }
