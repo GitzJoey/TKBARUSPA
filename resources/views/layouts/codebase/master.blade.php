@@ -22,7 +22,22 @@
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
         <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
-        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
+
+        @if (!empty(Auth::user()->company->ribbon))
+            @if (Auth::user()->company->ribbon == 'corporate')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'earth')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/earth.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'elegance')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/elegance.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'flat')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/flat.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'pulse')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/pulse.css') }}">
+            @else
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/default.css') }}">
+            @endif
+        @endif
 
         @yield('custom_css')
     </head>
@@ -39,10 +54,10 @@
 
                 <main id="main-container">
                     <div class="content">
-                        <h2 class="content-heading">
+                        <h1 class="content-heading">
                             <strong>@yield('page_title')</strong><small style="font-size: x-small;">@yield('page_title_desc')</small>
-                        </h2>
-                        <br>
+                            <div class="pull-right"><small>@yield('breadcrumbs')</small></div>
+                        </h1>
                         @yield('content')
                     </div>
                 </main>

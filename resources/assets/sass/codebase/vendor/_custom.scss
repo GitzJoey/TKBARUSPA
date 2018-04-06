@@ -27,3 +27,31 @@ heading {
 .red-asterisk {
   color: red;
 }
+
+ul.plain-breadcrumb {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+
+ul.plain-breadcrumb li {
+  padding: 0px;
+  margin: 0px;
+  font-size: small;
+  display: inline;
+}
+
+ul.plain-breadcrumb li+li:before {
+  color: black;
+  content: "/\00a0";
+}
+
+ul.plain-breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+ul.plain-breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}

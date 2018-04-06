@@ -13,7 +13,7 @@
 @endsection
 
 @section('breadcrumbs')
-
+    {!! Breadcrumbs::render('settings_company') !!}
 @endsection
 
 @section('content')
