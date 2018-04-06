@@ -34,13 +34,17 @@ return [
                     'account_number' => 'Account Number',
                     'remarks' => 'Remarks',
                 ],
-            ]
+            ],
         ],
         'tabs' => [
             'company' => 'Company Data',
             'bank_account' => 'Bank Account',
-            'currencies' => 'Currencies',
             'settings' => 'Settings',
+        ],
+        'fields' => [
+            'bank_id' => 'Bank',
+            'account_name' => 'Account Name',
+            'account_number' => 'Account Number',
         ],
     ],
     'fields' => [

@@ -7,7 +7,6 @@ return [
             'roles' => 'c,r,u,d,m',
             'company' => 'c,r,u,d,m',
             'unit' => 'c,r,u,d,m',
-            'currencies' => 'c,r,u,d,m',
             'phoneprovider' => 'c,r,u,d,m',
             'customer' => 'c,r,u,d,m',
             'customer_confirmation' => 'r,u,m',
@@ -46,7 +45,6 @@ return [
             'tax_generate' => 'c,r,m',
         ],
         'user' => [
-            'currencies' => 'c,r,u,d,m',
             'phoneprovider' => 'c,r,u,d,m',
             'customer' => 'c,r,u,d,m',
             'customer_confirmation' => 'r,u,m',

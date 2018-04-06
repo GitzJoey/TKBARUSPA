@@ -12,10 +12,13 @@ use App\Models\Company;
 
 use App\Services\CompanyService;
 
+use DB;
 use Log;
 use Config;
+use Exception;
 use Validator;
 use LaravelLocalization;
+use Intervention\Image\Facades\Image;
 
 class CompanyServiceImpl implements CompanyService
 {
@@ -32,6 +35,7 @@ class CompanyServiceImpl implements CompanyService
         $frontweb,
         $image_filename,
         $remarks,
+        $bank,
         $date_format,
         $time_format,
         $thousand_separator,
@@ -40,7 +44,65 @@ class CompanyServiceImpl implements CompanyService
         $ribbon
     )
     {
-        // TODO: Implement create() method.
+        Log::debug('[CompanyServiceImpl@create] ');
+
+        DB::beginTransaction();
+
+        try {
+            $imageName = '';
+
+            if (!empty($image_path)) {
+                $imageName = time() . '.' . $image_path->getClientOriginalExtension();
+                $path = public_path('images') . '/' . $imageName;
+
+                Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
+            }
+
+            if ($is_default == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+                $this->resetIsDefault();
+            }
+
+            if ($frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+                $this->resetFrontWeb();
+            }
+
+            $company = Company::create([
+                'name' => $name,
+                'address' => $address,
+                'latitude' => empty($latitude) ? 0:$latitude,
+                'longitude' => empty($longitude) ? 0:$longitude,
+                'phone_num' => $phone_num,
+                'fax_num' => $fax_num,
+                'tax_id' => $tax_id,
+                'status' => $status,
+                'is_default' => $is_default,
+                'frontweb' => $frontweb,
+                'image_filename' => $imageName,
+                'remarks' => empty($remarks) ? '' : $remarks,
+                'date_format' => $date_format,
+                'time_format' => $time_format,
+                'thousand_separator' => $thousand_separator,
+                'decimal_separator' => $decimal_separator,
+                'decimal_digit' => $decimal_digit,
+                'ribbon' => $ribbon,
+            ]);
+
+            /*
+            for ($i = 0; $i < count($bank); $i++) {
+                $ba = new BankAccount();
+                $ba->bank_id = $bank["bank"][$i];
+                $ba->account_name = $bank["account_name"][$i];
+                $ba->account_number = $bank["account_number"][$i];
+                $ba->remarks = $bank["bank_remarks"][$i];
+
+                $company->bankAccounts()->save($ba);
+            }
+            */
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        };
     }
 
     public function read($id)
@@ -71,6 +133,7 @@ class CompanyServiceImpl implements CompanyService
         $frontweb,
         $image_filename,
         $remarks,
+        $bank,
         $date_format,
         $time_format,
         $thousand_separator,
@@ -89,77 +152,66 @@ class CompanyServiceImpl implements CompanyService
             $imageName = '';
 
             if (!empty($company ->image_filename)) {
-                if (!empty($data->image_path)) {
-                    $imageName = time() . '.' . $data->image_path->getClientOriginalExtension();
+                if (!empty($image_path)) {
+                    $imageName = time() . '.' . $image_path->getClientOriginalExtension();
                     $path = public_path('images') . '/' . $imageName;
 
-                    Image::make($data->image_path->getRealPath())->resize(160, 160)->save($path);
+                    Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
                 } else {
-                    $imageName = $store->image_filename;
+                    $imageName = $company->image_filename;
                 }
             } else {
-                if (!empty($data->image_path)) {
-                    $imageName = time() . '.' . $data->image_path->getClientOriginalExtension();
+                if (!empty($image_path)) {
+                    $imageName = time() . '.' . $image_path->getClientOriginalExtension();
                     $path = public_path('images') . '/' . $imageName;
 
-                    Image::make($data->image_path->getRealPath())->resize(160, 160)->save($path);
+                    Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
                 } else {
                     $imageName = '';
                 }
             }
 
-            if ($store->is_default == 'YESNOSELECT.NO' && $data['is_default'] == 'YESNOSELECT.YES') {
-                $this->storeService->resetIsDefault();
+            if ($company->is_default == Config::get('lookup.VALUE.YESNOSELECT.NO') && $is_default == Config::get('lookup.YESNOSELECT.YES')) {
+                $this->resetIsDefault();
             }
 
-            if ($store->frontweb == 'YESNOSELECT.NO' && $data['frontweb'] == 'YESNOSELECT.YES') {
-                $this->storeService->resetFrontWeb();
+            if ($company->frontweb == Config::get('lookup.VALUE.YESNOSELECT.NO') && $frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+                $this->resetFrontWeb();
             }
 
-            $store->bankAccounts->each(function($ba) { $ba->delete(); });
+            $company->bankAccounts->each(function($ba) { $ba->delete(); });
 
-            for ($i = 0; $i < count($data['bank']); $i++) {
+            for ($i = 0; $i < count($bank); $i++) {
                 $ba = new BankAccount();
-                $ba->bank_id = $data["bank"][$i];
-                $ba->account_name = $data["account_name"][$i];
-                $ba->account_number = $data["account_number"][$i];
-                $ba->remarks = $data["bank_remarks"][$i];
+                $ba->bank_id = $bank["bank"][$i];
+                $ba->account_name = $bank["account_name"][$i];
+                $ba->account_number = $bank["account_number"][$i];
+                $ba->remarks = $bank["bank_remarks"][$i];
 
-                $store->bankAccounts()->save($ba);
+                $company->bankAccounts()->save($ba);
             }
 
-            $store->currenciesConversions->each(function($curConv) { $curConv->delete(); });
-            for ($i = 0; $i < count($data['currencies']); $i++) {
-                $curConv = new CurrenciesConversion();
-                $curConv->currencies_id = $data["currencies"][$i];
-                $curConv->is_base = $data["base_currencies"][$i] == '1'?true:false;
-                $curConv->conversion_value = $data["currencies_conversion_value"][$i];
-                $curConv->remarks = $data["currencies_remarks"][$i];
+            $company->name = $name;
+            $company->address = $address;
+            $company->latitude = empty($latitude) ? 0:$latitude;
+            $company->longitude = empty($longitude) ? 0:$longitude;
+            $company->phone_num = $phone_num;
+            $company->fax_num = $fax_num;
+            $company->tax_id = $tax_id;
+            $company->status = $status;
+            $company->is_default = $is_default;
+            $company->image_filename = $imageName;
+            $company->frontweb = $frontweb;
+            $company->remarks = empty($remarks) ? '' : $remarks;
 
-                $store->currenciesConversions()->save($curConv);
-            }
+            $company->date_format = $date_format;
+            $company->time_format = $time_format;
+            $company->thousand_separator = $thousand_separator;
+            $company->decimal_separator = $decimal_separator;
+            $company->decimal_digit = $decimal_digit;
+            $company->ribbon = $ribbon;
 
-            $store->name = $data['name'];
-            $store->address = $data['address'];
-            $store->latitude = empty($data['latitude']) ? 0:$data['latitude'];
-            $store->longitude = empty($data['longitude']) ? 0:$data['longitude'];
-            $store->phone_num = $data['phone_num'];
-            $store->fax_num = $data['fax_num'];
-            $store->tax_id = $data['tax_id'];
-            $store->status = $data['status'];
-            $store->is_default = $data['is_default'];
-            $store->image_filename = $imageName;
-            $store->frontweb = $data['frontweb'];
-            $store->remarks = empty($data['remarks']) ? '' : $data['remarks'];
-
-            $store->date_format = $data['date_format'];
-            $store->time_format = $data['time_format'];
-            $store->thousand_separator = $data['thousand_separator'];
-            $store->decimal_separator = $data['decimal_separator'];
-            $store->decimal_digit = $data['decimal_digit'];
-            $store->ribbon = $data['ribbon'];
-
-            $store->save();
+            $company->save();
 
             DB::commit();
         } catch (Exception $e) {
@@ -175,29 +227,7 @@ class CompanyServiceImpl implements CompanyService
 
         $company = Company::find($id);
 
-        Validator::extend('isdefault', function ($field, $value, $parameters) {
-            return $value == 'YESNOSELECT.YES' ? false : true;
-        });
-
-        $inputs = array(
-            'is_default' => $company->is_default
-        );
-
-        $rules = array('is_default' => 'isdefault');
-
-        $messages = array(
-            'isdefault' => LaravelLocalization::getCurrentLocale() == 'en' ? 'Default Company cannot be deleted':'Toko Utama tidak bisa di hapus'
-        );
-
-        $validator = Validator::make($inputs, $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect(route('db.admin.store'))->withErrors($validator);
-        } else {
-            $company->delete();
-        }
-
-        return redirect(route('db.admin.store'));
+        $company->delete();
     }
 
     public function createDefaultCompany($companyName)
@@ -237,7 +267,7 @@ class CompanyServiceImpl implements CompanyService
 
     public function defaultStorePresent()
     {
-        $company = $this->getDefaultStore();
+        $company = $this->getDefaultCompany();
 
         if (!is_null($company)) return true;
         else return false;
@@ -245,6 +275,28 @@ class CompanyServiceImpl implements CompanyService
 
     public function getDefaultCompany()
     {
-        return Store::whereIsDefault(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get()->first();
+        return Company::whereIsDefault(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get()->first();
+    }
+
+    public function resetIsDefault()
+    {
+        $company = Company::whereIsDefault(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get();
+
+        foreach ($company as $s) {
+            $s->is_default = Config::get('lookup.VALUE.YESNOSELECT.NO')->first()->code;
+            $s->save();
+        }
+    }
+
+    public function resetFrontWeb()
+    {
+        Log::debug('[CompanyServiceImpl@CresetFrontWeb] ');
+
+        $comp = Company::whereFrontweb(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get();
+
+        foreach ($comp as $c) {
+            $c->frontweb = Config::get('lookup.YESNOSELECT.NO')->first()->code;
+            $c->save();
+        }
     }
 }

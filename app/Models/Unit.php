@@ -16,6 +16,41 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 //use App\Models\ProductUnit;
 
+/**
+ * App\Models\Unit
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $symbol
+ * @property string|null $status
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read mixed $h_id
+ * @property-read mixed $status_i18n
+ * @property-read mixed $unit_name
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Unit onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereSymbol($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Unit whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Unit withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Unit withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Unit extends Model
 {
     use SoftDeletes;

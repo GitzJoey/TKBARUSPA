@@ -39,8 +39,12 @@ return [
         'tabs' => [
             'company' => 'Data Perusahaan',
             'bank_account' => 'Rekening Bank',
-            'currencies' => 'Mata Uang',
             'settings' => 'Pengaturan',
+        ],
+        'fields' => [
+            'bank_id' => 'Bank',
+            'account_name' => 'Nama Akun',
+            'account_number' => 'Nomor Akun',
         ],
     ],
     'fields' => [

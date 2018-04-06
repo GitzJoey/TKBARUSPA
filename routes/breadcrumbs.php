@@ -10,13 +10,9 @@ Breadcrumbs::register('dashboard', function ($breadcrumbs){
     $breadcrumbs->push(trans('breadcrumb.dashboard'), route('db'));
 });
 
-Breadcrumbs::register('settings', function ($breadcrumbs){
-    $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push('Settings', route('db'));
-});
-
 Breadcrumbs::register('settings_company', function($breadcrumbs){
-    $breadcrumbs->parent('settings');
+    $breadcrumbs->parent('dashboard');
+    $breadcrumbs->push(trans('breadcrumb.settings'));
     $breadcrumbs->push(trans('breadcrumb.settings.company'), route('db.settings.company'));
 });
 
@@ -329,26 +325,6 @@ Breadcrumbs::register('admin_unit_show', function($breadcrumbs, $id){
 Breadcrumbs::register('admin_unit_edit', function($breadcrumbs, $id){
     $breadcrumbs->parent('admin_unit');
     $breadcrumbs->push(trans('breadcrumb.admin.unit.edit'), route('db.admin.unit.edit', $id));
-});
-
-Breadcrumbs::register('admin_currencies' , function($breadcrumbs){
-    $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push(trans('breadcrumb.admin.currencies'),route('db.admin.currencies'));
-});
-
-Breadcrumbs::register('admin_currencies_create', function($breadcrumbs){
-    $breadcrumbs->parent('admin_currencies');
-    $breadcrumbs->push(trans('breadcrumb.admin.currencies.create'), route('db.admin.currencies.create'));
-});
-
-Breadcrumbs::register('admin_currencies_show', function($breadcrumbs, $id){
-    $breadcrumbs->parent('admin_currencies');
-    $breadcrumbs->push(trans('breadcrumb.admin.currencies.show'), route('db.admin.currencies.show', $id));
-});
-
-Breadcrumbs::register('admin_currencies_edit', function($breadcrumbs, $id){
-    $breadcrumbs->parent('admin_currencies');
-    $breadcrumbs->push(trans('breadcrumb.admin.currencies.edit'), route('db.admin.currencies.edit', $id));
 });
 
 Breadcrumbs::register('admin_settings', function($breadcrumbs){

@@ -50,6 +50,5 @@ return [
     'menu.settings.roles' => 'Peran',
     'menu.settings.user' => 'Pengguna',
     'menu.settings.unit' => 'Satuan',
-    'menu.settings.currencies' => 'Mata Uang',
     'menu.settings.phone_provider' => 'Provider Telepon'
 ];

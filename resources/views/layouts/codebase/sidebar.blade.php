@@ -136,10 +136,10 @@
                                 <a href="#"><span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')</a>
                             </li>
                             <li>
-                                <a href="#"><span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')</a>
+                                <a href="#"><span class="fa fa-cloud-upload fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.upload')</a>
                             </li>
                             <li>
-                                <a href="#"><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
+                                <a href="#"><span class="fa fa-compress fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.consolidate')</a>
                             </li>
                         </ul>
                     </li>
@@ -203,7 +203,7 @@
                             </li>
                         </ul>
                     </li>
-                    @permission('menu-company|menu-user|menu-roles|menu-unit|menu-currencies|menu-phone_provider')
+                    @permission('menu-company|menu-user|menu-roles|menu-unit|menu-phone_provider')
                         <li class="{{ active_class(if_route_pattern('db.settings.*'), 'open') }}">
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cog fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.settings')</span></a>
                             <ul>
@@ -227,11 +227,6 @@
                                 @permission('menu-unit')
                                     <li>
                                         <a class="{{ active_class(if_route_pattern('db.settings.unit') || if_route_pattern('db.settings.unit.*')) }}" href="{{ route('db.settings.unit') }}"><span class="fa fa-bolt fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.unit')</a>
-                                    </li>
-                                @endpermission
-                                @permission('menu-currencies')
-                                    <li>
-                                        <a href="#"><span class="fa fa-money fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.currencies')</a>
                                     </li>
                                 @endpermission
                                 @permission('menu-phoneprovider')

@@ -55,8 +55,14 @@
                 <main id="main-container">
                     <div class="content">
                         <h1 class="content-heading">
-                            <strong>@yield('page_title')</strong><small style="font-size: x-small;">@yield('page_title_desc')</small>
-                            <div class="pull-right"><small>@yield('breadcrumbs')</small></div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>@yield('page_title')</strong><small style="font-size: x-small;">@yield('page_title_desc')</small>
+                                </div>
+                                <div class="col-6">
+                                    <div class="pull-right"><small>@yield('breadcrumbs')</small></div>
+                                </div>
+                            </div>
                         </h1>
                         @yield('content')
                     </div>

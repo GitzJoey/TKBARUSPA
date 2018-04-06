@@ -50,6 +50,5 @@ return [
     'menu.settings.user' => 'User',
     'menu.settings.roles' => 'Roles',
     'menu.settings.unit' => 'Unit',
-    'menu.settings.currencies' => 'Currencies',
     'menu.settings.phone_provider' => 'Phone Provider'
 ];

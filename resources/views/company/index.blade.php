@@ -103,16 +103,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_bankaccount">
                                 @lang('company.index.tabs.bank_account')
-                                <template v-if="errors.any('tabs_bankaccount')">
+                                <template v-if="errors.any('tabs_bankAccounts')">
                                     &nbsp;<span id="bankAccountTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
-                                </template>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#tabs_currencies">
-                                @lang('company.index.tabs.currencies')
-                                <template v-if="errors.any('tabs_currencies')">
-                                    &nbsp;<span id="currenciesTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
                                 </template>
                             </a>
                         </li>
@@ -159,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputAddress" class="col-2 col-form-label">@lang('company.fields.address')</label>
+                                <label for="inputAddressb" class="col-2 col-form-label">@lang('company.fields.address')</label>
                                 <div class="col-md-9">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <textarea id="inputAddress" v-model="company.address" class="form-control" rows="5" name="address"></textarea>
@@ -298,11 +290,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr v-for="(ba, baIdx) in company.bank_accounts">
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.bank_id_' + baIdx) }">
+                                            <select class="form-control"
+                                                    name="bank_id[]"
+                                                    v-model="ba.bank_id"
+                                                    v-validate="'required'"
+                                                    v-bind:data-vv-as="'{{ trans('company.index.fields.bank_id') }} ' + (baIdx + 1)"
+                                                    v-bind:data-vv-name="'bank_id_' + baIdx"
+                                                    data-vv-scope="tabs_bankAccounts">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
+                                            </select>
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.account_name_' + baIdx) }">
+                                            <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
+                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_name') }} ' + (baIdx + 1)"
+                                                   v-bind:data-vv-name="'account_name_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.account_number_' + baIdx) }">
+                                            <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
+                                                   v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_number') }} ' + (baIdx + 1)"
+                                                   v-bind:data-vv-name="'account_number_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
+                                        </td>
+                                        <td class="text-center valign-middle">
+                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            <button class="btn btn-sm btn-default" type="button">@lang('buttons.create_new_button')</button>
-                        </div>
-                        <div class="tab-pane fade fade-up" id="tabs_currencies" role="tabpanel">
+                            <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
                         </div>
                         <div class="tab-pane fade fade-up" id="tabs_settings" role="tabpanel">
                             <div class="form-group row">
@@ -465,6 +485,7 @@
                 companyList: [],
                 statusDDL: [],
                 yesnoDDL: [],
+                bankDDL: [],
                 mode: '',
                 company: { }
             },
@@ -473,6 +494,7 @@
                 this.getAllCompany();
                 this.getLookupStatus();
                 this.getLookupYesNo();
+                this.getBank();
             },
             methods: {
                 validateBeforeSubmit: function() {
@@ -526,6 +548,7 @@
                         is_default: '',
                         frontweb: '',
                         remarks: '',
+                        bank_accounts: [],
                         date_format: 'd M Y',
                         time_format: 'G:H:s',
                         thousand_separator: ',',
@@ -533,6 +556,17 @@
                         decimal_digit: '2',
                         ribbon: 'default'
                     }
+                },
+                addBankAccounts: function() {
+                    this.company.bank_accounts.push({
+                        'bank_id': '',
+                        'account_name': '',
+                        'account_number': '',
+                        'remarks': ''
+                    });
+                },
+                removeSelectedBankAccounts: function(idx) {
+                    this.company.bank_accounts.splice(idx, 1);
                 },
                 getLookupStatus: function() {
                     axios.get('/api/get/lookup/byCategory/STATUS').then(
@@ -542,6 +576,11 @@
                 getLookupYesNo: function() {
                     axios.get('/api/get/lookup/byCategory/YESNOSELECT').then(
                         response => { this.yesnoDDL = response.data; }
+                    );
+                },
+                getBank: function() {
+                    axios.get('/api/get/bank/readAll').then(
+                        response => { this.bankDDL = response.data; }
                     );
                 },
                 displayDateTimeNow: function(format) {

@@ -34,12 +34,22 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('readAll', 'UnitController@readAll')->name('api.get.unit.readall');
     });
 
+    Route::group(['prefix' => 'bank'], function () {
+        Route::get('readAll', 'BankController@readAll')->name('api.get.bank.readall');
+    });
+
     Route::group(['prefix' => 'lookup'], function() {
         Route::get('byCategory/{category}', 'LookupController@getLookupByCategory')->name('api.get.lookup.bycategory');
     });
 });
 
 Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'company'], function () {
+        Route::post('save', 'CompanyController@store')->name('api.post.company.save');
+        Route::post('edit/{id}', 'CompanyController@update')->name('api.post.company.edit');
+        Route::post('delete/{id}', 'CompanyController@delete')->name('api.post.company.delete');
+    });
+
     Route::group(['prefix' => 'unit'], function () {
         Route::post('save', 'UnitController@store')->name('api.post.unit.save');
         Route::post('edit/{id}', 'UnitController@update')->name('api.post.unit.edit');

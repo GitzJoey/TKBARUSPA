@@ -20,10 +20,6 @@ use App\Utils\PHP2Moment;
 /**
  * App\Models\Company
  *
- * @property-read mixed $date_format
- * @property-read mixed $date_time_format
- * @property-read mixed $numeral_format
- * @property-read mixed $time_format
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company onlyTrashed()
@@ -83,6 +79,19 @@ use App\Utils\PHP2Moment;
  * @property-read mixed $date_time_display_format
  * @property-read mixed $numeral_display_format
  * @property-read mixed $time_display_format
+ * @property string|null $date_format
+ * @property string|null $time_format
+ * @property-read mixed $default_i18n
+ * @property-read mixed $frontweb_i18n
+ * @property-read mixed $h_id
+ * @property-read mixed $moment_date_format
+ * @property-read mixed $moment_date_time_format
+ * @property-read mixed $moment_time_format
+ * @property-read mixed $numeral_format
+ * @property-read mixed $php_date_format
+ * @property-read mixed $php_date_time_format
+ * @property-read mixed $php_time_format
+ * @property-read mixed $status_i18n
  */
 class Company extends Model
 {
