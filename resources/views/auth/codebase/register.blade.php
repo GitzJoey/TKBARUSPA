@@ -106,7 +106,7 @@
                                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                                 <label for="password_confirmation">@lang('login.register.retype_password')</label>
                                             </div>
-                                            @if ($errors->has('password_confirmation'))
+                                            @if ($errors->has('password'))
                                                 <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                             @endif
                                         </div>
@@ -118,7 +118,7 @@
                                                 <span class="css-control-indicator"></span>
                                                 @lang('login.register.agree_1') &amp; @lang('login.register.agree_2')
                                             </label>
-                                            @if ($errors->has('password_confirmation'))
+                                            @if ($errors->has('terms'))
                                                 <div class="invalid-feedback">{{ $errors->first('terms') }}</div>
                                             @endif
                                         </div>
