@@ -5,6 +5,10 @@
                 <i class="fa fa-navicon"></i>
             </button>
 
+            <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="tooltip" data-placement="bottom" title="Back To Frontpage">
+                <span class="fa fa-external-link fa-fw" title="Back To Frontpage"></span>
+            </button>
+
             <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">
                 <i class="fa fa-search"></i>
             </button>
@@ -15,9 +19,6 @@
                 <button type="button" class="btn btn-rounded btn-dual-secondary disabled" id="timeoutCount" data-toggle="tooltip" data-placement="bottom" title="Timeout Counter">
                     00:00:00
                 </button>
-                <a class="btn btn-rounded btn-dual-secondary" data-toggle="tooltip" data-placement="bottom" title="Back To Frontpage">
-                    <span class="fa fa-external-link fa-fw" title="Back To Frontpage"></span>
-                </a>
                 <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-language-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-globe"></i>
                 </button>

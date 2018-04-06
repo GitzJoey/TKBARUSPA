@@ -12,6 +12,7 @@ namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * App\Model\BankAccount
@@ -78,6 +79,21 @@ class BankAccount extends Model
         'deleted_at',
         'owner_type'
     ];
+
+    protected $appends = [
+        'hId',
+        'bankHId',
+    ];
+
+    public function getHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['id']);
+    }
+
+    public function getBankHidAttribute()
+    {
+        return Hashids::encode($this->attributes['bank_id']);
+    }
 
     public function bank()
     {

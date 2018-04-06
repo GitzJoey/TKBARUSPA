@@ -147,7 +147,6 @@
                                             <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
                                         </div>
                                     </template>
-
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -292,37 +291,61 @@
                                 <tbody>
                                     <tr v-for="(ba, baIdx) in company.bank_accounts">
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.bank_id_' + baIdx) }">
-                                            <select class="form-control"
-                                                    name="bank_id[]"
-                                                    v-model="ba.bank_id"
-                                                    v-validate="'required'"
-                                                    v-bind:data-vv-as="'{{ trans('company.index.fields.bank_id') }} ' + (baIdx + 1)"
-                                                    v-bind:data-vv-name="'bank_id_' + baIdx"
-                                                    data-vv-scope="tabs_bankAccounts">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
-                                            </select>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select class="form-control"
+                                                        name="bank_id[]"
+                                                        v-model="ba.bankHId"
+                                                        v-validate="'required'"
+                                                        v-bind:data-vv-as="'{{ trans('company.index.fields.bank_id') }} ' + (baIdx + 1)"
+                                                        v-bind:data-vv-name="'bank_id_' + baIdx"
+                                                        data-vv-scope="tabs_bankAccounts">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
+                                                </select>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.bank.bankFullName }}</div>
+                                            </template>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.account_name_' + baIdx) }">
-                                            <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
-                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_name') }} ' + (baIdx + 1)"
-                                                   v-bind:data-vv-name="'account_name_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
+                                                       v-validate="'required'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_name') }} ' + (baIdx + 1)"
+                                                       v-bind:data-vv-name="'account_name_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.account_name }}</div>
+                                            </template>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.account_number_' + baIdx) }">
-                                            <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
-                                                   v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_number') }} ' + (baIdx + 1)"
-                                                   v-bind:data-vv-name="'account_number_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
+                                                       v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('company.index.fields.account_number') }} ' + (baIdx + 1)"
+                                                       v-bind:data-vv-name="'account_number_' + baIdx" data-vv-scope="tabs_bankAccounts">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.account_number }}</div>
+                                            </template>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.remarks }}</div>
+                                            </template>
                                         </td>
                                         <td class="text-center valign-middle">
-                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                            </template>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
+                            </template>
                         </div>
                         <div class="tab-pane fade fade-up" id="tabs_settings" role="tabpanel">
                             <div class="form-group row">
@@ -440,14 +463,12 @@
                                         </div>
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">
-                                            <template v-if="company.ribbon == 'default'"><div class="form-control-plaintext text-default">Default</div></template>
-                                            <template v-if="company.ribbon == 'corporate'"><div class="form-control-plaintext text-corporate">Corporate</div></template>
-                                            <template v-if="company.ribbon == 'earth'"><div class="form-control-plaintext text-earth">Earth</div></template>
-                                            <template v-if="company.ribbon == 'elegance'"><div class="form-control-plaintext text-elegance">Elegance</div></template>
-                                            <template v-if="company.ribbon == 'flat'"><div class="form-control-plaintext text-flat">Flat</div></template>
-                                            <template v-if="company.ribbon == 'pulse'"><div class="form-control-plaintext text-pulse">Pulse</div></template>
-                                        </div>
+                                        <template v-if="company.ribbon == 'default'"><div class="form-control-plaintext text-default">Default</div></template>
+                                        <template v-if="company.ribbon == 'corporate'"><div class="form-control-plaintext text-corporate">Corporate</div></template>
+                                        <template v-if="company.ribbon == 'earth'"><div class="form-control-plaintext text-earth">Earth</div></template>
+                                        <template v-if="company.ribbon == 'elegance'"><div class="form-control-plaintext text-elegance">Elegance</div></template>
+                                        <template v-if="company.ribbon == 'flat'"><div class="form-control-plaintext text-flat">Flat</div></template>
+                                        <template v-if="company.ribbon == 'pulse'"><div class="form-control-plaintext text-pulse">Pulse</div></template>
                                     </template>
                                 </div>
                             </div>
@@ -479,137 +500,7 @@
 
 @section('custom_js')
     <script type="application/javascript">
-        var companyVue = new Vue ({
-            el: '#companyVue',
-            data: {
-                companyList: [],
-                statusDDL: [],
-                yesnoDDL: [],
-                bankDDL: [],
-                mode: '',
-                company: { }
-            },
-            mounted: function () {
-                this.mode = 'list';
-                this.getAllCompany();
-                this.getLookupStatus();
-                this.getLookupYesNo();
-                this.getBank();
-            },
-            methods: {
-                validateBeforeSubmit: function() {
-                    this.$validator.validateScopes().then(isValid => {
-                        if (!isValid) return;
-                        if (this.mode == 'create') {
-                            axios.post('/api/post/company/save', new FormData($('#companyForm')[0])).then(response => {
-                                this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
-                        } else if (this.mode == 'edit') {
-                            axios.post('/api/post/company/edit/' + this.company.hId, new FormData($('#companyForm')[0])).then(response => {
-                                this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
-                        } else { }
-                    });
-                },
-                getAllCompany: function() {
-                    Codebase.blocks('#companyListBlock', 'state_toggle');
-                    axios.get('/api/get/company/readAll').then(response => {
-                        this.companyList = response.data;
-                        Codebase.blocks('#companyListBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                createNew: function() {
-                    this.mode = 'create';
-                    this.company = this.emptyCompany();
-                },
-                editSelected: function(idx) {
-                    this.mode = 'edit';
-                    this.company = this.companyList[idx];
-                },
-                showSelected: function(idx) {
-                    this.mode = 'show';
-                    this.company = this.companyList[idx];
-                },
-                deleteSelected: function(idx) {
-                    axios.post('/api/post/company/delete/' + idx).then(response => {
-                        this.backToList();
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                backToList: function() {
-                    this.mode = 'list';
-                    this.errors.clear();
-                    this.getAllCompany();
-                },
-                emptyCompany: function() {
-                    return {
-                        hId: '',
-                        name: '',
-                        status: '',
-                        is_default: '',
-                        frontweb: '',
-                        remarks: '',
-                        bank_accounts: [],
-                        date_format: 'd M Y',
-                        time_format: 'G:H:s',
-                        thousand_separator: ',',
-                        decimal_separator: '.',
-                        decimal_digit: '2',
-                        ribbon: 'default'
-                    }
-                },
-                addBankAccounts: function() {
-                    this.company.bank_accounts.push({
-                        'bank_id': '',
-                        'account_name': '',
-                        'account_number': '',
-                        'remarks': ''
-                    });
-                },
-                removeSelectedBankAccounts: function(idx) {
-                    this.company.bank_accounts.splice(idx, 1);
-                },
-                getLookupStatus: function() {
-                    axios.get('/api/get/lookup/byCategory/STATUS').then(
-                        response => { this.statusDDL = response.data; }
-                    );
-                },
-                getLookupYesNo: function() {
-                    axios.get('/api/get/lookup/byCategory/YESNOSELECT').then(
-                        response => { this.yesnoDDL = response.data; }
-                    );
-                },
-                getBank: function() {
-                    axios.get('/api/get/bank/readAll').then(
-                        response => { this.bankDDL = response.data; }
-                    );
-                },
-                displayDateTimeNow: function(format) {
-                    return moment().format(format);
-                }
-            },
-            watch: {
-                mode: function() {
-                    switch (this.mode) {
-                        case 'create':
-                        case 'edit':
-                        case 'show':
-                            Codebase.blocks('#companyListBlock', 'close')
-                            Codebase.blocks('#companyCRUDBlock', 'open')
-                            break;
-                        case 'list':
-                        default:
-                            Codebase.blocks('#companyListBlock', 'open')
-                            Codebase.blocks('#companyCRUDBlock', 'close')
-                            break;
-                    }
-                }
-            },
-            computed: {
-                defaultPleaseSelect: function() {
-                    return '';
-                }
-            }
-        });
+
     </script>
     <script type="application/javascript" src="{{ mix('js/apps/company.min.js') }}"></script>
 @endsection

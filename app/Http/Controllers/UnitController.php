@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Validator;
 use Illuminate\Http\Request;
 

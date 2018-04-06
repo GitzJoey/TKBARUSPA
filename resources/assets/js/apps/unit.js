@@ -15,6 +15,7 @@ var unitVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                Codebase.blocks('#unitCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post('/api/post/unit/save', new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
@@ -24,6 +25,7 @@ var unitVue = new Vue ({
                         this.backToList();
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
+                Codebase.blocks('#unitCRUDBlock', 'state_toggle');
             });
         },
         getAllUnit: function() {

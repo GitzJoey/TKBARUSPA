@@ -238,7 +238,7 @@ class Company extends Model
 
     public function bankAccounts()
     {
-        return null;//$this->morphMany('App\Models\BankAccount', 'owner');
+        return $this->morphMany('App\Models\BankAccount', 'owner');
     }
 
     public static function boot()

@@ -9,6 +9,7 @@
 namespace App\Services\Implementations;
 
 use App\Models\Company;
+use App\Models\BankAccount;
 
 use App\Services\CompanyService;
 
@@ -16,7 +17,6 @@ use DB;
 use Log;
 use Config;
 use Exception;
-use Validator;
 use LaravelLocalization;
 use Intervention\Image\Facades\Image;
 
@@ -87,17 +87,16 @@ class CompanyServiceImpl implements CompanyService
                 'ribbon' => $ribbon,
             ]);
 
-            /*
             for ($i = 0; $i < count($bank); $i++) {
                 $ba = new BankAccount();
-                $ba->bank_id = $bank["bank"][$i];
-                $ba->account_name = $bank["account_name"][$i];
-                $ba->account_number = $bank["account_number"][$i];
-                $ba->remarks = $bank["bank_remarks"][$i];
+                $ba->bank_id = $bank[$i]["bank_id"];
+                $ba->account_name = $bank[$i]["account_name"];
+                $ba->account_number = $bank[$i]["account_number"];
+                $ba->remarks = $bank[$i]["bank_remarks"];
 
                 $company->bankAccounts()->save($ba);
             }
-            */
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -113,9 +112,9 @@ class CompanyServiceImpl implements CompanyService
     public function readAll($limit = 0)
     {
         if ($limit != 0) {
-            return Company::latest()->take($limit)->get();
+            return Company::with('bankAccounts.bank')->latest()->take($limit)->get();
         } else {
-            return Company::get();
+            return Company::with('bankAccounts.bank')->get();
         }
     }
 
@@ -183,10 +182,10 @@ class CompanyServiceImpl implements CompanyService
 
             for ($i = 0; $i < count($bank); $i++) {
                 $ba = new BankAccount();
-                $ba->bank_id = $bank["bank"][$i];
-                $ba->account_name = $bank["account_name"][$i];
-                $ba->account_number = $bank["account_number"][$i];
-                $ba->remarks = $bank["bank_remarks"][$i];
+                $ba->bank_id = $bank[$i]["bank_id"];
+                $ba->account_name = $bank[$i]["account_name"];
+                $ba->account_number = $bank[$i]["account_number"];
+                $ba->remarks = $bank[$i]["bank_remarks"];
 
                 $company->bankAccounts()->save($ba);
             }
@@ -216,9 +215,8 @@ class CompanyServiceImpl implements CompanyService
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            throw $e;
         };
-
-        return response()->json();
     }
 
     public function delete($id)
@@ -227,7 +225,13 @@ class CompanyServiceImpl implements CompanyService
 
         $company = Company::find($id);
 
-        $company->delete();
+        if ($company->is_default == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+            throw new Exception(
+                LaravelLocalization::getCurrentLocale() == 'en' ? 'Default Store cannot be deleted':'Toko Utama tidak bisa di hapus'
+            );
+        } else {
+            $company->delete();
+        }
     }
 
     public function createDefaultCompany($companyName)
@@ -283,7 +287,7 @@ class CompanyServiceImpl implements CompanyService
         $company = Company::whereIsDefault(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get();
 
         foreach ($company as $s) {
-            $s->is_default = Config::get('lookup.VALUE.YESNOSELECT.NO')->first()->code;
+            $s->is_default = Config::get('lookup.VALUE.YESNOSELECT.NO');
             $s->save();
         }
     }
@@ -295,7 +299,7 @@ class CompanyServiceImpl implements CompanyService
         $comp = Company::whereFrontweb(Config::get('lookup.VALUE.YESNOSELECT.YES'))->get();
 
         foreach ($comp as $c) {
-            $c->frontweb = Config::get('lookup.YESNOSELECT.NO')->first()->code;
+            $c->frontweb = Config::get('lookup.VALUE.YESNOSELECT.NO');
             $c->save();
         }
     }

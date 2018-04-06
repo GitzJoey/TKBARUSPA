@@ -100,14 +100,14 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="form-group row {{ $errors->has('password_confirmation') ? 'is-invalid':'' }}">
+                                    <div class="form-group row {{ $errors->has('password') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating">
                                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                                 <label for="password_confirmation">@lang('login.register.retype_password')</label>
                                             </div>
                                             @if ($errors->has('password_confirmation'))
-                                                <div class="invalid-feedback">{{ $errors->first('password_confirmation') }}</div>
+                                                <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                             @endif
                                         </div>
                                     </div>
