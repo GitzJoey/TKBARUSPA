@@ -27,6 +27,14 @@ return [
                     'remarks' => 'Remarks',
                 ],
             ],
+            'bank_list' => [
+                'header' => [
+                    'bank' => 'Bank',
+                    'account_name' => 'Account Name',
+                    'account_number' => 'Account Number',
+                    'remarks' => 'Remarks',
+                ],
+            ]
         ],
         'tabs' => [
             'company' => 'Company Data',

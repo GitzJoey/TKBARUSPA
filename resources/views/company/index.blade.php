@@ -18,7 +18,7 @@
 
 @section('content')
     <div id="companyVue">
-        @include ('layouts.common.error');
+        @include ('layouts.common.error')
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="companyListBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">@lang('company.index.panel.list_panel.title')</h3>
@@ -95,25 +95,33 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#tabs_company">
                                 @lang('company.index.tabs.company')
-                                &nbsp;<span id="companyDataTabError" v-bind:class="{'red-asterisk':errors.any('tabs_company')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                <template v-if="errors.any('tabs_company')">
+                                    &nbsp;<span id="companyDataTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
+                                </template>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_bankaccount">
                                 @lang('company.index.tabs.bank_account')
-                                &nbsp;<span id="bankAccountTabError" v-bind:class="{'red-asterisk':errors.any('tabs_bankaccount')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                <template v-if="errors.any('tabs_bankaccount')">
+                                    &nbsp;<span id="bankAccountTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
+                                </template>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_currencies">
                                 @lang('company.index.tabs.currencies')
-                                &nbsp;<span id="currenciesTabError" v-bind:class="{'red-asterisk':errors.any('tabs_currencies')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                <template v-if="errors.any('tabs_currencies')">
+                                    &nbsp;<span id="currenciesTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
+                                </template>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#tabs_settings">
                                 @lang('company.index.tabs.settings')
-                                &nbsp;<span id="settingsTabError" v-bind:class="{'red-asterisk':errors.any('tabs_settings')?false:true}"><i class="fa fa-close fa-fw"></i></span>
+                                <template v-if="errors.any('tabs_settings')">
+                                    &nbsp;<span id="settingsTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
+                                </template>
                             </a>
                         </li>
                     </ul>
@@ -216,7 +224,7 @@
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.status') }}"
                                                 data-vv-scope="tabs_company">
-                                            <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
+                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
                                         </select>
                                         <span v-show="errors.has('tabs_company.status')" class="invalid-feedback">@{{ errors.first('tabs_company.status') }}</span>
@@ -236,7 +244,7 @@
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.default') }}"
                                                 data-vv-scope="tabs_company">
-                                            <option v-bind:value="defaultYesNo">@lang('labels.PLEASE_SELECT')</option>
+                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(yn, ynIdx) in yesnoDDL" v-bind:value="yn.code">@{{ yn.description }}</option>
                                         </select>
                                         <span v-show="errors.has('tabs_company.is_default')" class="invalid-feedback">@{{ errors.first('tabs_company.is_default') }}</span>
@@ -256,7 +264,7 @@
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('company.fields.frontweb') }}"
                                                 data-vv-scope="tabs_company">
-                                            <option v-bind:value="defaultYesNo">@lang('labels.PLEASE_SELECT')</option>
+                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                             <option v-for="(yn, ynIdx) in yesnoDDL" v-bind:value="yn.code">@{{ yn.description }}</option>
                                         </select>
                                         <span v-show="errors.has('tabs_company.frontweb')" class="invalid-feedback">@{{ errors.first('tabs_company.frontweb') }}</span>
@@ -279,6 +287,20 @@
                             </div>
                         </div>
                         <div class="tab-pane fade fade-up" id="tabs_bankaccount" role="tabpanel">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">@lang('company.index.table.bank_list.header.bank')</th>
+                                        <th class="text-center">@lang('company.index.table.bank_list.header.account_name')</th>
+                                        <th class="text-center">@lang('company.index.table.bank_list.header.account_number')</th>
+                                        <th class="text-center">@lang('company.index.table.bank_list.header.remarks')</th>
+                                        <th class="text-center">@lang('labels.ACTION')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-sm btn-default" type="button">@lang('buttons.create_new_button')</button>
                         </div>
                         <div class="tab-pane fade fade-up" id="tabs_currencies" role="tabpanel">
                         </div>
@@ -332,8 +354,8 @@
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <select name="decimal_separator" class="form-control" v-model="company.decimal_separator">
-                                            <option value="," v-bind:selected="company.decimal_separator == ','">@lang('company.fields.comma')&nbsp;-&nbsp;0,00 (Default)</option>
-                                            <option value="." bind:selected="company.decimal_separator == ','">@lang('company.fields.dot')&nbsp;-&nbsp;0.00</option>
+                                            <option value="." bind:selected="company.decimal_separator == ','">@lang('company.fields.dot')&nbsp;-&nbsp;0.00 (Default)</option>
+                                            <option value="," v-bind:selected="company.decimal_separator == ','">@lang('company.fields.comma')&nbsp;-&nbsp;0,00</option>
                                             <option value=" " v-bind:selected="company.decimal_separator == ','">@lang('company.fields.space')&nbsp;-&nbsp;0 00</option>
                                         </select>
                                     </template>
@@ -347,6 +369,7 @@
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <input id="inputDecimalDigit" name="decimal_digit" type="text" class="form-control"
+                                               v-model="company.decimal_digit"
                                                v-validate="'required|max_value:4|min_value:0|numeric'" data-vv-as="{{ trans('company.fields.decimal_digit') }}">
                                         <span v-show="errors.has('decimal_digit')" class="invalid-feedback">@{{ errors.first('decimal_digit') }}</span>
                                     </template>
@@ -502,7 +525,13 @@
                         status: '',
                         is_default: '',
                         frontweb: '',
-                        remarks: ''
+                        remarks: '',
+                        date_format: 'd M Y',
+                        time_format: 'G:H:s',
+                        thousand_separator: ',',
+                        decimal_separator: '.',
+                        decimal_digit: '2',
+                        ribbon: 'default'
                     }
                 },
                 getLookupStatus: function() {
@@ -537,10 +566,7 @@
                 }
             },
             computed: {
-                defaultStatus: function() {
-                    return '';
-                },
-                defaultYesNo: function() {
+                defaultPleaseSelect: function() {
                     return '';
                 }
             }

@@ -45,7 +45,7 @@ return [
     'menu.rpt.monthly' => 'Bulanan',
     'menu.rpt.quarterly' => 'Triwulan',
     'menu.rpt.yearly' => 'Tahunan',
-    'menu.settings' => 'Admin Menu',
+    'menu.settings' => 'Settings',
     'menu.settings.company' => 'Perusahaan',
     'menu.settings.roles' => 'Peran',
     'menu.settings.user' => 'Pengguna',

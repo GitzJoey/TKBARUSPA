@@ -27,6 +27,14 @@ return [
                     'remarks' => 'Keterangan',
                 ],
             ],
+            'bank_list' => [
+                'header' => [
+                    'bank' => 'Bank',
+                    'account_name' => 'Nama Rekening',
+                    'account_number' => 'Nomor Rekening',
+                    'remarks' => 'Catatan',
+                ],
+            ],
         ],
         'tabs' => [
             'company' => 'Data Perusahaan',
