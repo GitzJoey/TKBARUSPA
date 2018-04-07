@@ -57,16 +57,14 @@ Vue.mixin({
         handleErrors: function(e) {
             //Catch For Laravel Validation
             if (e.response.data.errors != undefined && Object.keys(e.response.data.errors).length > 0) {
-                this.errors.clear();
                 for (var key in e.response.data.errors) {
                     for (var i = 0; i < e.response.data.errors[key].length; i++) {
-                        this.$validator.errors.add('', e.response.data.errors[key][i], 'server', '__global__');
+                        this.$validator.errors.add('', e.response.data.errors[key][i], '', null);
                     }
                 }
             } else {
                 //Catch From Controller
-                this.errors.clear();
-                this.$validator.errors.add('', e.response.data.message + ' (' +e.response.status + ' ' + e.response.statusText + ')', 'server', '__global__');
+                this.$validator.errors.add('', e.response.data.message + ' (' +e.response.status + ' ' + e.response.statusText + ')', '', null);
             }
         }
     }

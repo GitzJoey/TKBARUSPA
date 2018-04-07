@@ -41,14 +41,17 @@ var companyVue = new Vue ({
         },
         createNew: function() {
             this.mode = 'create';
+            this.errors.clear();
             this.company = this.emptyCompany();
         },
         editSelected: function(idx) {
             this.mode = 'edit';
+            this.errors.clear();
             this.company = this.companyList[idx];
         },
         showSelected: function(idx) {
             this.mode = 'show';
+            this.errors.clear();
             this.company = this.companyList[idx];
         },
         deleteSelected: function(idx) {

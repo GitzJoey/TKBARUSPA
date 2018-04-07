@@ -37,14 +37,17 @@ var unitVue = new Vue ({
         },
         createNew: function() {
             this.mode = 'create';
+            this.errors.clear();
             this.unit = this.emptyUnit();
         },
         editSelected: function(idx) {
             this.mode = 'edit';
+            this.errors.clear();
             this.unit = this.unitList[idx];
         },
         showSelected: function(idx) {
             this.mode = 'show';
+            this.errors.clear();
             this.unit = this.unitList[idx];
         },
         deleteSelected: function(idx) {
