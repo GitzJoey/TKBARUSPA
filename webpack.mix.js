@@ -38,6 +38,8 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
 
 mix.copy('resources/assets/js/apps/company.js', 'public/js/apps')
     .copy('resources/assets/js/apps/unit.js', 'public/js/apps')
+    .copy('resources/assets/js/apps/product.js', 'public/js/apps')
     .minify('public/js/apps/company.js')
     .minify('public/js/apps/unit.js')
+    .minify('public/js/apps/product.js')
     .version();

@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-04-06 06:44:33.
+    * Generated on 2018-04-07 16:58:41.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -68,6 +68,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -233,6 +234,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -398,6 +400,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -563,6 +566,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -728,6 +732,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -893,6 +898,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -1058,6 +1064,7 @@ namespace PHPSTORM_META {
         'App\Services\DatabaseService' => \App\Services\Implementations\DatabaseServiceImpl::class,
         'App\Services\CompanyService' => \App\Services\Implementations\CompanyServiceImpl::class,
         'App\Services\UnitService' => \App\Services\Implementations\UnitServiceImpl::class,
+        'App\Services\BankService' => \App\Services\Implementations\BankServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,

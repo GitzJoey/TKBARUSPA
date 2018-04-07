@@ -92,6 +92,7 @@ use App\Utils\PHP2Moment;
  * @property-read mixed $php_date_time_format
  * @property-read mixed $php_time_format
  * @property-read mixed $status_i18n
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BankAccount[] $bankAccounts
  */
 class Company extends Model
 {

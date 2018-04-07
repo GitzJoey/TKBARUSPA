@@ -177,7 +177,7 @@
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cube fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.product')</span></a>
                         <ul>
                             <li>
-                                <a href="#"><span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')</a>
+                                <a href="{{ route('db.product') }}"><span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')</a>
                             </li>
                             <li>
                                 <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>

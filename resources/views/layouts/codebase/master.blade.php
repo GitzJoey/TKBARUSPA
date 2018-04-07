@@ -44,7 +44,7 @@
 
     <body>
         <div id="page-loader" class="show"></div>
-        <div id="page-container" class="sidebar-o sidebar-inverse side-scroll">
+        <div id="page-container" class="sidebar-o sidebar-mini sidebar-inverse side-scroll">
             <div>
                 @include('layouts.codebase.sideoverlay')
 

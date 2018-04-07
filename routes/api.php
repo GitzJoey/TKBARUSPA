@@ -30,6 +30,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('readAll', 'CompanyController@readAll')->name('api.get.company.readall');
     });
 
+    Route::group(['prefix' => 'product'], function () {
+        Route::get('readAll', 'ProductController@readAll')->name('api.get.product.readall');
+    });
+
     Route::group(['prefix' => 'unit'], function () {
         Route::get('readAll', 'UnitController@readAll')->name('api.get.unit.readall');
     });

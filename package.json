@@ -29,6 +29,7 @@
         "jquery-slimscroll": "^1.3.8",
         "jquery.appear": "^1.0.1",
         "jquery.cookie": "^1.4.1",
+        "laravel-vue-pagination": "^1.2.0",
         "moment": "^2.22.0",
         "moment-duration-format": "^2.2.2",
         "numbro": "^2.0.6",

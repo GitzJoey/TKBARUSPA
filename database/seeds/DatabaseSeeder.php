@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Local/Development Enviroment Detected. Starting Dummy Data Seeder...');
 
             $this->call(BankTableSeeder::class);
-            //$this->call(ProductTableSeeder::class);
-            //$this->call(ProductTypeTableSeeder::class);
+            $this->call(ProductTableSeeder::class);
+            $this->call(ProductTypeTableSeeder::class);
             //$this->call(SupplierTableSeeder::class);
             //$this->call(CustomerTableSeeder::class);
             //$this->call(VendorTruckingTableSeeder::class);

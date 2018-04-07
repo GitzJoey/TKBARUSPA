@@ -53,6 +53,8 @@ use Vinkla\Hashids\Facades\Hashids;
  * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount withoutTrashed()
  * @property int $company_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereCompanyId($value)
+ * @property-read mixed $bank_h_id
+ * @property-read mixed $h_id
  */
 class BankAccount extends Model
 {
@@ -90,7 +92,7 @@ class BankAccount extends Model
         return Hashids::encode($this->attributes['id']);
     }
 
-    public function getBankHidAttribute()
+    public function getBankHIdAttribute()
     {
         return Hashids::encode($this->attributes['bank_id']);
     }
