@@ -94,6 +94,19 @@
             </div>
             <div class="block-content">
                 <form id="productForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('type') }">
+                        <label for="inputType" class="col-2 col-form-label">@lang('product.fields.type')</label>
+                        <div class="col-10">
+                            <select class="form-control"
+                                    name="type"
+                                    v-validate="'required'"
+                                    data-vv-as="{{ trans('product.fields.type') }}">
+                                <option value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                <option v-for="(pt, ptIdx) in prodTypeDDL" v-bind:value="pt.hId">@{{ pt.name }}</option>
+                            </select>
+                            <span v-show="errors.has('type')" class="invalid-feedback" v-cloak>@{{ errors.first('type') }}</span>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -107,6 +120,7 @@
             data: {
                 productList: [],
                 statusDDL: [],
+                prodTypeDDL: [],
                 mode: '',
                 product: { }
             },
@@ -114,6 +128,7 @@
                 this.mode = 'list';
                 this.getAllProduct();
                 this.getLookupStatus();
+                this.getProductType();
             },
             methods: {
                 validateBeforeSubmit: function() {
@@ -177,6 +192,11 @@
                     axios.get('/api/get/lookup/byCategory/STATUS').then(
                         response => { this.statusDDL = response.data; }
                     );
+                },
+                getProductType: function() {
+                    axios.get('/api/get/product_type/readAll').then(
+                        response => { this.prodTypeDDL = response.data; }
+                    );
                 }
             },
             watch: {
@@ -197,7 +217,7 @@
                 }
             },
             computed: {
-                defaultStatus: function() {
+                defaultPleaseSelect: function() {
                     return '';
                 }
             }

@@ -9,12 +9,14 @@ use App\Services\CompanyService;
 use App\Services\UnitService;
 use App\Services\BankService;
 use App\Services\ProductService;
+use App\Services\ProductTypeService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
 use App\Services\Implementations\UnitServiceImpl;
 use App\Services\Implementations\BankServiceImpl;
 use App\Services\Implementations\ProductServiceImpl;
+use App\Services\Implementations\ProductTypeServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -54,6 +56,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ProductService::class, function (){
             return new ProductServiceImpl();
         });
+
+        $this->app->singleton(ProductTypeService::class, function (){
+            return new ProductTypeServiceImpl();
+        });
     }
 
     /**
@@ -68,6 +74,8 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\CompanyService',
             'App\Services\UnitService',
             'App\Services\BankService',
+            'App\Services\ProductService',
+            'App\Services\ProductTypeService',
         ];
     }
 }

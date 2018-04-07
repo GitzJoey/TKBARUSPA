@@ -42,11 +42,10 @@ class ProductServiceImpl implements ProductService
     {
         $product = [];
         if ($productId != 0) {
-            $product = Product::where('name', 'like', '%'.$productId.'%')
+            $product = Product::with('productType')->where('name', 'like', '%'.$productId.'%')
                 ->paginate(Config::get('const.PAGINATION'));
         } else {
-            //$product = Product::paginate(Config::get('const.PAGINATION'));
-            $product = Product::with('productType')->paginate(2);
+            $product = Product::with('productType')->paginate(Config::get('const.PAGINATION'));
         }
 
         return $product;
