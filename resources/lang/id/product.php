@@ -26,6 +26,21 @@ return [
                     'remarks' => 'Keterangan',
                 ],
             ],
+            'category_table' => [
+                'header' => [
+                    'code' => 'Kode',
+                    'name' => 'Nama',
+                    'description' => 'Keterangan',
+                ],
+            ],
+            'product_unit_table' => [
+                'header' => [
+                    'unit' => 'Satuan',
+                    'is_base' => 'Satuan Dasar',
+                    'conversion_value' => 'Nilai Tukar',
+                    'remarks' => 'Keterangan',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -34,10 +49,10 @@ return [
         'name' => 'Nama',
         'short_code' => 'Kode',
         'description' => 'Deskripsi',
-        'unit' => 'Satuan',
         'barcode' => 'Barcode',
         'minimal_in_stock' => 'Minimal Di Stok',
         'status' => 'Status',
         'remarks' => 'Keterangan',
+        'product_unit' => 'Satuan',
     ],
 ];

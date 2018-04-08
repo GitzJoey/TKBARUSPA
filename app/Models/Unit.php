@@ -78,7 +78,8 @@ class Unit extends Model
 
     protected $appends = [
         'hId',
-        'statusI18n'
+        'statusI18n',
+        'unitName'
     ];
 
     public function getHIdAttribute()

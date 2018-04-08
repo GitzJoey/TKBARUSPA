@@ -26,6 +26,21 @@ return [
                     'remarks' => 'Remarks',
                 ],
             ],
+            'category_table' => [
+                'header' => [
+                    'code' => 'Code',
+                    'name' => 'Name',
+                    'description' => 'Description',
+                ],
+            ],
+            'product_unit_table' => [
+                'header' => [
+                    'unit' => 'Unit',
+                    'is_base' => 'Is Base',
+                    'conversion_value' => 'Conversion Value',
+                    'remarks' => 'Remarks',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -34,10 +49,10 @@ return [
         'name' => 'Name',
         'short_code' => 'Short Code',
         'description' => 'Description',
-        'unit' => 'Unit',
         'barcode' => 'Barcode',
         'minimal_in_stock' => 'Minimal In Stock',
         'status' => 'Status',
         'remarks' => 'Remarks',
+        'product_unit' => 'Unit',
     ],
 ];

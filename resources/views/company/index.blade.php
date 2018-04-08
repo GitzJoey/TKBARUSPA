@@ -139,7 +139,7 @@
                                         <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="inputImage" name="image_path">
-                                            <label class="custom-file-label" for="example-file-input-custom">@lang('labels.CHOOSE_FILE')</label>
+                                            <label class="custom-file-label" for="inputImage">@lang('labels.CHOOSE_FILE')</label>
                                         </div>
                                     </template>
                                     <template v-if="mode == 'show'">
