@@ -54,5 +54,6 @@ return [
         'status' => 'Status',
         'remarks' => 'Keterangan',
         'product_unit' => 'Satuan',
+        'search_product' => 'Cari Produk',
     ],
 ];

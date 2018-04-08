@@ -54,5 +54,6 @@ return [
         'status' => 'Status',
         'remarks' => 'Remarks',
         'product_unit' => 'Unit',
+        'search_product' => 'Search Product',
     ],
 ];

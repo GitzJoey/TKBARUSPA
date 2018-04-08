@@ -92,11 +92,11 @@ class ProductServiceImpl implements ProductService
         // TODO: Implement read() method.
     }
 
-    public function readAll($limit = 0, $productId = 0)
+    public function readAll($limit = 0, $productName = '')
     {
         $product = [];
-        if ($productId != 0) {
-            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->where('name', 'like', '%'.$productId.'%')
+        if ($productName != '') {
+            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->where('name', 'like', '%'.$productName.'%')
                 ->paginate(Config::get('const.PAGINATION'));
         } else {
             $product = Product::with('productType', 'productCategories', 'productUnits.unit')->paginate(Config::get('const.PAGINATION'));

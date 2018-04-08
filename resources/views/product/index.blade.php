@@ -31,6 +31,11 @@
                 </div>
             </div>
             <div class="block-content">
+                <div class="row col-4">
+                    <input type="text" class="form-control" id="inputSearchProduct" placeholder="{{ trans('product.fields.search_product') }}"
+                           v-model="search_product_query" v-on:change="getAllProduct"/>
+                </div>
+                <br>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
@@ -395,7 +400,8 @@
                 prodTypeDDL: [],
                 unitDDL: [],
                 mode: '',
-                product: { }
+                product: { },
+                search_product_query: ''
             },
             mounted: function () {
                 this.mode = 'list';
@@ -423,7 +429,12 @@
                 },
                 getAllProduct: function(page) {
                     Codebase.blocks('#productListBlock', 'state_toggle');
-                    axios.get('/api/get/product/readAll' + '?page=' + page).then(response => {
+
+                    var qS = [];
+                    if (this.search_product_query) { qS.push({ 'key':'p', 'value':this.search_product_query }); }
+                    if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
+
+                    axios.get('/api/get/product/readAll' + this.generateQueryStrings(qS)).then(response => {
                         this.productList = response.data;
                         Codebase.blocks('#productListBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });

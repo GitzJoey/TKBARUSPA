@@ -67,6 +67,19 @@ Vue.mixin({
                 //Catch From Controller
                 this.$validator.errors.add('', e.response.data.message + ' (' +e.response.status + ' ' + e.response.statusText + ')', '', null);
             }
+        },
+        generateQueryStrings: function(arrQuery) {
+            if (arrQuery.length == 0) return '';
+
+            if (arrQuery.length == 1) {
+                return '?' + arrQuery[0]['key'] + '=' + arrQuery[0]['value'];
+            } else {
+                var result = '?' + arrQuery[0]['key'] + '=' + arrQuery[0]['value'];
+                for (var i = 1; i < arrQuery.length; i++) {
+                    result = result + '&' + arrQuery[i]['key'] + '=' + arrQuery[i]['value']
+                }
+                return result;
+            }
         }
     }
 });
