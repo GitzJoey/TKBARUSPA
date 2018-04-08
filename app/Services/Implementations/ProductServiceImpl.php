@@ -36,7 +36,7 @@ class ProductServiceImpl implements ProductService
     {
         $imageName = '';
 
-        if (!$image_filename) {
+        if (!empty($image_filename)) {
             $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
             $path = public_path('images') . '/' . $imageName;
 
@@ -55,7 +55,7 @@ class ProductServiceImpl implements ProductService
             $product->minimal_in_stock = $minimal_in_stock;
             $product->description = $description;
             $product->status = $status;
-            $product->remarks = $remarks;
+            $product->remarks = is_null($remarks) ? '':$remarks;
 
             $product->save();
 

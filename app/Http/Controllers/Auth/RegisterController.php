@@ -9,6 +9,7 @@ use App\Services\CompanyService;
 
 use App\Events\Auth\UserActivationEmail;
 
+use Lang;
 use Session;
 use Validator;
 use Carbon\Carbon;
@@ -59,12 +60,30 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $niceNames = [
+            'company_name' => Lang::getLocale() == 'en' ? 'Company Name':'Nama Perusahaan',
+            'name' => Lang::getLocale() == 'en' ? 'Name':'Nama Lengkap',
+            'email' => Lang::getLocale() == 'en'? 'Email':'Email',
+            'password' => Lang::getLocale() == 'en'? 'Password':'Password',
+            'terms' => Lang::getLocale() == 'en' ? 'Terms & Conditions':'Syarat & Ketentuan',
+        ];
+
+        if (array_key_exists('company_name', $data)) {
+            return Validator::make($data, [
+                'company_name' => 'required',
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+                'terms' => 'required',
+            ], Lang::get('validation'), $niceNames);
+        }
+
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'terms' => 'required',
-        ]);
+        ], Lang::get('validation'), $niceNames);
     }
 
     /**
@@ -130,7 +149,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(Request $req)
     {
-        $companyDDL = $this->companyService->readAll();
+        $companyDDL = $this->companyService->read();
         $company_id = 0;
         $company_name = '';
 

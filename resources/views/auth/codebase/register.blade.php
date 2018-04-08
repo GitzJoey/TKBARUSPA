@@ -45,12 +45,15 @@
                                 <form action="{{ url('/register') }}" method="post">
                                     @csrf
                                     @if ($company_mode == 'create')
-                                        <div class="form-group row">
+                                        <div class="form-group row {{ $errors->has('company_name') ? 'is-invalid':'' }}">
                                             <div class="col-12">
                                                 <div class="form-material floating">
                                                     <input type="text" class="form-control" id="company_name" name="company_name">
                                                     <label for="name">@lang('login.register.company_name')</label>
                                                 </div>
+                                                @if ($errors->has('company_name'))
+                                                    <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
+                                                @endif
                                             </div>
                                         </div>
                                     @elseif ($company_mode == 'use_default')

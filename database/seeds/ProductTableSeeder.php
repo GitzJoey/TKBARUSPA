@@ -20,7 +20,7 @@ class ProductTableSeeder extends Seeder
         $prod11->name = 'Product Type 1 Product 1';
         $prod11->short_code = 'PRD1-1';
         $prod11->description = 'Product Type 1 Product 1';
-        $prod11->image_path = '';
+        $prod11->image_filename = '';
         $prod11->status = 'STATUS.ACTIVE';
         $prod11->remarks = '';
 
@@ -46,7 +46,7 @@ class ProductTableSeeder extends Seeder
         $prod12->name = 'Product Type 1 Product 2';
         $prod12->short_code = 'PRD1-2';
         $prod12->description = 'Product Type 1 Product 2';
-        $prod12->image_path = '';
+        $prod12->image_filename = '';
         $prod12->status = 'STATUS.ACTIVE';
         $prod12->remarks = '';
 
@@ -72,7 +72,7 @@ class ProductTableSeeder extends Seeder
         $prod21->name = 'Product Type 2 Product 1';
         $prod21->short_code = 'PRD2-1';
         $prod21->description = 'Product Type 2 Product 1';
-        $prod21->image_path = '';
+        $prod21->image_filename = '';
         $prod21->status = 'STATUS.ACTIVE';
         $prod21->remarks = '';
 
@@ -98,7 +98,7 @@ class ProductTableSeeder extends Seeder
         $prod22->name = 'Product Type 2 Product 2';
         $prod22->short_code = 'PRD2-2';
         $prod22->description = 'Product Type 2 Product 2';
-        $prod22->image_path = '';
+        $prod22->image_filename = '';
         $prod22->status = 'STATUS.ACTIVE';
         $prod22->remarks = '';
 
@@ -124,7 +124,7 @@ class ProductTableSeeder extends Seeder
         $prod23->name = 'Product Type 2 Product 2';
         $prod23->short_code = 'PRD2-2';
         $prod23->description = 'Product Type 2 Product 2';
-        $prod23->image_path = '';
+        $prod23->image_filename = '';
         $prod23->status = 'STATUS.ACTIVE';
         $prod23->remarks = '';
 
@@ -150,7 +150,7 @@ class ProductTableSeeder extends Seeder
         $prod31->name = 'Product Type 3 Product 1';
         $prod31->short_code = 'PRD3-1';
         $prod31->description = 'Product Type 3 Product 1';
-        $prod31->image_path = '';
+        $prod31->image_filename = '';
         $prod31->status = 'STATUS.ACTIVE';
         $prod31->remarks = '';
 

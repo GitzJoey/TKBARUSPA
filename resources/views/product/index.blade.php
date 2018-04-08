@@ -193,10 +193,7 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputImage" name="image_path">
-                                    <label class="custom-file-label" for="inputImage">@lang('labels.CHOOSE_FILE')</label>
-                                </div>
+                                <input type="file" id="inputImage" name="image_path">
                             </template>
                             <template v-if="mode == 'show'">
                                 <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
@@ -258,7 +255,7 @@
                                                         v-validate="'required'"
                                                         v-model="punit.unitHId"
                                                         v-bind:data-vv-as="'{{ trans('product.index.table.product_unit_table.header.unit') }} ' + (punitIdx + 1)"
-                                                        v-bind:data-vv-name="'unit_' + unitIdx">
+                                                        v-bind:data-vv-name="'unit_' + punitIdx">
                                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                     <option v-for="(u, uIdx) in unitDDL" v-bind:value="u.hId">@{{ u.unitName }}</option>
                                                 </select>
@@ -270,8 +267,9 @@
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <div class="custom-control custom-checkbox mb-5">
-                                                    <input class="custom-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" name="is_base[]" v-model="punit.is_base">
+                                                    <input class="custom-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)">
                                                     <label class="custom-control-label text-primary" v-bind:for="'punit_is_base_' + (punitIdx + 1)"></label>
+                                                    <input type="hidden" v-model="punit.is_base_val" name="is_base[]"/>
                                                 </div>
                                             </template>
                                             <template v-if="mode == 'show'">
@@ -286,7 +284,8 @@
                                         <td v-bind:class="{ 'is-invalid':errors.has('conv_val_' + punitIdx) }">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <input type="text" class="form-control" v-model="punit.conversion_value" name="conversion_value[]"
-                                                       v-bind:readonly="punit.is_base" v-validate="'required'"
+                                                       v-validate="'required'"
+                                                       v-bind:readonly="punit.is_base"
                                                        v-bind:data-vv-as="'{{ trans('product.index.table.product_unit_table.header.conversion_value') }} ' + (punitIdx + 1)"
                                                        v-bind:data-vv-name="'conv_val_' + punitIdx"/>
                                             </template>
@@ -489,7 +488,6 @@
                 addNewProductUnit: function () {
                     this.product.product_units.push({
                         'unitHId': '',
-                        'selected': false,
                         'is_base': false,
                         'is_base_val': false,
                         'conversion_value': '',
@@ -499,8 +497,15 @@
                 removeProductUnit: function (idx) {
                     this.product.product_units.splice(idx, 1);
                 },
-                checkOnlyOneIsBase: function (idx) {
-
+                changeIsBase: function (idx) {
+                    if (this.product.product_units[idx].is_base) {
+                        this.product.product_units[idx].is_base_val = true;
+                        this.product.product_units[idx].conversion_value = '1';
+                        for (var i = 0; i < this.product.product_units.length; i++) {
+                            if (i == idx) continue;
+                            this.product.product_units[i].is_base = this.product.product_units[i].is_base_val = !this.product.product_units[idx].is_base;
+                        }
+                    }
                 },
                 getLookupStatus: function() {
                     axios.get('/api/get/lookup/byCategory/STATUS').then(

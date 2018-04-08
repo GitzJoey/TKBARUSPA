@@ -6,6 +6,7 @@ use App\User;
 
 use App\Services\DatabaseService;
 
+use Lang;
 use Validator;
 use LaravelLocalization;
 use Illuminate\Http\Request;
@@ -62,6 +63,11 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
+        $niceNames = [
+            'email' => Lang::getLocale() == 'en'? 'Email':'Email',
+            'password' => Lang::getLocale() == 'en'? 'Password':'Password',
+        ];
+
         Validator::extend('is_allowed_login', function($attribute, $value, $parameters, $validator) {
             return true;
         });
@@ -83,6 +89,6 @@ class LoginController extends Controller
         ], [
             $this->username().'.is_allowed_login' => LaravelLocalization::getCurrentLocale() == 'en' ? 'Login Not Allowed':'Tidak Diperkenankan Login',
             $this->username().'.is_activated' => LaravelLocalization::getCurrentLocale() == 'en' ? 'Email Has Not Been Activated':'Email Belum Di Aktivasi'
-        ]);
+        ], $niceNames);
     }
 }
