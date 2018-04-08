@@ -31,7 +31,7 @@
             <main id="main-container">
                 <div class="bg-gd-dusk">
                     <div class="hero-static content content-full bg-white invisible" data-toggle="appear">
-                        <div class="py-30 px-5 text-center">
+                        <div class="py-5 px-5 text-center">
                             <img src="{{ asset('images/loginlogo_notext.png') }}" width="125" height="100"/>
                         </div>
                         <div class="py-30 px-5 text-center">

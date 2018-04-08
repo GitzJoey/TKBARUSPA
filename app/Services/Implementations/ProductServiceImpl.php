@@ -13,6 +13,8 @@ use Config;
 use Intervention\Image\Facades\Image;
 
 use App\Models\Product;
+use App\Models\ProductUnit;
+use App\Models\ProductCategory;
 
 use App\Services\ProductService;
 
@@ -62,16 +64,16 @@ class ProductServiceImpl implements ProductService
             for ($i = 0; $i < count($productUnits); $i++) {
                 $punit = new ProductUnit();
                 $punit->unit_id = $productUnits[$i]['unit_id'];
-                $punit->is_base = $productUnits[$i]['is_base'];
+                $punit->is_base = $productUnits[$i]['is_base'] == 'true' ? 1:0;
                 $punit->conversion_value = $productUnits[$i]['conversion_value'];
-                $punit->remarks = $productUnits[$i]['punit_remarks'];
+                $punit->remarks = $productUnits[$i]['remarks'];
 
                 $product->productUnits()->save($punit);
             }
 
             for ($j = 0; $j < count($productCategories); $j++) {
                 $pcat = new ProductCategory();
-                $pcat->company_id = Auth::user()->company->id;
+                $pcat->company_id = $company_id;
                 $pcat->code = $productCategories[$j]['cat_code'];
                 $pcat->name = $productCategories[$j]['cat_name'];
                 $pcat->description = $productCategories[$j]['cat_description'];
@@ -161,7 +163,7 @@ class ProductServiceImpl implements ProductService
             $pclist = array();
             for ($j = 0; $j  < count($data['cat_level']); $j++) {
                 $pcat = new ProductCategory();
-                $pcat->store_id = Auth::user()->store->id;
+                $pcat->company_id = $company_id;
                 $pcat->code = $data['cat_code'][$j];
                 $pcat->name = $data['cat_name'][$j];
                 $pcat->description = $data['cat_description'][$j];
@@ -193,6 +195,8 @@ class ProductServiceImpl implements ProductService
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $product = Product::find($id);
+
+        $product->delete();
     }
 }

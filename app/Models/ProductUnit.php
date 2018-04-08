@@ -32,6 +32,7 @@ class ProductUnit extends Model
     ];
 
     protected $hidden = [
+        'id',
         'product_id',
         'unit_id',
         'created_by',

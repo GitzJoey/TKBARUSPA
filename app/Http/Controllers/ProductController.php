@@ -89,7 +89,7 @@ class ProductController extends Controller
 
         $this->productService->create(
             Auth::user()->company->id,
-            $request['type'],
+            Hashids::decode($request['type'])[0],
             $productCategories,
             $request['name'],
             $request['image_filename'],
@@ -163,12 +163,8 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        $product = Product::find($id);
+        $this->productService->delete($id);
 
-        $product->productUnits->each(function($pu) { $pu->delete(); });
-        $product->productCategories->each(function($pc) { $pc->delete(); });
-        $product->delete();
-
-        return redirect(route('db.master.product'));
+        return response()->json();
     }
 }
