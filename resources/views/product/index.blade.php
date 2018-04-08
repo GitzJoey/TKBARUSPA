@@ -434,7 +434,7 @@
                     if (this.search_product_query) { qS.push({ 'key':'p', 'value':this.search_product_query }); }
                     if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
 
-                    axios.get('/api/get/product/readAll' + this.generateQueryStrings(qS)).then(response => {
+                    axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(response => {
                         this.productList = response.data;
                         Codebase.blocks('#productListBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
@@ -508,12 +508,12 @@
                     );
                 },
                 getProductType: function() {
-                    axios.get('/api/get/product_type/readAll').then(
+                    axios.get('/api/get/product_type/read').then(
                         response => { this.prodTypeDDL = response.data; }
                     );
                 },
                 getUnit: function() {
-                    axios.get('/api/get/unit/readAll').then(
+                    axios.get('/api/get/unit/read').then(
                         response => { this.unitDDL = response.data; }
                     );
                 }

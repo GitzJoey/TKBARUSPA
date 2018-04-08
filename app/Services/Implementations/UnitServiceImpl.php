@@ -30,18 +30,9 @@ class UnitServiceImpl implements UnitService
         ]);
     }
 
-    public function read($id)
+    public function read()
     {
-        return Unit::find($id);
-    }
-
-    public function readAll($limit = 0)
-    {
-        if ($limit != 0) {
-            return Unit::latest()->take($limit)->get();
-        } else {
-            return Unit::get();
-        }
+        return Unit::get();
     }
 
     public function update(

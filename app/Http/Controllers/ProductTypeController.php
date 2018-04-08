@@ -20,8 +20,8 @@ class ProductTypeController extends Controller
         $this->productTypeService = $productTypeService;
     }
 
-    public function readAll()
+    public function read()
     {
-        return $this->productTypeService->readAll();
+        return $this->productTypeService->read();
     }
 }

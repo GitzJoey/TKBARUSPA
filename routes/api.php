@@ -27,23 +27,23 @@ Route::bind('id', function ($id) {
 
 Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'company'], function () {
-        Route::get('readAll', 'CompanyController@readAll')->name('api.get.company.readall');
+        Route::get('read', 'CompanyController@read')->name('api.get.company.read');
     });
 
     Route::group(['prefix' => 'product'], function () {
-        Route::get('readAll', 'ProductController@readAll')->name('api.get.product.readall');
+        Route::get('read', 'ProductController@read')->name('api.get.product.read');
     });
 
     Route::group(['prefix' => 'product_type'], function () {
-        Route::get('readAll', 'ProductTypeController@readAll')->name('api.get.product_type.readall');
+        Route::get('read', 'ProductTypeController@read')->name('api.get.product_type.read');
     });
 
     Route::group(['prefix' => 'unit'], function () {
-        Route::get('readAll', 'UnitController@readAll')->name('api.get.unit.readall');
+        Route::get('read', 'UnitController@read')->name('api.get.unit.read');
     });
 
     Route::group(['prefix' => 'bank'], function () {
-        Route::get('readAll', 'BankController@readAll')->name('api.get.bank.readall');
+        Route::get('read', 'BankController@read')->name('api.get.bank.read');
     });
 
     Route::group(['prefix' => 'lookup'], function() {

@@ -104,18 +104,9 @@ class CompanyServiceImpl implements CompanyService
         };
     }
 
-    public function read($id)
+    public function read()
     {
-        return Company::find($id)->first();
-    }
-
-    public function readAll($limit = 0)
-    {
-        if ($limit != 0) {
-            return Company::with('bankAccounts.bank')->latest()->take($limit)->get();
-        } else {
-            return Company::with('bankAccounts.bank')->get();
-        }
+        return Company::with('bankAccounts.bank')->get();
     }
 
     public function update(

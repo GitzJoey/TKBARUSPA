@@ -24,8 +24,7 @@ interface ProductService
         $status,
         $remarks
     );
-    public function read($id);
-    public function readAll($limit = 0, $productName = 0);
+    public function read($productName = 0);
     public function update(
         $id,
         $company_id,

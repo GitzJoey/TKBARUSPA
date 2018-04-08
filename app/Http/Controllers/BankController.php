@@ -29,8 +29,8 @@ class BankController extends Controller
         return view('bank.index');
     }
 
-    public function readAll()
+    public function read()
     {
-        return $this->bankService->readAll();
+        return $this->bankService->read();
     }
 }

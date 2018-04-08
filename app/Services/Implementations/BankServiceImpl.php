@@ -27,18 +27,9 @@ class BankServiceImpl implements BankService
 
     }
 
-    public function read($id)
+    public function read()
     {
-
-    }
-
-    public function readAll($limit = 0)
-    {
-        if ($limit != 0) {
-            return Bank::latest()->take($limit)->get();
-        } else {
-            return Bank::get();
-        }
+        return Bank::get();
     }
 
     public function update(

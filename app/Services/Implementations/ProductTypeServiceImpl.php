@@ -17,7 +17,7 @@ use App\Services\ProductTypeService;
 class ProductTypeServiceImpl implements ProductTypeService
 {
 
-    public function readAll($limit = 0)
+    public function read()
     {
         return ProductType::get();
     }

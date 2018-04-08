@@ -18,8 +18,7 @@ interface BankService
         $status,
         $remarks
     );
-    public function read($id);
-    public function readAll($limit = 0);
+    public function read();
     public function update(
         $id,
         $name,

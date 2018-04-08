@@ -30,7 +30,7 @@ var unitVue = new Vue ({
         },
         getAllUnit: function() {
             Codebase.blocks('#unitListBlock', 'state_toggle');
-            axios.get('/api/get/unit/readAll').then(response => {
+            axios.get('/api/get/unit/read').then(response => {
                 this.unitList = response.data;
                 Codebase.blocks('#unitListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });

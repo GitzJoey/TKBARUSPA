@@ -87,12 +87,7 @@ class ProductServiceImpl implements ProductService
         }
     }
 
-    public function read($id)
-    {
-        // TODO: Implement read() method.
-    }
-
-    public function readAll($limit = 0, $productName = '')
+    public function read($productName = '')
     {
         $product = [];
         if ($productName != '') {

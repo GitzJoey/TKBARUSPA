@@ -34,7 +34,7 @@ var companyVue = new Vue ({
         },
         getAllCompany: function() {
             Codebase.blocks('#companyListBlock', 'state_toggle');
-            axios.get('/api/get/company/readAll').then(response => {
+            axios.get('/api/get/company/read').then(response => {
                 this.companyList = response.data;
                 Codebase.blocks('#companyListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -103,7 +103,7 @@ var companyVue = new Vue ({
             );
         },
         getBank: function() {
-            axios.get('/api/get/bank/readAll').then(
+            axios.get('/api/get/bank/read').then(
                 response => { this.bankDDL = response.data; }
             );
         },

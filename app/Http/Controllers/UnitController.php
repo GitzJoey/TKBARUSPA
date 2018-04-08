@@ -28,9 +28,9 @@ class UnitController extends Controller
         return view('unit.index');
     }
 
-    public function readAll(Request $request)
+    public function read(Request $request)
     {
-        return $this->unitService->readAll();
+        return $this->unitService->read();
     }
 
     public function store(Request $req)

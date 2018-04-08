@@ -24,15 +24,9 @@ class CompanyController extends Controller
         return view('company.index');
     }
 
-    public function readAll(Request $request)
+    public function read(Request $request)
     {
-        $limit = $request->query('l');
-
-        if (empty($limit)) {
-            return $this->companyService->readAll();
-        } else {
-            return $this->companyService->readAll($limit);
-        }
+        return $this->companyService->read();
     }
 
     public function store(Request $request)

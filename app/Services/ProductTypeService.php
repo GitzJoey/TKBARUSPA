@@ -10,5 +10,5 @@ namespace App\Services;
 
 interface ProductTypeService
 {
-    public function readAll($limit = 0);
+    public function read();
 }

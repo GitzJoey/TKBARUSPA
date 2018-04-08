@@ -28,9 +28,15 @@ class ProductController extends Controller
         return view('product.index');
     }
 
-    public function readAll()
+    public function read(Request $request)
     {
-        return $this->productService->readAll();
+        $productName = $request->query('p');
+
+        if ($productName == '') {
+            return $this->productService->read($productName);
+        } else {
+            return $this->productService->read();
+        }
     }
 
     public function store(Request $request)
