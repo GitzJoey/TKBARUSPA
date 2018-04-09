@@ -27,6 +27,30 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductType withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductType withoutTrashed()
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $company_id
+ * @property string|null $name
+ * @property string|null $short_code
+ * @property string|null $description
+ * @property string|null $status
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereShortCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereUpdatedBy($value)
  */
 class ProductType extends Model
 {

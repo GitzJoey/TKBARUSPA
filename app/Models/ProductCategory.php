@@ -28,6 +28,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductCategory withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductCategory withoutTrashed()
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $company_id
+ * @property int $product_id
+ * @property string|null $code
+ * @property string|null $name
+ * @property string|null $description
+ * @property int $level
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductCategory whereUpdatedBy($value)
  */
 class ProductCategory extends Model
 {

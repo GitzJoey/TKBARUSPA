@@ -24,5 +24,5 @@
     <script type="application/javascript">
 
     </script>
-    <script type="application/javascript" sr="{{ mix('js/apps/product_type.js') }}"/>
+    <script type="application/javascript" sr="{{ mix('js/apps/product_type.js') }}"></script>
 @endsection

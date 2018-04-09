@@ -19,3 +19,9 @@
 @section('content')
 
 @endsection
+
+@section('custom_js')
+    <script type="application/javascript">
+
+    </script>
+@endsection

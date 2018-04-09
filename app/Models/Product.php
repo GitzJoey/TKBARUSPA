@@ -17,60 +17,57 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\CompanyFilter;
 
 /**
- * App\Model\Product
+ * App\Models\Product
  *
- * @property integer $id
- * @property integer $store_id
- * @property integer $product_type_id
- * @property string $name
- * @property string $short_code
- * @property string $description
- * @property string $image_path
- * @property string $status
- * @property string $remarks
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $deleted_by
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property-read \App\Model\Store $store
- * @property-read \App\Model\ProductType $type
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\ProductUnit[] $productUnits
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereStoreId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereProductTypeId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereShortCode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereImagePath($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereRemarks($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereDeletedAt($value)
- * @mixin \Eloquent
- * @property string $barcode
+ * @property int $id
+ * @property int $company_id
+ * @property int $product_type_id
+ * @property string|null $name
+ * @property string|null $short_code
+ * @property string|null $barcode
+ * @property string|null $description
+ * @property string|null $image_filename
  * @property int $minimal_in_stock
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\ProductCategory[] $productCategories
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereBarcode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereMinimalInStock($value)
- * @property int $minimum_in_stock
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product whereMinimumInStock($value)
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product onlyTrashed()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\Product withoutTrashed()
- * @property-read mixed $base_unit_symbol
+ * @property string|null $status
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \App\Models\Company $company
+ * @property-read mixed $base_unit_symbol
  * @property-read mixed $company_h_id
  * @property-read mixed $h_id
  * @property-read mixed $product_type_h_id
+ * @property-read mixed $status_i18n
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductCategory[] $productCategories
  * @property-read \App\Models\ProductType $productType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductUnit[] $productUnits
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Product onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereBarcode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereImageFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereMinimalInStock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereProductTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereShortCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withoutTrashed()
+ * @mixin \Eloquent
  */
 class Product extends Model
 {

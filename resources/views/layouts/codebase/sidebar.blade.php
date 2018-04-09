@@ -199,14 +199,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-building-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.supplier')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-supplier')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-building-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.supplier')</span></a>
+                            <ul>
+                                @permission('menu-company')
+                                    <li>
+                                        <a href="{{ route('db.supplier') }}"><span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')</a>
+                                    </li>
+                                @endpermission
+                            </ul>
+                        </li>
+                    @endpermission
                     @permission('menu-company|menu-user|menu-roles|menu-unit|menu-phone_provider')
                         <li class="{{ active_class(if_route_pattern('db.settings.*'), 'open') }}">
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cog fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.settings')</span></a>

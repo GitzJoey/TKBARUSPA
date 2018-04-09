@@ -15,6 +15,47 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\CompanyFilter;
 
+/**
+ * App\Models\ProductUnit
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $product_id
+ * @property int $unit_id
+ * @property int|null $is_base
+ * @property float|null $conversion_value
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read mixed $h_id
+ * @property-read mixed $product_h_id
+ * @property-read mixed $unit_h_id
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\Unit $unit
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductUnit onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereConversionValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereIsBase($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereUnitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductUnit withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductUnit withoutTrashed()
+ * @mixin \Eloquent
+ */
 class ProductUnit extends Model
 {
     use SoftDeletes;

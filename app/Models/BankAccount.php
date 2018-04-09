@@ -15,46 +15,46 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Vinkla\Hashids\Facades\Hashids;
 
 /**
- * App\Model\BankAccount
+ * App\Models\BankAccount
  *
- * @property integer $id
- * @property integer $bank_id
- * @property integer $owner_id
- * @property string $account_number
- * @property string $remarks
- * @property string $owner_type
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $deleted_by
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property-read \App\Model\Bank $bank
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $owner
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereBankId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereOwnerId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereAccountNumber($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereRemarks($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereOwnerType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereDeletedAt($value)
- * @mixin \Eloquent
- * @property string $account_name
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount whereAccountName($value)
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount onlyTrashed()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Model\BankAccount withoutTrashed()
+ * @property int $id
  * @property int $company_id
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereCompanyId($value)
+ * @property int $bank_id
+ * @property int $owner_id
+ * @property string|null $account_name
+ * @property string|null $account_number
+ * @property string|null $remarks
+ * @property string|null $owner_type
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\Models\Bank $bank
  * @property-read mixed $bank_h_id
  * @property-read mixed $h_id
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $owner
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BankAccount onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereAccountName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereAccountNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereBankId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereOwnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereOwnerType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BankAccount whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BankAccount withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\BankAccount withoutTrashed()
+ * @mixin \Eloquent
  */
 class BankAccount extends Model
 {
