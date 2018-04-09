@@ -81,9 +81,3 @@
         });
     </script>
 @endsection
-<script>
-    import FlatPickr from "vue-flatpickr-component/src/component";
-    export default {
-        components: {FlatPickr}
-    }
-</script>
