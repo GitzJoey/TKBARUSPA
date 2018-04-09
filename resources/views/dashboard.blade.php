@@ -64,10 +64,39 @@
         </div>
     </div>
     <br>
+    <div id="testVue">
+        <div class="input-group">
+            <flat-pickr v-model="date" v-bind:config="{ wrap: true }" class="form-control">
+            </flat-pickr>
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button" title="Toggle" data-toggle>
+                    <i class="fa fa-calendar">
+                        <span aria-hidden="true" class="sr-only">Toggle</span>
+                    </i>
+                </button>
+                <button class="btn btn-default" type="button" title="Clear" data-clear>
+                    <i class="fa fa-times">
+                        <span aria-hidden="true" class="sr-only">Clear</span>
+                    </i>
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('custom_js')
     <script type="application/javascript">
-
+        var testVue = new Vue({
+            el: '#testVue',
+            data: {
+                date: ''
+            }
+        });
     </script>
 @endsection
+<script>
+    import FlatPickr from "vue-flatpickr-component/src/component";
+    export default {
+        components: {FlatPickr}
+    }
+</script>

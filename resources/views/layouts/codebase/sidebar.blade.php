@@ -125,24 +125,28 @@
                                 <a href="#"><span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')</a>
                             </li>
                             <li>
-                                <a href="#"><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
+                                <a href=""><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-bank fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.bank')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-cloud-upload fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.upload')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-compress fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.consolidate')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-bank')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-bank fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.bank')</span></a>
+                            <ul>
+                                @permission('menu-bank')
+                                    <li>
+                                        <a href="{{ route('db.bank') }}"><span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')</a>
+                                    </li>
+                                @endpermission
+                                <li>
+                                    <a href="#"><span class="fa fa-cloud-upload fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.upload')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-compress fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank.consolidate')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endpermission
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-gavel fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.tax')</span></a>
                         <ul>

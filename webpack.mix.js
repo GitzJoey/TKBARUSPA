@@ -32,7 +32,8 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
     .styles([
         'node_modules/fullcalendar/dist/fullcalendar.css',
         'public/css/codebase/main.css',
-        'node_modules/animate.css/animate.css'
+        'node_modules/animate.css/animate.css',
+        'node_modules/flatpickr/dist/flatpickr.css'
     ], 'public/css/codebase/main.css')
     .version();
 
