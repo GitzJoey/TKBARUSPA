@@ -33,7 +33,7 @@
         "moment": "^2.22.0",
         "moment-duration-format": "^2.2.2",
         "numbro": "^2.0.6",
-        "pdfjs-dist": "^2.0.480",
+        "pdfjs-dist": "^2.0.487",
         "simple-line-icons": "^2.4.1",
         "vee-validate": "^2.0.6",
         "vue-autonumeric": "^1.2.0"

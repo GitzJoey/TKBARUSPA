@@ -47,6 +47,7 @@ return [
         'type' => 'Tipe',
         'category' => 'Kategori',
         'name' => 'Nama',
+        'logo' => 'Logo',
         'short_code' => 'Kode',
         'description' => 'Deskripsi',
         'barcode' => 'Barcode',

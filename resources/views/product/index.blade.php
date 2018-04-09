@@ -105,6 +105,7 @@
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control"
                                         name="type"
+                                        v-model="product.productTypeHId"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('product.fields.type') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -189,14 +190,14 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputImage" class="col-2 col-form-label">&nbsp;</label>
+                        <label for="inputImage" class="col-2 col-form-label">@lang('product.fields.logo')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
-                                <input type="file" id="inputImage" name="image_path">
+                                <img class="img-avatar128" v-bind:src="product.image_filename ? this.getCurrentUrl('/images/' + product.image_filename):this.getCurrentUrl('/images/no_image.png')"/>
+                                <input type="file" id="inputImage" name="image_filename">
                             </template>
                             <template v-if="mode == 'show'">
-                                <img class="img-avatar128" src="http://localhost:8000/images/no_image.png"/>
+                                <img class="img-avatar128" v-bind:src="product.image_filename ? this.getCurrentUrl('/images/' + product.image_filename):this.getCurrentUrl('/images/no_image.png')"/>
                             </template>
                         </div>
                     </div>
@@ -285,7 +286,7 @@
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <input type="text" class="form-control" v-model="punit.conversion_value" name="conversion_value[]"
                                                        v-validate="'required'"
-                                                       v-bind:readonly="punit.is_base"
+                                                       v-bind:readonly="punit.is_base_val == 1"
                                                        v-bind:data-vv-as="'{{ trans('product.index.table.product_unit_table.header.conversion_value') }} ' + (punitIdx + 1)"
                                                        v-bind:data-vv-name="'conv_val_' + punitIdx"/>
                                             </template>
@@ -415,11 +416,15 @@
                         if (!isValid) return;
                         Codebase.blocks('#productCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
-                            axios.post('/api/post/product/save', new FormData($('#productForm')[0])).then(response => {
+                            axios.post('/api/post/product/save',
+                                new FormData($('#productForm')[0]),
+                                { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                                 this.backToList();
                             }).catch(e => { this.handleErrors(e); });
                         } else if (this.mode == 'edit') {
-                            axios.post('/api/post/product/edit/' + this.product.hId, new FormData($('#productForm')[0])).then(response => {
+                            axios.post('/api/post/product/edit/' + this.product.hId,
+                                new FormData($('#productForm')[0]),
+                                { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                                 this.backToList();
                             }).catch(e => { this.handleErrors(e); });
                         } else { }
@@ -447,6 +452,14 @@
                     this.mode = 'edit';
                     this.errors.clear();
                     this.product = this.productList.data[idx];
+
+                    for (var i = 0; i < this.product.product_units; i++) {
+                        if (this.product.product_units[i].is_base) {
+                            this.product.product_units[i].is_base_val = 1;
+                        } else {
+                            this.product.product_units[i].is_base_val = 0;
+                        }
+                    }
                 },
                 showSelected: function(idx) {
                     this.mode = 'show';
@@ -489,7 +502,7 @@
                     this.product.product_units.push({
                         'unitHId': '',
                         'is_base': false,
-                        'is_base_val': false,
+                        'is_base_val': 0,
                         'conversion_value': '',
                         'remarks': ''
                     });
@@ -499,11 +512,12 @@
                 },
                 changeIsBase: function (idx) {
                     if (this.product.product_units[idx].is_base) {
-                        this.product.product_units[idx].is_base_val = true;
+                        this.product.product_units[idx].is_base_val = 1;
                         this.product.product_units[idx].conversion_value = '1';
                         for (var i = 0; i < this.product.product_units.length; i++) {
                             if (i == idx) continue;
-                            this.product.product_units[i].is_base = this.product.product_units[i].is_base_val = !this.product.product_units[idx].is_base;
+                            this.product.product_units[i].is_base = !this.product.product_units[idx].is_base;
+                            this.product.product_units[i].is_base_val = 0;
                         }
                     }
                 },
@@ -543,6 +557,9 @@
             computed: {
                 defaultPleaseSelect: function() {
                     return '';
+                },
+                generatedImageUrl: function(image_filename) {
+                    return this.getCurrentUrl + '/' + image_filename;
                 }
             }
         });

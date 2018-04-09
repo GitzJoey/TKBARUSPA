@@ -64,7 +64,7 @@ class ProductServiceImpl implements ProductService
             for ($i = 0; $i < count($productUnits); $i++) {
                 $punit = new ProductUnit();
                 $punit->unit_id = $productUnits[$i]['unit_id'];
-                $punit->is_base = $productUnits[$i]['is_base'] == 'true' ? 1:0;
+                $punit->is_base = $productUnits[$i]['is_base'];
                 $punit->conversion_value = $productUnits[$i]['conversion_value'];
                 $punit->remarks = $productUnits[$i]['remarks'];
 
@@ -123,21 +123,21 @@ class ProductServiceImpl implements ProductService
         try {
             $product = Product::find($id);
 
-            if (!empty($product->image_path)) {
-                if (!empty($data['image_path'])) {
-                    $imageName = time() . '.' . $data['image_path']->getClientOriginalExtension();
+            if (!empty($product->image_filename)) {
+                if (!empty($image_filename)) {
+                    $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
                     $path = public_path('images') . '/' . $imageName;
 
-                    Image::make($data['image_path']->getRealPath())->resize(160, 160)->save($path);
+                    Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
                 } else {
-                    $imageName = $product['image_path'];
+                    $imageName = $image_filename;
                 }
             } else {
-                if (!empty($data['image_path'])) {
-                    $imageName = time() . '.' . $data['image_path']->getClientOriginalExtension();
+                if (!empty($image_filename)) {
+                    $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
                     $path = public_path('images') . '/' . $imageName;
 
-                    Image::make($data['image_path']->getRealPath())->resize(160, 160)->save($path);
+                    Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
                 } else {
                     $imageName = '';
                 }
@@ -146,12 +146,12 @@ class ProductServiceImpl implements ProductService
             $product->productUnits->each(function($pu) { $pu->delete(); });
 
             $pu = array();
-            for ($i = 0; $i < count($data['unit_id']); $i++) {
+            for ($i = 0; $i < count($productUnits); $i++) {
                 $punit = new ProductUnit();
-                $punit->unit_id = $data['unit_id'][$i];
-                $punit->is_base = $data['is_base'][$i] === 'true' ? true:false;
-                $punit->conversion_value = $data['conversion_value'][$i];
-                $punit->remarks = empty($data['unit_remarks'][$i]) ? '' : $data['unit_remarks'][$i];
+                $punit->unit_id = $productUnits[$i]['unit_id'];
+                $punit->is_base = $productUnits[$i]['is_base'];
+                $punit->conversion_value = $productUnits[$i]['conversion_value'];
+                $punit->remarks = $productUnits[$i]['remarks'];
 
                 array_push($pu, $punit);
             }
@@ -161,13 +161,13 @@ class ProductServiceImpl implements ProductService
             $product->productCategories->each(function($pc) { $pc->delete(); });
 
             $pclist = array();
-            for ($j = 0; $j  < count($data['cat_level']); $j++) {
+            for ($j = 0; $j  < count($productCategories); $j++) {
                 $pcat = new ProductCategory();
                 $pcat->company_id = $company_id;
-                $pcat->code = $data['cat_code'][$j];
-                $pcat->name = $data['cat_name'][$j];
-                $pcat->description = $data['cat_description'][$j];
-                $pcat->level = $data['cat_level'][$j];
+                $pcat->code = $productCategories[$j]['cat_code'];
+                $pcat->name = $productCategories[$j]['cat_name'];
+                $pcat->description = $productCategories[$j]['cat_description'];
+                $pcat->level = $productCategories[$j]['cat_level'];
 
                 array_push($pclist, $pcat);
             }
@@ -175,15 +175,15 @@ class ProductServiceImpl implements ProductService
             $product->productCategories()->saveMany($pclist);
 
             $product->update([
-                'product_type_id' => $data['type'],
-                'name' => $data['name'],
-                'short_code' => $data['short_code'],
-                'description' => $data['description'],
+                'product_type_id' => $product_type_id,
+                'name' => $name,
+                'short_code' => $short_code,
+                'description' => $description,
                 'image_path' => $imageName,
-                'status' => $data['status'],
-                'remarks' => $data['remarks'],
-                'barcode' => $data['barcode'],
-                'minimal_in_stock' => $data['minimal_in_stock'],
+                'status' => $status,
+                'remarks' => $remarks,
+                'barcode' => $barcode,
+                'minimal_in_stock' => $minimal_in_stock,
             ]);
 
             DB::commit();

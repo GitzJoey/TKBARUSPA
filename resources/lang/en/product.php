@@ -47,6 +47,7 @@ return [
         'type' => 'Type',
         'category' => 'Category',
         'name' => 'Name',
+        'logo' => 'Logo',
         'short_code' => 'Short Code',
         'description' => 'Description',
         'barcode' => 'Barcode',

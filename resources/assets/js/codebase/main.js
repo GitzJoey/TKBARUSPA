@@ -80,6 +80,13 @@ Vue.mixin({
                 }
                 return result;
             }
+        },
+        getCurrentUrl: function(optionalPath) {
+            if (typeof(optionalPath) !== 'undefined') {
+                return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port:'') + optionalPath;
+            } else {
+                return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port:'');
+            }
         }
     }
 });
