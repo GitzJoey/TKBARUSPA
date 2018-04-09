@@ -48,10 +48,16 @@ Vue.use(VeeValidate, {
     dictionary: VeeValidateID
 });
 
+window.flatPickr = require('vue-flatpickr-component');
+Vue.use(flatPickr);
+
+window.VueSelect = require('vue-select/dist/vue-select');
+
 //Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 //Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 //Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('v-select', VueSelect.VueSelect);
 
 Vue.mixin({
     methods: {

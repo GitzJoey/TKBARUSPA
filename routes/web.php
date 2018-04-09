@@ -41,4 +41,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         Route::post('search', 'SearchController@search')->name('db.search');
     });
+
+    Route::view('test', 'test');
 });

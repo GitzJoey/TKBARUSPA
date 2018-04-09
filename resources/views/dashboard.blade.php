@@ -64,20 +64,10 @@
         </div>
     </div>
     <br>
-    <div id="testVue">
-        <div class="input-group">
-            <flat-pickr v-model="date" class="form-control"></flat-pickr>
-        </div>
-    </div>
 @endsection
 
 @section('custom_js')
     <script type="application/javascript">
-        var testVue = new Vue({
-            el: '#testVue',
-            data: {
-                date: ''
-            }
-        });
+
     </script>
 @endsection
