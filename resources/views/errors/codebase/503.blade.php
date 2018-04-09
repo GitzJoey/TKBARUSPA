@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
-        <title>@yield('title') - TKBARU</title>
+        <title>503 - TKBARU</title>
 
         <meta name="description" content="Toko Baru - GitzJoey's Laravel Implementations For General Trading System">
         <meta name="author" content="GitzJoey">
@@ -22,22 +22,6 @@
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
         <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
-
-        @if (!empty(Auth::user()->company->ribbon))
-            @if (Auth::user()->company->ribbon == 'corporate')
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
-            @elseif (Auth::user()->company->ribbon == 'earth')
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/earth.css') }}">
-            @elseif (Auth::user()->company->ribbon == 'elegance')
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/elegance.css') }}">
-            @elseif (Auth::user()->company->ribbon == 'flat')
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/flat.css') }}">
-            @elseif (Auth::user()->company->ribbon == 'pulse')
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/pulse.css') }}">
-            @else
-                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/default.css') }}">
-            @endif
-        @endif
     </head>
 
     <body>

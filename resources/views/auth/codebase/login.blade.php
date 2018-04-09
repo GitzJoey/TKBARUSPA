@@ -22,9 +22,6 @@
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
         <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
-        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.min.css') }}">
-
-        @yield('custom_css')
     </head>
     <body>
         <div id="page-container" class="main-content-boxed">

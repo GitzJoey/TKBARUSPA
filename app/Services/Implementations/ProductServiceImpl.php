@@ -179,7 +179,7 @@ class ProductServiceImpl implements ProductService
                 'name' => $name,
                 'short_code' => $short_code,
                 'description' => $description,
-                'image_path' => $imageName,
+                'image_filename' => $imageName,
                 'status' => $status,
                 'remarks' => $remarks,
                 'barcode' => $barcode,

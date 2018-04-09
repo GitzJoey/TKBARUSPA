@@ -401,7 +401,8 @@
                 unitDDL: [],
                 mode: '',
                 product: { },
-                search_product_query: ''
+                search_product_query: '',
+                active_page: 0
             },
             mounted: function () {
                 this.mode = 'list';
@@ -436,7 +437,10 @@
 
                     var qS = [];
                     if (this.search_product_query) { qS.push({ 'key':'p', 'value':this.search_product_query }); }
-                    if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
+                    if (page && typeof(page) == 'number') {
+                        this.active_page = page;
+                        qS.push({ 'key':'page', 'value':page });
+                    }
 
                     axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(response => {
                         this.productList = response.data;
@@ -474,11 +478,17 @@
                 backToList: function() {
                     this.mode = 'list';
                     this.errors.clear();
-                    this.getAllProduct();
+
+                    if (this.active_page != 0 || this.active_page != 1) {
+                        this.getAllProduct(this.active_page);
+                    } else {
+                        this.getAllProduct();
+                    }
                 },
                 emptyProduct: function() {
                     return {
                         hId: '',
+                        productTypeHId: '',
                         name: '',
                         symbol: '',
                         status: '',

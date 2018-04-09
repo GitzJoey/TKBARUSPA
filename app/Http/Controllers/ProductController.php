@@ -125,20 +125,20 @@ class ProductController extends Controller
         $productUnits = [];
         for ($i = 0; $i < count($request['unit_id']); $i++) {
             array_push($productUnits, array (
-                'unit_id' => Hashids::decode($request[$i]['unit_id'])[0],
-                'is_base' => $request[$i]["is_base"],
-                'conversion_value' => $request[$i]["conversion_value"],
-                'remarks' => $request[$i]["punit_remarks"],
+                'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
+                'is_base' => $request["is_base"][$i],
+                'conversion_value' => $request["conversion_value"][$i],
+                'remarks' => $request["punit_remarks"][$i],
             ));
         }
 
         $productCategories = [];
         for ($i = 0; $i < count($request['cat_level']); $i++) {
             array_push($productCategories, array (
-                'cat_level' => Hashids::decode($request[$i]['cat_level'])[0],
-                'cat_code' => $request[$i]["cat_code"],
-                'cat_name' => $request[$i]["cat_name"],
-                'cat_description' => $request[$i]["cat_description"],
+                'cat_level' => Hashids::decode($request['cat_level'][$i])[0],
+                'cat_code' => $request["cat_code"][$i],
+                'cat_name' => $request["cat_name"][$i],
+                'cat_description' => $request["cat_description"][$i],
             ));
         }
 
