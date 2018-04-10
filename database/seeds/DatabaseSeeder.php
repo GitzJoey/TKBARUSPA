@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
         $this->call(OverrideLaratrustDefaultUser::class);
         $this->call(DefaultUnitTableSeeder::class);
-        //$this->call(PhoneProviderTableSeeder::class);
+        $this->call(PhoneProviderTableSeeder::class);
 
         /* DUMMY DATA */
         if (App::environment('local', 'dev')) {

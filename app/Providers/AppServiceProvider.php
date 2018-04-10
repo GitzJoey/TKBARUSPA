@@ -11,6 +11,7 @@ use App\Services\BankService;
 use App\Services\ProductService;
 use App\Services\ProductTypeService;
 use App\Services\SupplierService;
+use App\Services\PhoneProviderService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
@@ -19,6 +20,7 @@ use App\Services\Implementations\BankServiceImpl;
 use App\Services\Implementations\ProductServiceImpl;
 use App\Services\Implementations\ProductTypeServiceImpl;
 use App\Services\Implementations\SupplierServiceImpl;
+use App\Services\Implementations\PhoneProviderServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -65,6 +67,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(SupplierService::class, function (){
             return new SupplierServiceImpl();
+        });
+
+        $this->app->singleton(PhoneProviderService::class, function (){
+            return new PhoneProviderServiceImpl();
         });
     }
 

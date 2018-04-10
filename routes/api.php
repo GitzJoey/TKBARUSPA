@@ -50,6 +50,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'BankController@read')->name('api.get.bank.read');
     });
 
+    Route::group(['prefix' => 'phone_provider'], function () {
+        Route::get('read', 'PhoneProviderController@read')->name('api.get.phone_provider.read');
+    });
+
     Route::group(['prefix' => 'lookup'], function() {
         Route::get('byCategory/{category}', 'LookupController@getLookupByCategory')->name('api.get.lookup.bycategory');
     });

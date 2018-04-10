@@ -116,9 +116,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#tabs_bankaccount">
-                                @lang('supplier.index.tabs.bank_account')
-                                <template v-if="errors.any('tabs_bankAccounts')">
+                            <a class="nav-link" href="#tabs_bankaccounts">
+                                @lang('supplier.index.tabs.bank_accounts')
+                                <template v-if="errors.any('tabs_bankaccounts')">
                                     &nbsp;<span id="bankAccountTabError" class="red-asterisk"><i class="fa fa-close fa-fw"></i></span>
                                 </template>
                             </a>
@@ -148,7 +148,7 @@
                                     <input id="inputName" name="name" type="text" class="form-control" placeholder="@lang('supplier.fields.name')"
                                            v-model="supplier.name"
                                            v-validate="'required'" data-vv-as="{{ trans('supplier.fields.name') }}" data-vv-scope="tabs_supplier">
-                                    <span v-show="errors.has('tabs_supplier.name')" class="invalid-feedback" v-cloak>@{{ errors.first('tabs_supplier.name') }}</span>
+                                    <span v-show="errors.has('tabs_supplier.name')" class="invalid-feedback">@{{ errors.first('tabs_supplier.name') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -199,7 +199,7 @@
                                         <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                         <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.hId">@{{ s.description }}</option>
                                     </select>
-                                    <span v-show="errors.has('tabs_supplier.status')" class="invalid-feedback" v-cloak>@{{ errors.first('tabs_supplier.status') }}</span>
+                                    <span v-show="errors.has('tabs_supplier.status')" class="invalid-feedback">@{{ errors.first('tabs_supplier.status') }}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -210,9 +210,105 @@
                             </div>
                         </div>
                         <div class="tab-pane fade fade-up show" id="tabs_pic" role="tabpanel">
-
+                            <div class="row">
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPIC">@lang('buttons.create_new_button')</button>
+                                </div>
+                                <div class="col-10">
+                                    <template v-for="(p, pIdx) in supplier.persons_in_charge">
+                                        <div class="block block-shadow-on-hover block-mode-loading-refresh">
+                                            <div class="block-header block-header-default">
+                                                <h3 class="block-title">@lang('supplier.index.panel.pic.title')&nbsp;@{{ pIdx + 1 }}</h3>
+                                                <div class="block-options">
+                                                    <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                </div>
+                                            </div>
+                                            <div class="block-content">
+                                                <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.first_name_' + pIdx) }">
+                                                    <label for="inputFirstName" class="col-2 col-form-label">@lang('supplier.fields.first_name')</label>
+                                                    <div class="col-md-10">
+                                                        <input id="inputFirstName" type="text" name="first_name[]" class="form-control" v-model="p.first_name" placeholder="@lang('supplier.fields.first_name')"
+                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.first_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'first_name_' + pIdx"
+                                                               data-vv-scope="tabs_pic">
+                                                        <span v-show="errors.has('tabs_pic.first_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.first_name_' + pIdx) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.last_name_' + pIdx) }">
+                                                    <label for="inputLastName" class="col-2 col-form-label">@lang('supplier.fields.last_name')</label>
+                                                    <div class="col-md-10">
+                                                        <input id="inputLastName" type="text" name="last_name[]" class="form-control" v-model="p.last_name" placeholder="@lang('supplier.fields.last_name')"
+                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.last_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'last_name_' + pIdx"
+                                                               data-vv-scope="tabs_pic">
+                                                        <span v-show="errors.has('tabs_pic.last_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.last_name_' + pIdx) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputAddress" class="col-2 col-form-label">@lang('supplier.fields.address')</label>
+                                                    <div class="col-md-10">
+                                                        <input id="inputAddress" type="text" name="profile_address[]" class="form-control" v-model="p.address" placeholder="@lang('supplier.fields.address')">
+                                                    </div>
+                                                </div>
+                                                <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.ic_num_' + pIdx) }">
+                                                    <label for="inputICNum" class="col-2 col-form-label">@lang('supplier.fields.ic_num')</label>
+                                                    <div class="col-md-10">
+                                                        <input id="inputICNum" type="text" name="ic_num[]" class="form-control" v-model="p.ic_num" placeholder="@lang('supplier.fields.ic_num')"
+                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.ic_num') }} ' + (pIdx + 1)" v-bind:data-vv-name="'ic_num_' + pIdx"
+                                                               data-vv-scope="tabs_pic">
+                                                        <span v-show="errors.has('tabs_pic.ic_num_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.ic_num_' + pIdx) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputPhoneNumber" class="col-2 col-form-label">@lang('supplier.fields.phone_number')</label>
+                                                    <div class="col-md-10">
+                                                        <table class="table table-bordered">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>@lang('supplier.index.table.table_phone.header.provider')</th>
+                                                                    <th>@lang('supplier.index.table.table_phone.header.number')</th>
+                                                                    <th>@lang('supplier.index.table.table_phone.header.remarks')</th>
+                                                                    <th class="text-center">@lang('labels.ACTION')</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="(ph, phIdx) in p.phone_numbers">
+                                                                    <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_phoneprovider_' + phIdx) }">
+                                                                        <select v-bind:name="'profile_' + pIdx +'_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
+                                                                                v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
+                                                                                v-bind:data-vv-name="'profile_' + pIdx + '_phoneprovider_' + phIdx" data-vv-scope="tabs_pic">
+                                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                                            <option v-for="(p, pIdx) in providerDDL" v-bind:value="p.hId">@{{ p.name }} (@{{ p.short_name }})</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_number_' + phIdx) }">
+                                                                        <input type="text" v-bind:name="'profile_' + pIdx + '_phone_number[]'" class="form-control" v-model="ph.number"
+                                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.number') }} ' + (phIdx + 1)"
+                                                                               v-bind:data-vv-name="'profile_' + pIdx + '_number_' + phIdx" data-vv-scope="tabs_pic">
+                                                                    </td>
+                                                                    <td><input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks"></td>
+                                                                    <td class="text-center">
+                                                                        <button type="button" class="btn btn-xs btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
+                                                                            <span class="fa fa-close fa-fw"></span>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade fade-up show" id="tabs_bankaccount" role="tabpanel">
+                        <div class="tab-pane fade fade-up show" id="tabs_bankaccounts" role="tabpanel">
                             <table class="table table-bordered">
                                 <thead class="thead-light">
                                     <tr>
@@ -225,36 +321,36 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(ba, baIdx) in supplier.bank_accounts">
-                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bank.bank_' + baIdx) }">
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.bank_' + baIdx) }">
                                             <select class="form-control"
                                                     name="bank[]"
                                                     v-model="ba.bankHId"
                                                     v-validate="'required'"
-                                                    v-bind:data-vv-as="'{{ trans('supplier.create.table_bank.header.bank') }} ' + (bankIdx + 1)"
-                                                    v-bind:data-vv-name="'bank_' + bankIdx"
+                                                    v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.bank') }} ' + (baIdx + 1)"
+                                                    v-bind:data-vv-name="'bank_' + baIdx"
                                                     data-vv-scope="tabs_bankaccounts">
                                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                 <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
                                             </select>
                                         </td>
-                                        <td v-bind:class="{ 'has-error':errors.has('tab_bank.account_name_' + bankIdx) }">
-                                            <input type="text" class="form-control" name="account_name[]" v-model="bank.account_name"
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.account_name_' + baIdx) }">
+                                            <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
                                                    v-validate="'required'"
-                                                   v-bind:data-vv-as="'{{ trans('supplier.create.table_bank.header.account_name') }} ' + (bankIdx + 1)"
-                                                   v-bind:data-vv-name="'account_name_' + bankIdx"
-                                                   data-vv-scope="tab_bank">
+                                                   v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_name') }} ' + (baIdx + 1)"
+                                                   v-bind:data-vv-name="'account_name_' + baIdx"
+                                                   data-vv-scope="tabs_bankaccounts">
                                         </td>
-                                        <td v-bind:class="{ 'has-error':errors.has('tab_bank.account_number_' + bankIdx) }">
-                                            <input type="text" class="form-control" name="account_number[]" v-model="bank.account_number"
-                                                   v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('supplier.create.table_bank.header.account_number') }} ' + (bankIdx + 1)"
-                                                   v-bind:data-vv-name="'account_number_' + bankIdx"
-                                                   data-vv-scope="tab_bank">
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.account_number_' + baIdx) }">
+                                            <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
+                                                   v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_number') }} ' + (baIdx + 1)"
+                                                   v-bind:data-vv-name="'account_number_' + baIdx"
+                                                   data-vv-scope="tabs_bankaccounts">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="bank_remarks[]" v-model="bank.remarks">
+                                            <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
                                         </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="bankIdx" v-on:click="removeSelectedBank(bankIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBank(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -291,9 +387,9 @@
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_settings.payment_due_day') }">
                                 <label for="inputPaymentDueDay" class="col-2 col-form-label">@lang('supplier.fields.payment_due_day')</label>
                                 <div class="col-md-10">
-                                    <input id="inputPaymentDueDay" name="supplier.payment_due_day" type="text" class="form-control"
+                                    <input id="inputPaymentDueDay" name="payment_due_day" type="text" class="form-control"  placeholder="{{ trans('supplier.fields.payment_due_day') }}"
                                            v-validate="'required|numeric|max_value:100'" data-vv-as="{{ trans('supplier.fields.payment_due_day') }}" data-vv-scope="tabs_settings">
-                                    <span v-show="errors.has('payment_due_day')" class="invalid-feedback" v-cloak>@{{ errors.first('payment_due_day') }}</span>
+                                    <span v-show="errors.has('tabs_settings.payment_due_day')" class="invalid-feedback">@{{ errors.first('payment_due_day') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -338,10 +434,13 @@
             },
             mounted: function () {
                 this.mode = 'list';
+                this.getLookupStatus();
+                this.getBank();
+                this.getPhoneProvider();
             },
             methods: {
                 validateBeforeSubmit: function() {
-                    this.$validator.validateAll().then(isValid => {
+                    this.$validator.validateScopes().then(isValid => {
                         if (!isValid) return;
                         Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
@@ -434,22 +533,47 @@
                 removeSelectedBank: function(idx) {
                     this.supplier.bank_accounts.splice(idx, 1);
                 },
-                addNewProfile: function() {
+                addNewPIC: function() {
                     this.supplier.persons_in_charge.push({
-                        'first_name': '',
-                        'last_name': '',
-                        'address': '',
-                        'ic_num': '',
-                        'image_filename': '',
-                        'phone_numbers':[{
-                            'phoneProviderHId': '',
-                            'number': '',
-                            'remarks': ''
+                        first_name: '',
+                        last_name: '',
+                        address: '',
+                        ic_num: '',
+                        image_filename: '',
+                        phone_numbers:[{
+                            phoneProviderHId: '',
+                            number: '',
+                            remarks: ''
                         }]
                     });
                 },
-                removeSelectedProfile: function(idx) {
+                removeSelectedPIC: function(idx) {
                     this.supplier.persons_in_charge.splice(idx, 1);
+                },
+                addNewPhone: function(parentIndex) {
+                    this.supplier.persons_in_charge[parentIndex].phone_numbers.push({
+                        phoneProviderHId: '',
+                        number: '',
+                        remarks: ''
+                    });
+                },
+                removeSelectedPhone: function(parentIndex, idx) {
+                    this.supplier.persons_in_charge[parentIndex].phone_numbers.splice(idx, 1);
+                },
+                getLookupStatus: function() {
+                    axios.get('/api/get/lookup/byCategory/STATUS').then(
+                        response => { this.statusDDL = response.data; }
+                    );
+                },
+                getPhoneProvider: function() {
+                    axios.get('/api/get/phone_provider/read').then(
+                        response => { console.log(response); this.providerDDL = response.data; }
+                    );
+                },
+                getBank: function() {
+                    axios.get('/api/get/bank/read').then(
+                        response => { this.bankDDL = response.data; }
+                    );
                 }
             },
             watch: {

@@ -156,8 +156,8 @@ class RegisterController extends Controller
         if (!empty($req->query('mode'))) {
             if ($req->query('mode') == 'create') {
                 $company_mode = 'create';
-            } else if ($req->query('company_mode') == 'company_pick' && !$this->companyService->isEmptyCompanyTable()) {
-                $company_mode = 'company_pick';
+            } else if ($req->query('mode') == 'pick' && !$this->companyService->isEmptyCompanyTable()) {
+                $company_mode = 'pick';
             } else {
                 if ($this->companyService->isEmptyCompanyTable()) {
                     $company_mode = 'create';
@@ -166,7 +166,7 @@ class RegisterController extends Controller
                     $company_id = $this->companyService->getDefaultCompany()->id;
                     $company_name = $this->companyService->getDefaultCompany()->name;
                 } else {
-                    $company_mode = 'company_pick';
+                    $company_mode = 'pick';
                 }
             }
         } else {
@@ -177,7 +177,7 @@ class RegisterController extends Controller
                 $company_id = $this->companyService->getDefaultCompany()->id;
                 $company_name = $this->companyService->getDefaultCompany()->name;
             } else {
-                $company_mode = 'company_pick';
+                $company_mode = 'pick';
             }
         }
 

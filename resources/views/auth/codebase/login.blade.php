@@ -24,18 +24,28 @@
                             <form action="{{ url('/login') }}" method="post">
                                 @csrf
                                 <div class="form-group {{ $errors->has('email') ? 'is-invalid':'' }}">
-                                    <div class="form-material">
+                                    <div class="form-material floating input-group">
                                         <input type="text" class="form-control" id="email" name="email">
                                         <label for="email">@lang('login.email')</label>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="si si-envelope"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     @if ($errors->has('email'))
                                         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                     @endif
                                 </div>
                                 <div class="form-group {{ $errors->has('password') ? 'is-invalid':'' }}">
-                                    <div class="form-material floating">
+                                    <div class="form-material floating input-group">
                                         <input type="password" class="form-control" id="password" name="password">
                                         <label for="login-password">@lang('login.password')</label>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="si si-key"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     @if ($errors->has('password'))
                                         <div id="password-error" class="invalid-feedback">{{ $errors->first('password') }}</div>

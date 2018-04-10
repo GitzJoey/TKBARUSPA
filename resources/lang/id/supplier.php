@@ -14,11 +14,14 @@ return [
                 'title_show' => 'Tampilkan Supplier',
                 'title_edit' => 'Ubah Supplier',
             ],
+            'pic' => [
+                'title' => 'Penanggungjawab'
+            ],
         ],
         'tab' => [
             'supplier' => 'Data Supplier',
             'pic' => 'Penanggungjawab',
-            'bank_account' => 'Akun Bank',
+            'bank_accounts' => 'Akun Bank',
             'product' => 'Produk',
             'settings' => 'Settings',
         ],

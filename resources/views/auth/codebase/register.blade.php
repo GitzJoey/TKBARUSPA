@@ -28,9 +28,14 @@
                                 @if ($company_mode == 'create')
                                     <div class="form-group row {{ $errors->has('company_name') ? 'is-invalid':'' }}">
                                         <div class="col-12">
-                                            <div class="form-material floating">
+                                            <div class="form-material floating input-group">
                                                 <input type="text" class="form-control" id="company_name" name="company_name">
                                                 <label for="name">@lang('login.register.company_name')</label>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="si si-umbrella"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                             @if ($errors->has('company_name'))
                                                 <div class="invalid-feedback">{{ $errors->first('company_name') }}</div>
@@ -39,7 +44,7 @@
                                     </div>
                                 @elseif ($company_mode == 'use_default')
                                     <input type="hidden" name="company_id" value="{{ $company_id }}">
-                                @elseif ($company_mode == 'company_pick')
+                                @elseif ($company_mode == 'pick')
                                     <div class="form-group row">
                                         <div class="col-12">
                                             <div class="form-material floating">
@@ -53,9 +58,14 @@
                                 @endif
                                 <div class="form-group row {{ $errors->has('name') ? 'is-invalid':'' }}">
                                     <div class="col-12">
-                                        <div class="form-material floating">
+                                        <div class="form-material floating input-group">
                                             <input type="text" class="form-control" id="name" name="name">
                                             <label for="name">@lang('login.register.full_name')</label>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="si si-user"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('name'))
                                             <div class="invalid-feedback">{{ $errors->first('name') }}</div>
@@ -64,9 +74,14 @@
                                 </div>
                                 <div class="form-group row {{ $errors->has('email') ? 'is-invalid':'' }}">
                                     <div class="col-12">
-                                        <div class="form-material floating">
+                                        <div class="form-material floating input-group">
                                             <input type="email" class="form-control" id="email" name="email">
                                             <label for="email">@lang('login.register.email')</label>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="si si-envelope"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('email'))
                                             <div class="invalid-feedback">{{ $errors->first('email') }}</div>
@@ -75,9 +90,14 @@
                                 </div>
                                 <div class="form-group row {{ $errors->has('password') ? 'is-invalid':'' }}">
                                     <div class="col-12">
-                                        <div class="form-material floating">
+                                        <div class="form-material floating input-group">
                                             <input type="password" class="form-control" id="password" name="password">
                                             <label for="password">@lang('login.register.password')</label>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="si si-key"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('password'))
                                             <div class="invalid-feedback">{{ $errors->first('password') }}</div>
@@ -86,9 +106,14 @@
                                 </div>
                                 <div class="form-group row {{ $errors->has('password') ? 'is-invalid':'' }}">
                                     <div class="col-12">
-                                        <div class="form-material floating">
+                                        <div class="form-material floating input-group">
                                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                             <label for="password_confirmation">@lang('login.register.retype_password')</label>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="si si-like"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                         @if ($errors->has('password'))
                                             <div class="invalid-feedback">{{ $errors->first('password') }}</div>

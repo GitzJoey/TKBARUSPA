@@ -14,11 +14,14 @@ return [
                 'title_show' => 'Show Supplier',
                 'title_edit' => 'Edit Supplier',
             ],
+            'pic' => [
+                'title' => 'Person In Charge'
+            ],
         ],
         'tabs' => [
             'supplier' => 'Supplier Data',
             'pic' => 'Person In Charge',
-            'bank_account' => 'Bank Account',
+            'bank_accounts' => 'Bank Accounts',
             'product' => 'Product List',
             'settings' => 'Settings',
         ],
