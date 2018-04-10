@@ -39,29 +39,29 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                        <th>@lang('supplier.index.table.supplier_list.header.name')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.address')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.status')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
-                        <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <th>@lang('supplier.index.table.supplier_list.header.name')</th>
+                            <th>@lang('supplier.index.table.supplier_list.header.address')</th>
+                            <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
+                            <th>@lang('supplier.index.table.supplier_list.header.status')</th>
+                            <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
+                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
                         </thead>
                         <tbody>
-                        <template v-if="supplierList.data != 'undefined'">
-                            <tr v-for="(s, sIdx) in supplierList.data">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </template>
-                        <template v-if="supplierList.data == 'undefined'">
-                            <tr>
-                                <td colspan="6">aaa</td>
-                            </tr>
-                        </template>
+                            <template v-if="supplierList.data">
+                                <tr v-for="(s, sIdx) in supplierList.data">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td class="text-center" colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>

@@ -1,6 +1,7 @@
 @extends('layouts.codebase.blank')
 
 @section('title')
+    404
 @endsection
 
 @section('custom_css')

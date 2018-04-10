@@ -1,6 +1,7 @@
 @extends('layouts.codebase.blank')
 
 @section('title')
+    Register
 @endsection
 
 @section('custom_css')

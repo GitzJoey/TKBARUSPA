@@ -10,6 +10,7 @@ namespace App\Services\Implementations;
 
 use App\Models\Supplier;
 
+use Config;
 use App\Services\SupplierService;
 
 class SupplierServiceImpl implements SupplierService
@@ -35,7 +36,11 @@ class SupplierServiceImpl implements SupplierService
 
     public function read()
     {
-        // TODO: Implement read() method.
+        $supplier = [];
+
+        $supplier = Supplier::with('personsInCharge')->paginate(Config::get('const.PAGINATION'));
+
+        return $supplier;
     }
 
     public function update(

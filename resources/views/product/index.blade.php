@@ -48,21 +48,28 @@
                             <th class="text-center action-column-width">@lang('labels.ACTION')</th>
                         </thead>
                         <tbody>
-                            <tr v-for="(p, pIdx) in productList.data">
-                                <td>@{{ p.product_type.name }}</td>
-                                <td>@{{ p.name }}</td>
-                                <td>@{{ p.short_code }}</td>
-                                <td>@{{ p.description }}</td>
-                                <td>@{{ p.statusI18n }}</td>
-                                <td>@{{ p.remarks }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(pIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(pIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(p.hId)"><span class="fa fa-close fa-fw"></span></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <template v-if="productList.data">
+                                <tr v-for="(p, pIdx) in productList.data">
+                                    <td>@{{ p.product_type.name }}</td>
+                                    <td>@{{ p.name }}</td>
+                                    <td>@{{ p.short_code }}</td>
+                                    <td>@{{ p.description }}</td>
+                                    <td>@{{ p.statusI18n }}</td>
+                                    <td>@{{ p.remarks }}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-secondary" v-on:click="showSelected(pIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="editSelected(pIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(p.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td class="text-center" colspan="7">@lang('labels.DATA_NOT_FOUND')</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>

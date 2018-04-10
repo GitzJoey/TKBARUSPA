@@ -2,8 +2,8 @@
 
 return [
     'index' => [
-        'title' => '',
-        'page_title' => '',
+        'title' => 'Supplier',
+        'page_title' => 'Supplier',
         'page_title_desc' => '',
         'panel' => [
             'list_panel' => [
