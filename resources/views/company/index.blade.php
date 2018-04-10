@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <div class="block block-shadow-on-hover" id="companyCRUDBlock">
+        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="companyCRUDBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">
                     <template v-if="mode =='create'">@lang('company.index.panel.crud_panel.title_create')</template>

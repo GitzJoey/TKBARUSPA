@@ -92,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="block block-shadow-on-hover" id="productCRUDBlock">
+        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="productCRUDBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">
                     <template v-if="mode == 'create'">@lang('product.index.panel.crud_panel.title_create')</template>
