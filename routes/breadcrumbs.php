@@ -10,6 +10,11 @@ Breadcrumbs::register('dashboard', function ($breadcrumbs){
     $breadcrumbs->push(trans('breadcrumb.dashboard'), route('db'));
 });
 
+Breadcrumbs::register('product', function($breadcrumbs){
+    $breadcrumbs->parent('dashboard');
+    $breadcrumbs->push(trans('breadcrumb.product'), route('db.product'));
+});
+
 Breadcrumbs::register('settings_company', function($breadcrumbs){
     $breadcrumbs->parent('dashboard');
     $breadcrumbs->push(trans('breadcrumb.settings'));
@@ -393,10 +398,6 @@ Breadcrumbs::register('master_supplier_edit', function($breadcrumbs, $id){
     $breadcrumbs->push(trans('breadcrumb.master.supplier.edit'), route('db.master.supplier.edit', $id));
 });
 
-Breadcrumbs::register('master_product', function($breadcrumbs){
-    $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push(trans('breadcrumb.master.product'), route('db.master.product'));
-});
 
 Breadcrumbs::register('master_product_create', function($breadcrumbs){
     $breadcrumbs->parent('master_product');

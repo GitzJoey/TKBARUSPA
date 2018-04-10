@@ -73,9 +73,9 @@
         <div class="block block-shadow-on-hover block-mode-loading-refresh" id="unitCRUDBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">
-                    <template v-if="mode =='create'">@lang('unit.index.panel.crud_panel.title_create')</template>
-                    <template v-if="mode =='show'">@lang('unit.index.panel.crud_panel.title_show')</template>
-                    <template v-if="mode =='edit'">@lang('unit.index.panel.crud_panel.title_edit')</template>
+                    <template v-if="mode == 'create'">@lang('unit.index.panel.crud_panel.title_create')</template>
+                    <template v-if="mode == 'show'">@lang('unit.index.panel.crud_panel.title_show')</template>
+                    <template v-if="mode == 'edit'">@lang('unit.index.panel.crud_panel.title_edit')</template>
                 </h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>

@@ -15,7 +15,7 @@ return [
                 'title_edit' => 'Edit Supplier',
             ],
         ],
-        'tab' => [
+        'tabs' => [
             'supplier' => 'Supplier Data',
             'pic' => 'Person In Charge',
             'bank_account' => 'Bank Account',
@@ -59,11 +59,13 @@ return [
         ],
     ],
     'fields' => [
-        'search_supplier' => '',
+        'search_supplier' => 'Search Supplier',
         'name' => 'Name',
+        'code_sign' => 'Code Sign',
         'address' => 'Address',
         'city' => 'City',
         'phone' => 'Phone',
+        'fax_num' => 'Fax',
         'tax_id' => 'TaxOutput ID',
         'status' => 'Status',
         'remarks' => 'Remarks',
