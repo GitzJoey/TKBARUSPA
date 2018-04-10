@@ -102,6 +102,18 @@ class ProductServiceImpl implements ProductService
         return $product;
     }
 
+    public function readAll($productName = '')
+    {
+        $product = [];
+        if ($productName != '') {
+            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->where('name', 'like', '%'.$productName.'%')->get();
+        } else {
+            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->get();
+        }
+
+        return $product;
+    }
+
     public function update(
         $id,
         $company_id,

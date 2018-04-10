@@ -370,15 +370,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="p in supplier.products">
+                                    <tr v-for="pL in productList">
                                         <td class="text-center">
-                                            <input type="checkbox" name="productSelected[]" v-bind:value="p.hId">
+                                            <input type="checkbox" name="productSelected[]" v-bind:value="pL.hId">
                                         </td>
-                                        <td>@{{ p.productType.name }}</td>
-                                        <td>@{{ p.name }}</td>
-                                        <td>@{{ p.short_code }}</td>
-                                        <td>@{{ p.description }}</td>
-                                        <td>@{{ p.remarks }}</td>
+                                        <td>@{{ pL.productType.name }}</td>
+                                        <td>@{{ pL.name }}</td>
+                                        <td>@{{ pL.short_code }}</td>
+                                        <td>@{{ pL.description }}</td>
+                                        <td>@{{ pL.remarks }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -428,6 +428,7 @@
                 statusDDL: [],
                 bankDDL: [],
                 providerDDL: [],
+                productList: [],
                 mode: '',
                 search_supplier_query: '',
                 active_page: 0
@@ -437,6 +438,7 @@
                 this.getLookupStatus();
                 this.getBank();
                 this.getPhoneProvider();
+                this.getProduct();
             },
             methods: {
                 validateBeforeSubmit: function() {
@@ -567,12 +569,17 @@
                 },
                 getPhoneProvider: function() {
                     axios.get('/api/get/phone_provider/read').then(
-                        response => { console.log(response); this.providerDDL = response.data; }
+                        response => { this.providerDDL = response.data; }
                     );
                 },
                 getBank: function() {
                     axios.get('/api/get/bank/read').then(
                         response => { this.bankDDL = response.data; }
+                    );
+                },
+                getProduct: function() {
+                    axios.get('/api/get/product/read?l=yes').then(
+                        response => { this.productList = response.data; }
                     );
                 }
             },

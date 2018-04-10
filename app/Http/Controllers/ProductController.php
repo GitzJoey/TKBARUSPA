@@ -31,11 +31,20 @@ class ProductController extends Controller
     public function read(Request $request)
     {
         $productName = $request->query('p');
+        $limit = $request->query('l');
 
-        if ($productName == '') {
-            return $this->productService->read($productName);
+        if (!is_null($limit)) {
+            if ($productName != '') {
+                return $this->productService->readAll($productName);
+            } else {
+                return $this->productService->readAll();
+            }
         } else {
-            return $this->productService->read();
+            if ($productName != '') {
+                return $this->productService->read($productName);
+            } else {
+                return $this->productService->read();
+            }
         }
     }
 
