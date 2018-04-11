@@ -9,7 +9,7 @@
 namespace App\Model;
 
 use Auth;
-use App\Traits\StoreFilter;
+use App\Traits\CompanyFilter;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -59,7 +59,7 @@ class Truck extends Model
 {
     use SoftDeletes;
 
-    use StoreFilter;
+    use CompanyFilter;
 
     protected $dates = ['deleted_at'];
 
@@ -76,6 +76,8 @@ class Truck extends Model
     ];
 
     protected $hidden = [
+        'id',
+        'store_id',
         'created_by',
         'created_at',
         'updated_by',
