@@ -67,6 +67,7 @@ class Supplier extends Model
     protected $appends = [
         'hId',
         'statusI18n',
+        'listSelectedProductHId'
     ];
 
     public function getStatusI18nAttribute()
@@ -77,6 +78,17 @@ class Supplier extends Model
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getListSelectedProductHIdAttribute()
+    {
+        $pId = [];
+
+        foreach ($this->products as $p) {
+            array_push($pId, $p->hId);
+        }
+
+        return $pId;
     }
 
     public function personsInCharge()

@@ -370,11 +370,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="pL in productList">
+                                    <tr v-for="(pL, pLIdx) in productList.data">
                                         <td class="text-center">
-                                            <input type="checkbox" name="productSelected[]" v-bind:value="pL.hId">
+                                            <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
                                         </td>
-                                        <td>@{{ pL.productType.name }}</td>
+                                        <td>@{{ pL.product_type.name }}</td>
                                         <td>@{{ pL.name }}</td>
                                         <td>@{{ pL.short_code }}</td>
                                         <td>@{{ pL.description }}</td>
@@ -382,6 +382,12 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <input type="hidden" name="productSelected[]" v-model="supplier.listSelectedProductHId">
+                            <div class="row">
+                                <div class="col-12 pull-right">
+                                    <pagination v-bind:data="productList" v-on:pagination-change-page="getProduct"></pagination>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade fade-up show" id="tabs_settings" role="tabpanel">
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_settings.payment_due_day') }">
@@ -521,7 +527,8 @@
                         payment_due_day: '',
                         bank_accounts: [],
                         persons_in_charge: [],
-                        products: []
+                        products: [],
+                        listSelectedProductHId: []
                     }
                 },
                 addNewBankAccount: function() {
@@ -577,10 +584,28 @@
                         response => { this.bankDDL = response.data; }
                     );
                 },
-                getProduct: function() {
-                    axios.get('/api/get/product/read?l=yes').then(
-                        response => { this.productList = response.data; }
+                getProduct: function(page) {
+                    var qS = [];
+                    if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
+
+                    axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(
+                        response => {
+                            this.productList = response.data;
+
+                            for (var i = 0; i < this.productList.data.length; i++) {
+                                if (_.includes(this.supplier.listSelectedProductHId, this.productList.data[i].hId)) {
+                                    this.productList.data[i].checked = true;
+                                }
+                            }
+                        }
                     );
+                },
+                syncToSupplierProd: function(pLIdx) {
+                    if (this.productList.data[pLIdx].checked) {
+                        this.supplier.listSelectedProductHId.push(this.productList.data[pLIdx].hId);
+                    } else {
+                        _.pull(this.supplier.listSelectedProductHId, this.productList.data[pLIdx].hId);
+                    }
                 }
             },
             watch: {

@@ -25,7 +25,6 @@ interface ProductService
         $remarks
     );
     public function read($productName = '');
-    public function readAll($productName = '');
     public function update(
         $id,
         $company_id,

@@ -93,22 +93,13 @@ class ProductServiceImpl implements ProductService
     {
         $product = [];
         if ($productName != '') {
-            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->where('name', 'like', '%'.$productName.'%')
+            $product = Product::with('productType', 'productCategories', 'productUnits.unit')
+                ->where('name', 'like', '%'.$productName.'%')
                 ->paginate(Config::get('const.PAGINATION'));
         } else {
-            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->paginate(Config::get('const.PAGINATION'));
-        }
-
-        return $product;
-    }
-
-    public function readAll($productName = '')
-    {
-        $product = [];
-        if ($productName != '') {
-            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->where('name', 'like', '%'.$productName.'%')->get();
-        } else {
-            $product = Product::with('productType', 'productCategories', 'productUnits.unit')->get();
+            $product = Product::with('productType', 'productCategories', 'productUnits.unit')
+                ->paginate(2);
+            //->paginate(Config::get('const.PAGINATION'));
         }
 
         return $product;
