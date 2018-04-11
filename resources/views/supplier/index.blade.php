@@ -47,7 +47,7 @@
                         <th class="text-center action-column-width">@lang('labels.ACTION')</th>
                         </thead>
                         <tbody>
-                        <template v-if="supplierList.data">
+                        <template v-if="supplierList.hasOwnProperty('data') && supplierList.data.length != 0">
                             <tr v-for="(s, sIdx) in supplierList.data">
                                 <td>@{{ s.name }}</td>
                                 <td>@{{ s.address }}</td>

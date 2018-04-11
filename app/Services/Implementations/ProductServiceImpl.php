@@ -98,8 +98,7 @@ class ProductServiceImpl implements ProductService
                 ->paginate(Config::get('const.PAGINATION'));
         } else {
             $product = Product::with('productType', 'productCategories', 'productUnits.unit')
-                ->paginate(2);
-            //->paginate(Config::get('const.PAGINATION'));
+                ->paginate(Config::get('const.PAGINATION'));
         }
 
         return $product;

@@ -1,11 +1,12 @@
 <?php
 
-use App\Model\Profile;
-use App\Model\Product;
-use App\Model\Supplier;
-use App\Model\BankAccount;
-use App\Model\PhoneNumber;
+use App\Models\Profile;
+use App\Models\Product;
+use App\Models\Supplier;
+use App\Models\BankAccount;
+use App\Models\PhoneNumber;
 
+use Faker;
 use Illuminate\Database\Seeder;
 
 class SupplierTableSeeder extends Seeder
@@ -17,7 +18,6 @@ class SupplierTableSeeder extends Seeder
      */
     public function run()
     {
-        /*
         for ($s = 0; $s < 3; $s++) {
             $supplier = new Supplier();
             $supplier->name = 'Supplier '.$s;
@@ -46,7 +46,7 @@ class SupplierTableSeeder extends Seeder
                 $pf->first_name = "First Name ".$p;
                 $pf->last_name = "First Name ".$p;
 
-                $supplier->profiles()->save($pf);
+                $supplier->personsInCharge()->save($pf);
 
                 for ($ph = 0; $ph < 1; $ph++) {
                     $phone = new PhoneNumber();
@@ -60,6 +60,5 @@ class SupplierTableSeeder extends Seeder
             $pId = rand(1, 6);
             $supplier->products()->save(Product::whereId($pId)->first());
         }
-        */
     }
 }

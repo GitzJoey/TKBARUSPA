@@ -48,7 +48,7 @@
                             <th class="text-center action-column-width">@lang('labels.ACTION')</th>
                         </thead>
                         <tbody>
-                            <template v-if="productList.data">
+                            <template v-if="productList.hasOwnProperty('data') && productList.data.length != 0">
                                 <tr v-for="(p, pIdx) in productList.data">
                                     <td>@{{ p.product_type.name }}</td>
                                     <td>@{{ p.name }}</td>
