@@ -248,15 +248,6 @@
                                                         <span v-show="errors.has('tabs_pic.last_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.last_name_' + pIdx) }}</span>
                                                     </div>
                                                 </div>
-                                                <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.email_' + pIdx) }">
-                                                    <label for="inputEmail" class="col-2 col-form-label">@lang('supplier.fields.email')</label>
-                                                    <div class="col-md-10">
-                                                        <input id="inputEmail" type="text" name="email[]" class="form-control" v-model="p.email" placeholder="@lang('supplier.fields.email')"
-                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.email') }} ' + (pIdx + 1)" v-bind:data-vv-name="'email_' + pIdx"
-                                                               data-vv-scope="tabs_pic">
-                                                        <span v-show="errors.has('tabs_pic.email_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.email_' + pIdx) }}</span>
-                                                    </div>
-                                                </div>
                                                 <div class="form-group row">
                                                     <label for="inputAddress" class="col-2 col-form-label">@lang('supplier.fields.address')</label>
                                                     <div class="col-md-10">
