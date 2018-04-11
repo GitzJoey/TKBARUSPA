@@ -39,7 +39,10 @@ interface SupplierService
         $remarks,
         $payment_due_day,
         $bank_accounts,
+        $inputtedBankAccountId,
         $persons_in_charge,
+        $inputtedProfileId,
+        $inputtedPhoneNumberId,
         $product_selected
     );
     public function delete($id);

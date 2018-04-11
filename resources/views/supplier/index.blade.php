@@ -49,12 +49,18 @@
                         <tbody>
                         <template v-if="supplierList.data">
                             <tr v-for="(s, sIdx) in supplierList.data">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@{{ s.name }}</td>
+                                <td>@{{ s.address }}</td>
+                                <td>@{{ s.tax_id }}</td>
+                                <td>@{{ s.statusI18n }}</td>
+                                <td>@{{ s.remarks }}</td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                    </div>
+                                </td>
                             </tr>
                         </template>
                         <template v-else>
@@ -142,7 +148,7 @@
                     </ul>
                     <div class="block-content tab-content overflow-hidden">
                         <div class="tab-pane fade fade-up show active" id="tabs_supplier" role="tabpanel">
-                            <div v-bind:class="{ 'form-group row':true, 'is_invalid':errors.has('tabs_supplier.name') }">
+                            <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_supplier.name') }">
                                 <label for="inputName" class="col-2 col-form-label">@lang('supplier.fields.name')</label>
                                 <div class="col-md-10">
                                     <input id="inputName" name="name" type="text" class="form-control" placeholder="@lang('supplier.fields.name')"
@@ -192,12 +198,12 @@
                                 <div class="col-md-10">
                                     <select id="inputStatus"
                                             class="form-control"
-                                            name="product.status"
+                                            name="status"
                                             v-validate="'required'"
                                             data-vv-as="{{ trans('supplier.fields.status') }}"
                                             data-vv-scope="tabs_supplier">
                                         <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                        <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.hId">@{{ s.description }}</option>
+                                        <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
                                     </select>
                                     <span v-show="errors.has('tabs_supplier.status')" class="invalid-feedback">@{{ errors.first('tabs_supplier.status') }}</span>
                                 </div>
@@ -240,6 +246,15 @@
                                                                v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.last_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'last_name_' + pIdx"
                                                                data-vv-scope="tabs_pic">
                                                         <span v-show="errors.has('tabs_pic.last_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.last_name_' + pIdx) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.email_' + pIdx) }">
+                                                    <label for="inputEmail" class="col-2 col-form-label">@lang('supplier.fields.email')</label>
+                                                    <div class="col-md-10">
+                                                        <input id="inputEmail" type="text" name="email[]" class="form-control" v-model="p.email" placeholder="@lang('supplier.fields.email')"
+                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.email') }} ' + (pIdx + 1)" v-bind:data-vv-name="'email_' + pIdx"
+                                                               data-vv-scope="tabs_pic">
+                                                        <span v-show="errors.has('tabs_pic.email_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.email_' + pIdx) }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -546,6 +561,7 @@
                     this.supplier.persons_in_charge.push({
                         first_name: '',
                         last_name: '',
+                        email: '',
                         address: '',
                         ic_num: '',
                         image_filename: '',

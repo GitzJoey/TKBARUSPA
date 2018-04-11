@@ -72,6 +72,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('delete/{id}', 'ProductController@delete')->name('api.post.product.delete');
     });
 
+    Route::group(['prefix' => 'supplier'], function () {
+        Route::post('save', 'SupplierController@store')->name('api.post.supplier.save');
+        Route::post('edit/{id}', 'SupplierController@update')->name('api.post.supplier.edit');
+        Route::post('delete/{id}', 'SupplierController@delete')->name('api.post.supplier.delete');
+    });
+
     Route::group(['prefix' => 'unit'], function () {
         Route::post('save', 'UnitController@store')->name('api.post.unit.save');
         Route::post('edit/{id}', 'UnitController@update')->name('api.post.unit.edit');

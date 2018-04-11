@@ -74,6 +74,7 @@ return [
         'remarks' => 'Keterangan',
         'first_name' => 'Nama Depan',
         'last_name' => 'Nama Belakang',
+        'email' => 'Email',
         'ic_num' => 'KTP',
         'phone_number' => 'No Telp',
         'bank' => 'Bank',

@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputAddressb" class="col-2 col-form-label">@lang('company.fields.address')</label>
+                                <label for="inputAddress" class="col-2 col-form-label">@lang('company.fields.address')</label>
                                 <div class="col-md-9">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <textarea id="inputAddress" v-model="company.address" class="form-control" rows="5" name="address"></textarea>
@@ -167,7 +167,7 @@
                                     </template>
                                 </div>
                             </div>
-                            <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('tabs_company.phone') }">
+                            <div class="form-group row">
                                 <label for="inputPhone" class="col-2 col-form-label">@lang('company.fields.phone')</label>
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">

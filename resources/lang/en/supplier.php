@@ -74,6 +74,7 @@ return [
         'remarks' => 'Remarks',
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
+        'email' => 'Email',
         'ic_num' => 'IC Number',
         'phone_number' => 'Phone Number',
         'bank' => 'Bank',
