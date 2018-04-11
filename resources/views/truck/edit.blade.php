@@ -1,15 +1,15 @@
-@extends('layouts.adminlte.master')
+@extends('layouts.codebase.master')
 
 @section('title')
-    @lang('truck.edit.title')
+    @lang('truck.index.title')
 @endsection
 
 @section('page_title')
-    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>&nbsp;@lang('truck.edit.page_title')
+    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>&nbsp;@lang('truck.index.page_title')
 @endsection
 
 @section('page_title_desc')
-    @lang('truck.edit.page_title_desc')
+    @lang('truck.index.page_title_desc')
 @endsection
 
 @section('breadcrumbs')
@@ -31,10 +31,10 @@
             {{ csrf_field() }}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">@lang('truck.edit.header.title')</h3>
+                    <h3 class="box-title">@lang('truck.index.header.title')</h3>
                 </div>
                 <div class="box-body">
-                    <div v-bind:class="{ 'form-group':true, 'has-error':errors.has('truck_type') }">
+                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('truck_type') }">
                         <label for="inputTruckType" class="col-sm-2 control-label">@lang('truck.field.truck_type')</label>
                         <div class="col-sm-10">
                             <select class="form-control"
@@ -48,7 +48,7 @@
                             <span v-show="errors.has('truck_type')" class="help-block" v-cloak>@{{ errors.first('truck_type') }}</span>
                         </div>
                     </div>
-                    <div v-bind:class="{'form-group':true, 'has-error':errors.has('plate_number') }">
+                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('plate_number') }">
                         <label for="inputPlateNumber" class="col-sm-2 control-label">@lang('truck.field.plate_number')</label>
                         <div class="col-sm-10">
                             <input id="inputPlateNumber" name="plate_number" type="text" class="form-control" placeholder="@lang('truck.field.plate_number')"
@@ -57,7 +57,7 @@
 
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'has-error':errors.has('inspection_date') }">
+                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('inspection_date') }">
                         <label for="inputInspectionDate" class="col-sm-2 control-label">@lang('truck.field.inspection_date')</label>
                         <div class="col-sm-9">
                             <div class="input-group date">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'has-error':errors.has('driver') }">
+                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('driver') }">
                         <label for="inputDriver" class="col-sm-2 control-label">@lang('truck.field.driver')</label>
                         <div class="col-sm-10">
                             <input id="inputDriver" name="driver" type="text" class="form-control" placeholder="@lang('truck.field.driver')"
@@ -78,7 +78,7 @@
 
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'has-error':errors.has('status') }">
+                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('status') }">
                         <label for="inputStatus" class="col-sm-2 control-label">@lang('truck.field.status')</label>
                         <div class="col-sm-10">
                             <select class="form-control"
@@ -92,7 +92,7 @@
                             <span v-show="errors.has('status')" class="help-block" v-cloak>@{{ errors.first('status') }}</span>
                         </div>
                     </div>
-                    <div class="form-group {{ $errors->has('remarks') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('remarks') ? 'is-invalid' : '' }}">
                         <label for="inputRemarks" class="col-sm-2 control-label">@lang('truck.field.remarks')</label>
                         <div class="col-sm-10">
                             <input id="inputRemarks" name="remarks" type="text" class="form-control" value="{{ $truck->remarks }}" placeholder="@lang('truck.field.remarks')">
