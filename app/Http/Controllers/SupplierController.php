@@ -67,9 +67,12 @@ class SupplierController extends Controller
             ));
         }
 
-        $product_selected = explode(',', $request['productSelected']);
-        for ($i = 0; $i < count($product_selected); $i++) {
-            $product_selected[$i] = Hashids::decode($product_selected[$i])[0];
+        $product_selected = [];
+        if (!is_null($request['productSelected'])) {
+            $product_selected = explode(',', $request['productSelected']);
+            for ($i = 0; $i < count($product_selected); $i++) {
+                $product_selected[$i] = Hashids::decode($product_selected[$i])[0];
+            }
         }
 
         $this->supplierService->create(
