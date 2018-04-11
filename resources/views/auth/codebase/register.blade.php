@@ -29,7 +29,7 @@
                                     <div class="form-group row {{ $errors->has('company_name') ? 'is-invalid':'' }}">
                                         <div class="col-12">
                                             <div class="form-material floating input-group">
-                                                <input type="text" class="form-control" id="company_name" name="company_name">
+                                                <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}">
                                                 <label for="name">@lang('login.register.company_name')</label>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">
@@ -59,7 +59,7 @@
                                 <div class="form-group row {{ $errors->has('name') ? 'is-invalid':'' }}">
                                     <div class="col-12">
                                         <div class="form-material floating input-group">
-                                            <input type="text" class="form-control" id="name" name="name">
+                                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                                             <label for="name">@lang('login.register.full_name')</label>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
@@ -75,7 +75,7 @@
                                 <div class="form-group row {{ $errors->has('email') ? 'is-invalid':'' }}">
                                     <div class="col-12">
                                         <div class="form-material floating input-group">
-                                            <input type="email" class="form-control" id="email" name="email">
+                                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                                             <label for="email">@lang('login.register.email')</label>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">

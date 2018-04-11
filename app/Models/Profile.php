@@ -82,7 +82,7 @@ class Profile extends Model
 
     public function phoneNumbers()
     {
-        return null;//$this->hasMany('App\Models\PhoneNumber');
+        return $this->hasMany('App\Models\PhoneNumber');
     }
 
     public static function boot()

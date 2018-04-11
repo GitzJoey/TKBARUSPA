@@ -25,7 +25,7 @@
                                 @csrf
                                 <div class="form-group {{ $errors->has('email') ? 'is-invalid':'' }}">
                                     <div class="form-material floating input-group">
-                                        <input type="text" class="form-control" id="email" name="email">
+                                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
                                         <label for="email">@lang('login.email')</label>
                                         <div class="input-group-append">
                                             <span class="input-group-text">

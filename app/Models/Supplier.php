@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Auth;
+use Lang;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

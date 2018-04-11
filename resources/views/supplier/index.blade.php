@@ -151,74 +151,123 @@
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_supplier.name') }">
                                 <label for="inputName" class="col-2 col-form-label">@lang('supplier.fields.name')</label>
                                 <div class="col-md-10">
-                                    <input id="inputName" name="name" type="text" class="form-control" placeholder="@lang('supplier.fields.name')"
-                                           v-model="supplier.name"
-                                           v-validate="'required'" data-vv-as="{{ trans('supplier.fields.name') }}" data-vv-scope="tabs_supplier">
-                                    <span v-show="errors.has('tabs_supplier.name')" class="invalid-feedback">@{{ errors.first('tabs_supplier.name') }}</span>
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputName" name="name" type="text" class="form-control" placeholder="@lang('supplier.fields.name')"
+                                               v-model="supplier.name"
+                                               v-validate="'required'" data-vv-as="{{ trans('supplier.fields.name') }}" data-vv-scope="tabs_supplier">
+                                        <span v-show="errors.has('tabs_supplier.name')" class="invalid-feedback">@{{ errors.first('tabs_supplier.name') }}</span>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.name }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputCodeSign" class="col-2 col-form-label">@lang('supplier.fields.code_sign')</label>
                                 <div class="col-md-10">
-                                    <input id="inputCodeSign" name="code_sign" v-model="supplier.code_sign" type="text" class="form-control" placeholder="@lang('supplier.fields.code_sign')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputCodeSign" name="code_sign" v-model="supplier.code_sign" type="text" class="form-control" placeholder="@lang('supplier.fields.code_sign')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.code_sign }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputAddress" class="col-2 col-form-label">@lang('supplier.fields.address')</label>
                                 <div class="col-md-10">
-                                    <textarea name="address" v-model="supplier.address" id="inputAddress" class="form-control" rows="4"></textarea>
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <textarea name="address" v-model="supplier.address" id="inputAddress" class="form-control" rows="4"></textarea>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.address }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputCity" class="col-2 col-form-label">@lang('supplier.fields.city')</label>
                                 <div class="col-md-10">
-                                    <input id="inputCity" name="city" v-model="supplier.city" type="text" class="form-control" placeholder="@lang('supplier.fields.city')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputCity" name="city" v-model="supplier.city" type="text" class="form-control" placeholder="@lang('supplier.fields.city')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.city }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputPhone" class="col-2 col-form-label">@lang('supplier.fields.phone')</label>
                                 <div class="col-md-10">
-                                    <input id="inputPhone" name="phone" type="text" v-model="supplier.phone" class="form-control" placeholder="@lang('supplier.fields.phone')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputPhone" name="phone" type="text" v-model="supplier.phone" class="form-control" placeholder="@lang('supplier.fields.phone')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.phone }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputFax" class="col-2 col-form-label">@lang('supplier.fields.fax_num')</label>
                                 <div class="col-md-10">
-                                    <input id="inputFax" name="fax_num" type="text" v-model="supplier.fax_num" class="form-control" placeholder="@lang('supplier.fields.fax_num')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputFax" name="fax_num" type="text" v-model="supplier.fax_num" class="form-control" placeholder="@lang('supplier.fields.fax_num')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.fax_num }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputTaxId" class="col-2 col-form-label">@lang('supplier.fields.tax_id')</label>
                                 <div class="col-md-10">
-                                    <input id="inputTaxId" name="tax_id" type="text" v-model="supplier.tax_id" class="form-control" placeholder="@lang('supplier.fields.tax_id')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputTaxId" name="tax_id" type="text" v-model="supplier.tax_id" class="form-control" placeholder="@lang('supplier.fields.tax_id')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.tax_id }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_supplier.status') }">
                                 <label for="inputStatus" class="col-2 col-form-label">@lang('supplier.fields.status')</label>
                                 <div class="col-md-10">
-                                    <select id="inputStatus"
-                                            class="form-control"
-                                            name="status"
-                                            v-validate="'required'"
-                                            data-vv-as="{{ trans('supplier.fields.status') }}"
-                                            data-vv-scope="tabs_supplier">
-                                        <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                        <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
-                                    </select>
-                                    <span v-show="errors.has('tabs_supplier.status')" class="invalid-feedback">@{{ errors.first('tabs_supplier.status') }}</span>
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <select id="inputStatus"
+                                                class="form-control"
+                                                name="status"
+                                                v-validate="'required'"
+                                                data-vv-as="{{ trans('supplier.fields.status') }}"
+                                                data-vv-scope="tabs_supplier">
+                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                            <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
+                                        </select>
+                                        <span v-show="errors.has('tabs_supplier.status')" class="invalid-feedback">@{{ errors.first('tabs_supplier.status') }}</span>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.statusI18n }}</div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputRemarks" class="col-2 col-form-label">@lang('supplier.fields.remarks')</label>
                                 <div class="col-md-10">
-                                    <input id="inputRemarks" name="remarks" type="text" class="form-control" placeholder="@lang('supplier.fields.remarks')">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputRemarks" name="remarks" v-model="supplier.remarks' type="text" class="form-control" placeholder="@lang('supplier.fields.remarks')">
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.remarks }}</div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade fade-up show" id="tabs_pic" role="tabpanel">
                             <div class="row">
                                 <div class="col-2">
-                                    <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPIC">@lang('buttons.create_new_button')</button>
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPIC">@lang('buttons.create_new_button')</button>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                    </template>
                                 </div>
                                 <div class="col-10">
                                     <template v-for="(p, pIdx) in supplier.persons_in_charge">
@@ -233,34 +282,54 @@
                                                 <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.first_name_' + pIdx) }">
                                                     <label for="inputFirstName" class="col-2 col-form-label">@lang('supplier.fields.first_name')</label>
                                                     <div class="col-md-10">
-                                                        <input id="inputFirstName" type="text" name="first_name[]" class="form-control" v-model="p.first_name" placeholder="@lang('supplier.fields.first_name')"
-                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.first_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'first_name_' + pIdx"
-                                                               data-vv-scope="tabs_pic">
-                                                        <span v-show="errors.has('tabs_pic.first_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.first_name_' + pIdx) }}</span>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input id="inputFirstName" type="text" name="first_name[]" class="form-control" v-model="p.first_name" placeholder="@lang('supplier.fields.first_name')"
+                                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.first_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'first_name_' + pIdx"
+                                                                   data-vv-scope="tabs_pic">
+                                                            <span v-show="errors.has('tabs_pic.first_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.first_name_' + pIdx) }}</span>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ p.first_name }}</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                                 <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.last_name_' + pIdx) }">
                                                     <label for="inputLastName" class="col-2 col-form-label">@lang('supplier.fields.last_name')</label>
                                                     <div class="col-md-10">
-                                                        <input id="inputLastName" type="text" name="last_name[]" class="form-control" v-model="p.last_name" placeholder="@lang('supplier.fields.last_name')"
-                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.last_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'last_name_' + pIdx"
-                                                               data-vv-scope="tabs_pic">
-                                                        <span v-show="errors.has('tabs_pic.last_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.last_name_' + pIdx) }}</span>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input id="inputLastName" type="text" name="last_name[]" class="form-control" v-model="p.last_name" placeholder="@lang('supplier.fields.last_name')"
+                                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.last_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'last_name_' + pIdx"
+                                                                   data-vv-scope="tabs_pic">
+                                                            <span v-show="errors.has('tabs_pic.last_name_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.last_name_' + pIdx) }}</span>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ p.last_name }}</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="inputAddress" class="col-2 col-form-label">@lang('supplier.fields.address')</label>
                                                     <div class="col-md-10">
-                                                        <input id="inputAddress" type="text" name="profile_address[]" class="form-control" v-model="p.address" placeholder="@lang('supplier.fields.address')">
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input id="inputAddress" type="text" name="profile_address[]" class="form-control" v-model="p.address" placeholder="@lang('supplier.fields.address')">
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ p.address }}</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                                 <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_pic.ic_num_' + pIdx) }">
                                                     <label for="inputICNum" class="col-2 col-form-label">@lang('supplier.fields.ic_num')</label>
                                                     <div class="col-md-10">
-                                                        <input id="inputICNum" type="text" name="ic_num[]" class="form-control" v-model="p.ic_num" placeholder="@lang('supplier.fields.ic_num')"
-                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.ic_num') }} ' + (pIdx + 1)" v-bind:data-vv-name="'ic_num_' + pIdx"
-                                                               data-vv-scope="tabs_pic">
-                                                        <span v-show="errors.has('tabs_pic.ic_num_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.ic_num_' + pIdx) }}</span>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input id="inputICNum" type="text" name="ic_num[]" class="form-control" v-model="p.ic_num" placeholder="@lang('supplier.fields.ic_num')"
+                                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.ic_num') }} ' + (pIdx + 1)" v-bind:data-vv-name="'ic_num_' + pIdx"
+                                                                   data-vv-scope="tabs_pic">
+                                                            <span v-show="errors.has('tabs_pic.ic_num_' + pIdx)" class="invalid-feedback">@{{ errors.first('tabs_pic.ic_num_' + pIdx) }}</span>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ p.ic_num }}</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -278,30 +347,50 @@
                                                             <tbody>
                                                                 <tr v-for="(ph, phIdx) in p.phone_numbers">
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_phoneprovider_' + phIdx) }">
-                                                                        <select v-bind:name="'profile_' + pIdx +'_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
-                                                                                v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
-                                                                                v-bind:data-vv-name="'profile_' + pIdx + '_phoneprovider_' + phIdx" data-vv-scope="tabs_pic">
-                                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                                            <option v-for="(p, pIdx) in providerDDL" v-bind:value="p.hId">@{{ p.name }} (@{{ p.short_name }})</option>
-                                                                        </select>
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <select v-bind:name="'profile_' + pIdx +'_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
+                                                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
+                                                                                    v-bind:data-vv-name="'profile_' + pIdx + '_phoneprovider_' + phIdx" data-vv-scope="tabs_pic">
+                                                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                                                <option v-for="(p, pIdx) in providerDDL" v-bind:value="p.hId">@{{ p.name }} (@{{ p.short_name }})</option>
+                                                                            </select>
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">@{{ ph.phone_provider.fullName }}</div>
+                                                                        </template>
                                                                     </td>
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_number_' + phIdx) }">
-                                                                        <input type="text" v-bind:name="'profile_' + pIdx + '_phone_number[]'" class="form-control" v-model="ph.number"
-                                                                               v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.number') }} ' + (phIdx + 1)"
-                                                                               v-bind:data-vv-name="'profile_' + pIdx + '_number_' + phIdx" data-vv-scope="tabs_pic">
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <input type="text" v-bind:name="'profile_' + pIdx + '_phone_number[]'" class="form-control" v-model="ph.number"
+                                                                                   v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.number') }} ' + (phIdx + 1)"
+                                                                                   v-bind:data-vv-name="'profile_' + pIdx + '_number_' + phIdx" data-vv-scope="tabs_pic">
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">@{{ ph.number }}</div>
+                                                                        </template>
                                                                     </td>
                                                                     <td><input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks"></td>
                                                                     <td class="text-center">
-                                                                        <button type="button" class="btn btn-xs btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
-                                                                            <span class="fa fa-close fa-fw"></span>
-                                                                        </button>
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
+                                                                                <span class="fa fa-close fa-fw"></span>
+                                                                            </button>
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">&nbsp;</div>
+                                                                        </template>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr>
                                                                     <td colspan="4">
-                                                                        <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">&nbsp;</div>
+                                                                        </template>
                                                                     </td>
                                                                 </tr>
                                                             </tfoot>
@@ -328,40 +417,69 @@
                                 <tbody>
                                     <tr v-for="(ba, baIdx) in supplier.bank_accounts">
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.bank_' + baIdx) }">
-                                            <select class="form-control"
-                                                    name="bank[]"
-                                                    v-model="ba.bankHId"
-                                                    v-validate="'required'"
-                                                    v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.bank') }} ' + (baIdx + 1)"
-                                                    v-bind:data-vv-name="'bank_' + baIdx"
-                                                    data-vv-scope="tabs_bankaccounts">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
-                                            </select>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select class="form-control"
+                                                        name="bank_id[]"
+                                                        v-model="ba.bankHId"
+                                                        v-validate="'required'"
+                                                        v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.bank') }} ' + (baIdx + 1)"
+                                                        v-bind:data-vv-name="'bank_' + baIdx"
+                                                        data-vv-scope="tabs_bankaccounts">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(b, bIdx) in bankDDL" v-bind:value="b.hId">@{{ b.bankFullName }}</option>
+                                                </select>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.bank.bankFullName }}</div>
+                                            </template>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.account_name_' + baIdx) }">
-                                            <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
-                                                   v-validate="'required'"
-                                                   v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_name') }} ' + (baIdx + 1)"
-                                                   v-bind:data-vv-name="'account_name_' + baIdx"
-                                                   data-vv-scope="tabs_bankaccounts">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="account_name[]" v-model="ba.account_name"
+                                                       v-validate="'required'"
+                                                       v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_name') }} ' + (baIdx + 1)"
+                                                       v-bind:data-vv-name="'account_name_' + baIdx"
+                                                       data-vv-scope="tabs_bankaccounts">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.account_name }}</div>
+                                            </template>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.account_number_' + baIdx) }">
-                                            <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
-                                                   v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_number') }} ' + (baIdx + 1)"
-                                                   v-bind:data-vv-name="'account_number_' + baIdx"
-                                                   data-vv-scope="tabs_bankaccounts">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="account_number[]" v-model="ba.account_number"
+                                                       v-validate="'required|numeric'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_bank.header.account_number') }} ' + (baIdx + 1)"
+                                                       v-bind:data-vv-name="'account_number_' + baIdx"
+                                                       data-vv-scope="tabs_bankaccounts">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.account_number }}</div>
+                                            </template>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="bank_remarks[]" v-model="ba.remarks">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ba.remarks }}</div>
+                                            </template>
                                         </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBank(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBank(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">&nbsp;</div>
+                                            </template>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button class="btn btn-xs btn-default" type="button" v-on:click="addNewBankAccount">@lang('buttons.create_new_button')</button>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button class="btn btn-xs btn-default" type="button" v-on:click="addNewBankAccount">@lang('buttons.create_new_button')</button>
+                            </template>
+                            <template v-if="mode == 'show'">
+                            </template>
                         </div>
                         <div class="tab-pane fade fade-up show" id="tabs_product" role="tabpanel">
                             <table class="table table-bordered">
@@ -378,6 +496,11 @@
                                 <tbody>
                                     <tr v-for="(pL, pLIdx) in productList.data">
                                         <td class="text-center">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext"></div>
+                                            </template>
                                             <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
                                         </td>
                                         <td>@{{ pL.product_type.name }}</td>
@@ -388,7 +511,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="hidden" name="productSelected[]" v-model="supplier.listSelectedProductHId">
+                            <input type="hidden" name="productSelected" v-model="supplier.listSelectedProductHId">
                             <div class="row">
                                 <div class="col-12 pull-right">
                                     <pagination v-bind:data="productList" v-on:pagination-change-page="getProduct"></pagination>
@@ -399,9 +522,14 @@
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_settings.payment_due_day') }">
                                 <label for="inputPaymentDueDay" class="col-2 col-form-label">@lang('supplier.fields.payment_due_day')</label>
                                 <div class="col-md-10">
-                                    <input id="inputPaymentDueDay" name="payment_due_day" type="text" class="form-control"  placeholder="{{ trans('supplier.fields.payment_due_day') }}"
-                                           v-validate="'required|numeric|max_value:100'" data-vv-as="{{ trans('supplier.fields.payment_due_day') }}" data-vv-scope="tabs_settings">
-                                    <span v-show="errors.has('tabs_settings.payment_due_day')" class="invalid-feedback">@{{ errors.first('payment_due_day') }}</span>
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <input id="inputPaymentDueDay" name="payment_due_day" v-model="supplier.payment_due_day" type="text" class="form-control"  placeholder="{{ trans('supplier.fields.payment_due_day') }}"
+                                               v-validate="'required|numeric|max_value:100'" data-vv-as="{{ trans('supplier.fields.payment_due_day') }}" data-vv-scope="tabs_settings">
+                                        <span v-show="errors.has('tabs_settings.payment_due_day')" class="invalid-feedback">@{{ errors.first('payment_due_day') }}</span>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ supplier.payment_due_day }}</div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -451,6 +579,7 @@
                 this.getBank();
                 this.getPhoneProvider();
                 this.getProduct();
+                this.getAllSupplier();
             },
             methods: {
                 validateBeforeSubmit: function() {

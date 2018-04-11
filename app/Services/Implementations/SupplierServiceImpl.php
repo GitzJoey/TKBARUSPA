@@ -8,7 +8,7 @@
 
 namespace App\Services\Implementations;
 
-use App\User;
+use App\Models\Product;
 use App\Models\Profile;
 use App\Models\Supplier;
 use App\Models\BankAccount;
@@ -57,7 +57,7 @@ class SupplierServiceImpl implements SupplierService
 
             for ($i = 0; $i < count($bank_accounts); $i++) {
                 $ba = new BankAccount();
-                $ba->bank_id = $bank_accounts[$i]["bank"];
+                $ba->bank_id = $bank_accounts[$i]["bank_id"];
                 $ba->account_name = $bank_accounts[$i]["account_name"];
                 $ba->account_number = $bank_accounts[$i]["account_number"];
                 $ba->remarks = $bank_accounts[$i]["bank_remarks"];
@@ -74,18 +74,18 @@ class SupplierServiceImpl implements SupplierService
 
                 $supplier->personsInCharge()->save($pa);
 
-                for ($j = 0; $j < count($persons_in_charge['phone_number']); $j++) {
+                for ($j = 0; $j < count($persons_in_charge[$i]['phone_numbers']); $j++) {
                     $ph = new PhoneNumber();
-                    $ph->phone_provider_id = $persons_in_charge['phone_number'][$j]['phone_provider_id'];
-                    $ph->number = $persons_in_charge['phone_number'][$j]['phone_number'];
-                    $ph->remarks = $persons_in_charge['phone_number'][$j]['remarks'];
+                    $ph->phone_provider_id = $persons_in_charge[$i]['phone_numbers'][$j]['phone_provider_id'];
+                    $ph->number = $persons_in_charge[$i]['phone_numbers'][$j]['number'];
+                    $ph->remarks = $persons_in_charge[$i]['phone_numbers'][$j]['remarks'];
 
                     $pa->phoneNumbers()->save($ph);
                 }
             }
 
             for ($i = 0; $i < count($product_selected); $i++) {
-                $pr = Product::whereId($product_selected[$i]['productSelected'])->first();
+                $pr = Product::whereId($product_selected[$i])->first();
                 $supplier->products()->save($pr);
             }
 
@@ -217,7 +217,20 @@ class SupplierServiceImpl implements SupplierService
 
     public function delete($id)
     {
-        $supplier = Supplier::find($id);
+        $supplier = Supplier::findOrFail($id);
+
+        foreach ($supplier->personsInCharge as $p) {
+            foreach ($p->phoneNumbers as $ph) {
+                $ph->delete();
+            }
+            $p->delete();
+        }
+
+        foreach ($supplier->bankAccounts as $ba) {
+            $ba->delete();
+        }
+
+        $supplier->products()->detach();
 
         $supplier->delete();
     }

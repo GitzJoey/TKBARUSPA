@@ -40,11 +40,17 @@ class PhoneProvider extends Model
 
     protected $appends = [
         'hId',
+        'fullName',
     ];
 
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['name'] . '(' . $this->attributes['short_name'] . ')';
     }
 
     public function phoneNumbers()
