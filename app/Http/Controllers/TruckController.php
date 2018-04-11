@@ -62,9 +62,9 @@ class TruckController extends Controller
             
     }
 
-    public function show($id)
+    public function show($truck)
     {
-        $truck = $this->truckService->find($id);
+        $truck = $this->truckService->find($truck);
         $statusDDL = LookupRepo::findByCategory('STATUS')->pluck('i18nDescription', 'code');
         $truckTypeDDL = LookupRepo::findByCategory('TRUCKTYPE')->pluck('i18nDescription', 'code');
 
@@ -79,9 +79,9 @@ class TruckController extends Controller
         return view('truck.create', compact('statusDDL', 'truckTypeDDL'));
     }
 
-    public function edit($id)
+    public function edit($truck)
     {
-        $truck = $this->truckService->find($id);
+        $truck = $this->truckService->find($truck);
 
         $statusDDL = LookupRepo::findByCategory('STATUS')->pluck('i18nDescription', 'code');
         $truckTypeDDL = LookupRepo::findByCategory('TRUCKTYPE')->pluck('i18nDescription', 'code');
@@ -89,7 +89,7 @@ class TruckController extends Controller
         return view('truck.edit', compact('truck', 'statusDDL', 'truckTypeDDL'));
     }
 
-    public function update($id, Request $req)
+    public function update($truck, Request $req)
     {
         $validator = Validator::make($req->all(), [
             'plate_number' => 'required|string|max:255',
@@ -98,14 +98,14 @@ class TruckController extends Controller
             'status' => 'required',
         ])->validate();
         
-        $this->truckService->find($id)->update($req->all());
+        $this->truckService->find($truck)->update($req->all());
 
         return response()->json();
     }
 
-    public function delete($id)
+    public function delete($truck)
     {
-        $this->truckService->find($id)->delete();
+        $this->truckService->find($truck)->delete();
         return redirect(route('db.master.truck'));
     }
 }

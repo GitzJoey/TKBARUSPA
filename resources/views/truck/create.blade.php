@@ -1,15 +1,15 @@
-@extends('layouts.adminlte.master')
+@extends('layouts.codebase.master')
 
 @section('title')
-    @lang('truck.create.title')
+    @lang('truck.index.title')
 @endsection
 
 @section('page_title')
-    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>&nbsp;@lang('truck.create.page_title')
+    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>&nbsp;@lang('truck.index.page_title')
 @endsection
 
 @section('page_title_desc')
-    @lang('truck.create.page_title_desc')
+    @lang('truck.index.page_title_desc')
 @endsection
 
 @section('breadcrumbs')
@@ -31,7 +31,7 @@
             {{ csrf_field() }}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">@lang('truck.create.header.title')</h3>
+                    <h3 class="box-title">@lang('truck.index.header.title')</h3>
                 </div>
                 <div class="box-body">
                     <div v-bind:class="{ 'form-group':true, 'has-error':errors.has('truck_type') }">
