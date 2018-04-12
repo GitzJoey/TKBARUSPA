@@ -1,0 +1,86 @@
+[33m72ad91d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m supplier
+[33md791595[m prepare for supplier
+[33m3dd0171[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m supplier
+[33mafc0d44[m adding screen blocker after submit
+[33mad30c8d[m fix template
+[33mf33ef71[m prepare for supplier
+[33m46bcbc4[m fixing template and prepare for supplier
+[33mae2500c[m adding route for test/dev blade
+[33mce8d9c0[m adding flatPickr
+[33m3c1e72a[m adding flatPickr
+[33m6705a34[m adding flatPickr
+[33m337225d[m product list pagination remember last state
+[33mfc5b9b5[m product upload image
+[33m67720ac[m product create
+[33mef1ac21[m adding nice names for login/register
+[33mda54428[m remove unused readAll function
+[33m40d7b53[m handle if table table list accept parameters
+[33me5359ef[m products
+[33m438c041[m product Crud
+[33md192e64[m products with pagination
+[33mc8b78d2[m fix errors not cleaned
+[33m54d73ba[m prepare for search
+[33m48957e8[m terms must be checked
+[33m4eba22c[m company finish
+[33m797b668[m adding bank
+[33ma1eb96d[m Merge remote-tracking branch 'origin/master'
+[33m824ee6c[m breadcrumbs
+[33m15370df[m sidebar remember position and error layout
+[33m90cf3bd[m use common error layout
+[33m380f0e3[m layout restructured
+[33m157b159[m upgrade to codebase 2
+[33mc3ecec1[m company settings
+[33m9ac43e8[m company
+[33m1368d27[m implement language for API call
+[33md57ea4a[m implement language for API call
+[33m7ba0e88[m implement language
+[33m323e378[m simple crud sample finish
+[33me8335e6[m fix vue of company and unit
+[33mb0ab930[m unit
+[33m10b972a[m implementing company
+[33mb460105[m back to initial commit
+[33m29df3e3[m Delete corporate.min.css
+[33ma4aadcf[m Delete earth.min.css
+[33m48164c1[m Delete elegance.min.css
+[33mb1e31dc[m Delete flat.min.css
+[33mbb221dc[m Delete pulse.min.css
+[33mfc29b0c[m Delete codebase.css
+[33m12ab684[m Delete company.js
+[33ma4b0a8b[m Delete company.min.js
+[33mfa1b27e[m Delete codebase.js
+[33mf51e864[m implementing register and login
+[33m0f5dc0a[m implementing services
+[33m53397f2[m login and register will still use old skool postback
+[33m2540fc2[m master data layout ready
+[33m29df1ce[m laravel passport bypass api token required for web api
+[33md0c4be3[m change shadow effect class to non intrusive codebase css
+[33m8470229[m add shadow in block to make it more focus
+[33meac0292[m applying simple-line-icons
+[33mefe7fa6[m applying simple-line-icons
+[33mf0726d6[m remove passport vue
+[33maa00906[m revert access token const
+[33m9e46226[m revert passport to manual creation
+[33m855d947[m override laratrust default user
+[33m2502104[m fix annoying popper.js.map
+[33md8e1af3[m laravel passport
+[33m5623135[m user profile seeder
+[33m744a033[m search, custom errors, seeds
+[33mfd29d3f[m adding simple-line-icons....a must :(
+[33mf96fd75[m adding langman
+[33mf69f479[m set the env variable
+[33m529c653[m sample for active class, full calendar, apps vue
+[33m829e243[m prepare for vue
+[33m858566e[m prepare for commands
+[33m9d3bd8c[m constants and utilities
+[33m6ec3002[m preparing the view
+[33m0f5fa22[m preparing the view
+[33m1c65244[m company
+[33m2a7f681[m adding email
+[33mdeada4b[m applied some header and footer
+[33mdde50bf[m prepare for register and login controller
+[33mc13138c[m install and settings some dependencies
+[33m83afe6d[m initial controller, services
+[33m62b8115[m compiling dep success
+[33m7a48fed[m save backup admin
+[33m13b2f40[m install dependencies
+[33m37ed88b[m initial commit
