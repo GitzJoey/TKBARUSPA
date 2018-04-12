@@ -5,7 +5,7 @@ namespace App\Services;
 interface TruckService 
 { 
     public function create( 
-        $store_id, 
+        $company_id, 
         $type, 
         $plate_number, 
         $inspection_date, 
@@ -16,7 +16,7 @@ interface TruckService
     public function read(); 
     public function update( 
         $id, 
-        $store_id, 
+        $company_id, 
         $type, 
         $plate_number, 
         $inspection_date, 

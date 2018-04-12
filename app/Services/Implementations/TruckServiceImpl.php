@@ -16,7 +16,7 @@ class TruckServiceImpl implements TruckService
 { 
  
     public function create( 
-        $store_id, 
+        $company_id, 
         $type, 
         $plate_number, 
         $inspection_date, 
@@ -26,7 +26,7 @@ class TruckServiceImpl implements TruckService
     ) 
     { 
         Truck::create([ 
-            'store_id' => $store_id, 
+            'company_id' => $company_id, 
             'type' => $type, 
             'plate_number' => $plate_number, 
             'inspection_date' => $inspection_date, 
@@ -43,7 +43,7 @@ class TruckServiceImpl implements TruckService
  
     public function update( 
         $id, 
-        $store_id, 
+        $company_id, 
         $type, 
         $plate_number, 
         $inspection_date, 
@@ -55,7 +55,7 @@ class TruckServiceImpl implements TruckService
         $truck = Truck::find($id); 
  
         if (!is_null($truck)) { 
-            $truck->store_id = $store_id; 
+            $truck->company_id = $company_id; 
             $truck->type = $type; 
             $truck->plate_number = $plate_number; 
             $truck->inspection_date = $inspection_date; 

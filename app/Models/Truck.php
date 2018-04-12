@@ -102,6 +102,11 @@ class Truck extends Model
         return HashIds::encode($this->attributes['company_id']);
     }
 
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
+    }
+
     public function company()
     {
         return $this->belongsTo('App\Model\Company');
