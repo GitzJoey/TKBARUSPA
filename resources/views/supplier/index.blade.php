@@ -504,7 +504,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(pL, pLIdx) in productList.data">
+                                    <tr v-show="!tableLoaded">
+                                        <td colspan="6" class="text-center"><i class="fa fa-spinner fa-spin"></i></td>
+                                    </tr>
+                                    <tr v-for="(pL, pLIdx) in productList.data" v-show="tableLoaded">
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
@@ -581,7 +584,8 @@
                 productList: [],
                 mode: '',
                 search_supplier_query: '',
-                active_page: 0
+                active_page: 0,
+                tableLoaded: false
             },
             mounted: function () {
                 this.mode = 'list';
@@ -740,6 +744,7 @@
                     );
                 },
                 getProduct: function(page) {
+                    this.tableLoaded = false;
                     var qS = [];
                     if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
 
@@ -752,6 +757,8 @@
                                     this.productList.data[i].checked = true;
                                 }
                             }
+
+                            this.tableLoaded = true;
                         }
                     );
                 },
