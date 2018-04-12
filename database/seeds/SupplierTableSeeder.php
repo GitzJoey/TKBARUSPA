@@ -6,7 +6,6 @@ use App\Models\Supplier;
 use App\Models\BankAccount;
 use App\Models\PhoneNumber;
 
-use Faker;
 use Illuminate\Database\Seeder;
 
 class SupplierTableSeeder extends Seeder

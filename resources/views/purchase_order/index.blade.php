@@ -24,4 +24,5 @@
     <script type="application/javascript">
 
     </script>
+    <script type="application/javascript" src="{{ mix('js/apps/po.js') }}"></script>
 @endsection

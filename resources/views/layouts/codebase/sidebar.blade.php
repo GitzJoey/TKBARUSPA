@@ -49,9 +49,6 @@
                                 <a href="#"><span class="fa fa-cart-plus fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.new')</a>
                             </li>
                             <li>
-                                <a href="#"><span class="fa fa-code-fork fa-rotate-180 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.revise')</a>
-                            </li>
-                            <li>
                                 <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.payment')</a>
                             </li>
                             <li>
@@ -64,9 +61,6 @@
                         <ul>
                             <li>
                                 <a href="#"><span class="fa fa-cart-arrow-down fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.new')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-code-fork fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.revise')</a>
                             </li>
                             <li>
                                 <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.payment')</a>

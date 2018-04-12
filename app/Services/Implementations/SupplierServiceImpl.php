@@ -25,6 +25,7 @@ class SupplierServiceImpl implements SupplierService
     public function create(
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,
@@ -109,6 +110,7 @@ class SupplierServiceImpl implements SupplierService
         $id,
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,

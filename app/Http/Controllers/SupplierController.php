@@ -78,6 +78,7 @@ class SupplierController extends Controller
         $this->supplierService->create(
             Auth::user()->company->id,
             $request['name'],
+            $request['code_sign'],
             $request['address'],
             $request['city'],
             $request['phone'],
@@ -145,6 +146,7 @@ class SupplierController extends Controller
             $id,
             Auth::user()->company->id,
             $request['name'],
+            $request['code_sign'],
             $request['address'],
             $request['city'],
             $request['phone'],

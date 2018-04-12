@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-umbrella fa-fw"></span>
     @lang('company.index.page_title')
 @endsection
 

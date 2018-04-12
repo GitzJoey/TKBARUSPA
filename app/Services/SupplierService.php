@@ -13,6 +13,7 @@ interface SupplierService
     public function create(
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,
@@ -30,6 +31,7 @@ interface SupplierService
         $id,
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,

@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-bolt fa-fw"></span>
     @lang('unit.index.page_title')
 @endsection
 

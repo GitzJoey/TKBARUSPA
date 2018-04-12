@@ -3,7 +3,6 @@
 return [
     'menu.po' => 'Pembelian',
     'menu.po.new' => 'Pembelian',
-    'menu.po.revise' => 'Revisi',
     'menu.po.payment' => 'Pembayaran',
     'menu.po.copy' => 'Duplikat',
     'menu.so' => 'Penjualan',

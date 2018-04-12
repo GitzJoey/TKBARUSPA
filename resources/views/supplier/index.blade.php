@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-building-o fa-fw"></span>&nbsp;
     @lang('supplier.index.page_title')
 @endsection
 
@@ -235,6 +236,7 @@
                                         <select id="inputStatus"
                                                 class="form-control"
                                                 name="status"
+                                                v-model="supplier.status"
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('supplier.fields.status') }}"
                                                 data-vv-scope="tabs_supplier">
@@ -275,7 +277,11 @@
                                             <div class="block-header block-header-default">
                                                 <h3 class="block-title">@lang('supplier.index.panel.pic.title')&nbsp;@{{ pIdx + 1 }}</h3>
                                                 <div class="block-options">
-                                                    <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                                        <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                    </template>
+                                                    <template v-if="mode == 'show'">
+                                                    </template>
                                                 </div>
                                             </div>
                                             <div class="block-content">
@@ -382,19 +388,13 @@
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="4">
-                                                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                                                            <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
-                                                                        </template>
-                                                                        <template v-if="mode == 'show'">
-                                                                            <div class="form-control-plaintext">&nbsp;</div>
-                                                                        </template>
-                                                                    </td>
-                                                                </tr>
-                                                            </tfoot>
                                                         </table>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">&nbsp;</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                             </div>
@@ -494,21 +494,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(pL, pLIdx) in productList.data">
-                                        <td class="text-center">
-                                            <template v-if="mode == 'create' || mode == 'edit'">
-                                            </template>
-                                            <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext"></div>
-                                            </template>
-                                            <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
-                                        </td>
-                                        <td>@{{ pL.product_type.name }}</td>
-                                        <td>@{{ pL.name }}</td>
-                                        <td>@{{ pL.short_code }}</td>
-                                        <td>@{{ pL.description }}</td>
-                                        <td>@{{ pL.remarks }}</td>
-                                    </tr>
+                                    <template v-if="productTableLoading">
+                                        <tr><td class="text-center" colspan="5"><i class="fa fa-spinner fa-spin"></i></td></tr>
+                                    </template>
+                                    <template v-else>
+                                        <tr v-for="(pL, pLIdx) in productList.data">
+                                            <td class="text-center">
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext"></div>
+                                                </template>
+                                                <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
+                                            </td>
+                                            <td>@{{ pL.product_type.name }}</td>
+                                            <td>@{{ pL.name }}</td>
+                                            <td>@{{ pL.short_code }}</td>
+                                            <td>@{{ pL.description }}</td>
+                                            <td>@{{ pL.remarks }}</td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
                             <input type="hidden" name="productSelected" v-model="supplier.listSelectedProductHId">
@@ -569,6 +574,7 @@
                 bankDDL: [],
                 providerDDL: [],
                 productList: [],
+                productTableLoading: true,
                 mode: '',
                 search_supplier_query: '',
                 active_page: 0
@@ -696,6 +702,10 @@
                     this.supplier.persons_in_charge.splice(idx, 1);
                 },
                 addNewPhone: function(parentIndex) {
+                    if (!this.supplier.persons_in_charge[parentIndex].hasOwnProperty('phone_numbers')) {
+                        this.supplier.persons_in_charge[parentIndex].phone_numbers = [];
+                    }
+
                     this.supplier.persons_in_charge[parentIndex].phone_numbers.push({
                         phoneProviderHId: '',
                         number: '',
@@ -721,6 +731,7 @@
                     );
                 },
                 getProduct: function(page) {
+                    this.productTableLoading = true;
                     var qS = [];
                     if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
 
@@ -733,6 +744,8 @@
                                     this.productList.data[i].checked = true;
                                 }
                             }
+
+                            this.productTableLoading = false;
                         }
                     );
                 },
