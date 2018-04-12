@@ -10,6 +10,7 @@
 namespace App\Models;
 
 use Auth;
+use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -67,6 +68,9 @@ class Profile extends Model
     ];
 
     protected $hidden = [
+        'id',
+        'owner_id',
+        'owner_type',
         'created_by',
         'created_at',
         'updated_by',
@@ -74,6 +78,15 @@ class Profile extends Model
         'deleted_by',
         'deleted_at'
     ];
+
+    protected $appends = [
+        'hId',
+    ];
+
+    public function getHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['id']);
+    }
 
     public function user()
     {

@@ -25,6 +25,7 @@ class PhoneNumber extends Model
 
     protected $hidden = [
         'id',
+        'profile_id',
         'phone_provider_id',
         'created_by',
         'created_at',
@@ -36,11 +37,17 @@ class PhoneNumber extends Model
 
     protected $appends = [
         'hId',
+        'phoneProviderHId'
     ];
 
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getPhoneProviderHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['phone_provider_id']);
     }
 
     public function profile()

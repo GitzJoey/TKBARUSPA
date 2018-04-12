@@ -94,6 +94,7 @@ class Product extends Model
         'id',
         'company_id',
         'product_type_id',
+        'pivot',
         'created_by',
         'created_at',
         'updated_by',

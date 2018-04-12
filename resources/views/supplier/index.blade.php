@@ -200,10 +200,10 @@
                                 <label for="inputPhone" class="col-2 col-form-label">@lang('supplier.fields.phone')</label>
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                        <input id="inputPhone" name="phone" type="text" v-model="supplier.phone" class="form-control" placeholder="@lang('supplier.fields.phone')">
+                                        <input id="inputPhone" name="phone_number" type="text" v-model="supplier.phone_number" class="form-control" placeholder="@lang('supplier.fields.phone')">
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">@{{ supplier.phone }}</div>
+                                        <div class="form-control-plaintext">@{{ supplier.phone_number }}</div>
                                     </template>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                                     </template>
                                 </div>
                                 <div class="col-10">
-                                    <template v-for="(p, pIdx) in supplier.persons_in_charge">
+                                    <div v-for="(p, pIdx) in supplier.persons_in_charge">
                                         <div class="block block-shadow-on-hover block-mode-loading-refresh">
                                             <div class="block-header block-header-default">
                                                 <h3 class="block-title">@lang('supplier.index.panel.pic.title')&nbsp;@{{ pIdx + 1 }}</h3>
@@ -289,6 +289,7 @@
                                                     <label for="inputFirstName" class="col-2 col-form-label">@lang('supplier.fields.first_name')</label>
                                                     <div class="col-md-10">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input type="hidden" name="profile_id[]" v-model="p.hId"/>
                                                             <input id="inputFirstName" type="text" name="first_name[]" class="form-control" v-model="p.first_name" placeholder="@lang('supplier.fields.first_name')"
                                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.first_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'first_name_' + pIdx"
                                                                    data-vv-scope="tabs_pic">
@@ -353,8 +354,9 @@
                                                             <tbody>
                                                                 <tr v-for="(ph, phIdx) in p.phone_numbers">
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_phoneprovider_' + phIdx) }">
+                                                                        <input type="hidden" v-bind:name="'profile_' + pIdx + '_phone_numbers_id[]'" v-model="ph.hId"/>
                                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                                            <select v-bind:name="'profile_' + pIdx +'_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
+                                                                            <select v-bind:name="'profile_' + pIdx + '_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
                                                                                     v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
                                                                                     v-bind:data-vv-name="'profile_' + pIdx + '_phoneprovider_' + phIdx" data-vv-scope="tabs_pic">
                                                                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -362,7 +364,7 @@
                                                                             </select>
                                                                         </template>
                                                                         <template v-if="mode == 'show'">
-                                                                            <div class="form-control-plaintext">@{{ ph.phone_provider.fullName }}</div>
+                                                                            <div class="form-control-plaintext">@{{ ph.provider.fullName }}</div>
                                                                         </template>
                                                                     </td>
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_number_' + phIdx) }">
@@ -375,7 +377,14 @@
                                                                             <div class="form-control-plaintext">@{{ ph.number }}</div>
                                                                         </template>
                                                                     </td>
-                                                                    <td><input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks"></td>
+                                                                    <td>
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks">
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">@{{ ph.remarks }}</div>
+                                                                        </template>
+                                                                    </td>
                                                                     <td class="text-center">
                                                                         <template v-if="mode == 'create' || mode == 'edit'">
                                                                             <button type="button" class="btn btn-xs btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
@@ -399,7 +408,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </template>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -417,6 +426,7 @@
                                 <tbody>
                                     <tr v-for="(ba, baIdx) in supplier.bank_accounts">
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.bank_' + baIdx) }">
+                                            <input type="hidden" name="bank_account_id[]" v-model="ba.hId"/>
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <select class="form-control"
                                                         name="bank_id[]"
@@ -494,26 +504,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-if="productTableLoading">
-                                        <tr><td class="text-center" colspan="5"><i class="fa fa-spinner fa-spin"></i></td></tr>
-                                    </template>
-                                    <template v-else>
-                                        <tr v-for="(pL, pLIdx) in productList.data">
-                                            <td class="text-center">
-                                                <template v-if="mode == 'create' || mode == 'edit'">
-                                                </template>
-                                                <template v-if="mode == 'show'">
-                                                    <div class="form-control-plaintext"></div>
-                                                </template>
+                                    <tr v-for="(pL, pLIdx) in productList.data">
+                                        <td class="text-center">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
                                                 <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
-                                            </td>
-                                            <td>@{{ pL.product_type.name }}</td>
-                                            <td>@{{ pL.name }}</td>
-                                            <td>@{{ pL.short_code }}</td>
-                                            <td>@{{ pL.description }}</td>
-                                            <td>@{{ pL.remarks }}</td>
-                                        </tr>
-                                    </template>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <input type="checkbox" v-model="pL.checked" disabled/>
+                                            </template>
+                                        </td>
+                                        <td>@{{ pL.product_type.name }}</td>
+                                        <td>@{{ pL.name }}</td>
+                                        <td>@{{ pL.short_code }}</td>
+                                        <td>@{{ pL.description }}</td>
+                                        <td>@{{ pL.remarks }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <input type="hidden" name="productSelected" v-model="supplier.listSelectedProductHId">
@@ -574,7 +579,6 @@
                 bankDDL: [],
                 providerDDL: [],
                 productList: [],
-                productTableLoading: true,
                 mode: '',
                 search_supplier_query: '',
                 active_page: 0
@@ -584,7 +588,6 @@
                 this.getLookupStatus();
                 this.getBank();
                 this.getPhoneProvider();
-                this.getProduct();
                 this.getAllSupplier();
             },
             methods: {
@@ -627,16 +630,19 @@
                     this.mode = 'create';
                     this.errors.clear();
                     this.supplier = this.emptySupplier();
+                    this.getProduct();
                 },
                 editSelected: function(idx) {
                     this.mode = 'edit';
                     this.errors.clear();
                     this.supplier = this.supplierList.data[idx];
+                    this.getProduct();
                 },
                 showSelected: function(idx) {
                     this.mode = 'show';
                     this.errors.clear();
                     this.supplier = this.supplierList.data[idx];
+                    this.getProduct();
                 },
                 deleteSelected: function(idx) {
                     axios.post('/api/post/supplier/delete/' + idx).then(response => {
@@ -685,6 +691,7 @@
                 },
                 addNewPIC: function() {
                     this.supplier.persons_in_charge.push({
+                        hId: '',
                         first_name: '',
                         last_name: '',
                         email: '',
@@ -692,6 +699,7 @@
                         ic_num: '',
                         image_filename: '',
                         phone_numbers:[{
+                            hId: '',
                             phoneProviderHId: '',
                             number: '',
                             remarks: ''
@@ -707,6 +715,7 @@
                     }
 
                     this.supplier.persons_in_charge[parentIndex].phone_numbers.push({
+                        hId: '',
                         phoneProviderHId: '',
                         number: '',
                         remarks: ''
@@ -731,7 +740,6 @@
                     );
                 },
                 getProduct: function(page) {
-                    this.productTableLoading = true;
                     var qS = [];
                     if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
 
@@ -744,8 +752,6 @@
                                     this.productList.data[i].checked = true;
                                 }
                             }
-
-                            this.productTableLoading = false;
                         }
                     );
                 },
