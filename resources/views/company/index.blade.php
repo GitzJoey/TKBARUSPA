@@ -333,7 +333,7 @@
                                                 <div class="form-control-plaintext">@{{ ba.remarks }}</div>
                                             </template>
                                         </td>
-                                        <td class="text-center valign-middle">
+                                        <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                             </template>
@@ -469,6 +469,24 @@
                                         <template v-if="company.ribbon == 'pulse'"><div class="form-control-plaintext text-pulse">Pulse</div></template>
                                     </template>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
+                            <div class="col-10">
+                                <template v-if="mode == 'create' || mode == 'edit'">
+                                    <button type="submit" class="btn btn-primary min-width-125">
+                                        @lang('buttons.submit_button')
+                                    </button>
+                                    <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                        @lang('buttons.cancel_button')
+                                    </button>
+                                </template>
+                                <template v-if="mode == 'show'">
+                                    <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                        @lang('buttons.back_button')
+                                    </button>
+                                </template>
                             </div>
                         </div>
                         <div class="form-group row">

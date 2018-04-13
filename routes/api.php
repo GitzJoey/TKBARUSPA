@@ -46,6 +46,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'UnitController@read')->name('api.get.unit.read');
     });
 
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::get('read', 'WarehouseController@read')->name('api.get.warehouse.read');
+    });
+
     Route::group(['prefix' => 'bank'], function () {
         Route::get('read', 'BankController@read')->name('api.get.bank.read');
     });
@@ -60,10 +64,11 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
-    Route::group(['prefix' => 'company'], function () {
-        Route::post('save', 'CompanyController@store')->name('api.post.company.save');
-        Route::post('edit/{id}', 'CompanyController@update')->name('api.post.company.edit');
-        Route::post('delete/{id}', 'CompanyController@delete')->name('api.post.company.delete');
+
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::post('save', 'WarehouseController@store')->name('api.post.warehouse.save');
+        Route::post('edit/{id}', 'WarehouseController@update')->name('api.post.warehouse.edit');
+        Route::post('delete/{id}', 'WarehouseController@delete')->name('api.post.warehouse.delete');
     });
 
     Route::group(['prefix' => 'product'], function () {
@@ -76,6 +81,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('save', 'SupplierController@store')->name('api.post.supplier.save');
         Route::post('edit/{id}', 'SupplierController@update')->name('api.post.supplier.edit');
         Route::post('delete/{id}', 'SupplierController@delete')->name('api.post.supplier.delete');
+    });
+
+    Route::group(['prefix' => 'company'], function () {
+        Route::post('save', 'CompanyController@store')->name('api.post.company.save');
+        Route::post('edit/{id}', 'CompanyController@update')->name('api.post.company.edit');
+        Route::post('delete/{id}', 'CompanyController@delete')->name('api.post.company.delete');
     });
 
     Route::group(['prefix' => 'unit'], function () {

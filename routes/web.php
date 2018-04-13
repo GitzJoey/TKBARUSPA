@@ -30,6 +30,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('', 'ProductController@index')->name('db.product');
         });
 
+        Route::group(['prefix' => 'po'], function () {
+            Route::get('', 'PurchaseOrderController@index')->name('db.po');
+        });
+
+        Route::group(['prefix' => 'warehouse'], function () {
+            Route::get('', 'WarehouseController@index')->name('db.warehouse');
+        });
+
         Route::group(['prefix' => 'bank'], function () {
             Route::get('', 'BankController@index')->name('db.bank');
         });
