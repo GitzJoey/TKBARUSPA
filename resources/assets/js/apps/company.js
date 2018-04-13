@@ -23,10 +23,12 @@ var companyVue = new Vue ({
                 if (this.mode == 'create') {
                     axios.post('/api/post/company/save', new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
                     axios.post('/api/post/company/edit/' + this.company.hId, new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
                 Codebase.blocks('#companyCRUDBlock', 'state_toggle');

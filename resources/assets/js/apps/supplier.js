@@ -29,12 +29,14 @@ var supplierVue = new Vue ({
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
                     axios.post('/api/post/supplier/edit/' + this.supplier.hId,
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
                 Codebase.blocks('#supplierCRUDBlock', 'state_toggle');

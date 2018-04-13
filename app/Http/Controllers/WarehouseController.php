@@ -36,7 +36,7 @@ class WarehouseController extends Controller
         return $this->warehouseService->read();
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -64,7 +64,7 @@ class WarehouseController extends Controller
         }
 
         $this->warehouseService->create(
-            $request['companyHId'],
+            Auth::user()->company->id,
             $request['name'],
             $request['address'],
             $request['phone_num'],
@@ -104,7 +104,8 @@ class WarehouseController extends Controller
         }
 
         $this->warehouseService->update(
-            $request['companyHId'],
+            $id,
+            Auth::user()->company->id,
             $request['name'],
             $request['address'],
             $request['phone_num'],

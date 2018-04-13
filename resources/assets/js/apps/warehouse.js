@@ -16,18 +16,19 @@ var warehouseVue = new Vue ({
     methods: {
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
-                if (!isValid) return;
+                if (!isValid) { return; }
                 Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post('/api/post/warehouse/save', new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
                     axios.post('/api/post/warehouse/edit/' + this.warehouse.hId, new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
             });
         },
         getAllWarehouse: function() {
@@ -65,7 +66,6 @@ var warehouseVue = new Vue ({
         emptyWarehouse: function() {
             return {
                 hId: '',
-                company_id: '',
                 name: '',
                 address: '',
                 phone_num: '',

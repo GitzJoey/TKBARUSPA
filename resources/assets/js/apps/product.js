@@ -27,12 +27,14 @@ var productVue = new Vue ({
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
                     axios.post('/api/post/product/edit/' + this.product.hId,
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
                 Codebase.blocks('#productCRUDBlock', 'state_toggle');

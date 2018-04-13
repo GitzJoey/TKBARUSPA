@@ -229,7 +229,7 @@
                         <label for="inputRemarks" class="col-2 col-form-label">@lang('warehouse.fields.remarks')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('warehouse.fields.remarks')">
+                                <input type="text" class="form-control" id="inputRemarks" name="remarks" v-model="warehouse.remarks" placeholder="@lang('warehouse.fields.remarks')">
                             </template>
                             <template v-if="mode == 'show'">
                                 <div class="form-control-plaintext">@{{ warehouse.remarks }}</div>
