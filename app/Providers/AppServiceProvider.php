@@ -14,6 +14,7 @@ use App\Services\SupplierService;
 use App\Services\PhoneProviderService;
 use App\Services\PurchaseOrderService;
 use App\Services\WarehouseService;
+use App\Services\PriceLevelService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
@@ -25,6 +26,7 @@ use App\Services\Implementations\SupplierServiceImpl;
 use App\Services\Implementations\PhoneProviderServiceImpl;
 use App\Services\Implementations\PurchaseOrderServiceImpl;
 use App\Services\Implementations\WarehouseServiceImpl;
+use App\Services\Implementations\PriceLevelServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -84,6 +86,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WarehouseService::class, function (){
             return new WarehouseServiceImpl();
         });
+
+        $this->app->singleton(PriceLevelService::class, function (){
+            return new PriceLevelServiceImpl();
+        });
     }
 
     /**
@@ -102,6 +108,7 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\ProductTypeService',
             'App\Services\PurchaseOrderService',
             'App\Services\WarehouseService',
+            'App\Services\PriceLevelService',
         ];
     }
 }

@@ -74,17 +74,21 @@
                             </ul>
                         </li>
                     @endpermission
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-barcode fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.price')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-barcode fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.todayprice')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-price_level')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-barcode fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.price')</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#"><span class="fa fa-barcode fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.todayprice')</a>
+                                </li>
+                                @permission('menu-price_level')
+                                    <li>
+                                        <a href="{{ route('db.price_level') }}"><span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')</a>
+                                    </li>
+                                @endpermission
+                            </ul>
+                        </li>
+                    @endpermission
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-wrench fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.warehouse')</span></a>
                         @permission('menu-warehouse')

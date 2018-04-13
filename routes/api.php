@@ -38,6 +38,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'SupplierController@read')->name('api.get.supplier.read');
     });
 
+    Route::group(['prefix' => 'price_level'], function () {
+        Route::get('read', 'PriceLevelController@read')->name('api.get.price_level.read');
+    });
+
     Route::group(['prefix' => 'product_type'], function () {
         Route::get('read', 'ProductTypeController@read')->name('api.get.product_type.read');
     });
@@ -75,6 +79,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('save', 'ProductController@store')->name('api.post.product.save');
         Route::post('edit/{id}', 'ProductController@update')->name('api.post.product.edit');
         Route::post('delete/{id}', 'ProductController@delete')->name('api.post.product.delete');
+    });
+
+    Route::group(['prefix' => 'price_level'], function () {
+        Route::post('save', 'PriceLevelController@store')->name('api.post.price_level.save');
+        Route::post('edit/{id}', 'PriceLevelController@update')->name('api.post.price_level.edit');
+        Route::post('delete/{id}', 'PriceLevelController@delete')->name('api.post.price_level.delete');
     });
 
     Route::group(['prefix' => 'supplier'], function () {
