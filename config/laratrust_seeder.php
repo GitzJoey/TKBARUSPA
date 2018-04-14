@@ -18,7 +18,7 @@ return [
             'bank' => 'c,r,u,d,m',
             'truck' => 'c,r,u,d,m',
             'truck_maintenance' => 'c,r,u,d,m',
-            'trucking_vendor' => 'c,r,u,d,m',
+            'vendor_trucking' => 'c,r,u,d,m',
             'po' => 'c,r,u,d,m',
             'po_payment' => 'c,r,u,d,m',
             'po_copy' => 'c,r,u,d,m',
