@@ -31,7 +31,6 @@ var companyVue = new Vue ({
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#companyCRUDBlock', 'state_toggle');
             });
         },
         getAllCompany: function() {

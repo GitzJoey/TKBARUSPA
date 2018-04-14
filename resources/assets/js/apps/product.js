@@ -37,7 +37,6 @@ var productVue = new Vue ({
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#productCRUDBlock', 'state_toggle');
             });
         },
         getAllProduct: function(page) {

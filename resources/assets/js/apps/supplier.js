@@ -39,7 +39,6 @@ var supplierVue = new Vue ({
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
             });
         },
         getAllSupplier: function(page) {

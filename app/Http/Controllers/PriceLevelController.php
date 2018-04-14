@@ -54,6 +54,11 @@ class PriceLevelController extends Controller
         return response()->json();
     }
 
+    public function read()
+    {
+        return $this->priceLevelService->read();
+    }
+
     public function update($id, Request $request)
     {
         $this->priceLevelService->update(

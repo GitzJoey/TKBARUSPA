@@ -27,7 +27,6 @@ var unitVue = new Vue ({
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#unitCRUDBlock', 'state_toggle');
             });
         },
         getAllUnit: function() {

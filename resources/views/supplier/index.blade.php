@@ -40,35 +40,37 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                        <th>@lang('supplier.index.table.supplier_list.header.name')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.address')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.status')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
-                        <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th>@lang('supplier.index.table.supplier_list.header.name')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.address')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.status')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <template v-if="supplierList.hasOwnProperty('data') && supplierList.data.length != 0">
-                            <tr v-for="(s, sIdx) in supplierList.data">
-                                <td>@{{ s.name }}</td>
-                                <td>@{{ s.address }}</td>
-                                <td>@{{ s.tax_id }}</td>
-                                <td>@{{ s.statusI18n }}</td>
-                                <td>@{{ s.remarks }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr>
-                                <td class="text-center" colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
-                            </tr>
-                        </template>
+                            <template v-if="supplierList.hasOwnProperty('data') && supplierList.data.length != 0">
+                                <tr v-for="(s, sIdx) in supplierList.data">
+                                    <td>@{{ s.name }}</td>
+                                    <td>@{{ s.address }}</td>
+                                    <td>@{{ s.tax_id }}</td>
+                                    <td>@{{ s.statusI18n }}</td>
+                                    <td>@{{ s.remarks }}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td class="text-center" colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
