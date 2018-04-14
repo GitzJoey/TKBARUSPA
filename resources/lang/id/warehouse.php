@@ -25,6 +25,15 @@ return [
                     'remarks' => 'Keterangan',
                 ],
             ],
+            'section_table' => [
+                'header' => [
+                    'name' => 'Nama',
+                    'position' => 'Posisi',
+                    'capacity' => 'Kapasitas',
+                    'capacity_unit' => 'Satuan',
+                    'remarks' => 'Keterangan',
+                ],
+            ],
         ],
     ],
     'fields' => [

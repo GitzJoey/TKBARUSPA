@@ -35,12 +35,12 @@
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.name')</th>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.address')</th>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.phone')</th>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.tax_id')</th>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.status')</th>
-                                <th class="text-center">@lang('vendor_trucking.index.table.vender_trucking_list.header.remarks')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.name')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.address')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.phone')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.tax_id')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.status')</th>
+                                <th class="text-center">@lang('vendor_trucking.index.table.vendor_trucking_list.header.remarks')</th>
                                 <th class="text-center">@lang('labels.ACTION')</th>
                             </tr>
                         </thead>

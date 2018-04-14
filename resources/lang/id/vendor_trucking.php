@@ -43,6 +43,6 @@ return [
         'tax_id' => 'NPWP No.',
         'status' => 'Status',
         'remarks' => 'Keterangan',
-        'bank' => 'Akun Bank'
+        'bank' => 'Akun Bank',
     ],
 ];

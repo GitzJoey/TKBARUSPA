@@ -15,7 +15,7 @@ return [
                 'title_edit' => 'Edit Supplier',
             ],
             'pic' => [
-                'title' => 'Person In Charge'
+                'title' => 'Person In Charge',
             ],
         ],
         'tabs' => [
@@ -59,6 +59,13 @@ return [
                     'remarks' => '',
                 ],
             ],
+        ],
+        'tab' => [
+            'supplier' => '',
+            'pic' => '',
+            'bank_accounts' => '',
+            'product' => '',
+            'settings' => '',
         ],
     ],
     'fields' => [

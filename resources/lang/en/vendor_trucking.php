@@ -16,7 +16,7 @@ return [
             ],
         ],
         'table' => [
-            'vender_trucking_list' => [
+            'vendor_trucking_list' => [
                 'header' => [
                     'name' => 'Name',
                     'address' => 'Address',
@@ -43,6 +43,6 @@ return [
         'tax_id' => 'Tax ID',
         'status' => 'Status',
         'remarks' => 'Remarks',
-        'bank' => 'Bank Accounts'
+        'bank' => 'Bank Accounts',
     ],
 ];

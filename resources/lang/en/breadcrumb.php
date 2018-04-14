@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 return [
     'dashboard' => 'Dashboard',
@@ -114,4 +114,7 @@ return [
     'tax.invoice.input.show' => 'Show e-Invoice Input',
     'tax.invoice.input.edit' => 'Edit e-Invoice Input',
     'tax.generate' => 'Generate CSV',
+    'master' => [
+        'product_type' => '',
+    ],
 ];

@@ -74,6 +74,24 @@
             </div>
             <div class="block-content">
                 <form id="poForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
+                        <div class="col-10">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button type="submit" class="btn btn-primary min-width-125">
+                                    @lang('buttons.submit_button')
+                                </button>
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                    @lang('buttons.cancel_button')
+                                </button>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                    @lang('buttons.back_button')
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
