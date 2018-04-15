@@ -23,14 +23,14 @@ var productVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#productCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/product/save',
+                    axios.post(route('api.post.product.save').url(),
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/product/edit/' + this.product.hId,
+                    axios.post(route('api.post.product.edit', this.product.hId).url(),
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
@@ -49,7 +49,7 @@ var productVue = new Vue ({
                 qS.push({ 'key':'page', 'value':page });
             }
 
-            axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(response => {
+            axios.get(route('api.get.product.read', this.generateQueryStrings(qS)).url()).then(response => {
                 this.productList = response.data;
                 Codebase.blocks('#productListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -78,7 +78,7 @@ var productVue = new Vue ({
             this.product = this.productList.data[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/product/delete/' + idx).then(response => {
+            axios.post(route('api.post.product.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -139,17 +139,17 @@ var productVue = new Vue ({
             }
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getProductType: function() {
-            axios.get('/api/get/product_type/read').then(
+            axios.get(route('api.get.product.product_type.read').url()).then(
                 response => { this.prodTypeDDL = response.data; }
             );
         },
         getUnit: function() {
-            axios.get('/api/get/unit/read').then(
+            axios.get(route('api.get.settings.unit.read').url()).then(
                 response => { this.unitDDL = response.data; }
             );
         }

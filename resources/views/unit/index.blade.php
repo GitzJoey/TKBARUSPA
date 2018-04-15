@@ -167,6 +167,10 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('unit')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
 

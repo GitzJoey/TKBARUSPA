@@ -233,6 +233,10 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('price_level')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
 

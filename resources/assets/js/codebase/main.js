@@ -93,7 +93,8 @@ Vue.mixin({
             } else {
                 return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port:'');
             }
-        }
+        },
+        route: route
     }
 });
 

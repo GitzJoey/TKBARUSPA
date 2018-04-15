@@ -401,6 +401,10 @@
 @endsection
 
 @section('custom_js')
+    @routes('product')
+@endsection
+
+@section('custom_js')
     <script type="application/javascript">
 
     </script>
