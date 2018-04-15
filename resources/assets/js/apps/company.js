@@ -21,12 +21,12 @@ var companyVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/company/save', new FormData($('#companyForm')[0])).then(response => {
+                    axios.post('/api/post/settings/company/save', new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/company/edit/' + this.company.hId, new FormData($('#companyForm')[0])).then(response => {
+                    axios.post('/api/post/settings/company/edit/' + this.company.hId, new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });

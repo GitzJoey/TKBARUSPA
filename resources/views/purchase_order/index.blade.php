@@ -75,6 +75,64 @@
             <div class="block-content">
                 <form id="poForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <div class="form-group row">
+                        <div class="col-6">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="supplierListBlock">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.supplier_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" v-on:click="getAllPO">
+                                            <i class="si si-refresh"></i>
+                                        </button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="poDetailBlock">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.detail_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-10 col-sm-8">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="transactionListBlock">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.transaction_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" v-on:click="getAllPO">
+                                            <i class="si si-refresh"></i>
+                                        </button>
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="summaryTransactionBlock">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.summary_trx_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
                         <div class="col-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
