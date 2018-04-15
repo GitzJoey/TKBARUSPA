@@ -35,14 +35,16 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th>@lang('company.index.table.company_list.header.name')</th>
-                            <th>@lang('company.index.table.company_list.header.address')</th>
-                            <th>@lang('company.index.table.company_list.header.tax_id')</th>
-                            <th>@lang('company.index.table.company_list.header.default')</th>
-                            <th>@lang('company.index.table.company_list.header.frontweb')</th>
-                            <th>@lang('company.index.table.company_list.header.status')</th>
-                            <th>@lang('company.index.table.company_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th>@lang('company.index.table.company_list.header.name')</th>
+                                <th>@lang('company.index.table.company_list.header.address')</th>
+                                <th>@lang('company.index.table.company_list.header.tax_id')</th>
+                                <th>@lang('company.index.table.company_list.header.default')</th>
+                                <th>@lang('company.index.table.company_list.header.frontweb')</th>
+                                <th>@lang('company.index.table.company_list.header.status')</th>
+                                <th>@lang('company.index.table.company_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(c, cIdx) in companyList">
@@ -55,16 +57,15 @@
                                 <td>@{{ c.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-secondary" v-on:click="showSelected(cIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="editSelected(cIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(c.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(cIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(cIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(c.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <br>
                 <div class="row items-push-2x text-center text-sm-left">
                     <div class="col-sm-6 col-xl-4">
                         <button type="button" class="btn btn-primary btn-lg btn-circle" v-on:click="createNew" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('buttons.create_new_button') }}">
@@ -335,14 +336,14 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                             </template>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button class="btn btn-xs btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
+                                <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
                             </template>
                         </div>
                         <div class="tab-pane fade fade-up" id="tabs_settings" role="tabpanel">

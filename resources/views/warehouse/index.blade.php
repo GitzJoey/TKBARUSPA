@@ -35,12 +35,14 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.name')</th>
-                            <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.address')</th>
-                            <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.phone_num')</th>
-                            <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.status')</th>
-                            <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.name')</th>
+                                <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.address')</th>
+                                <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.phone_num')</th>
+                                <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.status')</th>
+                                <th class="text-center">@lang('warehouse.index.table.warehouse_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(w, wIdx) in warehouseList">
@@ -51,9 +53,9 @@
                                 <td>@{{ w.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-secondary" v-on:click="showSelected(wIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="editSelected(wIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(w.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(wIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(wIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(w.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
@@ -191,7 +193,7 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="cI" v-on:click="removeSections(cI)">
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="cI" v-on:click="removeSections(cI)">
                                                     <span class="fa fa-close fa-fw"></span>
                                                 </button>
                                             </template>
@@ -201,7 +203,7 @@
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button type="button" class="btn btn-xs btn-default" v-on:click="addSections">@lang('buttons.create_new_button')</button>
+                                <button type="button" class="btn btn-sm btn-default" v-on:click="addSections">@lang('buttons.create_new_button')</button>
                             </template>
                             <template v-if="mode == 'show'"></template>
                         </div>

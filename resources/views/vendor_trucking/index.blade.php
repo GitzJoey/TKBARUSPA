@@ -54,9 +54,9 @@
                                 <td>@{{ vt.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-secondary" v-on:click="showSelected(vtIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="editSelected(vtIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(vt.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(vtIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(vtIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(vt.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
@@ -196,14 +196,14 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                             </template>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button class="btn btn-xs btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
+                                <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
                             </template>
                         </div>
                     </div>

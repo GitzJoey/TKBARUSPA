@@ -40,13 +40,15 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th>@lang('product.index.table.product_list.header.type')</th>
-                            <th>@lang('product.index.table.product_list.header.name')</th>
-                            <th>@lang('product.index.table.product_list.header.short_code')</th>
-                            <th>@lang('product.index.table.product_list.header.description')</th>
-                            <th>@lang('product.index.table.product_list.header.status')</th>
-                            <th>@lang('product.index.table.product_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th>@lang('product.index.table.product_list.header.type')</th>
+                                <th>@lang('product.index.table.product_list.header.name')</th>
+                                <th>@lang('product.index.table.product_list.header.short_code')</th>
+                                <th>@lang('product.index.table.product_list.header.description')</th>
+                                <th>@lang('product.index.table.product_list.header.status')</th>
+                                <th>@lang('product.index.table.product_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <template v-if="productList.hasOwnProperty('data') && productList.data.length != 0">
@@ -59,9 +61,9 @@
                                     <td>@{{ p.remarks }}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-secondary" v-on:click="showSelected(pIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                            <button class="btn btn-xs btn-secondary" v-on:click="editSelected(pIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                            <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(p.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="showSelected(pIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="editSelected(pIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(p.hId)"><span class="fa fa-close fa-fw"></span></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -171,7 +173,7 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-on:click="removeCategory(catIdx)"><span class="fa fa-close"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-on:click="removeCategory(catIdx)"><span class="fa fa-close"></span></button>
                                             </template>
                                             <template v-if="mode == 'show'"></template>
                                         </td>
@@ -179,7 +181,7 @@
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button type="button" class="btn btn-xs btn-default" v-on:click="addCategory()">@lang('buttons.create_new_button')</button>
+                                <button type="button" class="btn btn-sm btn-default" v-on:click="addCategory()">@lang('buttons.create_new_button')</button>
                             </template>
                             <template v-if="mode == 'show'"></template>
                         </div>
@@ -312,7 +314,7 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-on:click="removeProductUnit(punitIdx)"><span class="fa fa-close"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-on:click="removeProductUnit(punitIdx)"><span class="fa fa-close"></span></button>
                                             </template>
                                             <template v-if="mode == 'show'">
                                                 <div class="form-control-plaintext"></div>
@@ -322,7 +324,7 @@
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button type="button" class="btn btn-xs btn-default" v-on:click="addNewProductUnit()">@lang('buttons.create_new_button')</button>
+                                <button type="button" class="btn btn-sm btn-default" v-on:click="addNewProductUnit()">@lang('buttons.create_new_button')</button>
                             </template>
                             <template v-if="mode == 'show'">
                                 <div class="form-control-plaintext"></div>

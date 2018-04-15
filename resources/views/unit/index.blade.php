@@ -35,11 +35,13 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.name')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.symbol')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.status')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.name')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.symbol')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.status')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in unitList">
@@ -49,9 +51,9 @@
                                 <td>@{{ u.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-xs btn-secondary" v-on:click="showSelected(uIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="editSelected(uIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(u.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(uIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(uIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(u.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
