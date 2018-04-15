@@ -76,6 +76,8 @@
 
         <input type="hidden" id="appSettings" value="{{ Config::get('session.lifetime') }}-0"/>
 
+        @yield('ziggy_route')
+
         <script src="{{ mix('js/codebase/main.js') }}"></script>
 
         @yield('custom_js')
