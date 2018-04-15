@@ -54,9 +54,9 @@
                                 <td>@{{ pl.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(plIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(plIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(pl.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-xs btn-secondary" v-on:click="showSelected(plIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-xs btn-secondary" v-on:click="editSelected(plIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(pl.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>

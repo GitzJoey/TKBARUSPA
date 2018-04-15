@@ -59,9 +59,9 @@
                                     <td>@{{ s.remarks }}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                            <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                            <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                            <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                            <button class="btn btn-xs btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                            <button class="btn btn-xs btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                            <button class="btn btn-xs btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -280,7 +280,7 @@
                                                 <h3 class="block-title">@lang('supplier.index.panel.pic.title')&nbsp;@{{ pIdx + 1 }}</h3>
                                                 <div class="block-options">
                                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                                        <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                        <button type="button" class="btn btn-xs btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
                                                     </template>
                                                     <template v-if="mode == 'show'">
                                                     </template>
