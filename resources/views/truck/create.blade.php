@@ -35,13 +35,13 @@
                 </div>
                 <div class="box-body">
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('truck_type') }">
-                        <label for="inputTruckType" class="col-sm-2 control-label">@lang('truck.fields.truck_type')</label>
+                        <label for="inputTruckType" class="col-sm-2 control-label">@lang('truck.index.fields.truck_type')</label>
                         <div class="col-sm-10">
                             <select class="form-control"
                                     name="type"
                                     v-model="truck.truck_type"
                                     v-validate="'required'"
-                                    data-vv-as="{{ trans('truck.fields.truck_type') }}">
+                                    data-vv-as="{{ trans('truck.index.fields.truck_type') }}">
                                 <option v-bind:value="defaultTruckType">@lang('labels.PLEASE_SELECT')</option>
                                 <option v-for="(s, sIdx) in truckTypeDDL" v-bind:value="s.code">@{{ s.description }}</option>
                             </select>
@@ -49,16 +49,16 @@
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('plate_number') }">
-                        <label for="inputPlateNumber" class="col-sm-2 control-label">@lang('truck.fields.plate_number')</label>
+                        <label for="inputPlateNumber" class="col-sm-2 control-label">@lang('truck.index.fields.plate_number')</label>
                         <div class="col-sm-10">
-                            <input id="inputPlateNumber" name="plate_number" type="text" class="form-control" placeholder="@lang('truck.fields.plate_number')"
-                                v-model="truck.plate_number" v-validate="'required'" data-vv-as="{{ trans('truck.fields.plate_number') }}">
+                            <input id="inputPlateNumber" name="plate_number" type="text" class="form-control" placeholder="@lang('truck.index.fields.plate_number')"
+                                v-model="truck.plate_number" v-validate="'required'" data-vv-as="{{ trans('truck.index.fields.plate_number') }}">
                             <span v-show="errors.has('plate_number')" class="help-block" v-cloak>@{{ errors.first('plate_number') }}</span>
 
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('inspection_date') }">
-                        <label for="inputInspectionDate" class="col-sm-2 control-label">@lang('truck.fields.inspection_date')</label>
+                        <label for="inputInspectionDate" class="col-sm-2 control-label">@lang('truck.index.fields.inspection_date')</label>
                         <div class="col-sm-9">
                             <div class="input-group date">
                                 <div class="input-group-addon">
@@ -70,22 +70,21 @@
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('driver') }">
-                        <label for="inputDriver" class="col-sm-2 control-label">@lang('truck.fields.driver')</label>
+                        <label for="inputDriver" class="col-sm-2 control-label">@lang('truck.index.fields.driver')</label>
                         <div class="col-sm-10">
-                            <input id="inputDriver" name="driver" type="text" class="form-control" placeholder="@lang('truck.fields.driver')"
-                                v-model="truck.driver" v-validate="'required'" data-vv-as="{{ trans('truck.fields.driver') }}">
+                            <input id="inputDriver" name="driver" type="text" class="form-control" placeholder="@lang('truck.index.fields.driver')"
+                                v-model="truck.driver" v-validate="'required'" data-vv-as="{{ trans('truck.index.fields.driver') }}">
                             <span v-show="errors.has('driver')" class="help-block" v-cloak>@{{ errors.first('driver') }}</span>
-
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('status') }">
-                        <label for="inputStatus" class="col-sm-2 control-label">@lang('truck.fields.status')</label>
+                        <label for="inputStatus" class="col-sm-2 control-label">@lang('truck.index.fields.status')</label>
                         <div class="col-sm-10">
                             <select class="form-control"
                                     name="status"
                                     v-model="truck.status"
                                     v-validate="'required'"
-                                    data-vv-as="{{ trans('truck.fields.status') }}">
+                                    data-vv-as="{{ trans('truck.index.fields.status') }}">
                                 <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
                                 <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
                             </select>
@@ -93,9 +92,9 @@
                         </div>
                     </div>
                     <div class="form-group {{ $errors->has('remarks') ? 'is-invalid' : '' }}">
-                        <label for="inputRemarks" class="col-sm-2 control-label">@lang('truck.fields.remarks')</label>
+                        <label for="inputRemarks" class="col-sm-2 control-label">@lang('truck.index.fields.remarks')</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('truck.fields.remarks')">
+                            <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('truck.index.fields.remarks')">
                             <span class="help-block">{{ $errors->has('remarks') ? $errors->first('remarks') : '' }}</span>
                         </div>
                     </div>
