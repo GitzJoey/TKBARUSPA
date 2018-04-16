@@ -30,8 +30,7 @@ class TruckController extends Controller
 
     public function index()
     {
-        $trucklist = $this->truckService->paginate(Config::get('const.PAGINATION'));
-        return view('truck.index', compact('trucklist'));
+        return view('truck.index');
     }
 
     public function read(Request $request)
@@ -41,7 +40,7 @@ class TruckController extends Controller
 
     public function store(Request $data)
     {
-        $validator = Validator::make($data->all(), [
+        Validator::make($data->all(), [
             'plate_number' => 'required|string|max:255',
             'inspection_date' => 'required|string|max:255',
             'driver' => 'required|string|max:255',
@@ -62,36 +61,9 @@ class TruckController extends Controller
             
     }
 
-    public function show($truck)
-    {
-        $truck = $this->truckService->find($truck);
-        $statusDDL = LookupRepo::findByCategory('STATUS')->pluck('i18nDescription', 'code');
-        $truckTypeDDL = LookupRepo::findByCategory('TRUCKTYPE')->pluck('i18nDescription', 'code');
-
-        return view('truck.show', compact('statusDDL', 'truckTypeDDL'))->with('truck', $truck);
-    }
-
-    public function create()
-    {
-        $statusDDL = LookupRepo::findByCategory('STATUS')->pluck('i18nDescription', 'code');
-        $truckTypeDDL = LookupRepo::findByCategory('TRUCKTYPE')->pluck('i18nDescription', 'code');
-
-        return view('truck.create', compact('statusDDL', 'truckTypeDDL'));
-    }
-
-    public function edit($truck)
-    {
-        $truck = $this->truckService->find($truck);
-
-        $statusDDL = LookupRepo::findByCategory('STATUS')->pluck('i18nDescription', 'code');
-        $truckTypeDDL = LookupRepo::findByCategory('TRUCKTYPE')->pluck('i18nDescription', 'code');
-
-        return view('truck.edit', compact('truck', 'statusDDL', 'truckTypeDDL'));
-    }
-
     public function update($truck, Request $req)
     {
-        $validator = Validator::make($req->all(), [
+        Validator::make($req->all(), [
             'plate_number' => 'required|string|max:255',
             'inspection_date' => 'required|string|max:255',
             'driver' => 'required|string|max:255',
@@ -106,6 +78,7 @@ class TruckController extends Controller
     public function delete($truck)
     {
         $this->truckService->find($truck)->delete();
-        return redirect(route('db.master.truck'));
+        
+        return response()->json();
     }
 }

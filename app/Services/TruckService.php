@@ -20,7 +20,6 @@ interface TruckService
         $type, 
         $plate_number, 
         $inspection_date, 
-+
         $driver, 
         $status, 
         $remarks 

@@ -66,7 +66,6 @@ class Truck extends Model
     protected $table = 'trucks';
 
     protected $fillable = [
-        'company_id',
         'type',
         'plate_number',
         'inspection_date',
