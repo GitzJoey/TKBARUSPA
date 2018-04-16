@@ -21,7 +21,7 @@ return [
                     'type' => 'Tipe',
                     'plate_number' => 'Nomor Plat',
                     'inspection_date' => 'Tanggal Inspeksi',
-                    'driver' => 'Sopir'
+                    'driver' => 'Sopir',
                     'status' => 'Status',
                     'remarks' => 'Keterangan',
                 ],
@@ -31,7 +31,7 @@ return [
             'type' => 'Tipe',
             'plate_number' => 'Nomor Plat',
             'inspection_date' => 'Tanggal Inspeksi',
-            'driver' => 'Sopir'
+            'driver' => 'Sopir',
             'status' => 'Status',
             'remarks' => 'Keterangan',
         ],

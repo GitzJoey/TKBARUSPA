@@ -21,7 +21,7 @@ return [
                     'type' => 'Type',
                     'plate_number' => 'Plate Number',
                     'inspection_date' => 'Inspection Date',
-                    'driver' => 'Driver'
+                    'driver' => 'Driver',
                     'status' => 'Status',
                     'remarks' => 'Remarks',
                 ],
@@ -31,7 +31,7 @@ return [
             'type' => 'Type',
             'plate_number' => 'Plate Number',
             'inspection_date' => 'Inspection Date',
-            'driver' => 'Driver'
+            'driver' => 'Driver',
             'status' => 'Status',
             'remarks' => 'Remarks',
         ],

@@ -13,7 +13,7 @@
 @endsection
 
 @section('breadcrumbs')
-    {!! Breadcrumbs::render('master_truck') !!}
+
 @endsection
 
 @section('content')

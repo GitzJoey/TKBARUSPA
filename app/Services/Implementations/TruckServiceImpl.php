@@ -10,7 +10,7 @@ namespace App\Services\Implementations;
  
 use App\Models\Truck; 
 
-use App\Services\UnitService; 
+use App\Services\TruckService; 
  
 class TruckServiceImpl implements TruckService 
 { 
