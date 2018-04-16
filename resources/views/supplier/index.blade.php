@@ -573,6 +573,10 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('supplier')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
 

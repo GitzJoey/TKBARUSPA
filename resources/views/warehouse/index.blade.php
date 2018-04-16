@@ -263,6 +263,10 @@
 @endsection
 
 @section('custom_js')
+    @routes('warehouse')
+@endsection
+
+@section('custom_js')
     <script type="application/javascript">
 
     </script>

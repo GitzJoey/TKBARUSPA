@@ -25,14 +25,14 @@ var supplierVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/supplier/save',
+                    axios.post(route('api.post.supplier.save').url(),
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/supplier/edit/' + this.supplier.hId,
+                    axios.post(route('api.post.supplier.edit', this.supplier.hId).url(),
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
@@ -51,7 +51,7 @@ var supplierVue = new Vue ({
                 qS.push({ 'key':'page', 'value':page });
             }
 
-            axios.get('/api/get/supplier/read' + this.generateQueryStrings(qS)).then(response => {
+            axios.get(route('/api/get/supplier/read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.supplierList = response.data;
                 Codebase.blocks('#supplierListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -75,7 +75,7 @@ var supplierVue = new Vue ({
             this.getProduct();
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/supplier/delete/' + idx).then(response => {
+            axios.post(route('api.post.supplier.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -155,12 +155,12 @@ var supplierVue = new Vue ({
             this.supplier.persons_in_charge[parentIndex].phone_numbers.splice(idx, 1);
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS')).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getPhoneProvider: function() {
-            axios.get('/api/get/phone_provider/read').then(
+            axios.get(route('api.get.settings.phone_provider.read').url()).then(
                 response => { this.providerDDL = response.data; }
             );
         },

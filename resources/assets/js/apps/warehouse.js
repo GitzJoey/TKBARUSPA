@@ -19,12 +19,12 @@ var warehouseVue = new Vue ({
                 if (!isValid) { return; }
                 Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/warehouse/save', new FormData($('#warehouseForm')[0])).then(response => {
+                    axios.post(route('api.post.warehouse.save').url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/warehouse/edit/' + this.warehouse.hId, new FormData($('#warehouseForm')[0])).then(response => {
+                    axios.post(route('api.post.warehouse.edit', this.warehouse.hId).url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
@@ -33,7 +33,7 @@ var warehouseVue = new Vue ({
         },
         getAllWarehouse: function() {
             Codebase.blocks('#warehouseListBlock', 'state_toggle');
-            axios.get('/api/get/warehouse/read').then(response => {
+            axios.get(route('api.get.warehouse.read').url()).then(response => {
                 this.warehouseList = response.data;
                 Codebase.blocks('#warehouseListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -54,7 +54,7 @@ var warehouseVue = new Vue ({
             this.warehouse = this.warehouseList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/warehouse/delete/' + idx).then(response => {
+            axios.post(route('api.post.warehouse.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -93,12 +93,12 @@ var warehouseVue = new Vue ({
             this.warehouse.sections.splice(idx, 1);
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getUnit: function() {
-            axios.get('/api/get/unit/read').then(
+            axios.get(route('api.get.settings.unit.read').url()).then(
                 response => { this.unitDDL = response.data; }
             );
         }

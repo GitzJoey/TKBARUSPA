@@ -49,7 +49,7 @@ var productVue = new Vue ({
                 qS.push({ 'key':'page', 'value':page });
             }
 
-            axios.get(route('api.get.product.read', this.generateQueryStrings(qS)).url()).then(response => {
+            axios.get(route('api.get.product.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.productList = response.data;
                 Codebase.blocks('#productListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });

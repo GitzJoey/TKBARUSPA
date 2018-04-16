@@ -400,7 +400,7 @@
     </div>
 @endsection
 
-@section('custom_js')
+@section('ziggy')
     @routes('product')
 @endsection
 

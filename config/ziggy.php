@@ -31,7 +31,8 @@ return [
         'warehouse' => [
             'api.get.lookup.*',
             'api.get.warehouse.*',
-            'api.post.warehouse.*'
+            'api.post.warehouse.*',
+            'api.get.settings.unit.*',
         ],
         'price_level' => [
             'api.get.lookup.*',
@@ -53,10 +54,12 @@ return [
         'supplier' => [
             'api.get.lookup.*',
             'api.get.supplier.*',
-            'api.post.supplier.*'
+            'api.post.supplier.*',
+            'api.get.settings.phone_provider.*',
         ],
         'vendor_trucking' => [
             'api.get.lookup.*',
+            'api.get.bank.*',
             'api.get.truck.vendor_trucking.*',
             'api.post.truck.vendor_trucking.*'
         ],

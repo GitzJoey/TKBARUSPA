@@ -19,13 +19,13 @@ var vendorTruckingVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/truck/vendor_trucking/save',
+                    axios.post(route('api.post.truck.vendor_trucking.save').url(),
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/truck/vendor_trucking/edit/' + this.vendorTrucking.hId,
+                    axios.post(route('api.post.truck.vendor_trucking.edit', this.vendorTrucking.hId).url(),
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
@@ -36,7 +36,7 @@ var vendorTruckingVue = new Vue ({
         getAllVendorTrucking: function() {
             Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
 
-            axios.get('/api/get/truck/vendor_trucking/read').then(response => {
+            axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
                 this.vendorTruckingList = response.data;
                 Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -57,7 +57,7 @@ var vendorTruckingVue = new Vue ({
             this.vendorTrucking = this.vendorTruckingList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/truck/vendor_trucking/delete/' + idx).then(response => {
+            axios.post(route('api.post.truck.vendor_trucking.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -89,12 +89,12 @@ var vendorTruckingVue = new Vue ({
             this.vendorTrucking.bank_accounts.splice(idx, 1);
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getBank: function() {
-            axios.get('/api/get/bank/read').then(
+            axios.get(route('api.get.bank.read').url()).then(
                 response => { this.bankDDL = response.data; }
             );
         }

@@ -261,6 +261,10 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('vendor_trucking')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
 
