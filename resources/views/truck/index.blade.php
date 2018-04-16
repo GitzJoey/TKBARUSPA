@@ -35,18 +35,18 @@
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center">@lang('truck.index.table.header.truck_type')</th>
-                                <th class="text-center">@lang('truck.index.table.header.plate_number')</th>
-                                <th class="text-center">@lang('truck.index.table.header.inspection_date')</th>
-                                <th class="text-center">@lang('truck.index.table.header.driver')</th>
-                                <th class="text-center">@lang('truck.index.table.header.status')</th>
-                                <th class="text-center">@lang('truck.index.table.header.remarks')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.type')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.plate_number')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.inspection_date')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.driver')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.status')</th>
+                                <th class="text-center">@lang('truck.index.table.truck_list.header.remarks')</th>
                                 <th class="text-center">@lang('labels.ACTION')</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in truckList">
-                                <td>@{{ u.truck_type }}</td>
+                                <td>@{{ u.type }}</td>
                                 <td>@{{ u.plate_number }}</td>
                                 <td>@{{ u.inspection_date }}</td>
                                 <td>@{{ u.driver }}</td>
@@ -92,7 +92,7 @@
                 <form id="truckForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <input type="hidden" v-model="truck.hId" name="hId" value=""/>
                         <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('truck_type') }">
-                        <label for="inputTruckType" class="col-2 col-form-label">@lang('truck.index.fields.truck_type')</label>
+                        <label for="inputTruckType" class="col-2 col-form-label">@lang('truck.index.fields.type')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control" id="inputTruckType" name="truck_type" v-model="truck.truck_type" v-validate="'required'">

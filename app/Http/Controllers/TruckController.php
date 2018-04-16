@@ -13,7 +13,6 @@ use Config;
 use Validator;
 use Illuminate\Http\Request;
 
-use App\Model\Truck;
 use App\Services\TruckService;
 
 use App\Repos\LookupRepo;

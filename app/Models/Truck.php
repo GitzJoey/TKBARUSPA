@@ -6,9 +6,10 @@
  * Time: 12:17 AM
  */
 
-namespace App\Model;
+namespace App\Models;
 
 use Auth;
+use Lang;
 use App\Traits\CompanyFilter;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
