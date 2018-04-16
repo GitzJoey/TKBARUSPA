@@ -59,6 +59,14 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     });
 
     Route::group(['prefix' => 'settings'], function () {
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('read', 'UserController@read')->name('api.get.settings.user.read');
+        });
+
+        Route::group(['prefix' => 'roles'], function () {
+            Route::get('read', 'RolesController@read')->name('api.get.settings.roles.read');
+        });
+
         Route::group(['prefix' => 'company'], function () {
             Route::get('read', 'CompanyController@read')->name('api.get.settings.company.read');
         });

@@ -28,7 +28,11 @@ return [
         ],
     ],
     'fields' => [
-        'name' => 'Name',
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'address' => 'Address',
+        'ic_num' => 'IC Number',
+        'photo' => 'Photo',
         'email' => 'Email',
         'company' => 'Company',
         'roles' => 'Role',

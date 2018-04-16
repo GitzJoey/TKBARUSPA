@@ -7,9 +7,7 @@ return [
         'page_title_desc' => '',
         'panel' => [
             'list_panel' => [
-                'header' => [
-                    'title' => 'Daftar Pengguna',
-                ],
+                'title' => 'Daftar Pengguna',
             ],
             'crud_panel' => [
                 'title_create' => 'Tambah Pengguna',
@@ -18,16 +16,23 @@ return [
             ],
         ],
         'table' => [
-            'header' => [
-                'name' => 'Nama',
-                'email' => 'Email',
-                'roles' => 'Peran',
-                'company' => 'Perusahaan',
+            'user_list' => [
+                'header' => [
+                    'name' => 'Nama',
+                    'email' => 'Email',
+                    'roles' => 'Peran',
+                    'company' => 'Perusahaan',
+                    'active' => 'Active',
+                ],
             ],
         ],
     ],
     'fields' => [
-        'name' => 'Nama',
+        'first_name' => 'Nama Depan',
+        'last_name' => 'Nama Belakang',
+        'address' => 'Alamat',
+        'ic_num' => 'No. Identitas',
+        'photo' => 'Photo',
         'email' => 'Email',
         'company' => 'Perusahan',
         'roles' => 'Peran',

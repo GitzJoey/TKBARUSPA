@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Vinkla\Hashids\Facades\Hashids;
 use Laratrust\Models\LaratrustRole;
 
 /**
@@ -24,5 +25,15 @@ use Laratrust\Models\LaratrustRole;
  */
 class Role extends LaratrustRole
 {
-    //
+    protected $hidden = [
+    ];
+
+    protected $appends = [
+        'hId'
+    ];
+
+    public function getHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['id']);
+    }
 }

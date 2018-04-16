@@ -32,6 +32,11 @@ class UserController extends Controller
         return view('user.index');
     }
 
+    public function read()
+    {
+        return $this->userService->read();
+    }
+
     public function profile($id)
     {
         $user = '';

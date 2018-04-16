@@ -69,7 +69,7 @@ class UserServiceImpl implements UserService
 
     public function read()
     {
-        return User::with('profile.phoneNumbers')->get();
+        return User::with('profile.phoneNumbers', 'company', 'roles')->get();
     }
 
     public function update(

@@ -63,5 +63,12 @@ return [
             'api.get.truck.vendor_trucking.*',
             'api.post.truck.vendor_trucking.*'
         ],
+        'user' => [
+            'api.get.lookup.*',
+            'api.get.settings.user.*',
+            'api.get.settings.company.*',
+            'api.get.settings.roles.*',
+            'api.post.settings.user.*',
+        ]
     ],
 ];
