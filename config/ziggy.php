@@ -36,8 +36,8 @@ return [
         ],
         'price_level' => [
             'api.get.lookup.*',
-            'api.get.price_level.*',
-            'api.post.price_level.*'
+            'api.get.price.price_level.*',
+            'api.post.price.price_level.*'
         ],
         'product' => [
             'api.get.lookup.*',

@@ -109,7 +109,7 @@ var priceLevelVue = new Vue ({
             );
         },
         getPriceLevelType: function() {
-            axios.get(route('api.get.lookupbyCategory/PRICELEVEL_TYPE').url()).then(
+            axios.get(route('api.get.lookup.bycategory', 'PRICELEVEL_TYPE').url()).then(
                 response => { this.priceLevelTypeDDL = response.data; }
             );
         },

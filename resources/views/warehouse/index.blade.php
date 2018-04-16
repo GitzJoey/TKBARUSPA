@@ -262,7 +262,7 @@
     </div>
 @endsection
 
-@section('custom_js')
+@section('ziggy')
     @routes('warehouse')
 @endsection
 
