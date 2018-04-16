@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.12 on 2018-03-25 16:29:04.
+ * Generated for Laravel 5.6.15 on 2018-04-09 17:41:33.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1745,6 +1745,21 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Invalid other sessions for the current user.
+         * 
+         * The application must be using the AuthenticateSession middleware.
+         *
+         * @param string $password
+         * @param string $attribute
+         * @return $this 
+         * @static 
+         */ 
+        public static function logoutOtherDevices($password, $attribute = 'password')
+        {
+            return \Illuminate\Auth\SessionGuard::logoutOtherDevices($password, $attribute);
+        }
+        
+        /**
          * Register an authentication attempt event listener.
          *
          * @param mixed $callback
@@ -2953,29 +2968,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flush()
         {
-            return \Illuminate\Cache\FileStore::flush();
-        }
-        
-        /**
-         * Get the Filesystem instance.
-         *
-         * @return \Illuminate\Filesystem\Filesystem 
-         * @static 
-         */ 
-        public static function getFilesystem()
-        {
-            return \Illuminate\Cache\FileStore::getFilesystem();
-        }
-        
-        /**
-         * Get the working directory of the cache.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getDirectory()
-        {
-            return \Illuminate\Cache\FileStore::getDirectory();
+            return \Illuminate\Cache\ArrayStore::flush();
         }
         
         /**
@@ -2986,7 +2979,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getPrefix()
         {
-            return \Illuminate\Cache\FileStore::getPrefix();
+            return \Illuminate\Cache\ArrayStore::getPrefix();
         }
          
     }
@@ -13094,6 +13087,429 @@ namespace Barryvdh\DomPDF {
  
 }
 
+namespace DaveJamesMiller\Breadcrumbs\Facades { 
+
+    class Breadcrumbs {
+        
+        /**
+         * Register a breadcrumb-generating callback for a page.
+         *
+         * @param string $name The name of the page.
+         * @param callable $callback The callback, which should accept a Generator instance as the first parameter and may
+         *     accept additional parameters.
+         * @return void 
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\DuplicateBreadcrumbException If the given name has already been
+         *     used.
+         * @static 
+         */ 
+        public static function register($name, $callback)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::register($name, $callback);
+        }
+        
+        /**
+         * Register a closure to call before generating breadcrumbs for the current page.
+         * 
+         * For example, this can be used to always prepend the homepage without needing to manually add it to each page.
+         *
+         * @param callable $callback The callback, which should accept a Generator instance as the first and only parameter.
+         * @return void 
+         * @static 
+         */ 
+        public static function before($callback)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::before($callback);
+        }
+        
+        /**
+         * Register a closure to call after generating breadcrumbs for the current page.
+         * 
+         * For example, this can be used to append the current page number when using pagination.
+         *
+         * @param callable $callback The callback, which should accept a Generator instance as the first and only parameter.
+         * @return void 
+         * @static 
+         */ 
+        public static function after($callback)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::after($callback);
+        }
+        
+        /**
+         * Check if a breadcrumb with the given name exists.
+         * 
+         * If no name is given, defaults to the current route name.
+         *
+         * @param string|null $name The page name.
+         * @return bool Whether there is a registered callback with that name.
+         * @static 
+         */ 
+        public static function exists($name = null)
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::exists($name);
+        }
+        
+        /**
+         * Generate a set of breadcrumbs for a page.
+         *
+         * @param string|null $name The name of the current page.
+         * @param mixed $params The parameters to pass to the closure for the current page.
+         * @return \Illuminate\Support\Collection The generated breadcrumbs.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException if no name is given and the current route
+         *     doesn't have an associated name.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException if the name is (or any ancestor names
+         *     are) not registered.
+         * @static 
+         */ 
+        public static function generate($name = null, $params = null)
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::generate($name, $params);
+        }
+        
+        /**
+         * Render breadcrumbs for a page with the specified view.
+         *
+         * @param string $view The name of the view to render.
+         * @param string|null $name The name of the current page.
+         * @param mixed $params The parameters to pass to the closure for the current page.
+         * @return \Illuminate\Support\HtmlString The generated HTML.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException if the name is (or any ancestor names are) not registered.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException if no name is given and the current route doesn't have an associated name.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\ViewNotSetException if no view has been set.
+         * @static 
+         */ 
+        public static function view($view, $name = null, $params = null)
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::view($view, $name, $params);
+        }
+        
+        /**
+         * Render breadcrumbs for a page with the default view.
+         *
+         * @param string|null $name The name of the current page.
+         * @param mixed $params The parameters to pass to the closure for the current page.
+         * @return \Illuminate\Support\HtmlString The generated HTML.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException if the name is (or any ancestor names are) not registered.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException if no name is given and the current route doesn't have an associated name.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\ViewNotSetException if no view has been set.
+         * @static 
+         */ 
+        public static function render($name = null, $params = null)
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::render($name, $params);
+        }
+        
+        /**
+         * Get the last breadcrumb for the current page.
+         * 
+         * Optionally pass a
+         *
+         * @return \stdClass|null The breadcrumb for the current page.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException if the current route doesn't have an associated name.
+         * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException if the name is (or any ancestor names are) not registered.
+         * @static 
+         */ 
+        public static function current()
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::current();
+        }
+        
+        /**
+         * Set the current route name and parameters to use when calling render() or generate() with no parameters.
+         *
+         * @param string $name The name of the current page.
+         * @param mixed $params The parameters to pass to the closure for the current page.
+         * @return void 
+         * @static 
+         */ 
+        public static function setCurrentRoute($name, $params = null)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::setCurrentRoute($name, $params);
+        }
+        
+        /**
+         * Clear the previously set route name and parameters to use when calling render() or generate() with no parameters.
+         * 
+         * Next time it will revert to the default behaviour of using the current route from Laravel.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function clearCurrentRoute()
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::clearCurrentRoute();
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @return void 
+         * @static 
+         */ 
+        public static function mixin($mixin)
+        {
+            \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::mixin($mixin);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+            return \DaveJamesMiller\Breadcrumbs\BreadcrumbsManager::hasMacro($name);
+        }
+         
+    }
+ 
+}
+
+namespace HieuLe\Active\Facades { 
+
+    class Active {
+        
+        /**
+         * Update the route and request instances
+         *
+         * @param \Route $route
+         * @param \Request $request
+         * @static 
+         */ 
+        public static function updateInstances($route, $request)
+        {
+            return \HieuLe\Active\Active::updateInstances($route, $request);
+        }
+        
+        /**
+         * Get the active class if the condition is not falsy
+         *
+         * @param $condition
+         * @param string $activeClass
+         * @param string $inactiveClass
+         * @return string 
+         * @static 
+         */ 
+        public static function getClassIf($condition, $activeClass = 'active', $inactiveClass = '')
+        {
+            return \HieuLe\Active\Active::getClassIf($condition, $activeClass, $inactiveClass);
+        }
+        
+        /**
+         * Check if the URI of the current request matches one of the specific URIs
+         *
+         * @param array|string $uris
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkUri($uris)
+        {
+            return \HieuLe\Active\Active::checkUri($uris);
+        }
+        
+        /**
+         * Check if the current URI matches one of specific patterns (using `str_is`)
+         *
+         * @param array|string $patterns
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkUriPattern($patterns)
+        {
+            return \HieuLe\Active\Active::checkUriPattern($patterns);
+        }
+        
+        /**
+         * Check if one of the following condition is true:
+         * + the value of $value is `false` and the current querystring contain the key $key
+         * + the value of $value is not `false` and the current value of the $key key in the querystring equals to $value
+         * + the value of $value is not `false` and the current value of the $key key in the querystring is an array that
+         * contains the $value
+         *
+         * @param string $key
+         * @param mixed $value
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkQuery($key, $value)
+        {
+            return \HieuLe\Active\Active::checkQuery($key, $value);
+        }
+        
+        /**
+         * Check if the name of the current route matches one of specific values
+         *
+         * @param array|string $routeNames
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkRoute($routeNames)
+        {
+            return \HieuLe\Active\Active::checkRoute($routeNames);
+        }
+        
+        /**
+         * Check the current route name with one or some patterns
+         *
+         * @param array|string $patterns
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkRoutePattern($patterns)
+        {
+            return \HieuLe\Active\Active::checkRoutePattern($patterns);
+        }
+        
+        /**
+         * Check if the parameter of the current route has the correct value
+         *
+         * @param $param
+         * @param $value
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkRouteParam($param, $value)
+        {
+            return \HieuLe\Active\Active::checkRouteParam($param, $value);
+        }
+        
+        /**
+         * Return 'active' class if current route action match one of provided action names
+         *
+         * @param array|string $actions
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkAction($actions)
+        {
+            return \HieuLe\Active\Active::checkAction($actions);
+        }
+        
+        /**
+         * Check if the current controller class matches one of specific values
+         *
+         * @param array|string $controllers
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkController($controllers)
+        {
+            return \HieuLe\Active\Active::checkController($controllers);
+        }
+        
+        /**
+         * Get the current controller method
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getMethod()
+        {
+            return \HieuLe\Active\Active::getMethod();
+        }
+        
+        /**
+         * Get the current action string
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getAction()
+        {
+            return \HieuLe\Active\Active::getAction();
+        }
+        
+        /**
+         * Get the current controller class
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getController()
+        {
+            return \HieuLe\Active\Active::getController();
+        }
+         
+    }
+ 
+}
+
+namespace Intervention\Image\Facades { 
+
+    class Image {
+        
+        /**
+         * Overrides configuration settings
+         *
+         * @param array $config
+         * @static 
+         */ 
+        public static function configure($config = array())
+        {
+            return \Intervention\Image\ImageManager::configure($config);
+        }
+        
+        /**
+         * Initiates an Image instance from different input types
+         *
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function make($data)
+        {
+            return \Intervention\Image\ImageManager::make($data);
+        }
+        
+        /**
+         * Creates an empty image canvas
+         *
+         * @param integer $width
+         * @param integer $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function canvas($width, $height, $background = null)
+        {
+            return \Intervention\Image\ImageManager::canvas($width, $height, $background);
+        }
+        
+        /**
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
+         *
+         * @param \Closure $callback
+         * @param integer $lifetime
+         * @param boolean $returnObj
+         * @return \Image 
+         * @static 
+         */ 
+        public static function cache($callback, $lifetime = null, $returnObj = false)
+        {
+            return \Intervention\Image\ImageManager::cache($callback, $lifetime, $returnObj);
+        }
+         
+    }
+ 
+}
+
 namespace Maatwebsite\Excel\Facades { 
 
     class Excel {
@@ -15931,6 +16347,12 @@ namespace  {
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
 
     class PDF extends \Barryvdh\DomPDF\Facade {}
+
+    class Breadcrumbs extends \DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs {}
+
+    class Active extends \HieuLe\Active\Facades\Active {}
+
+    class Image extends \Intervention\Image\Facades\Image {}
 
     class Excel extends \Maatwebsite\Excel\Facades\Excel {}
 

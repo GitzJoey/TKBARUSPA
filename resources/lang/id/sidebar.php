@@ -2,12 +2,9 @@
 
 return [
     'menu.po' => 'Pembelian',
-    'menu.po.new' => 'Pembelian',
-    'menu.po.revise' => 'Revisi',
     'menu.po.payment' => 'Pembayaran',
     'menu.po.copy' => 'Duplikat',
     'menu.so' => 'Penjualan',
-    'menu.so.new' => 'Penjualan',
     'menu.so.revise' => 'Revisi',
     'menu.so.payment' => 'Pembayaran',
     'menu.so.copy' => 'Duplikat',
@@ -45,11 +42,10 @@ return [
     'menu.rpt.monthly' => 'Bulanan',
     'menu.rpt.quarterly' => 'Triwulan',
     'menu.rpt.yearly' => 'Tahunan',
-    'menu.settings' => 'Admin Menu',
+    'menu.settings' => 'Settings',
     'menu.settings.company' => 'Perusahaan',
     'menu.settings.roles' => 'Peran',
     'menu.settings.user' => 'Pengguna',
     'menu.settings.unit' => 'Satuan',
-    'menu.settings.currencies' => 'Mata Uang',
     'menu.settings.phone_provider' => 'Provider Telepon'
 ];

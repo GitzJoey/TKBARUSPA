@@ -8,7 +8,7 @@ label {
 }
 
 .form-control,
-.input-group-addon {
+.input-group-text {
     height: $pbf-height;
     font-family: $font-family-base;
 }
@@ -49,24 +49,26 @@ textarea.form-control {
     }
 }
 
-.form-control-sm,
-.input-group-addon.form-control-sm,
-.input-group-sm > .form-control,
-.input-group-sm > .input-group-addon,
-.input-group-sm > .input-group-btn > .btn {
-    height: $pbf-height-sm;
-    font-size: $pbf-font-size-sm;
-    line-height: $pbf-line-height-sm;
-}
-
 .form-control-lg,
-.input-group-addon.form-control-lg,
 .input-group-lg > .form-control,
-.input-group-lg > .input-group-addon,
-.input-group-lg > .input-group-btn > .btn {
+.input-group-lg > .input-group-prepend > .input-group-text,
+.input-group-lg > .input-group-append > .input-group-text,
+.input-group-lg > .input-group-prepend > .btn,
+.input-group-lg > .input-group-append > .btn {
     height: $pbf-height-lg;
     font-size: $pbf-font-size-lg;
     line-height: $pbf-line-height-lg;
+}
+
+.form-control-sm,
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-prepend > .input-group-text,
+.input-group-sm > .input-group-append > .input-group-text,
+.input-group-sm > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn {
+    height: $pbf-height-sm;
+    font-size: $pbf-font-size-sm;
+    line-height: $pbf-line-height-sm;
 }
 
 .col-form-label-lg {

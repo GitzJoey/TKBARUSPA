@@ -21,15 +21,30 @@
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/codebase.css') }}">
-        <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.min.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ mix('css/codebase/main.css') }}">
+
+        @if (!empty(Auth::user()->company->ribbon))
+            @if (Auth::user()->company->ribbon == 'corporate')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/corporate.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'earth')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/earth.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'elegance')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/elegance.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'flat')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/flat.css') }}">
+            @elseif (Auth::user()->company->ribbon == 'pulse')
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/pulse.css') }}">
+            @else
+                <link rel="stylesheet" id="css-theme" href="{{ asset('css/codebase/themes/default.css') }}">
+            @endif
+        @endif
 
         @yield('custom_css')
     </head>
 
     <body>
         <div id="page-loader" class="show"></div>
-        <div id="page-container" class="sidebar-o sidebar-inverse side-scroll">
+        <div id="page-container" class="sidebar-o sidebar-mini sidebar-inverse side-scroll">
             <div>
                 @include('layouts.codebase.sideoverlay')
 
@@ -39,10 +54,16 @@
 
                 <main id="main-container">
                     <div class="content">
-                        <h2 class="content-heading">
-                            <strong>@yield('page_title')</strong><small style="font-size: x-small;">@yield('page_title_desc')</small>
-                        </h2>
-                        <br>
+                        <h1 class="content-heading">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>@yield('page_title')</strong><small style="font-size: x-small;">@yield('page_title_desc')</small>
+                                </div>
+                                <div class="col-6">
+                                    <div class="pull-right"><small>@yield('breadcrumbs')</small></div>
+                                </div>
+                            </div>
+                        </h1>
                         @yield('content')
                     </div>
                 </main>
@@ -55,7 +76,9 @@
 
         <input type="hidden" id="appSettings" value="{{ Config::get('session.lifetime') }}-0"/>
 
-        <script src="{{ mix('js/codebase/codebase.js') }}"></script>
+        @yield('ziggy')
+
+        <script src="{{ mix('js/codebase/main.js') }}"></script>
 
         @yield('custom_js')
     </body>

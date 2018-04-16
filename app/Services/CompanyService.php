@@ -23,6 +23,7 @@ interface CompanyService
         $frontweb,
         $image_filename,
         $remarks,
+        $bank,
         $date_format,
         $time_format,
         $thousand_separator,
@@ -30,9 +31,9 @@ interface CompanyService
         $decimal_digit,
         $ribbon
     );
-    public function read($id);
-    public function readAll($limit = 0);
+    public function read();
     public function update(
+        $id,
         $name,
         $address,
         $latitude,
@@ -45,6 +46,7 @@ interface CompanyService
         $frontweb,
         $image_filename,
         $remarks,
+        $bank,
         $date_format,
         $time_format,
         $thousand_separator,
@@ -53,4 +55,14 @@ interface CompanyService
         $ribbon
     );
     public function delete($id);
+
+    public function createDefaultCompany($companyName);
+
+    public function setDefaultCompany($id);
+
+    public function isEmptyCompanyTable();
+
+    public function defaultStorePresent();
+
+    public function getDefaultCompany();
 }

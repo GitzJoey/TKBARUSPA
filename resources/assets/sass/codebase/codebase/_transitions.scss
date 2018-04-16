@@ -3,9 +3,10 @@
 // --------------------------------------------------
 
 .fade {
-    transition: opacity .15s ease-out, transform .3s ease-out;
+    transition: opacity .15s ease-out; // Summernote editor tooltips have issues if we add transform in transition
 
     &.fade-up {
+        transition: opacity .15s ease-out, transform .3s ease-out;
         transform: translateY(100px);
 
         &.show {
@@ -14,6 +15,7 @@
     }
 
     &.fade-right {
+        transition: opacity .15s ease-out, transform .3s ease-out;
         transform: translateX(-100px);
 
         &.show {
@@ -22,6 +24,7 @@
     }
 
     &.fade-left {
+        transition: opacity .15s ease-out, transform .3s ease-out;
         transform: translateX(100px);
 
         &.show {

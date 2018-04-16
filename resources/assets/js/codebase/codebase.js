@@ -871,21 +871,17 @@ var Codebase = function() {
 
             // Init
             el.appear(function() {
-                try {
-                    el.countTo({
-                        speed: el.data('speed') || 1500,
-                        refreshInterval: el.data('refresh-interval') || 15,
-                        onComplete: function() {
-                            if(elAfter) {
-                                el.html(el.html() + elAfter);
-                            } else if (elBefore) {
-                                el.html(elBefore + el.html());
-                            }
+                el.countTo({
+                    speed: el.data('speed') || 1500,
+                    refreshInterval: el.data('refresh-interval') || 15,
+                    onComplete: function() {
+                        if(elAfter) {
+                            el.html(el.html() + elAfter);
+                        } else if (elBefore) {
+                            el.html(elBefore + el.html());
                         }
-                    });
-                } catch (e) {
-                    console.log(e.message);
-                }
+                    }
+                });
             });
         });
     };
@@ -1279,7 +1275,7 @@ var Codebase = function() {
         jQuery('.js-simplemde:not(.js-simplemde-enabled)').each(function(){
             var el = jQuery(this);
 
-            // Add .js-slider-enabled class to tag it as activated
+            // Add .js-simplemde-enabled class to tag it as activated
             el.addClass('js-simplemde-enabled');
 
             // Init editor
@@ -1306,6 +1302,7 @@ var Codebase = function() {
                 arrows: el.data('arrows') || false,
                 dots: el.data('dots') || false,
                 slidesToShow: el.data('slides-to-show') || 1,
+                slidesToScroll: el.data('slides-to-scroll') || 1,
                 centerMode: el.data('center-mode') || false,
                 autoplay: el.data('autoplay') || false,
                 autoplaySpeed: el.data('autoplay-speed') || 3000
@@ -1483,6 +1480,16 @@ var Codebase = function() {
                         z_index: 1033,
                         delay: 5000,
                         timer: 1000,
+                        template: '<div data-notify="container" class="col-11 col-sm-3 alert alert-{0}" role="alert">' +
+                                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                                    '<span data-notify="icon"></span> ' +
+                                    '<span data-notify="title">{1}</span> ' +
+                                    '<span data-notify="message">{2}</span>' +
+                                    '<div class="progress" data-notify="progressbar">' +
+                                    '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                                    '</div>' +
+                                    '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                                    '</div>',
                         animate: {
                             enter: 'animated fadeIn',
                             exit: 'animated fadeOutDown'
@@ -1596,6 +1603,43 @@ var Codebase = function() {
             // Init
             el.ionRangeSlider({
                 input_values_separator: ';'
+            });
+        });
+    };
+
+    /*
+     * Summernote, for more examples you can check out https://github.com/summernote/summernote/
+     *
+     * Codebase.helper('summernote');
+     *
+     */
+    var uiHelperSummernote = function(){
+        // Init text editor in air mode (inline)
+        jQuery('.js-summernote-air:not(.js-summernote-air-enabled)').each(function(){
+            var el = jQuery(this);
+
+            // Add .js-summernote-air-enabled class to tag it as activated
+            el.addClass('js-summernote-air-enabled');
+
+            // Init
+            el.summernote({
+                airMode: true,
+                tooltip: false
+            });
+        });
+
+        // Init full text editor
+        jQuery('.js-summernote:not(.js-summernote-enabled)').each(function(){
+            var el = jQuery(this);
+
+            // Add .js-summernote-enabled class to tag it as activated
+            el.addClass('js-summernote-enabled');
+
+            // Init
+            el.summernote({
+                height: 350,
+                minHeight: null,
+                maxHeight: null
             });
         });
     };
@@ -1761,6 +1805,9 @@ var Codebase = function() {
                     break;
                 case 'rangeslider':
                     uiHelperRangeslider();
+                    break;
+                case 'summernote':
+                    uiHelperSummernote();
                     break;
                 default:
                     return false;

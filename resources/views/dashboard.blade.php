@@ -1,19 +1,19 @@
 @extends('layouts.codebase.master')
 
 @section('title')
-    Dashboard
+    @lang('dashboard.title')
 @endsection
 
 @section('page_title')
-    Dashboard
+    @lang('dashboard.page_title')
 @endsection
 
 @section('page_title_desc')
-    Dashboard
+    @lang('dashboard.page_title_desc')
 @endsection
 
 @section('breadcrumbs')
-
+    {!! Breadcrumbs::render('dashboard') !!}
 @endsection
 
 @section('content')

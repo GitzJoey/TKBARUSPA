@@ -8,6 +8,12 @@
     font-size: $pbf-font-size;
     font-weight: 600;
 
+    &:focus {
+        color: $body-color-dark;
+        background-color: $body-bg-dark;
+        border-color: $body-bg-dark;
+    }
+
     .pagination-lg & {
         height: $pbf-height-lg;
         line-height: $pbf-line-height-lg;

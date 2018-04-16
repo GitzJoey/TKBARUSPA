@@ -14,4 +14,6 @@ $(document).ready(function () {
     timeout();
 
     $('#goTop').goTop({ "src": "fa fa-chevron-up fa-fw" });
+
+    $('#calendar').fullCalendar();
 });

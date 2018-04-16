@@ -10,13 +10,13 @@
                     <a class="img-link mr-5" href="be_pages_generic_profile.html">
                         <img class="img-avatar img-avatar32" src="{{ asset('images/def-user.png') }}" alt="">
                     </a>
-                    <a class="align-middle link-effect text-primary-dark font-w600" href="be_pages_generic_profile.html">John Smith</a>
+                    <a class="align-middle link-effect text-primary-dark font-w600" href="#">{{ Auth::user()->name }}</a>
                 </div>
             </div>
         </div>
 
         <div class="content-side">
-
+            <div id="calendar"></div>
         </div>
     </div>
 </aside>

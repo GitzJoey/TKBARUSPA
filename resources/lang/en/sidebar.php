@@ -2,12 +2,9 @@
 
 return [
     'menu.po' => 'Purchase Order',
-    'menu.po.new' => 'Purchase Order',
-    'menu.po.revise' => 'Revise PO',
     'menu.po.payment' => 'PO Payment',
     'menu.po.copy' => 'PO Copy',
     'menu.so' => 'Sales Order',
-    'menu.so.new' => 'Sales Order',
     'menu.so.revise' => 'Revise Sales',
     'menu.so.payment' => 'Sales Payment',
     'menu.so.copy' => 'Sales Copy',
@@ -45,11 +42,10 @@ return [
     'menu.rpt.monthly' => 'Monthly',
     'menu.rpt.quarterly' => 'Quarterly',
     'menu.rpt.yearly' => 'Yearly',
-    'menu.settings' => 'Admin Menu',
+    'menu.settings' => 'Settings',
     'menu.settings.company' => 'Company',
     'menu.settings.user' => 'User',
     'menu.settings.roles' => 'Roles',
     'menu.settings.unit' => 'Unit',
-    'menu.settings.currencies' => 'Currencies',
     'menu.settings.phone_provider' => 'Phone Provider'
 ];

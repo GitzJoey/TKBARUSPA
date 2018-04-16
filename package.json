@@ -11,28 +11,33 @@
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
-        "popper.js": "^1.12",
+        "bootstrap": "^4.1.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
+        "popper.js": "^1.14.3",
         "vue": "^2.5.7"
     },
     "dependencies": {
         "animate.css": "^3.6.1",
         "font-awesome": "^4.7.0",
+        "fullcalendar": "^3.9.0",
         "jquery-countto": "^1.2.0",
         "jquery-gotop": "^1.1.2",
         "jquery-scroll-lock": "^3.1.3",
         "jquery-slimscroll": "^1.3.8",
         "jquery.appear": "^1.0.1",
         "jquery.cookie": "^1.4.1",
-        "moment": "^2.21.0",
+        "laravel-vue-pagination": "^1.2.0",
+        "moment": "^2.22.1",
         "moment-duration-format": "^2.2.2",
         "numbro": "^2.0.6",
-        "pdfjs-dist": "^2.0.453",
+        "pdfjs-dist": "^2.0.489",
+        "simple-line-icons": "^2.4.1",
         "vee-validate": "^2.0.6",
-        "vue-autonumeric": "^1.1.0"
+        "vue-autonumeric": "^1.2.0",
+        "vue-flatpickr-component": "^7.0.1",
+        "vue-select": "^2.4.0"
     }
 }

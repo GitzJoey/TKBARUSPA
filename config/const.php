@@ -23,12 +23,9 @@ return [
 
     'DATETIME_FORMAT' => [
         'PHP_DATE' => 'd M Y',
-        'PHP_TIME' => 'G:H A',
-        'PHP_DATETIME' => 'd M Y G:H A',
+        'PHP_TIME' => 'G:H:s',
+        'PHP_DATETIME' => 'd M Y G:H:s',
         'DATABASE_DATETIME' => 'Y-m-d H:i:s',
-        'JS_DATE' => 'YYYY-MM-DD',
-        'JS_TIME' => 'hh:mm:ss A',
-        'JS_DATETIME' => 'YYYY-MM-DD hh:mm A'
     ],
 
     'DIGIT_GROUP_SEPARATOR' => ',',
@@ -38,9 +35,4 @@ return [
     'DECIMAL_DIGIT' => 2,
 
     'PAGINATION' => 10,
-
-
-    'SETTING_KEY' => [
-
-    ],
 ];

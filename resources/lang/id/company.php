@@ -1,38 +1,55 @@
 <?php 
 
 return [
-    'create' => [
-        'title' => 'Toko',
-        'page_title' => 'Toko',
+    'index' => [
+        'title' => 'Perusahaan',
+        'page_title' => 'Perusahaan',
         'page_title_desc' => '',
-        'header' => [
-            'title' => 'Tambah Toko',
+        'panel' => [
+            'list_panel' => [
+                'title' => 'Daftar Perusahaan',
+            ],
+            'crud_panel' => [
+                'title_create' => 'Tambah Perusahaan',
+                'title_show' => 'Tampilkan Perusahaan',
+                'title_edit' => 'Ubah Perusahaan',
+            ],
         ],
-        'tab' => [
-            'store' => 'Data Toko',
+        'table' => [
+            'company_list' => [
+                'header' => [
+                    'name' => 'Nama',
+                    'address' => 'Alamat',
+                    'tax_id' => 'NPWP No.',
+                    'default' => 'Utama',
+                    'frontweb' => 'Web Utama',
+                    'status' => 'Status',
+                    'remarks' => 'Keterangan',
+                ],
+            ],
+            'bank_list' => [
+                'header' => [
+                    'bank' => 'Bank',
+                    'account_name' => 'Nama Rekening',
+                    'account_number' => 'Nomor Rekening',
+                    'remarks' => 'Catatan',
+                ],
+            ],
+        ],
+        'tabs' => [
+            'company' => 'Data Perusahaan',
             'bank_account' => 'Rekening Bank',
-            'currencies' => 'Mata Uang',
             'settings' => 'Pengaturan',
         ],
-        'table_bank' => [
-            'header' => [
-                'bank' => 'Bank',
-                'account_name' => 'Nama Rekening',
-                'account_number' => 'Nomor Rekening',
-                'remarks' => 'Catatan',
-            ],
-        ],
-        'table_currencies' => [
-            'header' => [
-                'currencies' => 'Mata Uang',
-                'base_currencies' => 'Mata Uang Dasar',
-                'conversion_value' => 'Nilai Tukar',
-                'remarks' => 'Catatan',
-            ],
+        'fields' => [
+            'bank_id' => 'Bank',
+            'account_name' => 'Nama Akun',
+            'account_number' => 'Nomor Akun',
         ],
     ],
-    'field' => [
+    'fields' => [
         'name' => 'Nama',
+        'logo' => 'Logo',
         'address' => 'Alamat',
         'phone' => 'Telepon',
         'fax' => 'Fax',
@@ -46,67 +63,9 @@ return [
         'thousand_separator' => 'Pemisah Ribuan',
         'decimal_separator' => 'Pemisah Desimal',
         'decimal_digit' => 'Desimal Digit',
-        'none' => 'Kosong',
         'comma' => 'Koma',
         'dot' => 'Titik',
         'space' => 'Spasi',
-        'blue' => 'Biru',
-        'black' => 'Hitam',
-        'red' => 'Merah',
-        'yellow' => 'Kuning',
-        'purple' => 'Ungu',
-        'green' => 'Hijau',
-        'blue-light' => 'Biru Terang',
-        'black-light' => 'Hitam Terang',
-        'red-light' => 'Merah Terang',
-        'yellow-light' => 'Kuning Terang',
-        'purple-light' => 'Ungu Terang',
-        'green-light' => 'Hijau Terang',
-        'ribbon' => 'Pita',
-        'latitude' => 'Garis Lintang',
-        'longitude' => 'Garis Bujur',
-        'dialog' => [
-            'map' => [
-                'title' => 'Pilih Lokasi',
-                'address' => 'Alamat',
-                'latitude' => 'Latitude',
-                'longitude' => 'Longitude',
-            ],
-        ],
-    ],
-    'edit' => [
-        'title' => 'Toko',
-        'page_title' => 'Toko',
-        'page_title_desc' => '',
-        'header' => [
-            'title' => 'Ubah Toko',
-        ],
-    ],
-    'index' => [
-        'title' => 'Toko',
-        'page_title' => 'Toko',
-        'page_title_desc' => '',
-        'header' => [
-            'title' => 'Daftar Toko',
-        ],
-        'table' => [
-            'header' => [
-                'name' => 'Nama',
-                'address' => 'Alamat',
-                'tax_id' => 'NPWP No.',
-                'default' => 'Utama',
-                'frontweb' => 'Web Utama',
-                'status' => 'Status',
-                'remarks' => 'Keterangan',
-            ],
-        ],
-    ],
-    'show' => [
-        'title' => 'Toko',
-        'page_title' => 'Toko',
-        'page_title_desc' => '',
-        'header' => [
-            'title' => 'Tampilan Toko',
-        ],
+        'color_theme' => 'Warna Tema',
     ],
 ];

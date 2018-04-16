@@ -8,17 +8,25 @@
         $length-y: map-get($lengths, y);
 
         .#{$abbrev}-#{$size}  { #{$prop}:        $length-y $length-x !important; }
-        .#{$abbrev}t-#{$size} { #{$prop}-top:    $length-y !important; }
-        .#{$abbrev}r-#{$size} { #{$prop}-right:  $length-x !important; }
-        .#{$abbrev}b-#{$size} { #{$prop}-bottom: $length-y !important; }
-        .#{$abbrev}l-#{$size} { #{$prop}-left:   $length-x !important; }
-        .#{$abbrev}x-#{$size} {
-            #{$prop}-right: $length-x !important;
-            #{$prop}-left:  $length-x !important;
-        }
+
+        .#{$abbrev}t-#{$size},
         .#{$abbrev}y-#{$size} {
             #{$prop}-top:    $length-y !important;
+        }
+
+        .#{$abbrev}r-#{$size},
+        .#{$abbrev}x-#{$size} {
+            #{$prop}-right:  $length-x !important;
+        }
+
+        .#{$abbrev}b-#{$size},
+        .#{$abbrev}y-#{$size} {
             #{$prop}-bottom: $length-y !important;
+        }
+
+        .#{$abbrev}l-#{$size},
+        .#{$abbrev}x-#{$size} {
+            #{$prop}-left:   $length-x !important;
         }
     }
 }
