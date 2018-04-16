@@ -83,7 +83,9 @@
                                 </li>
                                 @permission('menu-price_level')
                                     <li>
-                                        <a href="{{ route('db.price_level') }}"><span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.price_level') || if_route_pattern('db.price_level.*')) }}" href="{{ route('db.price_level') }}">
+                                            <span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')
+                                        </a>
                                     </li>
                                 @endpermission
                             </ul>
@@ -95,7 +97,9 @@
                             <ul>
                                 @permission('menu-warehouse')
                                     <li>
-                                        <a href="{{ route('db.warehouse') }}"><span class="fa fa-wrench fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.warehouse') || if_route_pattern('db.warehouse.*')) }}" href="{{ route('db.warehouse') }}">
+                                            <span class="fa fa-wrench fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse')
+                                        </a>
                                     </li>
                                 @endpermission
                                 <li>
@@ -145,7 +149,9 @@
                             <ul>
                                 @permission('menu-bank')
                                     <li>
-                                        <a href="{{ route('db.bank') }}"><span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')</a>
+                                        <a href="{{ route('db.bank') }}">
+                                            <span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')
+                                        </a>
                                     </li>
                                 @endpermission
                                 <li>
@@ -187,17 +193,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cube fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.product')</span></a>
-                        <ul>
-                            <li>
-                                <a href="{{ route('db.product') }}"><span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-product|menu-product_type')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cube fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.product')</span></a>
+                            <ul>
+                                @permission('menu-product')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.product') || if_route_pattern('db.product.*')) }}" href="{{ route('db.product') }}">
+                                            <span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')
+                                        </a>
+                                    </li>
+                                @endpermission
+                                @permission('menu-product_type')
+                                    <li>
+                                        <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>
+                                    </li>
+                                @endpermission
+                            </ul>
+                        </li>
+                    @endpermission
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-smile-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.customer')</span></a>
                         <ul>
@@ -215,7 +229,9 @@
                             <ul>
                                 @permission('menu-company')
                                     <li>
-                                        <a href="{{ route('db.supplier') }}"><span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.supplier') || if_route_pattern('db.supplier.*')) }}" href="{{ route('db.supplier') }}">
+                                            <span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')
+                                        </a>
                                     </li>
                                 @endpermission
                             </ul>
@@ -234,7 +250,9 @@
                                 @endpermission
                                 @permission('menu-users')
                                     <li>
-                                        <a href="#"><span class="fa fa-user fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.user')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.settings.user') || if_route_pattern('db.settings.user.*')) }}" href="{{ route('db.settings.user') }}">
+                                            <span class="fa fa-user fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.user')
+                                        </a>
                                     </li>
                                 @endpermission
                                 @permission('menu-roles')
