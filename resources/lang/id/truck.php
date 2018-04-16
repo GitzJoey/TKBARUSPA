@@ -16,7 +16,7 @@ return [
             ],
         ],
         'table' => [
-            'unit_list' => [
+            'truck_list' => [
                 'header' => [
                     'type' => 'Tipe',
                     'plate_number' => 'Nomor Plat',

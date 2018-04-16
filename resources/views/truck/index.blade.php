@@ -34,13 +34,15 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th class="text-center">@lang('truck.index.table.header.truck_type')</th>
-                            <th class="text-center">@lang('truck.index.table.header.plate_number')</th>
-                            <th class="text-center">@lang('truck.index.table.header.inspection_date')</th>
-                            <th class="text-center">@lang('truck.index.table.header.driver')</th>
-                            <th class="text-center">@lang('truck.index.table.header.status')</th>
-                            <th class="text-center">@lang('truck.index.table.header.remarks')</th>
-                            <th class="text-center">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th class="text-center">@lang('truck.index.table.header.truck_type')</th>
+                                <th class="text-center">@lang('truck.index.table.header.plate_number')</th>
+                                <th class="text-center">@lang('truck.index.table.header.inspection_date')</th>
+                                <th class="text-center">@lang('truck.index.table.header.driver')</th>
+                                <th class="text-center">@lang('truck.index.table.header.status')</th>
+                                <th class="text-center">@lang('truck.index.table.header.remarks')</th>
+                                <th class="text-center">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in truckList">
@@ -89,9 +91,9 @@
             <div class="block-content">
                 <form id="truckForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <input type="hidden" v-model="truck.hId" name="hId" value=""/>
-                        <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('truck_type') }">
-                        <label for="inputTruckType" class="col-sm-2 control-label">@lang('truck.index.fields.truck_type')</label>
-                        <div class="col-sm-10">
+                        <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('truck_type') }">
+                        <label for="inputTruckType" class="col-2 col-form-label">@lang('truck.index.fields.truck_type')</label>
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control" id="inputTruckType" name="truck_type" v-model="truck.truck_type" v-validate="'required'">
                                     <option v-bind:value="defaultTruckType">@lang('labels.PLEASE_SELECT')</option>
@@ -104,9 +106,9 @@
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('plate_number') }">
-                        <label for="inputPlateNumber" class="col-sm-2 control-label">@lang('truck.index.fields.plate_number')</label>
-                        <div class="col-sm-10">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('plate_number') }">
+                        <label for="inputPlateNumber" class="col-2 col-form-label">@lang('truck.index.fields.plate_number')</label>
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input id="inputPlateNumber" name="plate_number" type="text" class="form-control" placeholder="@lang('truck.index.fields.plate_number')"
                                 v-model="truck.plate_number" v-validate="'required'">
@@ -117,8 +119,8 @@
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('inspection_date') }">
-                        <label for="inputInspectionDate" class="col-sm-2 control-label">@lang('truck.index.fields.inspection_date')</label>
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('inspection_date') }">
+                        <label for="inputInspectionDate" class="col-2 col-form-label">@lang('truck.index.fields.inspection_date')</label>
                         <div class="col-sm-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <div class="input-group date">
@@ -134,9 +136,9 @@
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('driver') }">
-                        <label for="inputDriver" class="col-sm-2 control-label">@lang('truck.index.fields.driver')</label>
-                        <div class="col-sm-10">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver') }">
+                        <label for="inputDriver" class="col-2 col-form-label">@lang('truck.index.fields.driver')</label>
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input id="inputDriver" name="driver" type="text" class="form-control" placeholder="@lang('truck.index.fields.driver')"
                                     v-model="truck.driver" v-validate="'required'">
@@ -147,9 +149,9 @@
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('status') }">
-                        <label for="inputStatus" class="col-sm-2 control-label">@lang('truck.index.fields.status')</label>
-                        <div class="col-sm-10">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('status') }">
+                        <label for="inputStatus" class="col-2 col-form-label">@lang('truck.index.fields.status')</label>
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control" id="inputStatus" name="status" v-model="truck.status" v-validate="'required'">
                                     <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
@@ -158,19 +160,19 @@
                                 <div v-show="errors.has('status')" class="invalid-feedback">@{{ errors.first('status') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ unit.statusI18n }}</div>
+                                <div class="form-control-plaintext">@{{ truck.statusI18n }}</div>
                             </template>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-2 col-form-label" for="inputRemarks">@lang('unit.index.fields.remarks')</label>
+                        <label class="col-2 col-form-label" for="inputRemarks">@lang('truck.index.fields.remarks')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('unit.index.fields.remarks')"
-                                       v-model="unit.remarks">
+                                <input type="text" class="form-control" id="inputRemarks" name="remarks" placeholder="@lang('truck.index.fields.remarks')"
+                                       v-model="truck.remarks">
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ unit.remarks }}</div>
+                                <div class="form-control-plaintext">@{{ truck.remarks }}</div>
                             </template>
                         </div>
                     </div>
@@ -196,4 +198,11 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('custom_js')
+    <script type="application/javascript">
+
+    </script>
+    <script type="application/javascript" src="{{ mix('js/apps/unit.min.js') }}"></script>
 @endsection
