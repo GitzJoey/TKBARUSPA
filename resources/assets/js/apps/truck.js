@@ -3,6 +3,7 @@ var truckVue = new Vue ({
     data: {
         truckList: [],
         statusDDL: [],
+        truckTypeDDL: [],
         mode: '',
         truck: { }
     },
@@ -10,6 +11,7 @@ var truckVue = new Vue ({
         this.mode = 'list';
         this.getAllTruck();
         this.getLookupStatus();
+        this.getLookupTruckType();
     },
     methods: {
         validateBeforeSubmit: function() {
@@ -64,6 +66,7 @@ var truckVue = new Vue ({
             return {
                 hId: '',
                 companyHId: '',
+                truck_type: '',
                 plate_number: '',
                 inspection_date: '',
                 driver: '',
@@ -74,6 +77,11 @@ var truckVue = new Vue ({
         getLookupStatus: function() {
             axios.get('/api/get/lookup/byCategory/STATUS').then(
                 response => { this.statusDDL = response.data; }
+            );
+        },
+        getLookupTruckType: function() {
+            axios.get('/api/get/lookup/byCategory/TRUCK_TYPE').then(
+                response => { this.truckTypeDDL = response.data; }
             );
         }
     },
@@ -96,6 +104,9 @@ var truckVue = new Vue ({
     },
     computed: {
         defaultStatus: function() {
+            return '';
+        },
+        defaultTruckType: function() {
             return '';
         }
     }

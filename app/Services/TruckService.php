@@ -11,7 +11,7 @@ interface TruckService
         $inspection_date, 
         $driver, 
         $status, 
-        $remarks 
+        $remarks
     ); 
     public function read(); 
     public function update( 
@@ -22,7 +22,7 @@ interface TruckService
         $inspection_date, 
         $driver, 
         $status, 
-        $remarks 
+        $remarks
     ); 
     public function delete($id); 
 }

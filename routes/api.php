@@ -87,4 +87,10 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('edit/{id}', 'UnitController@update')->name('api.post.unit.edit');
         Route::post('delete/{id}', 'UnitController@delete')->name('api.post.unit.delete');
     });
+
+    Route::group(['prefix' => 'truck'], function () {
+        Route::post('save', 'TruckController@store')->name('api.post.truck.save');
+        Route::post('edit/{id}', 'TruckController@update')->name('api.post.truck.edit');
+        Route::post('delete/{id}', 'TruckController@delete')->name('api.post.truck.delete');
+    });
 });

@@ -47,7 +47,7 @@ class TruckController extends Controller
         ])->validate();
         
         $this->truckService->create([
-            'store_id' => Auth::user()->store->id,
+            'company_id' => Auth::user()->company->id,
             'type' => $data['truck_type'],
             'plate_number' => $data['plate_number'],
             'inspection_date' => date('Y-m-d', strtotime($data->input('inspection_date '))),

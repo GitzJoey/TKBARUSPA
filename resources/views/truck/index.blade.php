@@ -127,7 +127,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <vue-datetimepicker name="inspection_date" value="" v-model="truck.inspection_date" v-validate="'required'" format="DD-MM-YYYY hh:mm A"></vue-datetimepicker>
+                                    <flat-pickr name="inspection_date" value="" v-model="truck.inspection_date" v-validate="'required'" format="DD-MM-YYYY hh:mm A"></flat-pickr>
                                     <div v-show="errors.has('inspection_date')" class="invalid-feedback">@{{ errors.first('inspection_date') }}</div>
                                 </div>
                             </template>
