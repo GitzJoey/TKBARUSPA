@@ -51,7 +51,7 @@ var supplierVue = new Vue ({
                 qS.push({ 'key':'page', 'value':page });
             }
 
-            axios.get(route('/api/get/supplier/read').url() + this.generateQueryStrings(qS)).then(response => {
+            axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.supplierList = response.data;
                 Codebase.blocks('#supplierListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -165,7 +165,7 @@ var supplierVue = new Vue ({
             );
         },
         getBank: function() {
-            axios.get('/api/get/bank/read').then(
+            axios.get(route('api.get.bank.read').url()).then(
                 response => { this.bankDDL = response.data; }
             );
         },
@@ -174,7 +174,7 @@ var supplierVue = new Vue ({
             var qS = [];
             if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
 
-            axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(
+            axios.get(route('api.get.product.read').url() + this.generateQueryStrings(qS)).then(
                 response => {
                     this.productList = response.data;
 
