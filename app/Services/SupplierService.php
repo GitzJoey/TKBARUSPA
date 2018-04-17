@@ -27,6 +27,7 @@ interface SupplierService
         $product_selected
     );
     public function read();
+    public function readAll();
     public function update(
         $id,
         $company_id,

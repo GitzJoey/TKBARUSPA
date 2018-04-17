@@ -60,13 +60,6 @@ return [
                 ],
             ],
         ],
-        'tab' => [
-            'supplier' => '',
-            'pic' => '',
-            'bank_accounts' => '',
-            'product' => '',
-            'settings' => '',
-        ],
     ],
     'fields' => [
         'search_supplier' => 'Search Supplier',

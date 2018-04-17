@@ -24,4 +24,6 @@ interface PurchaseOrderService
         $status,
         $remarks
     );
+
+    public function generatePOCode();
 }

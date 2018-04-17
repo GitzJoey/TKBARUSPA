@@ -16,6 +16,73 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\CompanyFilter;
 
+/**
+ * App\Models\PurchaseOrder
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $supplier_id
+ * @property int $warehouse_id
+ * @property int $vendor_trucking_id
+ * @property string|null $code
+ * @property \Carbon\Carbon|null $po_created
+ * @property string|null $po_type
+ * @property \Carbon\Carbon|null $shipping_date
+ * @property string|null $supplier_type
+ * @property string|null $walk_in_supplier
+ * @property string|null $walk_in_supplier_detail
+ * @property string|null $article_code
+ * @property string|null $remarks
+ * @property string|null $internal_remarks
+ * @property string|null $private_remarks
+ * @property string|null $status
+ * @property float|null $disc_percent
+ * @property float|null $disc_value
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\Models\Company $company
+ * @property-read mixed $company_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $supplier_h_id
+ * @property-read mixed $warehouse_h_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Item[] $items
+ * @property-read \App\Models\Supplier $supplier
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereArticleCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscPercent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereInternalRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder wherePoCreated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder wherePoType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder wherePrivateRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereShippingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereSupplierType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereVendorTruckingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereWalkInSupplier($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereWalkInSupplierDetail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereWarehouseId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withoutTrashed()
+ * @mixin \Eloquent
+ */
 class PurchaseOrder extends Model
 {
     use SoftDeletes;

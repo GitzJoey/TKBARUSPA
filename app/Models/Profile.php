@@ -50,6 +50,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUserId($value)
+ * @property int $owner_id
+ * @property string|null $owner_type
+ * @property-read mixed $h_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PhoneNumber[] $phoneNumbers
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereOwnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereOwnerType($value)
  */
 class Profile extends Model
 {

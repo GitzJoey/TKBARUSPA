@@ -15,6 +15,49 @@ use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Truck
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string|null $type
+ * @property string|null $plate_number
+ * @property string|null $inspection_date
+ * @property string|null $driver
+ * @property string|null $status
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\Models\Company $company
+ * @property-read mixed $company_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $status_i18n
+ * @property-read mixed $type_i18n
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Truck onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereDriver($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereInspectionDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck wherePlateNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Truck withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Truck withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Truck extends Model
 {
     use SoftDeletes;
@@ -74,12 +117,12 @@ class Truck extends Model
 
     public function company()
     {
-        return $this->belongsTo('App\Model\Company');
+        return $this->belongsTo('App\Models\Company');
     }
 
     public function truckMaintenances()
     {
-        return $this->hasMany('App\Model\TruckMaintenance');
+        return null; //$this->hasMany('App\Models\TruckMaintenance');
     }
 
     public static function boot()

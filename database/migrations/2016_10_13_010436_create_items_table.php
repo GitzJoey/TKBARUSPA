@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->unsignedBigInteger('company_id')->default(0);
             $table->unsignedBigInteger('product_id')->default(0);
             $table->unsignedBigInteger('stock_id')->default(0);
-            $table->unsignedBigInteger('selected_unit_id')->default(0);
+            $table->unsignedBigInteger('selected_product_unit_id')->default(0);
             $table->unsignedBigInteger('base_unit_id')->default(0);
             $table->decimal('conversion_value', 19, 2)->default(0);
             $table->decimal('quantity', 19, 2)->default(0);

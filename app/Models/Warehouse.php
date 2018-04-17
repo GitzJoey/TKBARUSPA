@@ -16,6 +16,47 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\CompanyFilter;
 
+/**
+ * App\Models\Warehouse
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string|null $name
+ * @property string|null $address
+ * @property string|null $phone_num
+ * @property string|null $status
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\Models\Company $company
+ * @property-read mixed $company_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $status_i18n
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WarehouseSection[] $sections
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Warehouse onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse wherePhoneNum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Warehouse whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Warehouse withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Warehouse withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Warehouse extends Model
 {
     use SoftDeletes;

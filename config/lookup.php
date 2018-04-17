@@ -64,8 +64,8 @@ return [
             'WALK_IN' => 'CUSTOMERTYPE.WI',
         ],
         'SUPPLIER_TYPE' => [
-            'REGISTERED' => 'CUSTOMERTYPE.R',
-            'WALK_IN' => 'CUSTOMERTYPE.WI',
+            'REGISTERED' => 'SUPPLIERTYPE.R',
+            'WALK_IN' => 'SUPPLIERTYPE.WI',
         ],
         'SO_TYPE' => [
             'STANDARD' => 'SOTYPE.S',

@@ -14,6 +14,18 @@ return [
                 'title_show' => 'Tampilkan Pembelian',
                 'title_edit' => 'Ubah Pembelian',
             ],
+            'supplier_panel' => [
+                'title' => 'Supplier',
+            ],
+            'detail_panel' => [
+                'title' => 'Detil',
+            ],
+            'transaction_panel' => [
+                'title' => 'Transaksi',
+            ],
+            'summary_trx_panel' => [
+                'title' => 'Rangkuman',
+            ],
         ],
         'table' => [
             'list_table' => [
@@ -25,6 +37,26 @@ return [
                     'status' => 'Status',
                 ],
             ],
+            'item_table' => [
+                'header' => [
+                    'product_name' => 'Produk',
+                    'quantity' => 'Quantity',
+                    'unit' => 'Satuan',
+                    'price_unit' => 'Harga',
+                    'total_price' => 'Total Harga',
+                    'discount_percent' => 'Diskon %',
+                    'discount_nominal' => 'Diskon Nominal',
+                ],
+            ],
         ],
+    ],
+    'fields' => [
+        'supplier_type' => 'Tipe',
+        'supplier_name' => 'Nama',
+        'supplier_details' => 'Detil',
+        'po_code' => 'Kode',
+        'po_copy_code' => 'Duplikat',
+        'po_type' => 'Tipe',
+        'po_created' => 'Tanggal PO',
     ],
 ];

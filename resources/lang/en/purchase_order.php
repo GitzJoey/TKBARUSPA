@@ -14,6 +14,18 @@ return [
                 'title_show' => 'Show Purchase Order',
                 'title_edit' => 'Edit Purchase Order',
             ],
+            'supplier_panel' => [
+                'title' => 'Supplier',
+            ],
+            'detail_panel' => [
+                'title' => 'Detail',
+            ],
+            'transaction_panel' => [
+                'title' => 'Transactions',
+            ],
+            'summary_trx_panel' => [
+                'title' => 'Summary',
+            ],
         ],
         'table' => [
             'list_table' => [
@@ -25,6 +37,26 @@ return [
                     'status' => 'Status',
                 ],
             ],
+            'item_table' => [
+                'header' => [
+                    'product_name' => 'Product Name',
+                    'quantity' => 'Quantity',
+                    'unit' => 'Unit',
+                    'price_unit' => 'Price',
+                    'total_price' => 'Total Price',
+                    'discount_percent' => 'Discount %',
+                    'discount_nominal' => 'Discount Nominal',
+                ],
+            ],
         ],
+    ],
+    'fields' => [
+        'supplier_type' => 'Type',
+        'supplier_name' => 'Name',
+        'supplier_details' => 'Details',
+        'po_code' => 'PO Code',
+        'po_type' => 'Type',
+        'po_created' => 'Date',
+        'po_status' => 'Status',
     ],
 ];

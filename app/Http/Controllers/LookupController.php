@@ -24,6 +24,11 @@ class LookupController extends Controller
             ));
         }
 
-        return  $result;
+        return $result;
+    }
+
+    public function getLookupI18nDescriptionByValue($value)
+    {
+        return Lang::get('lookup.'.$value);
     }
 }

@@ -80,13 +80,64 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">@lang('purchase_order.index.panel.supplier_panel.title')</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" v-on:click="getAllPO">
-                                            <i class="si si-refresh"></i>
-                                        </button>
                                         <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                                     </div>
                                 </div>
                                 <div class="block-content">
+                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('supplier_type') }">
+                                        <label for="inputSupplierType" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_type')</label>
+                                        <div class="col-9">
+                                            <select id="inputSupplierType" name="supplier_type" class="form-control"
+                                                    v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.supplier_type') }}"
+                                                    v-model="po.supplier_type" v-on:change="onChangeSupplierType(po.supplier_type)">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(st, stIdx) of supplierTypeDDL" v-bind:value="st.code">@{{ st.description }}</option>
+                                            </select>
+                                            <span v-show="errors.has('supplier_type')" class="invalid-feedback">@{{ errors.first('supplier_type') }}</span>
+                                        </div>
+                                    </div>
+                                    <template v-if="po.supplier_type == 'SUPPLIERTYPE.R'">
+                                        <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('supplier_id') }">
+                                            <label for="inputSupplierId" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_name')</label>
+                                            <div class="col-md-7">
+                                                <select id="inputSupplierId" name="supplier_id" class="form-control"
+                                                        v-validate="po.supplier_type == 'SUPPLIERTYPE.R' ? 'required':''"
+                                                        data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
+                                                        v-model="po.supplierHId">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
+                                                </select>
+                                                <span v-show="errors.has('supplier_id')" class="help-block" v-cloak>@{{ errors.first('supplier_id') }}</span>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal">
+                                                    <span class="fa fa-info-circle fa-lg"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template v-if="po.supplier_type == 'SUPPLIERTYPE.WI'">
+                                        <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('walk_in_supplier') }">
+                                            <label for="inputSupplierName" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_name')</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="inputSupplierName" name="walk_in_supplier"
+                                                       v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
+                                                       data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
+                                                       class="form-control" v-model="po.supplier_name">
+                                                <span v-show="errors.has('walk_in_supplier')" class="invalid-feedback">@{{ errors.first('walk_in_supplier') }}</span>
+                                            </div>
+                                        </div>
+                                        <div v-bind:class="{ 'form-group row':true, 'has-error':errors.has('walk_in_supplier_detail') }">
+                                            <label for="inputSupplierDetails" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_details')</label>
+                                            <div class="col-md-9">
+                                                <textarea id="inputSupplierDetails" name="walk_in_supplier_detail" class="form-control" rows="5"
+                                                    v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
+                                                    data-vv-as="{{ trans('purchase_order.fields.supplier_details') }}"
+                                                    v-model="po.supplier_details"></textarea>
+                                                <span v-show="errors.has('walk_in_supplier_detail')" class="invalid-feedback">@{{ errors.first('walk_in_supplier_detail') }}</span>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -99,6 +150,38 @@
                                     </div>
                                 </div>
                                 <div class="block-content">
+                                    <div class="form-group row">
+                                        <label for="inputPoCode" class="col-3 col-form-label">@lang('purchase_order.fields.po_code')</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="inputPoCode" name="code" v-model="po.po_code" placeholder="PO Code" readonly>
+                                        </div>
+                                    </div>
+                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_type') }">
+                                        <label for="inputPoType" class="col-3 col-form-label">@lang('purchase_order.fields.po_type')</label>
+                                        <div class="col-md-9">
+                                            <select id="inputPoType" name="po_type" class="form-control"
+                                                    v-validate="'required'"
+                                                    data-vv-as="{{ trans('purchase_order.fields.po_type') }}"
+                                                    v-model="po.po_type">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(poType, poTypeIdx) of poTypeDDL" v-bind:value="poType.code">@{{ poType.description }}</option>
+                                            </select>
+                                            <span v-show="errors.has('po_type')" class="invalid-feedback" v-cloak>@{{ errors.first('po_type') }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
+                                        <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
+                                        <div class="col-md-9">
+                                            <flat-pickr id="inputPoCreated" name="po_created" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputPoStatus" class="col-3 col-form-label">@lang('purchase_order.fields.po_status')</label>
+                                        <div class="col-sm-9">
+                                            <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
+                                            <input type="hidden" name="po_status" v-model="po.po_status"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -109,13 +192,27 @@
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">@lang('purchase_order.index.panel.transaction_panel.title')</h3>
                                     <div class="block-options">
-                                        <button type="button" class="btn-block-option" v-on:click="getAllPO">
-                                            <i class="si si-refresh"></i>
-                                        </button>
                                         <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                                     </div>
                                 </div>
                                 <div class="block-content">
+                                    <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th colspan="6">@lang('purchase_order.index.table.item_table.header.product_name')</th>
+                                            </tr>
+                                            <tr>
+                                                <th width="5%"></th>
+                                                <th width="10%" class="text-center">@lang('purchase_order.index.table.item_table.header.quantity')</th>
+                                                <th width="15%" class="text-center">@lang('purchase_order.index.table.item_table.header.unit')</th>
+                                                <th width="15%" class="text-center">@lang('purchase_order.index.table.item_table.header.price_unit')</th>
+                                                <th width="5%">&nbsp;</th>
+                                                <th width="50%" class="text-center">@lang('purchase_order.index.table.item_table.header.total_price')</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -156,12 +253,21 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('purchase_order')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
         var poVue = new Vue ({
             el: '#poVue',
             data: {
                 poList: [],
+                supplierTypeDDL: [],
+                poTypeDDL: [],
+                supplierDDL: [],
+                selectedSupplier: {},
+                poStatusDesc: '',
                 statusDDL: [],
                 mode: '',
                 po: { }
@@ -169,7 +275,9 @@
             mounted: function () {
                 this.mode = 'list';
                 this.getAllPO();
-                this.getLookupStatus();
+                this.getSupplier();
+                this.getSupplierType();
+                this.getPOType();
             },
             methods: {
                 validateBeforeSubmit: function() {
@@ -190,10 +298,15 @@
                 },
                 getAllPO: function() {
                     Codebase.blocks('#poListBlock', 'state_toggle');
-                    axios.get('/api/get/po/read').then(response => {
+                    axios.get(route('api.get.po.read').url()).then(response => {
                         this.poList = response.data;
                         Codebase.blocks('#poListBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
+                },
+                onChangeSupplierType: function(type) {
+                    if (type == 'SUPPLIERTYPE.WI') {
+                        this.po.supplierHId = '';
+                    }
                 },
                 createNew: function() {
                     this.mode = 'create';
@@ -223,40 +336,58 @@
                 emptyPO: function() {
                     return {
                         hId: '',
+                        po_code: this.generatePOCode(),
                         po_created: '',
                         shipping_date: '',
-                        supplier_type: {
-                            code: ''
-                        },
-                        supplier: {
-                            hId: '',
-                            show: false
-                        },
-                        warehouse: {
-                            hId: ''
-                        },
-                        vendorTrucking: {
-                            hId: ''
-                        },
-                        poType: {
-                            code: ''
-                        },
-                        product: {
-                            hId: ''
-                        },
+                        supplier_type: '',
+                        supplierHId: '',
+                        warehouseHId: '',
+                        vendorTruckingHId: '',
+                        po_type: '',
+                        po_status: 'POSTATUS.D',
+                        productHId: '',
                         items: [],
                         expenses: [],
                         disc_total_percent : 0,
                         disc_total_value : 0
                     }
                 },
-                getLookupStatus: function() {
-                    axios.get('/api/get/lookup/byCategory/PO_STATUS').then(
-                        response => { this.statusDDL = response.data; }
+                getSupplier: function() {
+                    axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings([{'key':'all', 'value':'yes'}])).then(
+                        response => { this.supplierDDL = response.data; }
                     );
-                }
+                },
+                getSupplierType: function() {
+                    axios.get(route('api.get.lookup.bycategory', 'SUPPLIER_TYPE').url()).then(
+                        response => { this.supplierTypeDDL = response.data; }
+                    );
+                },
+                getPOType: function() {
+                    axios.get(route('api.get.lookup.bycategory', 'PO_TYPE').url()).then(
+                        response => { this.poTypeDDL = response.data; }
+                    );
+                },
+                generatePOCode: function() {
+                    axios.get(route('api.get.po.generate.po_code').url()).then(
+                        response => { this.po.po_code = response.data; }
+                    );
+                },
             },
             watch: {
+                'po.supplierHId': function() {
+                    if (this.po.supplierHId == '') {
+                        this.selectedSupplier = {};
+                    } else {
+                        this.selectedSupplier = _.find(this.supplierDDL, { hId: this.po.supplierHId });
+                    }
+                },
+                'po.po_status': function() {
+                    if (this.po.po_status != '') {
+                        axios.get(route('api.get.lookup.description.byvalue', 'POSTATUS.D').url()).then(
+                            response => { this.poStatusDesc = response.data; }
+                        );
+                    }
+                },
                 mode: function() {
                     switch (this.mode) {
                         case 'create':
@@ -274,7 +405,7 @@
                 }
             },
             computed: {
-                defaultStatus: function() {
+                defaultPleaseSelect: function() {
                     return '';
                 }
             }

@@ -18,4 +18,14 @@ class PurchaseOrderController extends Controller
     {
         return view('purchase_order.index');
     }
+
+    public function read()
+    {
+        return $this->purchaseOrderService->read();
+    }
+
+    public function generatePOCode()
+    {
+        return $this->purchaseOrderService->generatePOCode();
+    }
 }

@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in truckList">
-                                <td>@{{ u.type }}</td>
+                                <td>@{{ u.typeI18n }}</td>
                                 <td>@{{ u.plate_number }}</td>
                                 <td>@{{ u.inspection_date }}</td>
                                 <td>@{{ u.driver }}</td>

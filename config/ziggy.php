@@ -23,6 +23,11 @@ return [
             'api.get.settings.company.*',
             'api.post.settings.company.*'
         ],
+        'purchase_order' => [
+            'api.get.lookup.*',
+            'api.get.po.*',
+            'api.get.supplier.*',
+        ],
         'phone_provider' => [
             'api.get.lookup.*',
             'api.get.settings.phone_provider.*',
@@ -58,6 +63,7 @@ return [
         ],
         'supplier' => [
             'api.get.lookup.*',
+            'api.get.bank.*',
             'api.get.supplier.*',
             'api.post.supplier.*',
             'api.get.settings.phone_provider.*',

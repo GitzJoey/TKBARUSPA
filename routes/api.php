@@ -26,6 +26,11 @@ Route::bind('id', function ($id) {
 });
 
 Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'po'], function () {
+        Route::get('read', 'PurchaseOrderController@read')->name('api.get.po.read');
+        Route::get('generate/po_code', 'PurchaseOrderController@generatePOCode')->name('api.get.po.generate.po_code');
+    });
+
     Route::group(['prefix' => 'price'], function () {
         Route::group(['prefix' => 'price_level'], function () {
             Route::get('read', 'PriceLevelController@read')->name('api.get.price.price_level.read');
@@ -87,7 +92,8 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     });
 
     Route::group(['prefix' => 'lookup'], function() {
-        Route::get('byCategory/{category}', 'LookupController@getLookupByCategory')->name('api.get.lookup.bycategory');
+        Route::get('by/category/{category}', 'LookupController@getLookupByCategory')->name('api.get.lookup.bycategory');
+        Route::get('description/by/value/{value}', 'LookupController@getLookupI18nDescriptionByValue')->name('api.get.lookup.description.byvalue');
     });
 });
 

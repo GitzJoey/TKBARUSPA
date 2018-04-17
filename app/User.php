@@ -42,6 +42,9 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailActivationToken($value)
+ * @property-read mixed $active_i18n
+ * @property-read mixed $company_h_id
+ * @property-read mixed $h_id
  */
 class User extends Authenticatable
 {

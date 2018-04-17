@@ -24,9 +24,15 @@ class SupplierController extends Controller
         return view('supplier.index');
     }
 
-    public function read()
+    public function read(Request $request)
     {
-        return $this->supplierService->read();
+        $all = $request->has('all');
+
+        if ($all) {
+            return $this->supplierService->readAll();
+        } else {
+            return $this->supplierService->read();
+        }
     }
 
     public function store(Request $request)

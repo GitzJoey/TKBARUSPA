@@ -99,7 +99,13 @@ class SupplierServiceImpl implements SupplierService
 
     public function read()
     {
-        return  Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products')->paginate(Config::get('const.PAGINATION'));
+        return Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products')->paginate(Config::get('const.PAGINATION'));
+    }
+
+    public function readAll()
+    {
+        return Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products')
+            ->get();
     }
 
     public function update(

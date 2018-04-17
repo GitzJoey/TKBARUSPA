@@ -31,6 +31,43 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Supplier withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Supplier withoutTrashed()
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $company_id
+ * @property string|null $code_sign
+ * @property string|null $name
+ * @property string|null $address
+ * @property string|null $city
+ * @property string|null $phone_number
+ * @property string|null $fax_num
+ * @property string|null $tax_id
+ * @property int $payment_due_day
+ * @property string|null $status
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read mixed $list_selected_product_h_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereCodeSign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereFaxNum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier wherePaymentDueDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereTaxId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Supplier whereUpdatedBy($value)
  */
 class Supplier extends Model
 {
