@@ -50,7 +50,7 @@ class TruckController extends Controller
             'company_id' => Auth::user()->company->id,
             'type' => $data['truck_type'],
             'plate_number' => $data['plate_number'],
-            'inspection_date' => date(Config::get('const.DATETIME_FORMAT.DATEBASE_DATETIME_FORMAT')),
+            'inspection_date' => date(Config::get('const.DATETIME_FORMAT.DATEBASE_DATETIME_FORMAT'), strtotime($data->input('inspection_date '))),
             'driver' => $data['driver'],
             'status' => $data['status'],
             'remarks' => $data['remarks']
