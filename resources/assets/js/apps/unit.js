@@ -19,12 +19,12 @@ var unitVue = new Vue ({
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.unit.save').url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.unit.edit', this.unit.hId).url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
             });

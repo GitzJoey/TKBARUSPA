@@ -200,6 +200,10 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('truck')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
 

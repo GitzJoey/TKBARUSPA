@@ -19,20 +19,21 @@ var truckVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/truck/save', new FormData($('#truckForm')[0])).then(response => {
+                    axios.post(route('api.post.truck.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/truck/edit/' + this.truck.hId, new FormData($('#truckForm')[0])).then(response => {
+                    axios.post(route('api.post.truck.truck.edit', this.truck.hId).url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#truckCRUDBlock', 'state_toggle');
             });
         },
         getAllTruck: function() {
             Codebase.blocks('#truckListBlock', 'state_toggle');
-            axios.get('/api/get/truck/read').then(response => {
+            axios.get(route('api.get.truck.truck.read').url()).then(response => {
                 this.truckList = response.data;
                 Codebase.blocks('#truckListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -53,7 +54,7 @@ var truckVue = new Vue ({
             this.truck = this.truckList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/truck/delete/' + idx).then(response => {
+            axios.post(route('api.post.truck.truck.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -75,12 +76,12 @@ var truckVue = new Vue ({
             }
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+             axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getLookupTruckType: function() {
-            axios.get('/api/get/lookup/byCategory/TRUCK_TYPE').then(
+             axios.get(route('api.get.lookup.bycategory', 'TRUCK_TYPE').url()).then(
                 response => { this.truckTypeDDL = response.data; }
             );
         }
