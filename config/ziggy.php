@@ -7,6 +7,11 @@
  */
 return [
     'groups' => [
+        'truck' => [
+            'api.get.lookup.*',
+            'api.get.truck.truck.*',
+            'api.post.truck.truck.*'
+        ],
         'unit' => [
             'api.get.lookup.*',
             'api.get.settings.unit.*',

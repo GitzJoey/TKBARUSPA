@@ -48,6 +48,11 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::group(['prefix' => 'vendor_trucking'], function () {
             Route::get('read', 'VendorTruckingController@read')->name('api.get.truck.vendor_trucking.read');
         });
+        Route::get('read', 'TruckController@read')->name('api.get.truck.truck.read');
+    });
+
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::get('read', 'WarehouseController@read')->name('api.get.warehouse.read');
     });
 
     Route::group(['prefix' => 'warehouse'], function () {
@@ -113,6 +118,9 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('edit/{id}', 'VendorTruckingController@update')->name('api.post.truck.vendor_trucking.edit');
             Route::post('delete/{id}', 'VendorTruckingController@delete')->name('api.post.truck.vendor_trucking.delete');
         });
+        Route::post('save', 'TruckController@store')->name('api.post.truck.truck.save');
+        Route::post('edit/{id}', 'TruckController@update')->name('api.post.truck.truck.edit');
+        Route::post('delete/{id}', 'TruckController@delete')->name('api.post.truck.truck.delete');
     });
 
     Route::group(['prefix' => 'supplier'], function () {
