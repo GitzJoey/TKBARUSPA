@@ -58,6 +58,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'TruckController@read')->name('api.get.truck.read');
     });
 
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::get('read', 'WarehouseController@read')->name('api.get.warehouse.read');
+    });
+
     Route::group(['prefix' => 'bank'], function () {
         Route::get('read', 'BankController@read')->name('api.get.bank.read');
     });
