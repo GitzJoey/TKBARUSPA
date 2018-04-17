@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-building-o fa-fw"></span>&nbsp;
     @lang('supplier.index.page_title')
 @endsection
 
@@ -39,35 +40,37 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                        <th>@lang('supplier.index.table.supplier_list.header.name')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.address')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.status')</th>
-                        <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
-                        <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th>@lang('supplier.index.table.supplier_list.header.name')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.address')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.tax_id')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.status')</th>
+                                <th>@lang('supplier.index.table.supplier_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <template v-if="supplierList.hasOwnProperty('data') && supplierList.data.length != 0">
-                            <tr v-for="(s, sIdx) in supplierList.data">
-                                <td>@{{ s.name }}</td>
-                                <td>@{{ s.address }}</td>
-                                <td>@{{ s.tax_id }}</td>
-                                <td>@{{ s.statusI18n }}</td>
-                                <td>@{{ s.remarks }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr>
-                                <td class="text-center" colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
-                            </tr>
-                        </template>
+                            <template v-if="supplierList.hasOwnProperty('data') && supplierList.data.length != 0">
+                                <tr v-for="(s, sIdx) in supplierList.data">
+                                    <td>@{{ s.name }}</td>
+                                    <td>@{{ s.address }}</td>
+                                    <td>@{{ s.tax_id }}</td>
+                                    <td>@{{ s.statusI18n }}</td>
+                                    <td>@{{ s.remarks }}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-secondary" v-on:click="showSelected(sIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="editSelected(sIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                            <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(s.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td class="text-center" colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -199,10 +202,10 @@
                                 <label for="inputPhone" class="col-2 col-form-label">@lang('supplier.fields.phone')</label>
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                        <input id="inputPhone" name="phone" type="text" v-model="supplier.phone" class="form-control" placeholder="@lang('supplier.fields.phone')">
+                                        <input id="inputPhone" name="phone_number" type="text" v-model="supplier.phone_number" class="form-control" placeholder="@lang('supplier.fields.phone')">
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">@{{ supplier.phone }}</div>
+                                        <div class="form-control-plaintext">@{{ supplier.phone_number }}</div>
                                     </template>
                                 </div>
                             </div>
@@ -235,6 +238,7 @@
                                         <select id="inputStatus"
                                                 class="form-control"
                                                 name="status"
+                                                v-model="supplier.status"
                                                 v-validate="'required'"
                                                 data-vv-as="{{ trans('supplier.fields.status') }}"
                                                 data-vv-scope="tabs_supplier">
@@ -264,18 +268,22 @@
                             <div class="row">
                                 <div class="col-2">
                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                        <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPIC">@lang('buttons.create_new_button')</button>
+                                        <button type="button" class="btn btn-sm btn-default" v-on:click="addNewPIC">@lang('buttons.create_new_button')</button>
                                     </template>
                                     <template v-if="mode == 'show'">
                                     </template>
                                 </div>
                                 <div class="col-10">
-                                    <template v-for="(p, pIdx) in supplier.persons_in_charge">
+                                    <div v-for="(p, pIdx) in supplier.persons_in_charge">
                                         <div class="block block-shadow-on-hover block-mode-loading-refresh">
                                             <div class="block-header block-header-default">
                                                 <h3 class="block-title">@lang('supplier.index.panel.pic.title')&nbsp;@{{ pIdx + 1 }}</h3>
                                                 <div class="block-options">
-                                                    <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                                        <button type="button" class="btn btn-sm btn-danger" v-on:click="removeSelectedPIC(pIdx)">@lang('buttons.remove_button')</button>
+                                                    </template>
+                                                    <template v-if="mode == 'show'">
+                                                    </template>
                                                 </div>
                                             </div>
                                             <div class="block-content">
@@ -283,6 +291,7 @@
                                                     <label for="inputFirstName" class="col-2 col-form-label">@lang('supplier.fields.first_name')</label>
                                                     <div class="col-md-10">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input type="hidden" name="profile_id[]" v-model="p.hId"/>
                                                             <input id="inputFirstName" type="text" name="first_name[]" class="form-control" v-model="p.first_name" placeholder="@lang('supplier.fields.first_name')"
                                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.fields.first_name') }} ' + (pIdx + 1)" v-bind:data-vv-name="'first_name_' + pIdx"
                                                                    data-vv-scope="tabs_pic">
@@ -347,8 +356,9 @@
                                                             <tbody>
                                                                 <tr v-for="(ph, phIdx) in p.phone_numbers">
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_phoneprovider_' + phIdx) }">
+                                                                        <input type="hidden" v-bind:name="'profile_' + pIdx + '_phone_numbers_id[]'" v-model="ph.hId"/>
                                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                                            <select v-bind:name="'profile_' + pIdx +'_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
+                                                                            <select v-bind:name="'profile_' + pIdx + '_phone_provider[]'" class="form-control" v-model="ph.phoneProviderHId"
                                                                                     v-validate="'required'" v-bind:data-vv-as="'{{ trans('supplier.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
                                                                                     v-bind:data-vv-name="'profile_' + pIdx + '_phoneprovider_' + phIdx" data-vv-scope="tabs_pic">
                                                                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -356,7 +366,7 @@
                                                                             </select>
                                                                         </template>
                                                                         <template v-if="mode == 'show'">
-                                                                            <div class="form-control-plaintext">@{{ ph.phone_provider.fullName }}</div>
+                                                                            <div class="form-control-plaintext">@{{ ph.provider.fullName }}</div>
                                                                         </template>
                                                                     </td>
                                                                     <td v-bind:class="{ 'is-invalid':errors.has('tabs_pic.profile_' + pIdx + '_number_' + phIdx) }">
@@ -369,10 +379,17 @@
                                                                             <div class="form-control-plaintext">@{{ ph.number }}</div>
                                                                         </template>
                                                                     </td>
-                                                                    <td><input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks"></td>
+                                                                    <td>
+                                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                                            <input type="text" class="form-control" v-bind:name="'profile_' + pIdx +'_remarks[]'" v-model="ph.remarks">
+                                                                        </template>
+                                                                        <template v-if="mode == 'show'">
+                                                                            <div class="form-control-plaintext">@{{ ph.remarks }}</div>
+                                                                        </template>
+                                                                    </td>
                                                                     <td class="text-center">
                                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                                            <button type="button" class="btn btn-xs btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
+                                                                            <button type="button" class="btn btn-sm btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(pIdx, phIdx)">
                                                                                 <span class="fa fa-close fa-fw"></span>
                                                                             </button>
                                                                         </template>
@@ -382,24 +399,18 @@
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="4">
-                                                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                                                            <button type="button" class="btn btn-xs btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
-                                                                        </template>
-                                                                        <template v-if="mode == 'show'">
-                                                                            <div class="form-control-plaintext">&nbsp;</div>
-                                                                        </template>
-                                                                    </td>
-                                                                </tr>
-                                                            </tfoot>
                                                         </table>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <button type="button" class="btn btn-sm btn-default" v-on:click="addNewPhone(pIdx)">@lang('buttons.create_new_button')</button>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">&nbsp;</div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </template>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -417,6 +428,7 @@
                                 <tbody>
                                     <tr v-for="(ba, baIdx) in supplier.bank_accounts">
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankaccounts.bank_' + baIdx) }">
+                                            <input type="hidden" name="bank_account_id[]" v-model="ba.hId"/>
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <select class="form-control"
                                                         name="bank_id[]"
@@ -466,7 +478,7 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBank(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBank(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                             </template>
                                             <template v-if="mode == 'show'">
                                                 <div class="form-control-plaintext">&nbsp;</div>
@@ -476,7 +488,7 @@
                                 </tbody>
                             </table>
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <button class="btn btn-xs btn-default" type="button" v-on:click="addNewBankAccount">@lang('buttons.create_new_button')</button>
+                                <button class="btn btn-sm btn-default" type="button" v-on:click="addNewBankAccount">@lang('buttons.create_new_button')</button>
                             </template>
                             <template v-if="mode == 'show'">
                             </template>
@@ -494,14 +506,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(pL, pLIdx) in productList.data">
+                                    <tr v-show="!tableLoaded">
+                                        <td colspan="6" class="text-center"><i class="fa fa-spinner fa-spin"></i></td>
+                                    </tr>
+                                    <tr v-for="(pL, pLIdx) in productList.data" v-show="tableLoaded">
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext"></div>
+                                                <input type="checkbox" v-model="pL.checked" disabled/>
                                             </template>
-                                            <input type="checkbox" v-model="pL.checked" v-on:change="syncToSupplierProd(pLIdx)"/>
                                         </td>
                                         <td>@{{ pL.product_type.name }}</td>
                                         <td>@{{ pL.name }}</td>
@@ -558,215 +573,13 @@
     </div>
 @endsection
 
+@section('ziggy')
+    @routes('supplier')
+@endsection
+
 @section('custom_js')
     <script type="application/javascript">
-        var supplierVue = new Vue ({
-            el: '#supplierVue',
-            data: {
-                supplier: {},
-                supplierList: [],
-                statusDDL: [],
-                bankDDL: [],
-                providerDDL: [],
-                productList: [],
-                mode: '',
-                search_supplier_query: '',
-                active_page: 0
-            },
-            mounted: function () {
-                this.mode = 'list';
-                this.getLookupStatus();
-                this.getBank();
-                this.getPhoneProvider();
-                this.getProduct();
-                this.getAllSupplier();
-            },
-            methods: {
-                validateBeforeSubmit: function() {
-                    this.$validator.validateScopes().then(isValid => {
-                        if (!isValid) return;
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
-                        if (this.mode == 'create') {
-                            axios.post('/api/post/supplier/save',
-                                new FormData($('#supplierForm')[0]),
-                                { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
-                                this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
-                        } else if (this.mode == 'edit') {
-                            axios.post('/api/post/supplier/edit/' + this.supplier.hId,
-                                new FormData($('#supplierForm')[0]),
-                                { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
-                                this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
-                        } else { }
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
-                    });
-                },
-                getAllSupplier: function(page) {
-                    Codebase.blocks('#supplierListBlock', 'state_toggle');
 
-                    var qS = [];
-                    if (this.search_supplier_query) { qS.push({ 'key':'s', 'value':this.search_supplier_query }); }
-                    if (page && typeof(page) == 'number') {
-                        this.active_page = page;
-                        qS.push({ 'key':'page', 'value':page });
-                    }
-
-                    axios.get('/api/get/supplier/read' + this.generateQueryStrings(qS)).then(response => {
-                        this.supplierList = response.data;
-                        Codebase.blocks('#supplierListBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                createNew: function() {
-                    this.mode = 'create';
-                    this.errors.clear();
-                    this.supplier = this.emptySupplier();
-                },
-                editSelected: function(idx) {
-                    this.mode = 'edit';
-                    this.errors.clear();
-                    this.supplier = this.supplierList.data[idx];
-                },
-                showSelected: function(idx) {
-                    this.mode = 'show';
-                    this.errors.clear();
-                    this.supplier = this.supplierList.data[idx];
-                },
-                deleteSelected: function(idx) {
-                    axios.post('/api/post/supplier/delete/' + idx).then(response => {
-                        this.backToList();
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                backToList: function() {
-                    this.mode = 'list';
-                    this.errors.clear();
-
-                    if (this.active_page != 0 || this.active_page != 1) {
-                        this.getAllSupplier(this.active_page);
-                    } else {
-                        this.getAllSupplier();
-                    }
-                },
-                emptySupplier: function() {
-                    return {
-                        hId: '',
-                        name: '',
-                        code_sign: '',
-                        address: '',
-                        city: '',
-                        phone_number: '',
-                        fax_num: '',
-                        tax_id: '',
-                        status: '',
-                        remarks: '',
-                        payment_due_day: '',
-                        bank_accounts: [],
-                        persons_in_charge: [],
-                        products: [],
-                        listSelectedProductHId: []
-                    }
-                },
-                addNewBankAccount: function() {
-                    this.supplier.bank_accounts.push({
-                        bankHId: '',
-                        account_name: '',
-                        account_number: '',
-                        remarks: ''
-                    });
-                },
-                removeSelectedBank: function(idx) {
-                    this.supplier.bank_accounts.splice(idx, 1);
-                },
-                addNewPIC: function() {
-                    this.supplier.persons_in_charge.push({
-                        first_name: '',
-                        last_name: '',
-                        email: '',
-                        address: '',
-                        ic_num: '',
-                        image_filename: '',
-                        phone_numbers:[{
-                            phoneProviderHId: '',
-                            number: '',
-                            remarks: ''
-                        }]
-                    });
-                },
-                removeSelectedPIC: function(idx) {
-                    this.supplier.persons_in_charge.splice(idx, 1);
-                },
-                addNewPhone: function(parentIndex) {
-                    this.supplier.persons_in_charge[parentIndex].phone_numbers.push({
-                        phoneProviderHId: '',
-                        number: '',
-                        remarks: ''
-                    });
-                },
-                removeSelectedPhone: function(parentIndex, idx) {
-                    this.supplier.persons_in_charge[parentIndex].phone_numbers.splice(idx, 1);
-                },
-                getLookupStatus: function() {
-                    axios.get('/api/get/lookup/byCategory/STATUS').then(
-                        response => { this.statusDDL = response.data; }
-                    );
-                },
-                getPhoneProvider: function() {
-                    axios.get('/api/get/phone_provider/read').then(
-                        response => { this.providerDDL = response.data; }
-                    );
-                },
-                getBank: function() {
-                    axios.get('/api/get/bank/read').then(
-                        response => { this.bankDDL = response.data; }
-                    );
-                },
-                getProduct: function(page) {
-                    var qS = [];
-                    if (page && typeof(page) == 'number') { qS.push({ 'key':'page', 'value':page }); }
-
-                    axios.get('/api/get/product/read' + this.generateQueryStrings(qS)).then(
-                        response => {
-                            this.productList = response.data;
-
-                            for (var i = 0; i < this.productList.data.length; i++) {
-                                if (_.includes(this.supplier.listSelectedProductHId, this.productList.data[i].hId)) {
-                                    this.productList.data[i].checked = true;
-                                }
-                            }
-                        }
-                    );
-                },
-                syncToSupplierProd: function(pLIdx) {
-                    if (this.productList.data[pLIdx].checked) {
-                        this.supplier.listSelectedProductHId.push(this.productList.data[pLIdx].hId);
-                    } else {
-                        _.pull(this.supplier.listSelectedProductHId, this.productList.data[pLIdx].hId);
-                    }
-                }
-            },
-            watch: {
-                mode: function() {
-                    switch (this.mode) {
-                        case 'create':
-                        case 'edit':
-                        case 'show':
-                            Codebase.blocks('#supplierListBlock', 'close')
-                            Codebase.blocks('#supplierCRUDBlock', 'open')
-                            break;
-                        case 'list':
-                        default:
-                            Codebase.blocks('#supplierListBlock', 'open')
-                            Codebase.blocks('#supplierCRUDBlock', 'close')
-                            break;
-                    }
-                }
-            },
-            computed: {
-                defaultPleaseSelect: function() {
-                    return '';
-                }
-            }
-        });
     </script>
     <script type="application/javascript" src="{{ mix('js/apps/supplier.js') }}"></script>
 @endsection

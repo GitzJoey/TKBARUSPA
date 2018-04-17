@@ -14,7 +14,6 @@ use App\Services\UnitService;
 
 class UnitServiceImpl implements UnitService
 {
-
     public function create(
         $name,
         $symbol,

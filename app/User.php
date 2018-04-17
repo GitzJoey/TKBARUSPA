@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Lang;
 use Vinkla\Hashids\Facades\Hashids;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -54,7 +55,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active'
     ];
 
     /**
@@ -63,12 +64,31 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'id',
+        'company_id',
         'password', 'remember_token',
     ];
 
-    public function hId()
+    protected $appends = [
+        'hId',
+        'companyHId',
+        'activeI18n',
+    ];
+
+    public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getActiveI18nAttribute()
+    {
+        if ($this->attributes['active']) return Lang::get('lookup.STATUS.ACTIVE');
+        else return Lang::get('lookup.STATUS.INACTIVE');
     }
 
     public function profile()

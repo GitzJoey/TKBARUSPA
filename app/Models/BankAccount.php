@@ -103,7 +103,7 @@ class BankAccount extends Model
     }
 
     public function owner(){
-        // Supplier | Customer | Company
+        // Supplier | Customer | Company | VendorTrucking
         return $this->morphTo();
     }
 

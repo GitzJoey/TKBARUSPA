@@ -30,6 +30,24 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('', 'ProductController@index')->name('db.product');
         });
 
+        Route::group(['prefix' => 'po'], function () {
+            Route::get('', 'PurchaseOrderController@index')->name('db.po');
+        });
+
+        Route::group(['prefix' => 'truck'], function () {
+            Route::group(['prefix' => 'vendor_trucking'], function () {
+                Route::get('', 'VendorTruckingController@index')->name('db.truck.vendor_trucking');
+            });
+        });
+
+        Route::group(['prefix' => 'price_level'], function () {
+            Route::get('', 'PriceLevelController@index')->name('db.price_level');
+        });
+
+        Route::group(['prefix' => 'warehouse'], function () {
+            Route::get('', 'WarehouseController@index')->name('db.warehouse');
+        });
+
         Route::group(['prefix' => 'bank'], function () {
             Route::get('', 'BankController@index')->name('db.bank');
         });
@@ -39,6 +57,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         });
 
         Route::group(['prefix' => 'settings'], function () {
+            Route::get('user', 'UserController@index')->name('db.settings.user');
             Route::get('company', 'CompanyController@index')->name('db.settings.company');
             Route::get('unit', 'UnitController@index')->name('db.settings.unit');
             Route::get('truck', 'TruckController@index')->name('db.settings.truck');

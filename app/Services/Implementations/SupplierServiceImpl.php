@@ -25,6 +25,7 @@ class SupplierServiceImpl implements SupplierService
     public function create(
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,
@@ -98,17 +99,14 @@ class SupplierServiceImpl implements SupplierService
 
     public function read()
     {
-        $supplier = [];
-
-        $supplier = Supplier::with('personsInCharge')->paginate(Config::get('const.PAGINATION'));
-
-        return $supplier;
+        return  Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products')->paginate(Config::get('const.PAGINATION'));
     }
 
     public function update(
         $id,
         $company_id,
         $name,
+        $code_sign,
         $address,
         $city,
         $phone_number,
@@ -127,7 +125,7 @@ class SupplierServiceImpl implements SupplierService
     {
         DB::beginTransaction();
         try {
-            $supplier = Supplier::with('bankAccounts', 'profiles')->findOrFail($id);
+            $supplier = Supplier::with('bankAccounts', 'personsInCharge.phoneNumbers.provider', 'products')->findOrFail($id);
 
             if (!$supplier) {
                 throw new Exception(LaravelLocalization::getCurrentLocale() == 'en' ? 'Supplier Not Found.':'Supplier Tidak Ditermukan.');
@@ -144,15 +142,15 @@ class SupplierServiceImpl implements SupplierService
 
             for ($i = 0; $i < count($bank_accounts); $i++) {
                 $ba = BankAccount::findOrNew($bank_accounts[$i]['bank_account_id']);
-                $ba->bank_id = $bank_accounts[$i]["bank"];
-                $ba->account_name= $bank_accounts[$i]["account_name"];
-                $ba->account_number = $bank_accounts[$i]["account_number"];
-                $ba->remarks = $bank_accounts[$i]["bank_remarks"];
+                $ba->bank_id = $bank_accounts[$i]['bank_id'];
+                $ba->account_name= $bank_accounts[$i]['account_name'];
+                $ba->account_number = $bank_accounts[$i]['account_number'];
+                $ba->remarks = $bank_accounts[$i]['bank_remarks'];
 
                 $supplier->bankAccounts()->save($ba);
             }
 
-            $supplierProfileIds = $supplier->profiles->map(function ($profile) {
+            $supplierProfileIds = $supplier->personsInCharge->map(function ($profile) {
                 return $profile->id;
             })->all();
 
@@ -165,10 +163,10 @@ class SupplierServiceImpl implements SupplierService
                 $pa = Profile::with('phoneNumbers')->findOrNew($persons_in_charge[$i]['profile_id']);
                 $pa->first_name = $persons_in_charge[$i]["first_name"];
                 $pa->last_name = $persons_in_charge[$i]["last_name"];
-                $pa->address = $persons_in_charge[$i]["profile_address"];
+                $pa->address = $persons_in_charge[$i]["address"];
                 $pa->ic_num = $persons_in_charge[$i]["ic_num"];
 
-                $supplier->profiles()->save($pa);
+                $supplier->personsInCharge()->save($pa);
 
                 $profilePhoneNumberIds = $pa->phoneNumbers->map(function ($phoneNumber) {
                     return $phoneNumber->id;
@@ -179,11 +177,11 @@ class SupplierServiceImpl implements SupplierService
 
                 PhoneNumber::destroy($profilePhoneNumbersToBeDeleted);
 
-                for ($j = 0; $j < count($persons_in_charge['profile_' . $i . '_phone_provider']); $j++) {
-                    $ph = PhoneNumber::findOrNew($persons_in_charge[$j]['profile_' . $i . '_phone_number_id']);
-                    $ph->phone_provider_id = $persons_in_charge[$j]['profile_' . $i . '_phone_provider'];
-                    $ph->number = $persons_in_charge[$j]['profile_' . $i . '_phone_number'];
-                    $ph->remarks = $persons_in_charge[$j]['profile_' . $i . '_remarks'];
+                for ($j = 0; $j < count($persons_in_charge[$i]['phone_numbers']); $j++) {
+                    $ph = PhoneNumber::findOrNew($persons_in_charge[$i]['phone_numbers'][$j]['phone_number_id']);
+                    $ph->phone_provider_id = $persons_in_charge[$i]['phone_numbers'][$j]['phone_provider_id'];
+                    $ph->number = $persons_in_charge[$i]['phone_numbers'][$j]['number'];
+                    $ph->remarks = $persons_in_charge[$i]['phone_numbers'][$j]['remarks'];
 
                     $pa->phoneNumbers()->save($ph);
                 }

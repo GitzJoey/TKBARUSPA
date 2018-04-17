@@ -15,10 +15,10 @@ return [
                 'title_edit' => 'Ubah Supplier',
             ],
             'pic' => [
-                'title' => 'Penanggungjawab'
+                'title' => 'Penanggungjawab',
             ],
         ],
-        'tab' => [
+        'tabs' => [
             'supplier' => 'Data Supplier',
             'pic' => 'Penanggungjawab',
             'bank_accounts' => 'Akun Bank',

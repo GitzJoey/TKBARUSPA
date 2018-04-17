@@ -42,100 +42,116 @@
 
             <div class="content-side content-side-full">
                 <ul class="nav-main">
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cart-plus fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.po')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-cart-plus fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.new')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-code-fork fa-rotate-180 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.revise')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.payment')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-copy fa-rotate-180 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.copy')</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cart-arrow-down fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.so')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-cart-arrow-down fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.new')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-code-fork fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.revise')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.payment')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-copy fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.copy')</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-barcode fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.price')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-barcode fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.todayprice')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-po|menu-po_payment|menu-po_copy')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cart-plus fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.po')</span></a>
+                            <ul>
+                                <li>
+                                    <a href="{{ route('db.po') }}"><span class="fa fa-cart-plus fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.payment')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-copy fa-rotate-180 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.po.copy')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endpermission
+                    @permission('menu-po|menu-po_payment|menu-po_copy')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cart-arrow-down fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.so')</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#"><span class="fa fa-cart-arrow-down fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.payment')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-copy fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.copy')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endpermission
+                    @permission('menu-price_level')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-barcode fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.price')</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#"><span class="fa fa-barcode fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.todayprice')</a>
+                                </li>
+                                @permission('menu-price_level')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.price_level') || if_route_pattern('db.price_level.*')) }}" href="{{ route('db.price_level') }}">
+                                            <span class="fa fa-table fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.price.pricelevel')
+                                        </a>
+                                    </li>
+                                @endpermission
+                            </ul>
+                        </li>
+                    @endpermission
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-wrench fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.warehouse')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-wrench fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')</a>
-                            </li>
-                            <li>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock')</a>
-                                <ul>
+                        @permission('menu-warehouse')
+                            <ul>
+                                @permission('menu-warehouse')
                                     <li>
-                                        <a href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.opname')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.warehouse') || if_route_pattern('db.warehouse.*')) }}" href="{{ route('db.warehouse') }}">
+                                            <span class="fa fa-wrench fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse')
+                                        </a>
                                     </li>
-                                    <li>
-                                        <a href="#"><span class="fa fa-refresh fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.transfer')</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span class="fa fa-sort-amount-asc fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.merger')</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                                @endpermission
+                                <li>
+                                    <a href="#"><span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')</a>
+                                </li>
+                                <li>
+                                    <a href="#"><span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')</a>
+                                </li>
+                                <li>
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock')</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.opname')</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><span class="fa fa-refresh fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.transfer')</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><span class="fa fa-sort-amount-asc fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.merger')</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        @endpermission
                     </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-truck fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.truck')</span></a>
-                        <ul>
-                            <li>
-                                <a href="#"><span class="fa fa-truck fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')</a>
-                            </li>
-                            <li>
-                                <a href=""><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-truck|menu-vendor_trucking')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-truck fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.truck')</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#"><span class="fa fa-truck fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck')</a>
+                                </li>
+                                @permission('menu-vendor_trucking')
+                                <li>
+                                    <a href="{{ route('db.truck.vendor_trucking') }}"><span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')</a>
+                                </li>
+                                @endpermission
+                                <li>
+                                    <a href=""><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endpermission
                     @permission('menu-bank')
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-bank fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.bank')</span></a>
                             <ul>
                                 @permission('menu-bank')
                                     <li>
-                                        <a href="{{ route('db.bank') }}"><span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')</a>
+                                        <a href="{{ route('db.bank') }}">
+                                            <span class="fa fa-bank fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.bank')
+                                        </a>
                                     </li>
                                 @endpermission
                                 <li>
@@ -177,17 +193,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cube fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.product')</span></a>
-                        <ul>
-                            <li>
-                                <a href="{{ route('db.product') }}"><span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')</a>
-                            </li>
-                            <li>
-                                <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @permission('menu-product|menu-product_type')
+                        <li>
+                            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cube fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.product')</span></a>
+                            <ul>
+                                @permission('menu-product')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.product') || if_route_pattern('db.product.*')) }}" href="{{ route('db.product') }}">
+                                            <span class="fa fa-cube fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product')
+                                        </a>
+                                    </li>
+                                @endpermission
+                                @permission('menu-product_type')
+                                    <li>
+                                        <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>
+                                    </li>
+                                @endpermission
+                            </ul>
+                        </li>
+                    @endpermission
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-smile-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.customer')</span></a>
                         <ul>
@@ -205,7 +229,9 @@
                             <ul>
                                 @permission('menu-company')
                                     <li>
-                                        <a href="{{ route('db.supplier') }}"><span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.supplier') || if_route_pattern('db.supplier.*')) }}" href="{{ route('db.supplier') }}">
+                                            <span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.supplier')
+                                        </a>
                                     </li>
                                 @endpermission
                             </ul>
@@ -224,7 +250,9 @@
                                 @endpermission
                                 @permission('menu-users')
                                     <li>
-                                        <a href="#"><span class="fa fa-user fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.user')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.settings.user') || if_route_pattern('db.settings.user.*')) }}" href="{{ route('db.settings.user') }}">
+                                            <span class="fa fa-user fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.user')
+                                        </a>
                                     </li>
                                 @endpermission
                                 @permission('menu-roles')

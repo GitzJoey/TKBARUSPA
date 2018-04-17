@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-bolt fa-fw"></span>
     @lang('unit.index.page_title')
 @endsection
 
@@ -34,11 +35,13 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.name')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.symbol')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.status')</th>
-                            <th class="text-center">@lang('unit.index.table.unit_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.name')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.symbol')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.status')</th>
+                                <th class="text-center">@lang('unit.index.table.unit_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in unitList">
@@ -162,6 +165,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('ziggy')
+    @routes('unit')
 @endsection
 
 @section('custom_js')

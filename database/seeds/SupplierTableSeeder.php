@@ -6,7 +6,6 @@ use App\Models\Supplier;
 use App\Models\BankAccount;
 use App\Models\PhoneNumber;
 
-use Faker;
 use Illuminate\Database\Seeder;
 
 class SupplierTableSeeder extends Seeder
@@ -27,7 +26,7 @@ class SupplierTableSeeder extends Seeder
             $supplier->fax_num = '0000000000';
             $supplier->tax_id = '123-123-123-123-12'.$s;
             $supplier->status = 'STATUS.ACTIVE';
-            $supplier->store_id = 1;
+            $supplier->company_id = 1;
 
             $supplier->save();
 

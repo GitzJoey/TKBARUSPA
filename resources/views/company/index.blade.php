@@ -5,6 +5,7 @@
 @endsection
 
 @section('page_title')
+    <span class="fa fa-umbrella fa-fw"></span>
     @lang('company.index.page_title')
 @endsection
 
@@ -34,14 +35,16 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
-                            <th>@lang('company.index.table.company_list.header.name')</th>
-                            <th>@lang('company.index.table.company_list.header.address')</th>
-                            <th>@lang('company.index.table.company_list.header.tax_id')</th>
-                            <th>@lang('company.index.table.company_list.header.default')</th>
-                            <th>@lang('company.index.table.company_list.header.frontweb')</th>
-                            <th>@lang('company.index.table.company_list.header.status')</th>
-                            <th>@lang('company.index.table.company_list.header.remarks')</th>
-                            <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            <tr>
+                                <th>@lang('company.index.table.company_list.header.name')</th>
+                                <th>@lang('company.index.table.company_list.header.address')</th>
+                                <th>@lang('company.index.table.company_list.header.tax_id')</th>
+                                <th>@lang('company.index.table.company_list.header.default')</th>
+                                <th>@lang('company.index.table.company_list.header.frontweb')</th>
+                                <th>@lang('company.index.table.company_list.header.status')</th>
+                                <th>@lang('company.index.table.company_list.header.remarks')</th>
+                                <th class="text-center action-column-width">@lang('labels.ACTION')</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(c, cIdx) in companyList">
@@ -63,7 +66,6 @@
                         </tbody>
                     </table>
                 </div>
-                <br>
                 <div class="row items-push-2x text-center text-sm-left">
                     <div class="col-sm-6 col-xl-4">
                         <button type="button" class="btn btn-primary btn-lg btn-circle" v-on:click="createNew" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('buttons.create_new_button') }}">
@@ -332,9 +334,9 @@
                                                 <div class="form-control-plaintext">@{{ ba.remarks }}</div>
                                             </template>
                                         </td>
-                                        <td class="text-center valign-middle">
+                                        <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button type="button" class="btn btn-xs btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="baIdx" v-on:click="removeSelectedBankAccounts(baIdx)"><span class="fa fa-close fa-fw"></span></button>
                                             </template>
                                         </td>
                                     </tr>
@@ -493,6 +495,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('ziggy')
+    @routes('company')
 @endsection
 
 @section('custom_js')

@@ -21,20 +21,21 @@ var companyVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/company/save', new FormData($('#companyForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.company.save').url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/company/edit/' + this.company.hId, new FormData($('#companyForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.company.edit', this.company.hId).url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#companyCRUDBlock', 'state_toggle');
             });
         },
         getAllCompany: function() {
             Codebase.blocks('#companyListBlock', 'state_toggle');
-            axios.get('/api/get/company/read').then(response => {
+            axios.get(route('api.get.settings.company.read').url()).then(response => {
                 this.companyList = response.data;
                 Codebase.blocks('#companyListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -55,7 +56,7 @@ var companyVue = new Vue ({
             this.company = this.companyList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/company/delete/' + idx).then(response => {
+            axios.post(route('api.post.settings.company.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -93,17 +94,17 @@ var companyVue = new Vue ({
             this.company.bank_accounts.splice(idx, 1);
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         },
         getLookupYesNo: function() {
-            axios.get('/api/get/lookup/byCategory/YESNOSELECT').then(
+            axios.get(route('api.get.lookup.bycategory', 'YESNOSELECT').url()).then(
                 response => { this.yesnoDDL = response.data; }
             );
         },
         getBank: function() {
-            axios.get('/api/get/bank/read').then(
+            axios.get(route('api.get.bank.read').url()).then(
                 response => { this.bankDDL = response.data; }
             );
         },

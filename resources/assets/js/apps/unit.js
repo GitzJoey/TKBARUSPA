@@ -17,20 +17,21 @@ var unitVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#unitCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post('/api/post/unit/save', new FormData($('#unitForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.unit.save').url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post('/api/post/unit/edit/' + this.unit.hId, new FormData($('#unitForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.unit.edit', this.unit.hId).url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else { }
-                Codebase.blocks('#unitCRUDBlock', 'state_toggle');
             });
         },
         getAllUnit: function() {
             Codebase.blocks('#unitListBlock', 'state_toggle');
-            axios.get('/api/get/unit/read').then(response => {
+            axios.get(route('api.get.settings.unit.read').url()).then(response => {
                 this.unitList = response.data;
                 Codebase.blocks('#unitListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -51,7 +52,7 @@ var unitVue = new Vue ({
             this.unit = this.unitList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post('/api/post/unit/delete/' + idx).then(response => {
+            axios.post(route('api.post.settings.unit.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -70,7 +71,7 @@ var unitVue = new Vue ({
             }
         },
         getLookupStatus: function() {
-            axios.get('/api/get/lookup/byCategory/STATUS').then(
+            axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
                 response => { this.statusDDL = response.data; }
             );
         }
