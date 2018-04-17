@@ -30,14 +30,14 @@
         "jquery.appear": "^1.0.1",
         "jquery.cookie": "^1.4.1",
         "laravel-vue-pagination": "^1.2.0",
-        "moment": "^2.22.0",
+        "moment": "^2.22.1",
         "moment-duration-format": "^2.2.2",
         "numbro": "^2.0.6",
-        "pdfjs-dist": "^2.0.487",
+        "pdfjs-dist": "^2.0.489",
         "simple-line-icons": "^2.4.1",
         "vee-validate": "^2.0.6",
         "vue-autonumeric": "^1.2.0",
-        "vue-flatpickr-component": "^7.0.0",
+        "vue-flatpickr-component": "^7.0.1",
         "vue-select": "^2.4.0"
     }
 }
