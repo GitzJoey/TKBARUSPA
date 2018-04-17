@@ -9,8 +9,8 @@ return [
     'groups' => [
         'truck' => [
             'api.get.lookup.*',
-            'api.get.truck.truck.*',
-            'api.post.truck.truck.*'
+            'api.get.truck.*',
+            'api.post.truck.*'
         ],
         'unit' => [
             'api.get.lookup.*',

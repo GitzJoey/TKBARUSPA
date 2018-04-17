@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
 
 use App\Services\TruckService;
 
-use App\Repos\LookupRepo;
-
 class TruckController extends Controller
 {
     private $truckService;
@@ -37,46 +35,55 @@ class TruckController extends Controller
         return $this->truckService->read();
     }
 
-    public function store(Request $data)
+    public function store(Request $request)
     {
-        Validator::make($data->all(), [
+        Validator::make($request->all(), [
             'plate_number' => 'required|string|max:255',
             'inspection_date' => 'required|string|max:255',
             'driver' => 'required|string|max:255',
             'status' => 'required',
         ])->validate();
         
-        $this->truckService->create([
-            'company_id' => Auth::user()->company->id,
-            'type' => $data['truck_type'],
-            'plate_number' => $data['plate_number'],
-            'inspection_date' => date(Config::get('const.DATETIME_FORMAT.DATEBASE_DATETIME_FORMAT'), strtotime($data->input('inspection_date '))),
-            'driver' => $data['driver'],
-            'status' => $data['status'],
-            'remarks' => $data['remarks']
-        ]);
+        $this->truckService->create(
+            Auth::user()->company->id,
+            $request['truck_type'],
+            $request['plate_number'],
+            date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('inspection_date'))),
+            $request['driver'],
+            $request['status'],
+            $request['remarks']
+        );
         
         return response()->json();
             
     }
 
-    public function update($truck, Request $req)
+    public function update($id, Request $request)
     {
-        Validator::make($req->all(), [
+        Validator::make($request->all(), [
             'plate_number' => 'required|string|max:255',
             'inspection_date' => 'required|string|max:255',
             'driver' => 'required|string|max:255',
             'status' => 'required',
         ])->validate();
         
-        $this->truckService->find($truck)->update($req->all());
+        $this->truckService->update(
+            $id,
+            Auth::user()->company->id,
+            $request['truck_type'],
+            $request['plate_number'],
+            date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('inspection_date'))),
+            $request['driver'],
+            $request['status'],
+            $request['remarks']
+        );
 
         return response()->json();
     }
 
-    public function delete($truck)
+    public function delete($id)
     {
-        $this->truckService->find($truck)->delete();
+        $this->truckService->delete($id);
         
         return response()->json();
     }

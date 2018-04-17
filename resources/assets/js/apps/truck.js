@@ -19,12 +19,12 @@ var truckVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post(route('api.post.truck.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {
+                    axios.post(route('api.post.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post(route('api.post.truck.truck.edit', this.truck.hId).url(), new FormData($('#truckForm')[0])).then(response => {
+                    axios.post(route('api.post.truck.edit', this.truck.hId).url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
@@ -33,7 +33,7 @@ var truckVue = new Vue ({
         },
         getAllTruck: function() {
             Codebase.blocks('#truckListBlock', 'state_toggle');
-            axios.get(route('api.get.truck.truck.read').url()).then(response => {
+            axios.get(route('api.get.truck.read').url()).then(response => {
                 this.truckList = response.data;
                 Codebase.blocks('#truckListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -54,7 +54,7 @@ var truckVue = new Vue ({
             this.truck = this.truckList[idx];
         },
         deleteSelected: function(idx) {
-            axios.post(route('api.post.truck.truck.delete', idx).url()).then(response => {
+            axios.post(route('api.post.truck.delete', idx).url()).then(response => {
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
@@ -67,7 +67,7 @@ var truckVue = new Vue ({
             return {
                 hId: '',
                 companyHId: '',
-                truck_type: '',
+                type: '',
                 plate_number: '',
                 inspection_date: '',
                 driver: '',

@@ -53,7 +53,26 @@ class UserController extends Controller
             'company' => 'required',
         ])->validate();
 
+        $name = '';
         $profile = [];
+
+        $pic_phone = [];
+        for ($j = 0; $j < count($request['profile_' . $i . '_phone_provider']); $j++) {
+            array_push($pic_phone, array(
+                'phone_provider_id' => Hashids::decode($request['profile_' . $i . '_phone_provider'][$j])[0],
+                'number' => $request['profile_' . $i . '_phone_number'][$j],
+                'remarks' => $request['profile_' . $i . '_remarks'][$j]
+            ));
+        }
+
+        array_push($persons_in_charge, array (
+            'first_name' => $request['first_name'][$i],
+            'last_name' => $request['last_name'][$i],
+            'address' => $request['profile_address'][$i],
+            'ic_num' => $request['ic_num'][$i],
+            'phone_numbers' => $pic_phone
+        ));
+
 
         $this->userService->create(
             $request['name'],
@@ -77,6 +96,8 @@ class UserController extends Controller
             'company' => 'required',
         ])->validate();
 
+        $name = '';
+        $profile = [];
 
 
         return response()->json();

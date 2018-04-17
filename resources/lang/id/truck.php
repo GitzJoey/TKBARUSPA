@@ -27,13 +27,14 @@ return [
                 ],
             ],
         ],
-        'fields' => [
-            'type' => 'Tipe',
-            'plate_number' => 'Nomor Plat',
-            'inspection_date' => 'Tanggal Inspeksi',
-            'driver' => 'Sopir',
-            'status' => 'Status',
-            'remarks' => 'Keterangan',
-        ],
     ],
+    'fields' => [
+        'type' => 'Tipe',
+        'plate_number' => 'Nomor Plat',
+        'inspection_date' => 'Tanggal Inspeksi',
+        'driver' => 'Sopir',
+        'status' => 'Status',
+        'remarks' => 'Keterangan',
+    ],
+
 ];

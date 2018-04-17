@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     'index' => [
@@ -27,13 +27,13 @@ return [
                 ],
             ],
         ],
-        'fields' => [
-            'type' => 'Type',
-            'plate_number' => 'Plate Number',
-            'inspection_date' => 'Inspection Date',
-            'driver' => 'Driver',
-            'status' => 'Status',
-            'remarks' => 'Remarks',
-        ],
+    ],
+    'fields' => [
+        'type' => 'Type',
+        'plate_number' => 'Plate Number',
+        'inspection_date' => 'Inspection Date',
+        'driver' => 'Driver',
+        'status' => 'Status',
+        'remarks' => 'Remarks',
     ],
 ];

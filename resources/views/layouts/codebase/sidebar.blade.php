@@ -129,13 +129,19 @@
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-truck fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.truck')</span></a>
                             <ul>
-                                <li>
-                                    <a href="#"><span class="fa fa-truck fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck')</a>
-                                </li>
+                                @permission('menu-truck')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.truck') || if_route_pattern('db.truck.*')) }}" href="{{ route('db.truck') }}">
+                                            <span class="fa fa-truck fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck')
+                                        </a>
+                                    </li>
+                                @endpermission
                                 @permission('menu-vendor_trucking')
-                                <li>
-                                    <a href="{{ route('db.truck.vendor_trucking') }}"><span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')</a>
-                                </li>
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.truck.vendor_trucking') || if_route_pattern('db.truck.vendor_trucking.*')) }}" href="{{ route('db.truck.vendor_trucking') }}">
+                                            <span class="fa fa-ge fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.vendor')
+                                        </a>
+                                    </li>
                                 @endpermission
                                 <li>
                                     <a href=""><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
