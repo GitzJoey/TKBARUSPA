@@ -104,11 +104,22 @@ var truckVue = new Vue ({
         }
     },
     computed: {
-        defaultStatus: function() {
+        defaultPleaseSelect: function() {
             return '';
         },
-        defaultTruckType: function() {
-            return '';
+        flatPickrConfig: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+
+            return {
+                enableTime: false,
+                dateFormat: conf[1],
+                plugins: [new confirmDatePlugin({
+                    confirmIcon: "<i class='fa fa-check'></i>",
+                    confirmText: ""
+                }), new scrollPlugin()],
+                minuteIncrement: 15,
+
+            }
         }
     }
 });

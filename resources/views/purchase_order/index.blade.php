@@ -16,6 +16,14 @@
 
 @endsection
 
+@section('custom_css')
+    <style type="text/css">
+        .hideTextBox {
+            display: none;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div id="poVue">
         @include ('layouts.common.error')
@@ -31,6 +39,10 @@
                 </div>
             </div>
             <div class="block-content">
+                <div class="row col-3">
+                    <flat-pickr id="inputPoList" v-bind:config="flatPickrInlineConfig" v-model="selectedDate" v-on:on-change="getAllPO(selectedDate)" class="form-control"></flat-pickr>
+                </div>
+                <br/>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
@@ -254,6 +266,7 @@
                 supplierTypeDDL: [],
                 poTypeDDL: [],
                 supplierDDL: [],
+                selectedDate: new Date(),
                 selectedSupplier: {},
                 poStatusDesc: '',
                 statusDDL: [],
@@ -284,8 +297,14 @@
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                     });
                 },
-                getAllPO: function() {
+                getAllPO: function(date) {
                     Codebase.blocks('#poListBlock', 'state_toggle');
+
+                    var qS = [];
+                    if (date && typeof(date) == 'string') {
+                        qS.push({ 'key':'date', 'value':date });
+                    }
+
                     axios.get(route('api.get.po.read').url()).then(response => {
                         this.poList = response.data;
                         Codebase.blocks('#poListBlock', 'state_toggle');
@@ -325,7 +344,7 @@
                     return {
                         hId: '',
                         po_code: this.generatePOCode(),
-                        po_created: '',
+                        po_created: new Date(),
                         shipping_date: '',
                         supplier_type: '',
                         supplierHId: '',
@@ -394,9 +413,44 @@
             },
             computed: {
                 flatPickrConfig: function() {
+                    var conf = document.getElementById("appSettings").value.split('|');
+                    var flatPickrTimeFormat = '';
+                    switch (conf[2]) {
+                        case "G:H:s": flatPickrTimeFormat = 'H:i:S'; break;
+                        case "g:i A": flatPickrTimeFormat = ' h:i K'; break;
+                        default: break;
+                    }
+
                     return {
                         enableTime: true,
-                        dateFormat: "Y-m-d H:i:S",
+                        noCalendar: true,
+                        dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
+                        plugins: [new confirmDatePlugin({
+                            confirmIcon: "<i class='fa fa-check'></i>",
+                            confirmText: ""
+                        }), new scrollPlugin()],
+                        minuteIncrement: 15,
+
+                    }
+                },
+                flatPickrInlineConfig: function() {
+                    var conf = document.getElementById("appSettings").value.split('|');
+
+                    return {
+                        inline: true,
+                        altInput: true,
+                        altInputClass: 'hideTextBox',
+                        enableTime: false,
+                        dateFormat: conf[1],
+                        plugins: [new confirmDatePlugin({
+                            confirmIcon: "<i class='fa fa-check'></i>",
+                            confirmText: ""
+                        }), new scrollPlugin()],
+                        enable: [
+                            function(date) {
+                                return (date.getMonth() % 2 === 0 && date.getDate() < 15);
+                            }
+                        ]
                     }
                 },
                 defaultPleaseSelect: function() {

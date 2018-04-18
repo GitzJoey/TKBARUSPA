@@ -26,4 +26,8 @@ interface PurchaseOrderService
     );
 
     public function generatePOCode();
+
+    public function getLastPODates($limit);
+
+    public function searchPOByDate($date);
 }

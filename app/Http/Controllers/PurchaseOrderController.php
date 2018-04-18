@@ -19,9 +19,15 @@ class PurchaseOrderController extends Controller
         return view('purchase_order.index');
     }
 
-    public function read()
+    public function read(Request $request)
     {
-        return $this->purchaseOrderService->read();
+        $date = $request->query('date');
+
+        if ($date) {
+            return $this->purchaseOrderService->searchPOByDate($date);
+        } else {
+            return $this->purchaseOrderService->read();
+        }
     }
 
     public function generatePOCode()

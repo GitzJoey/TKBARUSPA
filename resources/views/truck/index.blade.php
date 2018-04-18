@@ -99,7 +99,7 @@
                                         v-model="truck.type"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('truck.fields.type') }}">
-                                    <option v-bind:value="defaultTruckType">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                     <option v-for="(s, sIdx) in truckTypeDDL" v-bind:value="s.code">@{{ s.description }}</option>
                                 </select>
                                 <div v-show="errors.has('truck_type')" class="invalid-feedback">@{{ errors.first('truck_type') }}</div>
@@ -127,7 +127,7 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <div class="input-group">
-                                    <flat-pickr name="inspection_date" v-model="truck.inspection_date" class="form-control" v-validate="'required'" data-vv-as="{{ trans('truck.fields.inspection_date') }}"></flat-pickr>
+                                    <flat-pickr name="inspection_date" v-model="truck.inspection_date" v-bind:config="flatPickrConfig" class="form-control" v-validate="'required'" data-vv-as="{{ trans('truck.fields.inspection_date') }}"></flat-pickr>
                                 </div>
                             </template>
                             <template v-if="mode == 'show'">
@@ -155,7 +155,7 @@
                                 <select class="form-control" id="inputStatus" name="status"
                                         v-model="truck.status" v-validate="'required'"
                                         data-vv-as="{{ trans('truck.fields.status') }}">
-                                    <option v-bind:value="defaultStatus">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                     <option v-for="(s, sIdx) in statusDDL" v-bind:value="s.code">@{{ s.description }}</option>
                                 </select>
                                 <div v-show="errors.has('status')" class="invalid-feedback">@{{ errors.first('status') }}</div>

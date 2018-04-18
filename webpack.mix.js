@@ -20,7 +20,10 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
     .scripts([
         'public/js/codebase/main.js',
         'resources/assets/js/codebase/codebase.js',
-        'resources/assets/js/codebase/app.js'
+        'resources/assets/js/codebase/app.js',
+        'resources/assets/js/utils/phpDateTimetoMomentFormat.js',
+        'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.js',
+        'node_modules/flatpickr/dist/plugins/scrollPlugin.js'
     ], 'public/js/codebase/main.js')
     .copy('node_modules/popper.js/dist/umd/popper.js.map', 'public/js/codebase')
     .copy('node_modules/vue-select/dist/vue-select.js.map', 'public/js/codebase')
@@ -34,7 +37,8 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
         'node_modules/fullcalendar/dist/fullcalendar.css',
         'public/css/codebase/main.css',
         'node_modules/animate.css/animate.css',
-        'node_modules/flatpickr/dist/flatpickr.css'
+        'node_modules/flatpickr/dist/flatpickr.css',
+        'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.css'
     ], 'public/css/codebase/main.css')
     .version();
 

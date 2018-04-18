@@ -11,6 +11,7 @@ namespace App\Services\Implementations;
 use App\Models\PurchaseOrder;
 
 use Config;
+use Carbon\Carbon;
 
 use App\Services\PurchaseOrderService;
 
@@ -67,5 +68,27 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         } while (empty($result));
 
         return $result;
+    }
+
+    public function getLastPODates($limit = 50)
+    {
+        $po = PurchaseOrder::all()->groupBy(function ($po) {
+            return $po->po_created->format('d-M-y');
+        })->take($limit)->map(function($item) {
+            return $item->all()[0]->po_created->format('d/m/y');
+        });
+
+        return $po;
+    }
+
+    public function searchPOByDate($date)
+    {
+        $date = Carbon::parse($date)->format('Y-m-d');
+
+        $purchaseOrders = PurchaseOrder::with([ 'items.product', 'supplier.profiles', 'receipts.item.product',
+            'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->where('po_created', 'like', '%'.$date.'%')->get();
+
+        return $purchaseOrders;
     }
 }
