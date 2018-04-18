@@ -30,7 +30,7 @@ class TruckController extends Controller
         return view('truck.index');
     }
 
-    public function read(Request $request)
+    public function read()
     {
         return $this->truckService->read();
     }
