@@ -25,7 +25,7 @@ class RolesController extends Controller
 
     public function index()
     {
-        return view('roles.index');
+        return view('role.index');
     }
 
     public function read()
@@ -41,6 +41,20 @@ class RolesController extends Controller
             'description' => 'required',
         ])->validate();
 
+        $rolePermission = [];
+        for($i = 0; $i < count($request['permission']); $i++) {
+            array_push($rolePermission, array (
+                
+            ));
+        }
+
+        $this->rolesService->create(
+            $request['name'],
+            $request['display_name'],
+            $request['description'],
+            $rolePermission
+        );
+
         return response()->json();
     }
 
@@ -53,12 +67,20 @@ class RolesController extends Controller
             'description' => 'required',
         ])->validate();
 
+        $this->rolesService->update(
+            $id,
+            $request['name'],
+            $request['display_name'],
+            $request['description'],
+            $request['permission']
+        );
 
         return response()->json();
     }
 
     public function delete($id)
     {
+        $this->rolesService->delete($id);
 
         return response()->json();
     }
