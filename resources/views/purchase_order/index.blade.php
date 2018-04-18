@@ -172,7 +172,7 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
                                         <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputPoCreated" name="po_created" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            <flat-pickr id="inputPoCreated" name="po_created" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-10 col-sm-8">
+                        <div class="col-12">
                             <div class="block block-shadow-on-hover block-mode-loading-refresh" id="transactionListBlock">
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">@lang('purchase_order.index.panel.transaction_panel.title')</h3>
@@ -213,18 +213,6 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-sm-4">
-                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="summaryTransactionBlock">
-                                <div class="block-header block-header-default">
-                                    <h3 class="block-title">@lang('purchase_order.index.panel.summary_trx_panel.title')</h3>
-                                    <div class="block-options">
-                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-                                    </div>
-                                </div>
-                                <div class="block-content">
                                 </div>
                             </div>
                         </div>
@@ -405,6 +393,12 @@
                 }
             },
             computed: {
+                flatPickrConfig: function() {
+                    return {
+                        enableTime: true,
+                        dateFormat: "Y-m-d H:i:S",
+                    }
+                },
                 defaultPleaseSelect: function() {
                     return '';
                 }

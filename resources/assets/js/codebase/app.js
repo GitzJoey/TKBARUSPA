@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var sessionTimeout = parseInt(document.getElementById("appSettings").value.split('-')[0]) * 60;
+    var sessionTimeout = parseInt(document.getElementById("appSettings").value.split('|')[0]) * 60;
     function timeout() {
         setTimeout(function () {
             sessionTimeout = (sessionTimeout - 1);

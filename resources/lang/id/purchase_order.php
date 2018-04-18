@@ -23,9 +23,6 @@ return [
             'transaction_panel' => [
                 'title' => 'Transaksi',
             ],
-            'summary_trx_panel' => [
-                'title' => 'Rangkuman',
-            ],
         ],
         'table' => [
             'list_table' => [

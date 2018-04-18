@@ -23,9 +23,6 @@ return [
             'transaction_panel' => [
                 'title' => 'Transactions',
             ],
-            'summary_trx_panel' => [
-                'title' => 'Summary',
-            ],
         ],
         'table' => [
             'list_table' => [

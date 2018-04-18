@@ -74,7 +74,7 @@
 
         <div id="goTop"></div>
 
-        <input type="hidden" id="appSettings" value="{{ Config::get('session.lifetime') }}-0"/>
+        <input type="hidden" id="appSettings" value="{{ \App\Utils\AppConfig::get() }}"/>
 
         @yield('ziggy')
 
