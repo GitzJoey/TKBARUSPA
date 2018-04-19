@@ -5,8 +5,7 @@
 @endsection
 
 @section('page_title')
-    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>
-    @lang('truck.index.page_title')
+    <span class="fa fa-truck fa-flip-horizontal fa-fw"></span>&nbsp;@lang('truck.index.page_title')
 @endsection
 
 @section('page_title_desc')
