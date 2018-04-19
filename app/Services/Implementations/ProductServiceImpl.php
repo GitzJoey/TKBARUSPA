@@ -207,12 +207,4 @@ class ProductServiceImpl implements ProductService
 
         $product->delete();
     }
-
-    public function getProductOwnedBySupplier($supplierId)
-    {
-        return Product::with('productType', 'productCategories', 'productUnits.unit')
-            ->whereHas('supplier', function ($q) use ($supplierId) {
-                $q->whereId($supplierId);
-            })->get();
-    }
 }

@@ -42,6 +42,4 @@ interface ProductService
         $remarks
     );
     public function delete($id);
-
-    public function getProductOwnedBySupplier($supplierId);
 }

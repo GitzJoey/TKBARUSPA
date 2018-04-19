@@ -141,7 +141,7 @@ class Supplier extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product', 'supplier_prod', 'supplier_id', 'product_id');
+        return $this->belongsToMany('App\Models\Product');
     }
 
     public function purchaseOrders()

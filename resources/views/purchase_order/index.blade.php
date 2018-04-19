@@ -253,21 +253,7 @@
                                     </div>
                                 </div>
                                 <div class="block-content">
-                                    <v-select label="name" :filterable="false" :options="product_options" @search="onVSelectSearch">
-                                        <template slot="no-options">
-                                            @lang('labels.START_TYPING')
-                                        </template>
-                                        <template slot="option" slot-scope="option">
-                                            <div class="d-center">
-                                                a
-                                            </div>
-                                        </template>
-                                        <template slot="selected-option" slot-scope="option">
-                                            <div class="selected d-center">
-                                                b
-                                            </div>
-                                        </template>
-                                    </v-select>
+                                    <v-select v-bind:options="product_options" label="name" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)"></v-select>
                                     <br/>
                                     <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
                                         <thead class="thead-light">
@@ -334,6 +320,7 @@
                 poStatusDesc: '',
                 statusDDL: [],
                 product_options: [],
+                productSelected: null,
                 mode: '',
                 po: { }
             },
@@ -388,6 +375,10 @@
                         this.po.supplierHId = '';
                     }
                 },
+                onChangeProductSelected: function(value) {
+                    console.log(value);
+                    this.productSelected = null;
+                },
                 createNew: function () {
                     this.mode = 'create';
                     this.errors.clear();
@@ -434,26 +425,6 @@
                         disc_total_value: 0
                     }
                 },
-                onVSelectSearch: function (searchText, loading) {
-                    loading(true);
-                    this.searchProduct(loading, searchText, this);
-                },
-                searchProduct: _.debounce((loading, search, vm) => {
-                    if (vm.po.supplierHId != '') {
-                        axios.get(route('api.get.product.bysupplier', vm.po.supplierHId)).then(
-                            response => {
-                                vm.product_options = response.data;
-                                loading(false);
-                            }
-                        ).catch(e => {
-                            vm.product_options = [];
-                            loading(false);
-                        });
-                    } else {
-                        vm.product_options = [];
-                        loading(false);
-                    }
-                }, 350),
                 getSupplier: function() {
                     axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings([{'key':'all', 'value':'yes'}])).then(
                         response => { this.supplierDDL = response.data; }
@@ -489,8 +460,10 @@
                 'po.supplierHId': function() {
                     if (this.po.supplierHId == '') {
                         this.selectedSupplier = {};
+                        this.product_options = [];
                     } else {
                         this.selectedSupplier = _.find(this.supplierDDL, { hId: this.po.supplierHId });
+                        this.product_options = this.selectedSupplier.products;
                     }
                 },
                 'po.po_status': function() {

@@ -167,11 +167,4 @@ class ProductController extends Controller
 
         return response()->json();
     }
-
-    public function getProductOwnedBySupplier(Request $request)
-    {
-        $supplierId = 1;//$request->query('s');
-
-        return $this->productService->getProductOwnedBySupplier($supplierId);
-    }
 }

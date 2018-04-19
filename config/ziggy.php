@@ -29,7 +29,6 @@ return [
             'api.get.supplier.*',
             'api.get.warehouse.*',
             'api.get.truck.vendor_trucking.*',
-            'api.get.product.*',
         ],
         'phone_provider' => [
             'api.get.lookup.*',

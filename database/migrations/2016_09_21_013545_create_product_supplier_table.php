@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupplierProdTable extends Migration
+class CreateProductSupplierTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSupplierProdTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_prod', function (Blueprint $table){
+        Schema::create('product_supplier', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('supplier_id');
             $table->unsignedBigInteger('product_id');
@@ -27,6 +27,6 @@ class CreateSupplierProdTable extends Migration
      */
     public function down()
     {
-        Schema::drop('supplier_prod');
+        Schema::drop('product_supplier');
     }
 }
