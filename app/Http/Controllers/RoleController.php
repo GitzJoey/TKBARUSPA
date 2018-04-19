@@ -11,16 +11,16 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 
-use App\Services\RolesService;
+use App\Services\RoleService;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
-    private $rolesService;
+    private $roleService;
 
-    public function __construct(RolesService $rolesService)
+    public function __construct(RoleService $roleService)
     {
         $this->middleware('auth');
-        $this->rolesService = $rolesService;
+        $this->roleService = $roleService;
     }
 
     public function index()
@@ -30,7 +30,7 @@ class RolesController extends Controller
 
     public function read()
     {
-        return $this->rolesService->read();
+        return $this->roleService->read();
     }
 
     public function store(Request $request)
@@ -44,11 +44,11 @@ class RolesController extends Controller
         $rolePermission = [];
         for($i = 0; $i < count($request['permission']); $i++) {
             array_push($rolePermission, array (
-                
+                'id' => $request['permission'][$i]
             ));
         }
 
-        $this->rolesService->create(
+        $this->roleService->create(
             $request['name'],
             $request['display_name'],
             $request['description'],
@@ -67,12 +67,22 @@ class RolesController extends Controller
             'description' => 'required',
         ])->validate();
 
-        $this->rolesService->update(
+        $rolePermission = [];
+        $inputtedRolePermission = [];
+        for($i = 0; $i < count($request['permission']); $i++) {
+            array_push($rolePermission, array (
+                'id' => $request['permission'][$i]
+            ));
+            array_push($inputtedRolePermission, $request['permission'][$i]);
+        }
+
+        $this->roleService->update(
             $id,
             $request['name'],
             $request['display_name'],
             $request['description'],
-            $request['permission']
+            $rolePermission,
+            $inputtedRolePermission
         );
 
         return response()->json();
@@ -80,8 +90,14 @@ class RolesController extends Controller
 
     public function delete($id)
     {
-        $this->rolesService->delete($id);
+        $this->roleService->delete($id);
 
         return response()->json();
     }
+
+    public function getAllPermissions()
+    {
+        return $this->roleService->getAllPermissions();
+    }
+
 }

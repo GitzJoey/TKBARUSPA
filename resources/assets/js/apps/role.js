@@ -8,6 +8,7 @@ var roleVue = new Vue ({
     },
     mounted: function () {
         this.mode = 'list';
+        this.getPermission();
         this.getAllRole();
     },
     methods: {
@@ -66,9 +67,14 @@ var roleVue = new Vue ({
                 name: '',
                 display_name: '',
                 description: '',
-                permission: ''
+                permission: []
             }
         },
+        getPermission: function() {
+            axios.get(route('api.get.settings.role.permission.read').url()).then(response => {
+                this.permissionDDL = response.data;
+            }).catch(e => { this.handleErrors(e); });
+        }
     },
     watch: {
         mode: function() {
@@ -85,6 +91,11 @@ var roleVue = new Vue ({
                     Codebase.blocks('#roleCRUDBlock', 'close')
                     break;
             }
+        }
+    },
+    computed: {
+        defaultPleaseSelect: function() {
+            return ''
         }
     }
 });

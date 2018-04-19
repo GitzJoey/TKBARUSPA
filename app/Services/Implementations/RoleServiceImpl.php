@@ -13,9 +13,9 @@ use App\Models\Permission;
 use DB;
 use Exception;
 
-use App\Services\RolesService;
+use App\Services\RoleService;
 
-class RolesServiceImpl implements RolesService
+class RoleServiceImpl implements RoleService
 {
     public function create(
         $name,
@@ -54,7 +54,8 @@ class RolesServiceImpl implements RolesService
         $name,
         $display_name,
         $description,
-        $permission
+        $permission,
+        $inputtedPermission
     )
     {
         DB::beginTransaction();
@@ -83,5 +84,10 @@ class RolesServiceImpl implements RolesService
         $role->permissions()->attach([]);
 
         $role->delete();
+    }
+
+    public function getAllPermissions()
+    {
+        return Permission::get();
     }
 }

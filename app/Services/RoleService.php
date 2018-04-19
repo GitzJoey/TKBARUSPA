@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-interface RolesService
+interface RoleService
 {
     public function create(
         $name,
@@ -22,7 +22,10 @@ interface RolesService
         $name,
         $display_name,
         $description,
-        $permission
+        $permission,
+        $inputtedPermission
     );
     public function delete($id);
+
+    public function getAllPermissions();
 }

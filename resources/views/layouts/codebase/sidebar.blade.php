@@ -243,7 +243,7 @@
                             </ul>
                         </li>
                     @endpermission
-                    @permission('menu-company|menu-user|menu-roles|menu-unit|menu-phone_provider')
+                    @permission('menu-company|menu-user|menu-user.fields|menu-unit|menu-phone_provider')
                         <li class="{{ active_class(if_route_pattern('db.settings.*'), 'open') }}">
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cog fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.settings')</span></a>
                             <ul>
@@ -261,9 +261,11 @@
                                         </a>
                                     </li>
                                 @endpermission
-                                @permission('menu-roles')
+                                @permission('menu-role')
                                     <li>
-                                        <a href="#"><span class="fa fa-key fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.roles')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.settings.role') || if_route_pattern('db.settings.role.*')) }}" href="{{ route('db.settings.role') }}">
+                                            <span class="fa fa-key fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.role')
+                                        </a>
                                     </li>
                                 @endpermission
                                 @permission('menu-unit')

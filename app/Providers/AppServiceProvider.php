@@ -17,7 +17,7 @@ use App\Services\WarehouseService;
 use App\Services\PriceLevelService;
 use App\Services\VendorTruckingService;
 use App\Services\UserService;
-use App\Services\RolesService;
+use App\Services\RoleService;
 use App\Services\TruckService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
@@ -33,7 +33,7 @@ use App\Services\Implementations\WarehouseServiceImpl;
 use App\Services\Implementations\PriceLevelServiceImpl;
 use App\Services\Implementations\VendorTruckingServiceImpl;
 use App\Services\Implementations\UserServiceImpl;
-use App\Services\Implementations\RolesServiceImpl;
+use App\Services\Implementations\RoleServiceImpl;
 use App\Services\Implementations\TruckServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
@@ -107,8 +107,8 @@ class AppServiceProvider extends ServiceProvider
             return new UserServiceImpl();
         });
 
-        $this->app->singleton(RolesService::class, function (){
-            return new RolesServiceImpl();
+        $this->app->singleton(RoleService::class, function (){
+            return new RoleServiceImpl();
         });
 
         $this->app->singleton(TruckService::class, function() {

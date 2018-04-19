@@ -36,17 +36,17 @@
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
                             <tr>
-			                    <th class="text-center">@lang('role.index.table.header.name')</th>
-			                    <th class="text-center">@lang('role.index.table.header.description')</th>
-			                    <th class="text-center">@lang('role.index.table.header.permission')</th>
-			                    <th class="text-center">@lang('labels.ACTION')</th>
+			                    <th class="text-center">@lang('role.index.table.role_list.header.name')</th>
+			                    <th class="text-center">@lang('role.index.table.role_list.header.description')</th>
+			                    <th class="text-center">@lang('role.index.table.role_list.header.permission')</th>
+			                    <th class="text-center action-column-width">@lang('labels.ACTION')</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in roleList">
                                 <td>@{{ u.name }}</td>
                                 <td>@{{ u.description }}</td>
-                                <td>@{{ u.permission }}</td>
+                                <td></td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-secondary" v-on:click="showSelected(uIdx)"><span class="fa fa-info fa-fw"></span></button>
@@ -133,8 +133,8 @@
                                         v-model="role.permission"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('role.fields.permission') }}">
-                                    <option v-bind:value="defaultPermission">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(s, sIdx) in permissionDDL" v-bind:value="s.code">@{{ s.description }}</option>
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-for="(p, pIdx) in permissionDDL" v-bind:value="p.id">@{{ p.display_name }}</option>
                                 </select>
                                 <div v-show="errors.has('permission')" class="invalid-feedback">@{{ errors.first('permission') }}</div>
                             </template>

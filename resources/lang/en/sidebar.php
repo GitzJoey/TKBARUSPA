@@ -45,7 +45,7 @@ return [
     'menu.settings' => 'Settings',
     'menu.settings.company' => 'Company',
     'menu.settings.user' => 'User',
-    'menu.settings.roles' => 'Roles',
+    'menu.settings.role' => 'Role',
     'menu.settings.unit' => 'Unit',
     'menu.settings.phone_provider' => 'Phone Provider'
 ];

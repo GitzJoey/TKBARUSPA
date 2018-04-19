@@ -4,7 +4,7 @@ return [
     'role_structure' => [
         'administrator' => [
             'users' => 'c,r,u,d,m',
-            'roles' => 'c,r,u,d,m',
+            'role' => 'c,r,u,d,m',
             'company' => 'c,r,u,d,m',
             'unit' => 'c,r,u,d,m',
             'phoneprovider' => 'c,r,u,d,m',

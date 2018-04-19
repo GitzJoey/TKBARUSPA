@@ -44,7 +44,7 @@ return [
     'menu.rpt.yearly' => 'Tahunan',
     'menu.settings' => 'Settings',
     'menu.settings.company' => 'Perusahaan',
-    'menu.settings.roles' => 'Peran',
+    'menu.settings.role' => 'Peran',
     'menu.settings.user' => 'Pengguna',
     'menu.settings.unit' => 'Satuan',
     'menu.settings.phone_provider' => 'Provider Telepon'

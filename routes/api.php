@@ -75,7 +75,8 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         });
 
         Route::group(['prefix' => 'role'], function () {
-            Route::get('read', 'RolesController@read')->name('api.get.settings.role.read');
+            Route::get('read', 'RoleController@read')->name('api.get.settings.role.read');
+            Route::get('permission/read', 'RoleController@getAllPermissions')->name('api.get.settings.role.permission.read');
         });
 
         Route::group(['prefix' => 'company'], function () {
@@ -144,6 +145,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('delete/{id}', 'UserController@delete')->name('api.post.settings.user.delete');
         });
 
+        Route::group(['prefix' => 'role'], function () {
+            Route::post('save', 'RoleController@store')->name('api.post.settings.role.save');
+            Route::post('edit/{id}', 'RoleController@update')->name('api.post.settings.role.edit');
+            Route::post('delete/{id}', 'RoleController@delete')->name('api.post.settings.role.delete');
+        });
+
         Route::group(['prefix' => 'company'], function () {
             Route::post('save', 'CompanyController@store')->name('api.post.settings.company.save');
             Route::post('edit/{id}', 'CompanyController@update')->name('api.post.settings.company.edit');
@@ -154,12 +161,6 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('save', 'UnitController@store')->name('api.post.settings.unit.save');
             Route::post('edit/{id}', 'UnitController@update')->name('api.post.settings.unit.edit');
             Route::post('delete/{id}', 'UnitController@delete')->name('api.post.settings.unit.delete');
-        });
-
-        Route::group(['prefix' => 'role'], function () {
-            Route::post('save', 'RolesController@store')->name('api.post.settings.role.save');
-            Route::post('edit/{id}', 'RolesController@update')->name('api.post.settings.role.edit');
-            Route::post('delete/{id}', 'RolesController@delete')->name('api.post.settings.role.delete');
         });
     });
 });
