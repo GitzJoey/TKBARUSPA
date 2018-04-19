@@ -184,7 +184,7 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
                                         <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputPoCreated" name="po_created" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            <flat-pickr id="inputPoCreated" name="po.po_created" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -202,12 +202,73 @@
                         <div class="col-12">
                             <div class="block block-shadow-on-hover block-mode-loading-refresh" id="transactionListBlock">
                                 <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.shipping_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('shipping_date') }">
+                                        <label for="inputShippingDate" class="col-3 col-form-label">@lang('purchase_order.fields.shipping_date')</label>
+                                        <div class="col-md-9">
+                                            <flat-pickr id="inputShippingDate" v-model="po.shipping_date" name="shipping_date" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.shipping_date') }}"></flat-pickr>
+                                        </div>
+                                        <span v-show="errors.has('shipping_date')" class="invalid-feedback">@{{ errors.first('shipping_date') }}</span>
+                                    </div>
+                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('warehouse_id') }">
+                                        <label for="inputWarehouse" class="col-3 col-form-label">@lang('purchase_order.fields.warehouse')</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputWarehouse" name="warehouse_id" class="form-control"
+                                                    v-model="po.warehouseHId"
+                                                    v-validate="'required'"
+                                                    data-vv-as="{{ trans('purchase_order.fields.warehouse') }}">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(warehouse, warehouseIdx) of warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.remarks ? '('+warehouse.remarks+')':'' }}</option>
+                                            </select>
+                                            <span v-show="errors.has('warehouse_id')" class="invalid-feedback">@{{ errors.first('warehouse_id') }}</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('purchase_order.fields.vendor_trucking')</label>
+                                        <div class="col-md-9">
+                                            <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
+                                                    v-model="po.vendorTruckingHId">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="transactionListBlock">
+                                <div class="block-header block-header-default">
                                     <h3 class="block-title">@lang('purchase_order.index.panel.transaction_panel.title')</h3>
                                     <div class="block-options">
                                         <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                                     </div>
                                 </div>
                                 <div class="block-content">
+                                    <v-select label="name" :filterable="false" :options="product_options" @search="onVSelectSearch">
+                                        <template slot="no-options">
+                                            @lang('labels.START_TYPING')
+                                        </template>
+                                        <template slot="option" slot-scope="option">
+                                            <div class="d-center">
+                                                a
+                                            </div>
+                                        </template>
+                                        <template slot="selected-option" slot-scope="option">
+                                            <div class="selected d-center">
+                                                b
+                                            </div>
+                                        </template>
+                                    </v-select>
+                                    <br/>
                                     <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
                                         <thead class="thead-light">
                                             <tr>
@@ -266,10 +327,13 @@
                 supplierTypeDDL: [],
                 poTypeDDL: [],
                 supplierDDL: [],
+                vendorTruckingDDL: [],
+                warehouseDDL: [],
                 selectedDate: new Date(),
                 selectedSupplier: {},
                 poStatusDesc: '',
                 statusDDL: [],
+                product_options: [],
                 mode: '',
                 po: { }
             },
@@ -279,73 +343,84 @@
                 this.getSupplier();
                 this.getSupplierType();
                 this.getPOType();
+                this.getWarehouse();
+                this.getVendorTrucking();
             },
             methods: {
-                validateBeforeSubmit: function() {
+                validateBeforeSubmit: function () {
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) return;
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
                             axios.post('/api/post/po/save', new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
+                            }).catch(e => {
+                                this.handleErrors(e);
+                            });
                         } else if (this.mode == 'edit') {
                             axios.post('/api/post/po/edit/' + this.po.hId, new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                            }).catch(e => { this.handleErrors(e); });
-                        } else { }
+                            }).catch(e => {
+                                this.handleErrors(e);
+                            });
+                        } else {
+                        }
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                     });
                 },
-                getAllPO: function(date) {
+                getAllPO: function (date) {
                     Codebase.blocks('#poListBlock', 'state_toggle');
 
                     var qS = [];
                     if (date && typeof(date) == 'string') {
-                        qS.push({ 'key':'date', 'value':date });
+                        qS.push({'key': 'date', 'value': date});
                     }
 
                     axios.get(route('api.get.po.read').url()).then(response => {
                         this.poList = response.data;
                         Codebase.blocks('#poListBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                    });
                 },
-                onChangeSupplierType: function(type) {
+                onChangeSupplierType: function (type) {
                     if (type == 'SUPPLIERTYPE.WI') {
                         this.po.supplierHId = '';
                     }
                 },
-                createNew: function() {
+                createNew: function () {
                     this.mode = 'create';
                     this.errors.clear();
                     this.po = this.emptyPO();
                 },
-                editSelected: function(idx) {
+                editSelected: function (idx) {
                     this.mode = 'edit';
                     this.errors.clear();
                     this.po = this.poList[idx];
                 },
-                showSelected: function(idx) {
+                showSelected: function (idx) {
                     this.mode = 'show';
                     this.errors.clear();
                     this.po = this.poList[idx];
                 },
-                deleteSelected: function(idx) {
+                deleteSelected: function (idx) {
                     axios.post('/api/post/po/delete/' + idx).then(response => {
                         this.backToList();
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                    });
                 },
-                backToList: function() {
+                backToList: function () {
                     this.mode = 'list';
                     this.errors.clear();
                     this.getAllPO();
                 },
-                emptyPO: function() {
+                emptyPO: function () {
                     return {
                         hId: '',
                         po_code: this.generatePOCode(),
                         po_created: new Date(),
-                        shipping_date: '',
+                        shipping_date: new Date(),
                         supplier_type: '',
                         supplierHId: '',
                         warehouseHId: '',
@@ -355,24 +430,54 @@
                         productHId: '',
                         items: [],
                         expenses: [],
-                        disc_total_percent : 0,
-                        disc_total_value : 0
+                        disc_total_percent: 0,
+                        disc_total_value: 0
                     }
                 },
+                onVSelectSearch: function (searchText, loading) {
+                    loading(true);
+                    this.searchProduct(loading, searchText, this);
+                },
+                searchProduct: _.debounce((loading, search, vm) => {
+                    if (vm.po.supplierHId != '') {
+                        axios.get(route('api.get.product.bysupplier', vm.po.supplierHId)).then(
+                            response => {
+                                vm.product_options = response.data;
+                                loading(false);
+                            }
+                        ).catch(e => {
+                            vm.product_options = [];
+                            loading(false);
+                        });
+                    } else {
+                        vm.product_options = [];
+                        loading(false);
+                    }
+                }, 350),
                 getSupplier: function() {
                     axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings([{'key':'all', 'value':'yes'}])).then(
                         response => { this.supplierDDL = response.data; }
-                    );
+                    ).catch(e => { this.handleErrors(e); });
                 },
                 getSupplierType: function() {
                     axios.get(route('api.get.lookup.bycategory', 'SUPPLIER_TYPE').url()).then(
                         response => { this.supplierTypeDDL = response.data; }
-                    );
+                    ).catch(e => { this.handleErrors(e); });
                 },
                 getPOType: function() {
                     axios.get(route('api.get.lookup.bycategory', 'PO_TYPE').url()).then(
                         response => { this.poTypeDDL = response.data; }
-                    );
+                    ).catch(e => { this.handleErrors(e); });
+                },
+                getWarehouse: function() {
+                    axios.get(route('api.get.warehouse.read').url()).then(response => {
+                        this.warehouseDDL = response.data;
+                    }).catch(e => { this.handleErrors(e); });
+                },
+                getVendorTrucking: function() {
+                    axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
+                        this.vendorTruckingDDL = response.data;
+                    }).catch(e => { this.handleErrors(e); });
                 },
                 generatePOCode: function() {
                     axios.get(route('api.get.po.generate.po_code').url()).then(
@@ -423,7 +528,6 @@
 
                     return {
                         enableTime: true,
-                        noCalendar: true,
                         dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
                         plugins: [new confirmDatePlugin({
                             confirmIcon: "<i class='fa fa-check'></i>",

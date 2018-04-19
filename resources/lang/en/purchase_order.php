@@ -20,6 +20,9 @@ return [
             'detail_panel' => [
                 'title' => 'Detail',
             ],
+            'shipping_panel' => [
+                'title' => 'Shipping',
+            ],
             'transaction_panel' => [
                 'title' => 'Transactions',
             ],
@@ -55,5 +58,8 @@ return [
         'po_type' => 'Type',
         'po_created' => 'Date',
         'po_status' => 'Status',
+        'shipping_date' => 'Shipping Date',
+        'warehouse' => 'Warehouse',
+        'vendor_trucking' => 'Vendor Trucking',
     ],
 ];

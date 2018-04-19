@@ -20,6 +20,9 @@ return [
             'detail_panel' => [
                 'title' => 'Detil',
             ],
+            'shipping_panel' => [
+                'title' => 'Pengiriman',
+            ],
             'transaction_panel' => [
                 'title' => 'Transaksi',
             ],
@@ -55,5 +58,8 @@ return [
         'po_copy_code' => 'Duplikat',
         'po_type' => 'Tipe',
         'po_created' => 'Tanggal PO',
+        'shipping_date' => 'Tgl Pengiriman',
+        'warehouse' => 'Gudang',
+        'vendor_trucking' => 'Layanan Angkutan',
     ],
 ];

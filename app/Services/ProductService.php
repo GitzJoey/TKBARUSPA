@@ -25,6 +25,7 @@ interface ProductService
         $remarks
     );
     public function read($productName = '');
+    public function readAll();
     public function update(
         $id,
         $company_id,
@@ -41,4 +42,6 @@ interface ProductService
         $remarks
     );
     public function delete($id);
+
+    public function getProductOwnedBySupplier($supplierId);
 }

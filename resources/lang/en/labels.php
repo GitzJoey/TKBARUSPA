@@ -15,4 +15,5 @@ return [
     'DATA_NOT_FOUND' => 'Data not found.',
     'CREATE_NEW' => 'Create New',
     'CHOOSE_FILE' => 'Choose File',
+    'START_TYPING' => 'Start Typing To Search',
 ];

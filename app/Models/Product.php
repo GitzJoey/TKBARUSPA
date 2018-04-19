@@ -151,6 +151,11 @@ class Product extends Model
         return $this->hasMany('App\Models\ProductCategory');
     }
 
+    public function supplier()
+    {
+        return $this->belongsToMany('App\Models\Supplier');
+    }
+
     public function getBaseUnitSymbolAttribute()
     {
         $ret = '';

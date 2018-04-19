@@ -104,6 +104,12 @@ class ProductServiceImpl implements ProductService
         return $product;
     }
 
+    public function readAll()
+    {
+        return Product::with('productType', 'productCategories', 'productUnits.unit')
+            ->get();
+    }
+
     public function update(
         $id,
         $company_id,
@@ -200,5 +206,13 @@ class ProductServiceImpl implements ProductService
         $product = Product::find($id);
 
         $product->delete();
+    }
+
+    public function getProductOwnedBySupplier($supplierId)
+    {
+        return Product::with('productType', 'productCategories', 'productUnits.unit')
+            ->whereHas('supplier', function ($q) use ($supplierId) {
+                $q->whereId($supplierId);
+            })->get();
     }
 }
