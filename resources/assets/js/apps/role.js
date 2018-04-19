@@ -9,7 +9,6 @@ var roleVue = new Vue ({
     mounted: function () {
         this.mode = 'list';
         this.getAllRole();
-        this.getLookupPermission();
     },
     methods: {
         validateBeforeSubmit: function() {
@@ -17,12 +16,12 @@ var roleVue = new Vue ({
                 if (!isValid) return;
                 Codebase.blocks('#roleCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
-                    axios.post(route('api.post.role.save').url(), new FormData($('#roleForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.role.save').url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#roleCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
                 } else if (this.mode == 'edit') {
-                    axios.post(route('api.post.role.edit', this.role.hId).url(), new FormData($('#roleForm')[0])).then(response => {
+                    axios.post(route('api.post.settings.role.edit', this.role.hId).url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#roleCRUDBlock', 'state_toggle');
                     }).catch(e => { this.handleErrors(e); });
@@ -31,7 +30,7 @@ var roleVue = new Vue ({
         },
         getAllRole: function() {
             Codebase.blocks('#roleListBlock', 'state_toggle');
-            axios.get(route('api.get.role.read').url()).then(response => {
+            axios.get(route('api.get.settings.role.read').url()).then(response => {
                 this.roleList = response.data;
                 Codebase.blocks('#roleListBlock', 'state_toggle');
             }).catch(e => { this.handleErrors(e); });
@@ -46,8 +45,46 @@ var roleVue = new Vue ({
             this.errors.clear();
             this.role = this.roleList[idx];
         },
+        showSelected: function(idx) {
+            this.mode = 'show';
+            this.errors.clear();
+            this.role = this.roleList[idx];
+        },
+        deleteSelected: function(idx) {
+            axios.post(route('api.post.settings.role.delete', idx).url()).then(response => {
+                this.backToList();
+            }).catch(e => { this.handleErrors(e); });
+        },
+        backToList: function() {
+            this.mode = 'list';
+            this.errors.clear();
+            this.getAllRole();
+        },
+        emptyRole: function() {
+            return {
+                hId: '',
+                name: '',
+                display_name: '',
+                description: '',
+                permission: ''
+            }
+        },
     },
-    function: {
-
+    watch: {
+        mode: function() {
+            switch (this.mode) {
+                case 'create':
+                case 'edit':
+                case 'show':
+                    Codebase.blocks('#roleListBlock', 'close')
+                    Codebase.blocks('#roleCRUDBlock', 'open')
+                    break;
+                case 'list':
+                default:
+                    Codebase.blocks('#roleListBlock', 'open')
+                    Codebase.blocks('#roleCRUDBlock', 'close')
+                    break;
+            }
+        }
     }
 });
