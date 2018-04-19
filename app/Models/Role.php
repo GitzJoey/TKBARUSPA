@@ -26,7 +26,16 @@ use Laratrust\Models\LaratrustRole;
  */
 class Role extends LaratrustRole
 {
+    protected $fillable = [
+        'name',
+        'display_name',
+        'description'
+    ];
+
     protected $hidden = [
+    	'id',
+    	'created_at',
+    	'updated_at'
     ];
 
     protected $appends = [

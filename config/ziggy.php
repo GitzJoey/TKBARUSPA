@@ -7,6 +7,10 @@
  */
 return [
     'groups' => [
+        'role' => [
+            'api.get.settings.role.*',
+            'api.post.settings.role.*'
+        ],
         'truck' => [
             'api.get.lookup.*',
             'api.get.truck.*',

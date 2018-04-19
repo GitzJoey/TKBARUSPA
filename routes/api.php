@@ -74,8 +74,8 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
             Route::get('read', 'UserController@read')->name('api.get.settings.user.read');
         });
 
-        Route::group(['prefix' => 'roles'], function () {
-            Route::get('read', 'RolesController@read')->name('api.get.settings.roles.read');
+        Route::group(['prefix' => 'role'], function () {
+            Route::get('read', 'RolesController@read')->name('api.get.settings.role.read');
         });
 
         Route::group(['prefix' => 'company'], function () {
@@ -154,6 +154,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('save', 'UnitController@store')->name('api.post.settings.unit.save');
             Route::post('edit/{id}', 'UnitController@update')->name('api.post.settings.unit.edit');
             Route::post('delete/{id}', 'UnitController@delete')->name('api.post.settings.unit.delete');
+        });
+
+        Route::group(['prefix' => 'role'], function () {
+            Route::post('save', 'RolesController@store')->name('api.post.settings.role.save');
+            Route::post('edit/{id}', 'RolesController@update')->name('api.post.settings.role.edit');
+            Route::post('delete/{id}', 'RolesController@delete')->name('api.post.settings.role.delete');
         });
     });
 });
