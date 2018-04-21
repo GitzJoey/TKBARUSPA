@@ -39,11 +39,21 @@ class Role extends LaratrustRole
     ];
 
     protected $appends = [
-        'hId'
+        'hId',
+        'selectedPermissionIds',
     ];
 
     public function getHIdAttribute()
     {
         return Hashids::encode($this->attributes['id']);
+    }
+
+    public function getSelectedPermissionIdsAttribute()
+    {
+        $ids = [];
+        foreach ($this->permissions as $p) {
+            array_push($ids, $p->id);
+        }
+        return $ids;
     }
 }

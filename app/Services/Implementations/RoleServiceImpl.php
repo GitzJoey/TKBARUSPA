@@ -46,7 +46,7 @@ class RoleServiceImpl implements RoleService
 
     public function read()
     {
-        return Role::get();
+        return Role::with('permissions')->get();
     }
 
     public function update(
@@ -64,14 +64,16 @@ class RoleServiceImpl implements RoleService
             $role = Role::with('permissions')->where('id', '=', $id)->first();
             $pl = Permission::whereIn('id', $permission)->get();
 
-            $role->permissions()->sync($pl);
+            $role->syncPermissions($pl);
 
             $role->update([
                 'name' => $name,
                 'display_name' => $display_name,
                 'description' => $description,
             ]);
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             throw $e;
         };
 
@@ -79,11 +81,20 @@ class RoleServiceImpl implements RoleService
 
     public function delete($id)
     {
-        $role = Role::find($id);
+        DB::beginTransaction();
 
-        $role->permissions()->attach([]);
+        try {
+            $role = Role::with('permissions')->find($id);
 
-        $role->delete();
+            $role->detachPermissions($role->getSelectedPermissionIdsAttribute());
+
+            $role->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function getAllPermissions()

@@ -130,16 +130,16 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select multiple class="form-control" id="inputPermission" name="permission[]" size="25"
-                                        v-model="role.permission"
+                                        v-model="role.selectedPermissionIds"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('role.fields.permission') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(p, pIdx) in permissionDDL" v-bind:value="p.id">@{{ p.display_name }}</option>
+                                    <option v-for="(p, pIdx) in permissionsDDL" v-bind:value="p.id">[@{{ p.group }}] @{{ p.display_name }}</option>
                                 </select>
                                 <div v-show="errors.has('permission')" class="invalid-feedback">@{{ errors.first('permission') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ role.permission }}</div>
+                                <div class="form-control-plaintext" v-for="(pr, prIdx) in role.permissions">@{{ pr.display_name }}</div>
                             </template>
                         </div>
                     </div>

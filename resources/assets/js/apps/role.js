@@ -2,13 +2,13 @@ var roleVue = new Vue ({
     el: '#roleVue',
     data: {
         roleList: [],
-        permissionDDL: [],
+        permissionsDDL: [],
         mode: '',
         role: { }
     },
     mounted: function () {
         this.mode = 'list';
-        this.getPermission();
+        this.getPermissions();
         this.getAllRole();
     },
     methods: {
@@ -67,12 +67,13 @@ var roleVue = new Vue ({
                 name: '',
                 display_name: '',
                 description: '',
-                permission: []
+                permissions: [],
+                selectedPermissionIds: []
             }
         },
-        getPermission: function() {
+        getPermissions: function() {
             axios.get(route('api.get.settings.role.permission.read').url()).then(response => {
-                this.permissionDDL = response.data;
+                this.permissionsDDL = response.data;
             }).catch(e => { this.handleErrors(e); });
         }
     },

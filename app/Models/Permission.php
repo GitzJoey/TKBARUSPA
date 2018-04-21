@@ -24,5 +24,12 @@ use Laratrust\Models\LaratrustPermission;
  */
 class Permission extends LaratrustPermission
 {
-    //
+    protected $appends = [
+        'group'
+    ];
+
+    public function getGroupAttribute()
+    {
+        return explode(' ', $this->attributes['display_name'])[1];
+    }
 }
