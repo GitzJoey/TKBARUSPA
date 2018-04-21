@@ -24,12 +24,18 @@ var companyVue = new Vue ({
                     axios.post(route('api.post.settings.company.save').url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.company.edit', this.company.hId).url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#companyCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

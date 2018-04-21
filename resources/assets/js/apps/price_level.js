@@ -22,13 +22,19 @@ var priceLevelVue = new Vue ({
                     axios.post(route('api.post.price.price_level.save').url(), new FormData($('#priceLevelForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.price.price_level.edit', this.priceLevel.hId).url(),
                         new FormData($('#priceLevelForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

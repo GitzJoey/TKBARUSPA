@@ -22,12 +22,18 @@ var truckVue = new Vue ({
                     axios.post(route('api.post.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#truckCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.truck.edit', this.truck.hId).url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#truckCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

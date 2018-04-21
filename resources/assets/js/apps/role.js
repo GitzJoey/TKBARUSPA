@@ -20,12 +20,18 @@ var roleVue = new Vue ({
                     axios.post(route('api.post.settings.role.save').url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#roleCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.role.edit', this.role.hId).url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#roleCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

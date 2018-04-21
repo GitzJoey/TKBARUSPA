@@ -23,13 +23,19 @@ var vendorTruckingVue = new Vue ({
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.truck.vendor_trucking.edit', this.vendorTrucking.hId).url(),
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

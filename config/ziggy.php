@@ -84,7 +84,7 @@ return [
             'api.get.lookup.*',
             'api.get.settings.user.*',
             'api.get.settings.company.*',
-            'api.get.settings.roles.*',
+            'api.get.settings.role.*',
             'api.post.settings.user.*',
         ]
     ],

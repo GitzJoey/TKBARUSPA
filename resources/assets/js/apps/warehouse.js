@@ -22,12 +22,18 @@ var warehouseVue = new Vue ({
                     axios.post(route('api.post.warehouse.save').url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                    });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.warehouse.edit', this.warehouse.hId).url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
                         Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
+                    }).catch(e => {
+                        this.handleErrors(e);
+                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                    });
                 } else { }
             });
         },

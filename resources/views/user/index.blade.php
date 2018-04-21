@@ -285,13 +285,19 @@
                             axios.post(route('api.post.settings.user.save').url(), new FormData($('#userForm')[0])).then(response => {
                                 this.backToList();
                                 Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            }).catch(e => { this.handleErrors(e); });
+                            }).catch(e => {
+                                this.handleErrors(e);
+                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                            });
                         } else if (this.mode == 'edit') {
                             axios.post(route('api.post.settings.user.edit', this.user.hId).url(),
                                 new FormData($('#userForm')[0])).then(response => {
                                 this.backToList();
                                 Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            }).catch(e => { this.handleErrors(e); });
+                            }).catch(e => {
+                                this.handleErrors(e);
+                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                            });
                         } else { }
                     });
                 },
@@ -347,7 +353,7 @@
                     );
                 },
                 getRoles: function() {
-                    axios.get(route('api.get.settings.roles.read').url()).then(
+                    axios.get(route('api.get.settings.role.read').url()).then(
                         response => { this.rolesDDL = response.data; }
                     );
                 },
