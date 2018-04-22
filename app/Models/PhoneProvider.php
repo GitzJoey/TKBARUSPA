@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use Lang;
 use Auth;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,7 @@ class PhoneProvider extends Model
     protected $appends = [
         'hId',
         'fullName',
+        'statusI18n'
     ];
 
     public function getHIdAttribute()
@@ -51,6 +53,11 @@ class PhoneProvider extends Model
     public function getFullNameAttribute()
     {
         return $this->attributes['name'] . '(' . $this->attributes['short_name'] . ')';
+    }
+
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
     }
 
     public function phoneNumbers()

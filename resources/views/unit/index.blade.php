@@ -87,7 +87,6 @@
             </div>
             <div class="block-content">
                 <form id="unitForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
-                    <input type="hidden" v-model="unit.hId" name="hId" value=""/>
                     <div v-bind:class="{ 'form-group':true, 'row':true, 'is-invalid':errors.has('name') }">
                         <label class="col-2 col-form-label" for="inputName">@lang('unit.index.fields.name')</label>
                         <div class="col-md-10">

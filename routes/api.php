@@ -139,5 +139,11 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('edit/{id}', 'UnitController@update')->name('api.post.settings.unit.edit');
             Route::post('delete/{id}', 'UnitController@delete')->name('api.post.settings.unit.delete');
         });
+
+        Route::group(['prefix' => 'phone_provider'], function () {
+            Route::post('save', 'PhoneProviderController@store')->name('api.post.settings.phone_provider.save');
+            Route::post('edit/{id}', 'PhoneProviderController@update')->name('api.post.settings.phone_provider.edit');
+            Route::post('delete/{id}', 'PhoneProviderController@delete')->name('api.post.settings.phone_provider.delete');
+        });
     });
 });
