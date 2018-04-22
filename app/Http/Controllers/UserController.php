@@ -8,12 +8,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Validator;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use App\User;
-use App\Models\Role;
+use Vinkla\Hashids\Facades\Hashids;
 
 use App\Services\UserService;
 
@@ -46,40 +44,42 @@ class UserController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'roles' => 'required',
             'company' => 'required',
         ])->validate();
 
-        $name = '';
+        $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
         $profile = [];
-
         $pic_phone = [];
-        for ($j = 0; $j < count($request['profile_' . $i . '_phone_provider']); $j++) {
+
+        for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
             array_push($pic_phone, array(
-                'phone_provider_id' => Hashids::decode($request['profile_' . $i . '_phone_provider'][$j])[0],
-                'number' => $request['profile_' . $i . '_phone_number'][$j],
-                'remarks' => $request['profile_' . $i . '_remarks'][$j]
+                'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
+                'number' => $request['phone_number'][$j],
+                'remarks' => $request['remarks'][$j]
             ));
         }
 
-        array_push($persons_in_charge, array (
-            'first_name' => $request['first_name'][$i],
-            'last_name' => $request['last_name'][$i],
-            'address' => $request['profile_address'][$i],
-            'ic_num' => $request['ic_num'][$i],
+        array_push($profile, array (
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'address' => $request['address'],
+            'ic_num' => $request['ic_num'],
             'phone_numbers' => $pic_phone
         ));
 
+        $rolesId = Hashids::decode($request['roles'])[0];
 
         $this->userService->create(
-            $request['name'],
+            $name,
             $request['email'],
             $request['password'],
-            $request['roles'],
+            $rolesId,
             Auth::user()->company->id,
+            $request['active'],
             $profile
         );
 
@@ -89,16 +89,50 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
         Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'first_name' => 'required|max:255',
+            'email' => 'required|email|max:255',
             'roles' => 'required',
             'company' => 'required',
         ])->validate();
 
-        $name = '';
-        $profile = [];
+        if (!empty($request['password'])) {
+            Validator::make($request->all(), [
+                'password' => 'required|min:6|confirmed',
+            ])->validate();
+        }
 
+        $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
+        $profile = [];
+        $pic_phone = [];
+
+        for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
+            array_push($pic_phone, array(
+                'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
+                'number' => $request['phone_number'][$j],
+                'remarks' => $request['remarks'][$j]
+            ));
+        }
+
+        array_push($profile, array (
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'address' => $request['address'],
+            'ic_num' => $request['ic_num'],
+            'phone_numbers' => $pic_phone
+        ));
+
+        $rolesId = Hashids::decode($request['roles'])[0];
+
+        $this->userService->update(
+            $id,
+            $name,
+            $request['email'],
+            $request['password'],
+            $rolesId,
+            $request['active'],
+            Auth::user()->company->id,
+            $profile
+        );
 
         return response()->json();
     }

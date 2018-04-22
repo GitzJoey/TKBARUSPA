@@ -44,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(u, uIdx) in userList">
+                            <tr v-for="(u, uIdx) in userList" v-bind:class="{ 'table-danger': u.active ? false:true}">
                                 <td>@{{ u.name }}</td>
                                 <td>@{{ u.email }}</td>
                                 <td>@{{ u.roles[0].name }}</td>
@@ -93,11 +93,11 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input id="inputFirstName" name="first_name" type="text" class="form-control" placeholder="@lang('user.fields.first_name')"
-                                       v-model="user.first_name" v-validate="'required'" data-vv-as="{{ trans('user.fields.first_name') }}">
+                                       v-model="user.profile[0].first_name" v-validate="'required'" data-vv-as="{{ trans('user.fields.first_name') }}">
                                 <span v-show="errors.has('first_name')" class="invalid-feedback">@{{ errors.first('first_name') }}</span>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ user.profile.first_name }}</div>
+                                <div class="form-control-plaintext">@{{ user.profile[0].first_name }}</div>
                             </template>
                         </div>
                     </div>
@@ -106,11 +106,11 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input id="inputLastName" name="last_name" type="text" class="form-control" placeholder="@lang('user.fields.last_name')"
-                                       v-model="user.last_name" v-validate="'required'" data-vv-as="{{ trans('user.fields.last_name') }}">
+                                       v-model="user.profile[0].last_name" v-validate="'required'" data-vv-as="{{ trans('user.fields.last_name') }}">
                                 <span v-show="errors.has('last_name')" class="invalid-feedback">@{{ errors.first('last_name') }}</span>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ user.profile.last_name }}</div>
+                                <div class="form-control-plaintext">@{{ user.profile[0].last_name }}</div>
                             </template>
                         </div>
                     </div>
@@ -118,10 +118,10 @@
                         <label for="inputAddress" class="col-2 col-form-label">@lang('user.fields.address')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input id="inputAddress" name="address" type="text" class="form-control" placeholder="@lang('user.fields.address')" v-model="user.address">
+                                <input id="inputAddress" name="address" v-model="user.profile[0].address" type="text" class="form-control" placeholder="@lang('user.fields.address')">
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ user.profile.address }}</div>
+                                <div class="form-control-plaintext">@{{ user.profile[0].address }}</div>
                             </template>
                         </div>
                     </div>
@@ -130,11 +130,11 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input id="inputICNum" name="ic_num" type="text" class="form-control" placeholder="@lang('user.fields.ic_num')"
-                                       v-model="user.ic_num" v-validate="'required'" data-vv-as="{{ trans('user.fields.ic_num') }}">
+                                       v-model="user.profile[0].ic_num" v-validate="'required'" data-vv-as="{{ trans('user.fields.ic_num') }}">
                                 <span v-show="errors.has('ic_num')" class="invalid-feedback">@{{ errors.first('ic_num') }}</span>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ user.profile.ic_num }}</div>
+                                <div class="form-control-plaintext">@{{ user.profile[0].ic_num }}</div>
                             </template>
                         </div>
                     </div>
@@ -165,13 +165,80 @@
                             </template>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="inputPhoneNumber" class="col-2 col-form-label">@lang('user.fields.phone_number')</label>
+                        <div class="col-md-10">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>@lang('user.index.table.table_phone.header.provider')</th>
+                                        <th>@lang('user.index.table.table_phone.header.number')</th>
+                                        <th>@lang('user.index.table.table_phone.header.remarks')</th>
+                                        <th class="text-center">@lang('labels.ACTION')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(ph, phIdx) in user.profile[0].phone_numbers">
+                                        <td v-bind:class="{ 'is-invalid':errors.has('phoneprovider_' + phIdx) }">
+                                            <input type="hidden" name="phone_numbers_id[]" v-model="ph.hId"/>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select name="phone_provider_id[]'" class="form-control" v-model="ph.phoneProviderHId"
+                                                        v-validate="'required'" v-bind:data-vv-as="'{{ trans('user.index.table.table_phone.header.provider') }} ' + (phIdx + 1)"
+                                                        v-bind:data-vv-name="'phoneprovider_' + phIdx">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(p, pIdx) in providerDDL" v-bind:value="p.hId">@{{ p.name }} (@{{ p.short_name }})</option>
+                                                </select>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ph.provider ? ph.provider.fullName:'' }}</div>
+                                            </template>
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('number_' + phIdx) }">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" name="phone_number[]" class="form-control" v-model="ph.number"
+                                                       v-validate="'required'" v-bind:data-vv-as="'{{ trans('user.index.table.table_phone.header.number') }} ' + (phIdx + 1)"
+                                                       v-bind:data-vv-name="'number_' + phIdx">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ph.number }}</div>
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" name="remarks[]" v-model="ph.remarks">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ ph.remarks }}</div>
+                                            </template>
+                                        </td>
+                                        <td class="text-center">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <button type="button" class="btn btn-sm btn-danger" v-bind:data="phIdx" v-on:click="removeSelectedPhone(phIdx)">
+                                                    <span class="fa fa-close fa-fw"></span>
+                                                </button>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">&nbsp;</div>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button type="button" class="btn btn-sm btn-default" v-on:click="addNewPhone">@lang('buttons.create_new_button')</button>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <div class="form-control-plaintext">&nbsp;</div>
+                            </template>
+                        </div>
+                    </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('company') }">
                         <label for="inputCompany" class="col-2 col-form-label">@lang('user.fields.company')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control"
                                         name="company"
-                                        v-model="user.company"
+                                        v-model="user.companyHId"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('user.fields.company') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -190,7 +257,7 @@
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control"
                                         name="roles"
-                                        v-model="user.roles"
+                                        v-model="user.roleHId"
                                         v-validate="'required'"
                                         data-vv-as="{{ trans('user.fields.roles') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -203,26 +270,43 @@
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('password') }">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('active_lookup') }">
+                        <label for="inputActive" class="col-2 col-form-label">@lang('user.fields.active')</label>
+                        <div class="col-md-10">
+                            <input type="hidden" name="active" v-model="user.active"/>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <select class="form-control"
+                                        name="active_lookup"
+                                        v-model="user.activeLookup"
+                                        v-validate="'required'"
+                                        data-vv-as="{{ trans('user.fields.active') }}"
+                                        v-on:change="setActiveFlag">
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-for="(yn, ynI) in yesnoDDL" v-bind:value="yn.code">@{{ yn.description }}</option>
+                                </select>
+                                <span v-show="errors.has('active_lookup')" class="invalid-feedback">@{{ errors.first('active_lookup') }}</span>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <div class="form-control-plaintext">@{{ user.activeI18n }}</div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="inputPassword" class="col-2 col-form-label">@lang('user.fields.password')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input id="inputPassword" name="password" type="password" class="form-control" placeholder="@lang('user.fields.password')"
-                                       v-model="user.password" v-validate="'required'" data-vv-as="{{ trans('user.fields.password') }}">
-                                <span v-show="errors.has('password')" class="invalid-feedback">@{{ errors.first('password') }}</span>
+                                <input id="inputPassword" name="password" type="password" class="form-control" placeholder="@lang('user.fields.password')" v-model="user.password">
                             </template>
                             <template v-if="mode == 'show'">
                                 <div class="form-control-plaintext">************************</div>
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('password_confirmation') }">
+                    <div class="form-group row">
                         <label for="inputPasswordConfirmation" class="col-2 col-form-label">@lang('user.fields.retype_password')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input id="inputPasswordConfirmation" name="password_confirmation" type="password" class="form-control" placeholder="@lang('user.fields.retype_password')"
-                                       v-model="user.password_confirmation" v-validate="'required|confirmed:password'" data-vv-as="{{ trans('user.fields.password_confirmation') }}">
-                                <span v-show="errors.has('password_confirmation')" class="invalid-feedback">@{{ errors.first('password_confirmation') }}</span>
+                                <input id="inputPasswordConfirmation" name="password_confirmation" type="password" class="form-control" placeholder="@lang('user.fields.retype_password')" v-model="user.password_confirmation">
                             </template>
                             <template v-if="mode == 'show'">
                                 <div class="form-control-plaintext">************************</div>
@@ -259,128 +343,7 @@
 
 @section('custom_js')
     <script type="application/javascript">
-        var userVue = new Vue ({
-            el: '#userVue',
-            data: {
-                mode: '',
-                companyDDL: [],
-                rolesDDL: [],
-                statusDDL: [],
-                user: {},
-                userList: []
-            },
-            mounted: function () {
-                this.mode = 'list';
-                this.getLookupStatus();
-                this.getCompany();
-                this.getRoles();
-                this.getAllUser();
-            },
-            methods: {
-                validateBeforeSubmit: function() {
-                    this.$validator.validateAll().then(isValid => {
-                        if (!isValid) return;
-                        Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                        if (this.mode == 'create') {
-                            axios.post(route('api.post.settings.user.save').url(), new FormData($('#userForm')[0])).then(response => {
-                                this.backToList();
-                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            }).catch(e => {
-                                this.handleErrors(e);
-                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            });
-                        } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.settings.user.edit', this.user.hId).url(),
-                                new FormData($('#userForm')[0])).then(response => {
-                                this.backToList();
-                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            }).catch(e => {
-                                this.handleErrors(e);
-                                Codebase.blocks('#userCRUDBlock', 'state_toggle');
-                            });
-                        } else { }
-                    });
-                },
-                getAllUser: function(page) {
-                    Codebase.blocks('#userListBlock', 'state_toggle');
-                    axios.get(route('api.get.settings.user.read').url()).then(response => {
-                        this.userList = response.data;
-                        Codebase.blocks('#userListBlock', 'state_toggle');
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                createNew: function() {
-                    this.mode = 'create';
-                    this.errors.clear();
-                    this.user = this.emptyUser();
-                },
-                editSelected: function(idx) {
-                    this.mode = 'edit';
-                    this.errors.clear();
-                    this.user = this.userList[idx];
-                },
-                showSelected: function(idx) {
-                    this.mode = 'show';
-                    this.errors.clear();
-                    this.user = this.userList[idx];
-                },
-                deleteSelected: function(idx) {
-                    axios.post(route('api.post.settings.user.delete', idx).url()).then(response => {
-                        this.backToList();
-                    }).catch(e => { this.handleErrors(e); });
-                },
-                backToList: function() {
-                    this.mode = 'list';
-                    this.errors.clear();
-                    this.getAllUser();
-                },
-                emptyUser: function() {
-                    return {
-                        hId: '',
-                        name: '',
-                        email: '',
-                        company: '',
-                        roles: ''
-                    }
-                },
-                getLookupStatus: function() {
-                    axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
-                        response => { this.statusDDL = response.data; }
-                    );
-                },
-                getCompany: function() {
-                    axios.get(route('api.get.settings.company.read').url()).then(
-                        response => { this.companyDDL = response.data; }
-                    );
-                },
-                getRoles: function() {
-                    axios.get(route('api.get.settings.role.read').url()).then(
-                        response => { this.rolesDDL = response.data; }
-                    );
-                },
-            },
-            watch: {
-                mode: function() {
-                    switch (this.mode) {
-                        case 'create':
-                        case 'edit':
-                        case 'show':
-                            Codebase.blocks('#userListBlock', 'close')
-                            Codebase.blocks('#userCRUDBlock', 'open')
-                            break;
-                        case 'list':
-                        default:
-                            Codebase.blocks('#userListBlock', 'open')
-                            Codebase.blocks('#userCRUDBlock', 'close')
-                            break;
-                    }
-                }
-            },
-            computed: {
-                defaultPleaseSelect: function() {
-                    return '';
-                }
-            }
-        });
+
     </script>
     <script type="application/javascript" src="{{ mix('js/apps/user.js') }}"></script>
 @endsection

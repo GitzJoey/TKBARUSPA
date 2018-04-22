@@ -25,6 +25,13 @@ return [
                     'active' => 'Active',
                 ],
             ],
+            'table_phone' => [
+                'header' => [
+                    'provider' => 'Provider',
+                    'number' => 'Number',
+                    'remarks' => 'Remarks',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -33,9 +40,11 @@ return [
         'address' => 'Address',
         'ic_num' => 'IC Number',
         'photo' => 'Photo',
+        'phone_number' => 'Phone No',
         'email' => 'Email',
         'company' => 'Company',
         'roles' => 'Role',
+        'active' => 'Active',
         'password' => 'Password',
         'retype_password' => 'Retype Password',
         'password_confirmation' => 'Retype Password',

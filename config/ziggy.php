@@ -85,6 +85,7 @@ return [
             'api.get.settings.user.*',
             'api.get.settings.company.*',
             'api.get.settings.role.*',
+            'api.get.settings.phone_provider.*',
             'api.post.settings.user.*',
         ]
     ],

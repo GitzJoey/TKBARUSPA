@@ -3,6 +3,7 @@
 namespace App;
 
 use Lang;
+use Config;
 use Vinkla\Hashids\Facades\Hashids;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -76,6 +77,8 @@ class User extends Authenticatable
         'hId',
         'companyHId',
         'activeI18n',
+        'roleHId',
+        'activeLookup',
     ];
 
     public function getHIdAttribute()
@@ -88,10 +91,21 @@ class User extends Authenticatable
         return HashIds::encode($this->attributes['company_id']);
     }
 
+    public function getRoleHIdAttribute()
+    {
+        return HashIds::encode($this->roles()->first()->id);
+    }
+
     public function getActiveI18nAttribute()
     {
         if ($this->attributes['active']) return Lang::get('lookup.STATUS.ACTIVE');
         else return Lang::get('lookup.STATUS.INACTIVE');
+    }
+
+    public function getActiveLookupAttribute()
+    {
+        if ($this->attributes['active']) return Config::get('lookup.VALUE.YESNOSELECT.YES');
+        else return Config::get('lookup.VALUE.YESNOSELECT.NO');
     }
 
     public function profile()

@@ -25,6 +25,13 @@ return [
                     'active' => 'Active',
                 ],
             ],
+            'table_phone' => [
+                'header' => [
+                    'provider' => 'Provider',
+                    'number' => 'Nomor',
+                    'remarks' => 'Keterangan',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -33,9 +40,11 @@ return [
         'address' => 'Alamat',
         'ic_num' => 'No. Identitas',
         'photo' => 'Photo',
+        'phone_number' => 'No Telp',
         'email' => 'Email',
         'company' => 'Perusahan',
         'roles' => 'Peran',
+        'active' => 'Aktif',
         'password' => 'Password',
         'retype_password' => 'Ulangi Password',
         'password_confirmation' => 'Ulangi Password',

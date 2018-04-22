@@ -14,7 +14,8 @@ interface UserService
         $name,
         $email,
         $password,
-        $roles,
+        $rolesId,
+        $active,
         $company,
         $profile
     );
@@ -24,7 +25,8 @@ interface UserService
         $name,
         $email,
         $password,
-        $roles,
+        $rolesId,
+        $active,
         $company,
         $profile
     );

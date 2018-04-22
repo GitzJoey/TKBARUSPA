@@ -24,7 +24,8 @@ class UserServiceImpl implements UserService
         $name,
         $email,
         $password,
-        $roles,
+        $rolesId,
+        $active,
         $company,
         $profile
     )
@@ -36,29 +37,31 @@ class UserServiceImpl implements UserService
             $usr->email = $email;
             $usr->password = bcrypt($password);
             $usr->company_id = $company;
+            $usr->active = $active;
 
             $usr->created_at = Carbon::now();
             $usr->updated_at = Carbon::now();
 
+            $usr->save();
+
             $pa = new Profile();
-            $pa->first_name = $profile['first_name'];
-            $pa->last_name = $profile['last_name'];
-            $pa->address = $profile['address'];
-            $pa->ic_num = $profile['ic_num'];
+            $pa->first_name = $profile[0]['first_name'];
+            $pa->last_name = $profile[0]['last_name'];
+            $pa->address = $profile[0]['address'];
+            $pa->ic_num = $profile[0]['ic_num'];
 
             $usr->profile()->save($pa);
 
-            for ($j = 0; $j < count($profile['phone_numbers']); $j++) {
+            for ($j = 0; $j < count($profile[0]['phone_numbers']); $j++) {
                 $ph = new PhoneNumber();
-                $ph->phone_provider_id = $profile['phone_numbers'][$j]['phone_provider_id'];
-                $ph->number = $profile['phone_numbers'][$j]['number'];
-                $ph->remarks = $profile['phone_numbers'][$j]['remarks'];
+                $ph->phone_provider_id = $profile[0]['phone_numbers'][$j]['phone_provider_id'];
+                $ph->number = $profile[0]['phone_numbers'][$j]['number'];
+                $ph->remarks = $profile[0]['phone_numbers'][$j]['remarks'];
 
                 $pa->phoneNumbers()->save($ph);
             }
 
-            $usr->save();
-            $usr->roles()->attach(Role::whereName($roles)->get());
+            $usr->attachRole(Role::whereId($rolesId)->first());
 
             DB::commit();
         } catch (Exception $e) {
@@ -77,7 +80,8 @@ class UserServiceImpl implements UserService
         $name,
         $email,
         $password,
-        $roles,
+        $rolesId,
+        $active,
         $company,
         $profile
     )
@@ -88,6 +92,7 @@ class UserServiceImpl implements UserService
             $usr->name = $name;
             $usr->email = $email;
             $usr->company_id = $company;
+            $usr->active = $active;
 
             if (!empty($password)) {
                 $usr->password = bcrypt($password);
@@ -97,8 +102,29 @@ class UserServiceImpl implements UserService
 
             $usr->save();
 
-            $role_id = Role::whereName($roles)->first()->id;
-            $usr->roles()->sync([$role_id]);
+            $pa = $usr->profile()->first();
+            $pa->phoneNumbers()->delete();
+
+            for ($j = 0; $j < count($profile[0]['phone_numbers']); $j++) {
+                $ph = new PhoneNumber();
+                $ph->phone_provider_id = $profile[0]['phone_numbers'][$j]['phone_provider_id'];
+                $ph->number = $profile[0]['phone_numbers'][$j]['number'];
+                $ph->remarks = $profile[0]['phone_numbers'][$j]['remarks'];
+
+                $pa->phoneNumbers()->save($ph);
+            }
+
+            $pa->first_name = $profile[0]['first_name'];
+            $pa->last_name = $profile[0]['last_name'];
+            $pa->address = $profile[0]['address'];
+            $pa->ic_num = $profile[0]['ic_num'];
+            $pa->save();
+
+            $rolePrevious = $usr->roles()->first();
+            $roleCurrent = Role::whereId($rolesId)->first();
+
+            $usr->detachRole($rolePrevious->id);
+            $usr->attachRole($roleCurrent->id);
 
             DB::commit();
         } catch(Exception $e) {
@@ -109,6 +135,19 @@ class UserServiceImpl implements UserService
 
     public function delete($id)
     {
+        DB::beginTransaction();
+        try {
+            $usr = User::whereId($id)->first();
+
+            $usr->active = false;
+            $usr->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
 
     }
 }
