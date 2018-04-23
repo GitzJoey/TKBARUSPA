@@ -37,6 +37,7 @@ return [
                 'header' => [
                     'unit' => 'Satuan',
                     'is_base' => 'Satuan Dasar',
+                    'display' => 'Tampilan',
                     'conversion_value' => 'Nilai Tukar',
                     'remarks' => 'Keterangan',
                 ],

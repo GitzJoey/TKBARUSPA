@@ -17,6 +17,7 @@ var priceLevelVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.price.price_level.save').url(), new FormData($('#priceLevelForm')[0])).then(response => {

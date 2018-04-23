@@ -17,6 +17,7 @@ var vendorTruckingVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.truck.vendor_trucking.save').url(),

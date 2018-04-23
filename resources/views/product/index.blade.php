@@ -252,6 +252,7 @@
                                     <tr>
                                         <th>@lang('product.index.table.product_unit_table.header.unit')</th>
                                         <th class="text-center">@lang('product.index.table.product_unit_table.header.is_base')</th>
+                                        <th class="text-center">@lang('product.index.table.product_unit_table.header.display')</th>
                                         <th>@lang('product.index.table.product_unit_table.header.conversion_value')</th>
                                         <th>@lang('product.index.table.product_unit_table.header.remarks')</th>
                                         <th class="text-center">&nbsp;</th>
@@ -288,6 +289,23 @@
                                                     <div class="custom-control custom-checkbox mb-5">
                                                         <input class="custom-control-input" type="checkbox" name="is_base[]" v-model="punit.is_base" v-bind:id="'punit_is_base_' + (punitIdx + 1)" disabled="disabled">
                                                         <label class="custom-control-label text-primary" v-bind:for="'punit_is_base_' + (punitIdx + 1)"></label>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </td>
+                                        <td class="text-center">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <div class="custom-control custom-checkbox mb-5">
+                                                    <input class="custom-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)">
+                                                    <label class="custom-control-label text-primary" v-bind:for="'punit_display_' + (punitIdx + 1)"></label>
+                                                    <input type="hidden" v-model="punit.display_val" name="display[]"/>
+                                                </div>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">
+                                                    <div class="custom-control custom-checkbox mb-5">
+                                                        <input class="custom-control-input" type="checkbox" name="display[]" v-model="punit.display" v-bind:id="'punit_display_' + (punitIdx + 1)" disabled="disabled">
+                                                        <label class="custom-control-label text-primary" v-bind:for="'punit_display_' + (punitIdx + 1)"></label>
                                                     </div>
                                                 </div>
                                             </template>

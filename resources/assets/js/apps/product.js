@@ -27,20 +27,20 @@ var productVue = new Vue ({
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.product.edit', this.product.hId).url(),
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
                     });
                 } else { }
             });
@@ -126,6 +126,8 @@ var productVue = new Vue ({
                 'unitHId': '',
                 'is_base': false,
                 'is_base_val': 0,
+                'display': false,
+                'display_val': 0,
                 'conversion_value': '',
                 'remarks': ''
             });
@@ -141,6 +143,15 @@ var productVue = new Vue ({
                     if (i == idx) continue;
                     this.product.product_units[i].is_base = !this.product.product_units[idx].is_base;
                     this.product.product_units[i].is_base_val = 0;
+                }
+            }
+        },
+        changeDisplay: function (idx) {
+            if (this.product.product_units[idx].display) {
+                this.product.product_units[idx].display_val = 1;
+                for (var i = 0; i < this.product.product_units.length; i++) {
+                    if (i == idx) continue;
+                    this.product.product_units[i].display = !this.product.product_units[idx].display;
                 }
             }
         },

@@ -27,6 +27,7 @@ var userVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#userCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.user.save').url(), new FormData($('#userForm')[0])).then(response => {

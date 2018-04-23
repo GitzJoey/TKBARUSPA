@@ -68,6 +68,7 @@ class ProductUnit extends Model
 
     protected $fillable = [
         'is_base',
+        'display',
         'conversion_value',
         'remarks'
     ];

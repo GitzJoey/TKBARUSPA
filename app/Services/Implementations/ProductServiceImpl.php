@@ -65,6 +65,7 @@ class ProductServiceImpl implements ProductService
                 $punit = new ProductUnit();
                 $punit->unit_id = $productUnits[$i]['unit_id'];
                 $punit->is_base = $productUnits[$i]['is_base'];
+                $punit->display = $productUnits[$i]['display'];
                 $punit->conversion_value = $productUnits[$i]['conversion_value'];
                 $punit->remarks = $productUnits[$i]['remarks'];
 
@@ -158,6 +159,7 @@ class ProductServiceImpl implements ProductService
                 $punit = new ProductUnit();
                 $punit->unit_id = $productUnits[$i]['unit_id'];
                 $punit->is_base = $productUnits[$i]['is_base'];
+                $punit->display = $productUnits[$i]['display'];
                 $punit->conversion_value = $productUnits[$i]['conversion_value'];
                 $punit->remarks = $productUnits[$i]['remarks'];
 

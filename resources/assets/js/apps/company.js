@@ -19,6 +19,7 @@ var companyVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#companyCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.company.save').url(), new FormData($('#companyForm')[0])).then(response => {

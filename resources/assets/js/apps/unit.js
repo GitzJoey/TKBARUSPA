@@ -15,6 +15,7 @@ var unitVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#unitCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.unit.save').url(), new FormData($('#unitForm')[0])).then(response => {

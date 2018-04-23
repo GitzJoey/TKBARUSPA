@@ -15,6 +15,7 @@ var roleVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#roleCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.role.save').url(), new FormData($('#roleForm')[0])).then(response => {

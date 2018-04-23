@@ -17,6 +17,7 @@ var warehouseVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) { return; }
+                this.errors.clear();
                 Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.warehouse.save').url(), new FormData($('#warehouseForm')[0])).then(response => {

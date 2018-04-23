@@ -41,7 +41,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'ProductController@read')->name('api.get.product.read');
 
         Route::group(['prefix' => 'product_type'], function () {
-            Route::get('read', 'ProductTypeController@read')->name('api.get.product_type.read');
+            Route::get('read', 'ProductTypeController@read')->name('api.get.product.product_type.read');
         });
     });
 

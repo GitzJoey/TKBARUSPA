@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Exception;
 use Validator;
 use App\Http\Requests;
 use LaravelLocalization;
@@ -56,7 +55,11 @@ class ProductController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
-        $isBaseFound = $request->has('is_base');
+        $isBaseFound = false;
+
+        for ($i = 0; $i < count($request['is_base']); $i++) {
+            if ($request['is_base'][$i]) { $isBaseFound = true; }
+        }
 
         if (!$isBaseFound) {
             $rules = ['unit' => 'required'];
@@ -67,11 +70,27 @@ class ProductController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
+        $displayFound = false;
+
+        for ($i = 0; $i < count($request['display']); $i++) {
+            if ($request['display'][$i]) { $displayFound = true; }
+        }
+
+        if (!$displayFound) {
+            $rules = ['unit' => 'required'];
+            $messages = ['unit.required' =>
+                LaravelLocalization::getCurrentLocale() == "en" ?
+                    "Please provide at least 1 display unit.":
+                    "Harap isi paling tidak 1 tampilan."];
+            Validator::make($request->all(), $rules, $messages)->validate();
+        }
+
         $productUnits = [];
         for ($i = 0; $i < count($request['unit_id']); $i++) {
             array_push($productUnits, array (
                 'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
                 'is_base' => $request["is_base"][$i],
+                'display' => $request["display"][$i],
                 'conversion_value' => $request["conversion_value"][$i],
                 'remarks' => $request["punit_remarks"][$i],
             ));
@@ -122,11 +141,42 @@ class ProductController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
+        $isBaseFound = false;
+
+        for ($i = 0; $i < count($request['is_base']); $i++) {
+            if ($request['is_base'][$i]) { $isBaseFound = true; }
+        }
+
+        if (!$isBaseFound) {
+            $rules = ['unit' => 'required'];
+            $messages = ['unit.required' =>
+                LaravelLocalization::getCurrentLocale() == "en" ?
+                    "Please provide at least 1 base unit.":
+                    "Harap isi paling tidak 1 satuan dasar."];
+            Validator::make($request->all(), $rules, $messages)->validate();
+        }
+
+        $displayFound = false;
+
+        for ($i = 0; $i < count($request['display']); $i++) {
+            if ($request['display'][$i]) { $displayFound = true; }
+        }
+
+        if (!$displayFound) {
+            $rules = ['unit' => 'required'];
+            $messages = ['unit.required' =>
+                LaravelLocalization::getCurrentLocale() == "en" ?
+                    "Please provide at least 1 display unit.":
+                    "Harap isi paling tidak 1 tampilan."];
+            Validator::make($request->all(), $rules, $messages)->validate();
+        }
+
         $productUnits = [];
         for ($i = 0; $i < count($request['unit_id']); $i++) {
             array_push($productUnits, array (
                 'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
                 'is_base' => $request["is_base"][$i],
+                'display' => $request["display"][$i],
                 'conversion_value' => $request["conversion_value"][$i],
                 'remarks' => $request["punit_remarks"][$i],
             ));

@@ -23,6 +23,7 @@ var supplierVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.supplier.save').url(),

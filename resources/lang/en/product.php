@@ -37,6 +37,7 @@ return [
                 'header' => [
                     'unit' => 'Unit',
                     'is_base' => 'Is Base',
+                    'display' => 'Display',
                     'conversion_value' => 'Conversion Value',
                     'remarks' => 'Remarks',
                 ],

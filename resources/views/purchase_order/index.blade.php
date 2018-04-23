@@ -337,6 +337,7 @@
                 validateBeforeSubmit: function () {
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) return;
+                        this.errors.clear();
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
                             axios.post('/api/post/po/save', new FormData($('#poForm')[0])).then(response => {

@@ -20,6 +20,7 @@ Class CreateProductUnitsTable extends Migration
             $table->unsignedBigInteger('product_id')->default(0);
             $table->bigInteger('unit_id')->default(0);
             $table->boolean('is_base')->nullable();
+            $table->boolean('display')->nullable();
             $table->decimal('conversion_value', 19, 2)->nullable();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);

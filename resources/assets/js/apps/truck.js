@@ -17,6 +17,7 @@ var truckVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
+                this.errors.clear();
                 Codebase.blocks('#truckCRUDBlock', 'state_toggle');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {

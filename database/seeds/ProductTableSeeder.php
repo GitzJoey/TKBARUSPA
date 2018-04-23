@@ -29,6 +29,7 @@ class ProductTableSeeder extends Seeder
         $produnit11_1 = new ProductUnit();
         $produnit11_1->unit_id = 1;
         $produnit11_1->is_base = true;
+        $produnit11_1->display = true;
         $produnit11_1->conversion_value = 1;
 
         $prod11->productUnits()->save($produnit11_1);
@@ -36,6 +37,7 @@ class ProductTableSeeder extends Seeder
         $produnit11_2 = new ProductUnit();
         $produnit11_2->unit_id = 3;
         $produnit11_2->is_base = false;
+        $produnit11_1->display = false;
         $produnit11_2->conversion_value = 1000;
 
         $prod11->productUnits()->save($produnit11_2);
@@ -55,6 +57,7 @@ class ProductTableSeeder extends Seeder
         $produnit12_1 = new ProductUnit();
         $produnit12_1->unit_id = 1;
         $produnit12_1->is_base = true;
+        $produnit12_1->display = true;
         $produnit12_1->conversion_value = 1;
 
         $prod12->productUnits()->save($produnit12_1);
@@ -62,6 +65,7 @@ class ProductTableSeeder extends Seeder
         $produnit12_2 = new ProductUnit();
         $produnit12_2->unit_id = 3;
         $produnit12_2->is_base = false;
+        $produnit12_2->display = false;
         $produnit12_2->conversion_value = 1000;
 
         $prod12->productUnits()->save($produnit12_2);
@@ -81,6 +85,7 @@ class ProductTableSeeder extends Seeder
         $produnit21_1 = new ProductUnit();
         $produnit21_1->unit_id = 1;
         $produnit21_1->is_base = true;
+        $produnit21_1->display = true;
         $produnit21_1->conversion_value = 1;
 
         $prod21->productUnits()->save($produnit21_1);
@@ -88,6 +93,7 @@ class ProductTableSeeder extends Seeder
         $produnit21_2 = new ProductUnit();
         $produnit21_2->unit_id = 3;
         $produnit21_2->is_base = false;
+        $produnit21_2->display = false;
         $produnit21_2->conversion_value = 1000;
 
         $prod21->productUnits()->save($produnit21_2);
@@ -107,6 +113,7 @@ class ProductTableSeeder extends Seeder
         $produnit22_1 = new ProductUnit();
         $produnit22_1->unit_id = 1;
         $produnit22_1->is_base = true;
+        $produnit22_1->display = true;
         $produnit22_1->conversion_value = 1;
 
         $prod22->productUnits()->save($produnit22_1);
@@ -114,6 +121,7 @@ class ProductTableSeeder extends Seeder
         $produnit22_2 = new ProductUnit();
         $produnit22_2->unit_id = 3;
         $produnit22_2->is_base = false;
+        $produnit22_2->display = false;
         $produnit22_2->conversion_value = 1000;
 
         $prod22->productUnits()->save($produnit22_2);
@@ -133,6 +141,7 @@ class ProductTableSeeder extends Seeder
         $produnit23_1 = new ProductUnit();
         $produnit23_1->unit_id = 1;
         $produnit23_1->is_base = true;
+        $produnit23_1->display = true;
         $produnit23_1->conversion_value = 1;
 
         $prod23->productUnits()->save($produnit23_1);
@@ -140,6 +149,7 @@ class ProductTableSeeder extends Seeder
         $produnit23_2 = new ProductUnit();
         $produnit23_2->unit_id = 3;
         $produnit23_2->is_base = false;
+        $produnit23_2->display = false;
         $produnit23_2->conversion_value = 1000;
 
         $prod23->productUnits()->save($produnit23_2);
@@ -159,6 +169,7 @@ class ProductTableSeeder extends Seeder
         $produnit31_1 = new ProductUnit();
         $produnit31_1->unit_id = 1;
         $produnit31_1->is_base = true;
+        $produnit31_1->display = true;
         $produnit31_1->conversion_value = 1;
 
         $prod31->productUnits()->save($produnit31_1);
@@ -166,6 +177,7 @@ class ProductTableSeeder extends Seeder
         $produnit31_2 = new ProductUnit();
         $produnit31_2->unit_id = 3;
         $produnit31_2->is_base = false;
+        $produnit31_2->display = false;
         $produnit31_2->conversion_value = 1000;
 
         $prod31->productUnits()->save($produnit31_2);
@@ -173,6 +185,7 @@ class ProductTableSeeder extends Seeder
         $produnit31_3 = new ProductUnit();
         $produnit31_3->unit_id = 4;
         $produnit31_3->is_base = false;
+        $produnit31_3->display = false;
         $produnit31_3->conversion_value = 50;
 
         $prod31->productUnits()->save($produnit31_3);
