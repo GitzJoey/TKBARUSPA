@@ -32,6 +32,7 @@ return [
             'api.get.po.*',
             'api.get.supplier.*',
             'api.get.warehouse.*',
+            'api.get.product.*',
             'api.get.truck.vendor_trucking.*',
         ],
         'phone_provider' => [

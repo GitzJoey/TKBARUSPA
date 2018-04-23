@@ -107,8 +107,7 @@ class ProductServiceImpl implements ProductService
 
     public function readAll()
     {
-        return Product::with('productType', 'productCategories', 'productUnits.unit')
-            ->get();
+        return Product::with('productType', 'productCategories', 'productUnits.unit')->get();
     }
 
     public function update(

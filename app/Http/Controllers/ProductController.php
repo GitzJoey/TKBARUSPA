@@ -38,6 +38,11 @@ class ProductController extends Controller
         }
     }
 
+    public function readAll()
+    {
+        return $this->productService->readAll();
+    }
+
     public function store(Request $request)
     {
         Validator::make($request->all(), [

@@ -21,6 +21,9 @@
         .hideTextBox {
             display: none;
         }
+        .v-select-wrapper .v-select .dropdown-toggle .clear {
+            bottom: 7px;
+        }
     </style>
 @endsection
 
@@ -61,7 +64,8 @@
                 </div>
                 <div class="row items-push-2x text-center text-sm-left">
                     <div class="col-sm-6 col-xl-4">
-                        <button type="button" class="btn btn-primary btn-lg btn-circle" v-on:click="createNew" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('buttons.create_new_button') }}">
+                        <button type="button" class="btn btn-primary btn-lg btn-circle" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('buttons.create_new_button') }}"
+                                v-on:click="createNew" v-bind:disabled="isFinishLoadingMounted">
                             <i class="fa fa-plus fa-fw"></i>
                         </button>
                         &nbsp;&nbsp;&nbsp;
@@ -253,7 +257,9 @@
                                     </div>
                                 </div>
                                 <div class="block-content">
-                                    <v-select v-bind:options="product_options" label="name" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)"></v-select>
+                                    <div class="v-select-wrapper">
+                                        <v-select v-bind:options="product_options" label="name" v-model="productSelected"></v-select>
+                                    </div>
                                     <br/>
                                     <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
                                         <thead class="thead-light">
@@ -321,17 +327,25 @@
                 statusDDL: [],
                 product_options: [],
                 productSelected: null,
+                isFinishLoadingMounted: false,
+                allProduct: [],
                 mode: '',
                 po: { }
             },
             mounted: function () {
                 this.mode = 'list';
                 this.getAllPO();
-                this.getSupplier();
-                this.getSupplierType();
-                this.getPOType();
-                this.getWarehouse();
-                this.getVendorTrucking();
+
+                Promise.all([
+                    this.getSupplier(),
+                    this.getSupplierType(),
+                    this.getPOType(),
+                    this.getWarehouse(),
+                    this.getVendorTrucking(),
+                    this.getAllProduct()
+                ]).then(() => {
+                    this.isFinishLoadingMounted = true;
+                });
             },
             methods: {
                 validateBeforeSubmit: function () {
@@ -427,29 +441,76 @@
                     }
                 },
                 getSupplier: function() {
-                    axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings([{'key':'all', 'value':'yes'}])).then(
-                        response => { this.supplierDDL = response.data; }
-                    ).catch(e => { this.handleErrors(e); });
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings([{'key':'all', 'value':'yes'}])).then(
+                            response => {
+                                this.supplierDDL = response.data;
+                                resolve(true);
+                            }
+                        ).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
                 },
                 getSupplierType: function() {
-                    axios.get(route('api.get.lookup.bycategory', 'SUPPLIER_TYPE').url()).then(
-                        response => { this.supplierTypeDDL = response.data; }
-                    ).catch(e => { this.handleErrors(e); });
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.lookup.bycategory', 'SUPPLIER_TYPE').url()).then(
+                            response => {
+                                this.supplierTypeDDL = response.data;
+                                resolve(true);
+                            }
+                        ).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
                 },
                 getPOType: function() {
-                    axios.get(route('api.get.lookup.bycategory', 'PO_TYPE').url()).then(
-                        response => { this.poTypeDDL = response.data; }
-                    ).catch(e => { this.handleErrors(e); });
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.lookup.bycategory', 'PO_TYPE').url()).then(
+                            response => {
+                                this.poTypeDDL = response.data;
+                                resolve(true);
+                            }
+                        ).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
                 },
                 getWarehouse: function() {
-                    axios.get(route('api.get.warehouse.read').url()).then(response => {
-                        this.warehouseDDL = response.data;
-                    }).catch(e => { this.handleErrors(e); });
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.warehouse.read').url()).then(response => {
+                            this.warehouseDDL = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
                 },
                 getVendorTrucking: function() {
-                    axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
-                        this.vendorTruckingDDL = response.data;
-                    }).catch(e => { this.handleErrors(e); });
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
+                            this.vendorTruckingDDL = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
+                },
+                getAllProduct: function() {
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.product.readall').url()).then(response => {
+                            this.allProduct = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
                 },
                 generatePOCode: function() {
                     axios.get(route('api.get.po.generate.po_code').url()).then(
@@ -467,11 +528,21 @@
                         this.product_options = this.selectedSupplier.products;
                     }
                 },
+                'po.supplier_type': function() {
+                    if (this.po.supplier_type == 'SUPPLIERTYPE.WI') {
+                        this.product_options = this.allProduct;
+                    }
+                },
                 'po.po_status': function() {
                     if (this.po.po_status != '') {
                         axios.get(route('api.get.lookup.description.byvalue', 'POSTATUS.D').url()).then(
                             response => { this.poStatusDesc = response.data; }
                         );
+                    }
+                },
+                productSelected: function() {
+                    if (this.productSelected != '') {
+                        this.productSelected = null;
                     }
                 },
                 mode: function() {
