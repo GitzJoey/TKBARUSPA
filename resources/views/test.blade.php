@@ -16,7 +16,11 @@
     <br><br><br>
 
     <div id="test2">
-        <v-select :options="['foo','bar']"></v-select>
+        <div>
+            <label class="typo__label">Single select</label>
+            <multiselect v-model="value" :options="options" :searchable="false" :close-on-select="false" :show-labels="false" placeholder="Pick a value"></multiselect>
+            <pre class="language-json"><code>{{ value  }}</code></pre>
+        </div>
     </div>
 
     <br><br><br>
@@ -38,7 +42,8 @@
         var test2 = new Vue({
             el: '#test2',
             data: {
-
+                value: 0,
+                options:[2,3,4,5,6]
             }
         });
 
