@@ -26,7 +26,6 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
         'node_modules/flatpickr/dist/plugins/scrollPlugin.js'
     ], 'public/js/codebase/main.js')
     .copy('node_modules/popper.js/dist/umd/popper.js.map', 'public/js/codebase')
-    .copy('node_modules/vue-select/dist/vue-select.js.map', 'public/js/codebase')
     .sass('resources/assets/sass/codebase/main.scss', 'public/css/codebase')
     .sass('resources/assets/sass/codebase/codebase/themes/corporate.scss', 'public/css/codebase/themes')
     .sass('resources/assets/sass/codebase/codebase/themes/earth.scss', 'public/css/codebase/themes')

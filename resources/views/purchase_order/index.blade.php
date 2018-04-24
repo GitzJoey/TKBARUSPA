@@ -23,6 +23,7 @@
         }
         .v-select-wrapper .v-select .dropdown-toggle .clear {
             bottom: 7px;
+            display: none;
         }
     </style>
 @endsection
@@ -59,13 +60,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr v-for="(po, poIdx) in poList">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
+                                            <span class="fa fa-info fa-fw"></span>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
+                                            <span class="fa fa-pencil fa-fw"></span>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(c.hId)" v-bind:disabled="!isFinishLoadingMounted">
+                                            <span class="fa fa-close fa-fw"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="row items-push-2x text-center text-sm-left">
                     <div class="col-sm-6 col-xl-4">
                         <button type="button" class="btn btn-primary btn-lg btn-circle" data-toggle="tooltip" data-placement="top" title="{{ Lang::get('buttons.create_new_button') }}"
-                                v-on:click="createNew" v-bind:disabled="isFinishLoadingMounted">
+                                v-on:click="createNew" v-bind:disabled="!isFinishLoadingMounted">
                             <i class="fa fa-plus fa-fw"></i>
                         </button>
                         &nbsp;&nbsp;&nbsp;
@@ -258,7 +279,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="v-select-wrapper">
-                                        <v-select v-bind:options="product_options" label="name" v-model="productSelected"></v-select>
+
                                     </div>
                                     <br/>
                                     <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
@@ -392,7 +413,7 @@
                 },
                 onChangeProductSelected: function(value) {
                     console.log(value);
-                    this.productSelected = null;
+
                 },
                 createNew: function () {
                     this.mode = 'create';
@@ -542,7 +563,8 @@
                 },
                 productSelected: function() {
                     if (this.productSelected != '') {
-                        this.productSelected = null;
+                        console.log(this.productSelected.hId);
+                        this.productSelected = '';
                     }
                 },
                 mode: function() {
