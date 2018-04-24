@@ -77,6 +77,7 @@ class ProductUnit extends Model
         'id',
         'product_id',
         'unit_id',
+        'company_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -89,6 +90,7 @@ class ProductUnit extends Model
         'hId',
         'productHId',
         'unitHId',
+        'companyHId',
     ];
 
     public function getHIdAttribute()
@@ -104,6 +106,11 @@ class ProductUnit extends Model
     public function getUnitHIdAttribute()
     {
         return HashIds::encode($this->attributes['unit_id']);;
+    }
+
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);;
     }
 
     public function product()

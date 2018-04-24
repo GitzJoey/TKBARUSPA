@@ -15,6 +15,7 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
+    window.numbro = require('numbro');
 } catch (e) {
     console.error(e.message);
 }
@@ -55,6 +56,7 @@ Vue.use(flatPickr);
 //Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 //Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('vue-autonumeric', require('vue-autonumeric'));
 
 Vue.mixin({
     methods: {
@@ -94,6 +96,23 @@ Vue.mixin({
         route: function() {
             if (typeof(route) !== 'undefined') return route;
             else return null;
+        },
+        formatNumeric: function(value) {
+            let settings = document.getElementById("appSettings").value.split('|');
+            let thousandSeparator = settings[3];
+            let decimalSeparator = settings[4];
+            let decimalDigit = parseInt(settings[5]);
+
+            let decimalDigitFormat = '00';
+            if (decimalDigit != 0) {
+                for (var i = 0; i < decimalDigit; i++) {
+                    decimalDigitFormat += '0';
+                }
+            }
+
+            numbro.defaultFormat('0' + thousandSeparator + '0' + '[' + decimalSeparator + ']' + decimalDigitFormat);
+
+            return numbro(value).format();
         }
     }
 });

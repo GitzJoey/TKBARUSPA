@@ -278,27 +278,80 @@
                                     </div>
                                 </div>
                                 <div class="block-content">
-                                    <div class="v-select-wrapper">
-
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(p, pIdx) in product_options" v-bind:value="p.hId">@{{ p.name }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal">
+                                                <span class="fa fa-plus fa-fw"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                     <br/>
-                                    <table id="itemsListTable" class="table table-responsive table-bordered table-hover">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th colspan="6">@lang('purchase_order.index.table.item_table.header.product_name')</th>
-                                            </tr>
-                                            <tr>
-                                                <th width="5%"></th>
-                                                <th width="10%" class="text-center">@lang('purchase_order.index.table.item_table.header.quantity')</th>
-                                                <th width="15%" class="text-center">@lang('purchase_order.index.table.item_table.header.unit')</th>
-                                                <th width="15%" class="text-center">@lang('purchase_order.index.table.item_table.header.price_unit')</th>
-                                                <th width="5%">&nbsp;</th>
-                                                <th width="50%" class="text-center">@lang('purchase_order.index.table.item_table.header.total_price')</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                    <div class="row col-12">
+                                    <div class="table-responsive">
+                                        <table id="itemsListTable" class="table table-bordered table-striped table-vcenter">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>@lang('purchase_order.index.table.item_table.header.product_name')</th>
+                                                    <th class="text-center">@lang('purchase_order.index.table.item_table.header.quantity')</th>
+                                                    <th class="text-center">@lang('purchase_order.index.table.item_table.header.unit')</th>
+                                                    <th class="text-center">@lang('purchase_order.index.table.item_table.header.price_unit')</th>
+                                                    <th class="text-center" colspan="2">@lang('purchase_order.index.table.item_table.header.discount')</th>
+                                                    <th>&nbsp;</th>
+                                                    <th class="text-center">@lang('purchase_order.index.table.item_table.header.total_price')</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(i, iIdx) in po.items">
+                                                    <td>@{{ i.product.name }}</td>
+                                                    <td width="5%">
+                                                        <input type="text" v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
+                                                               name="item_quantity[]"
+                                                               v-bind:data-vv-name="'quantity_' + iIdx"
+                                                               v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
+                                                               v-model="i.quantity" v-validate="'required'">
+                                                    </td>
+                                                    <td width="15%">
+                                                        <select v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('product_unit_' + iIdx) }"
+                                                                name="item_selected_product_unit_id[]"
+                                                                v-model="i.selected_product_unit.hId"
+                                                                v-bind:data-vv-name="'product_unit_' + iIdx"
+                                                                v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.unit') }} ' + (iIdx + 1)"
+                                                                v-validate="'required'"
+                                                                v-on:change="onChangeProductUnit(iIdx)">
+                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                            <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
+                                                        </select>
+                                                    </td>
+                                                    <td width="10%">
+                                                        <input type="text" name="item_price[]"
+                                                               v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('price_' + iIdx) }"
+                                                               v-model="i.price" v-validate="'required'"
+                                                               v-bind:data-vv-name="'price_' + iIdx"
+                                                               v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)">
+                                                    </td>
+                                                    <td width="8%">
+                                                        <input type="text" class="form-control" v-model="i.discount_pct" placeholder="0%">
+                                                    </td>
+                                                    <td width="10%">
+                                                        <input type="text" name="discount[]" class="form-control" v-model="i.discount" placeholder="0">
+                                                    </td>
+                                                    <td width="3%">
+                                                        <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
+                                                    </td>
+                                                    <td width="12%">
+                                                        @{{ formatNumeric(i.selected_product_unit.conversion_value * i.quantity * i.price) }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -347,7 +400,7 @@
                 poStatusDesc: '',
                 statusDDL: [],
                 product_options: [],
-                productSelected: null,
+                productSelected: '',
                 isFinishLoadingMounted: false,
                 allProduct: [],
                 mode: '',
@@ -411,10 +464,6 @@
                         this.po.supplierHId = '';
                     }
                 },
-                onChangeProductSelected: function(value) {
-                    console.log(value);
-
-                },
                 createNew: function () {
                     this.mode = 'create';
                     this.errors.clear();
@@ -460,6 +509,32 @@
                         disc_total_percent: 0,
                         disc_total_value: 0
                     }
+                },
+                onChangeProductSelected(productId) {
+                    this.insertItem(productId);
+                },
+                insertItem: function (productId) {
+                    if(productId != ''){
+                        let prd = _.cloneDeep(_.find(this.product_options, { hId: productId }));
+                        this.po.items.push({
+                            product: prd,
+                            selected_product_unit: {
+                                hId: '',
+                                unit: {
+                                    hId: ''
+                                },
+                                conversion_value: 1
+                            },
+                            base_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
+                            quantity: 0,
+                            price: 0,
+                            discounts: 0
+                        });
+                    }
+                },
+                removeItem: function (index) {
+                    var vm = this;
+                    vm.po.items.splice(index, 1);
                 },
                 getSupplier: function() {
                     return new Promise((resolve, reject) => {
@@ -559,12 +634,6 @@
                         axios.get(route('api.get.lookup.description.byvalue', 'POSTATUS.D').url()).then(
                             response => { this.poStatusDesc = response.data; }
                         );
-                    }
-                },
-                productSelected: function() {
-                    if (this.productSelected != '') {
-                        console.log(this.productSelected.hId);
-                        this.productSelected = '';
                     }
                 },
                 mode: function() {

@@ -104,7 +104,7 @@ class SupplierServiceImpl implements SupplierService
 
     public function readAll()
     {
-        return Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products')
+        return Supplier::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'products.productUnits.unit')
             ->get();
     }
 
