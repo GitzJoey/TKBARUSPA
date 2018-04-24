@@ -16,6 +16,11 @@ return [
             'api.get.truck.*',
             'api.post.truck.*'
         ],
+        'truck_maintenance' => [
+            'api.get.lookup.*',
+            'api.get.truck.truck_maintenance.*',
+            'api.post.truck.truck_maintenance.*'
+        ],
         'unit' => [
             'api.get.lookup.*',
             'api.get.settings.unit.*',
