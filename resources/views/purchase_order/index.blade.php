@@ -328,14 +328,15 @@
                                                             <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
                                                         </select>
                                                     </td>
-                                                    <td width="10%">
-                                                        <input type="text" name="item_price[]"
-                                                               v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('price_' + iIdx) }"
-                                                               v-model="i.price" v-validate="'required'"
-                                                               v-bind:data-vv-name="'price_' + iIdx"
-                                                               v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)">
+                                                    <td width="13%">
+                                                        <vue-autonumeric type="text" name="item_price[]"
+                                                                 v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('price_' + iIdx) }"
+                                                                 v-model="i.price" v-validate="'required'"
+                                                                 v-bind:options="currencyFormat"
+                                                                 v-bind:data-vv-name="'price_' + iIdx"
+                                                                 v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
                                                     </td>
-                                                    <td width="8%">
+                                                    <td width="7%">
                                                         <input type="text" class="form-control" v-model="i.discount_pct" placeholder="0%">
                                                     </td>
                                                     <td width="10%">
@@ -653,6 +654,19 @@
                 }
             },
             computed: {
+                currencyFormat: function() {
+                    var conf = document.getElementById("appSettings").value.split('|');
+                    return {
+                        digitGroupSeparator: conf[3],
+                        decimalCharacter: conf[4],
+                        decimalCharacterAlternative: '.',
+                        currencySymbol: ' Rp',
+                        currencySymbolPlacement: 's',
+                        roundingMethod: 'U',
+                        minimumValue: '0',
+                        unformatOnSubmit: true
+                    }
+                },
                 flatPickrConfig: function() {
                     var conf = document.getElementById("appSettings").value.split('|');
                     var flatPickrTimeFormat = '';
