@@ -26,8 +26,6 @@ class TruckMaintenance extends Model
     protected $table = 'truck_maintenances';
 
     protected $fillable = [
-        'company_id',
-        'truck_id',
         'maintenance_date',
         'maintenance_type',
         'cost',
@@ -38,6 +36,7 @@ class TruckMaintenance extends Model
     protected $hidden = [
         'id',
         'company_id',
+        'truck_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -48,7 +47,8 @@ class TruckMaintenance extends Model
 
     protected $appends = [
         'hId',
-        'companyHId'
+        'companyHId',
+        'truckHId',
     ];
 
     public function getHIdAttribute()
@@ -59,6 +59,11 @@ class TruckMaintenance extends Model
     public function getCompanyHIdAttribute()
     {
         return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getTruckHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['truck_id']);
     }
 
     public function truck()

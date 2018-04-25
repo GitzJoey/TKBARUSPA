@@ -19,7 +19,8 @@ return [
         'truck_maintenance' => [
             'api.get.lookup.*',
             'api.get.truck.truck_maintenance.*',
-            'api.post.truck.truck_maintenance.*'
+            'api.post.truck.truck_maintenance.*',
+            'api.get.truck.plate_number.*',
         ],
         'unit' => [
             'api.get.lookup.*',

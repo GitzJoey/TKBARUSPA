@@ -10,7 +10,7 @@ var truckMaintenanceVue = new Vue ({
     mounted: function () {
         this.mode = 'list';
         this.getAllTruckMaintenance();
-        this.getLookupPlateNumber();
+        this.getPlateNumber();
         this.getLookupMaintenanceType();
     },
     methods: {
@@ -81,9 +81,9 @@ var truckMaintenanceVue = new Vue ({
                 remarks: ''
             }
         },
-        getLookupPlateNumber: function() {
-             axios.get(route('api.get.lookup.bycategory', 'STATUS').url()).then(
-                response => { this.statusDDL = response.data; }
+        getPlateNumber: function() {
+             axios.get(route('api.get.truck.plate_number.read').url()).then(
+                response => { this.plateNumberDDL = response.data; }
             );
         },
         getLookupMaintenanceType: function() {
