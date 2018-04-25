@@ -110,9 +110,7 @@ Vue.mixin({
                 }
             }
 
-            numbro.defaultFormat('0' + thousandSeparator + '0' + '[' + decimalSeparator + ']' + decimalDigitFormat);
-
-            return numbro(value).format();
+            return '';
         }
     }
 });

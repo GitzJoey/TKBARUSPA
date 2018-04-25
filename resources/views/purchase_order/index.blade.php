@@ -21,10 +21,6 @@
         .hideTextBox {
             display: none;
         }
-        .v-select-wrapper .v-select .dropdown-toggle .clear {
-            bottom: 7px;
-            display: none;
-        }
     </style>
 @endsection
 
@@ -286,16 +282,18 @@
                                             </select>
                                         </div>
                                         <div class="col-1">
-                                            <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal">
+                                            <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal" v-on:click="insertItem(productSelected)">
                                                 <span class="fa fa-plus fa-fw"></span>
                                             </button>
                                         </div>
                                     </div>
                                     <br/>
-                                    <div class="row col-12">
                                     <div class="table-responsive">
                                         <table id="itemsListTable" class="table table-bordered table-striped table-vcenter">
                                             <thead class="thead-light">
+                                                <tr>
+                                                    <th colspan="8">@lang('purchase_order.index.table.item_table.header.title')</th>
+                                                </tr>
                                                 <tr>
                                                     <th>@lang('purchase_order.index.table.item_table.header.product_name')</th>
                                                     <th class="text-center">@lang('purchase_order.index.table.item_table.header.quantity')</th>
@@ -307,14 +305,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <tr v-if="po.items.length == 0">
+                                                    <td colspan="8" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
+                                                </tr>
                                                 <tr v-for="(i, iIdx) in po.items">
                                                     <td>@{{ i.product.name }}</td>
                                                     <td width="5%">
-                                                        <input type="text" v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
-                                                               name="item_quantity[]"
-                                                               v-bind:data-vv-name="'quantity_' + iIdx"
-                                                               v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
-                                                               v-model="i.quantity" v-validate="'required'">
+                                                        <input type="text" name="item_quantity[]"
+                                                                 v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
+                                                                 v-bind:data-vv-name="'quantity_' + iIdx"
+                                                                 v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
+                                                                 v-model="i.quantity" v-validate="'required|numeric:2'"></input>
                                                     </td>
                                                     <td width="15%">
                                                         <select v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('product_unit_' + iIdx) }"
@@ -330,39 +331,169 @@
                                                     </td>
                                                     <td width="13%">
                                                         <vue-autonumeric type="text" name="item_price[]"
-                                                                 v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('price_' + iIdx) }"
-                                                                 v-model="i.price" v-validate="'required'"
-                                                                 v-bind:options="currencyFormat"
-                                                                 v-bind:data-vv-name="'price_' + iIdx"
-                                                                 v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
+                                                                         v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('price_' + iIdx) }"
+                                                                         v-model="i.price" v-validate="'required'"
+                                                                         v-bind:options="currencyFormat"
+                                                                         v-bind:data-vv-name="'price_' + iIdx"
+                                                                         v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
                                                     </td>
                                                     <td width="7%">
-                                                        <input type="text" class="form-control" v-model="i.discount_pct" placeholder="0%">
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="percentageFormat" placeholder="0%"></vue-autonumeric>
                                                     </td>
                                                     <td width="10%">
-                                                        <input type="text" name="discount[]" class="form-control" v-model="i.discount" placeholder="0">
+                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="currencyFormat" placeholder="0"></vue-autonumeric>
                                                     </td>
                                                     <td width="3%">
                                                         <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
                                                     </td>
-                                                    <td width="12%">
-                                                        @{{ formatNumeric(i.selected_product_unit.conversion_value * i.quantity * i.price) }}
+                                                    <td width="12%" class="text-align-right">@{{ i.total }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="expensesListTable" class="table table-bordered table-striped table-vcenter">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th colspan="5">@lang('purchase_order.index.table.expense_table.header.title')</th>
+                                                    <th class="text-align-right">
+                                                        <button type="button" class="btn-block-option"
+                                                                data-toggle="tooltip" title="{{ trans('buttons.create_new_button') }}"
+                                                                v-on:click="addExpense">
+                                                            <i class="si si-plus"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th width="20%">@lang('purchase_order.index.table.expense_table.header.name')</th>
+                                                    <th width="20%"
+                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.type')</th>
+                                                    <th width="10%"
+                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.internal_expense')</th>
+                                                    <th width="25%"
+                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.remarks')</th>
+                                                    <th width="5%">&nbsp;</th>
+                                                    <th width="20%"
+                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.amount')</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-if="po.expenses.length == 0">
+                                                    <td colspan="6" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
+                                                </tr>
+                                                <tr v-for="(expense, expenseIndex) in po.expenses">
+                                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_name_' + expenseIndex) }">
+                                                        <input name="expense_name[]" type="text" class="form-control"
+                                                               v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
+                                                               v-bind:data-vv-name="'expense_name_' + expenseIndex">
+                                                    </td>
+                                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
+                                                        <select class="form-control" v-model="expense.type.code" name="expense_type[]"
+                                                                v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
+                                                                v-bind:data-vv-name="'expense_type_' + expenseIndex">
+                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                            <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" v-model="expense.is_internal_expense">
+                                                        <input type="hidden" name="is_internal_expense" v-model="expense.is_internal_expense_val">
+                                                    </td>
+                                                    <td>
+                                                        <input name="expense_remarks[]" type="text" class="form-control" v-model="expense.remarks"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-md" v-on:click="removeExpense(expenseIndex)">
+                                                            <span class="fa fa-minus"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
+                                                        <vue-autonumeric name="expense_amount[]" type="text" class="form-control"
+                                                                         v-model="expense.amount" v-validate="'required'"
+                                                                         v-bind:options="currencyFormat"
+                                                                         v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
+                                                                         v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="table-responsive">
+                                        <table id="itemsTotalListTable" class="table table-bordered table-vcenter">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.subtotal')</td>
+                                                    <td width="12%" class="text-align-right">@{{ formatNumeric(po.subtotal) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
+                                                    <td width="12%">
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="percentageFormat" placeholder="0%"></vue-autonumeric>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
+                                                    <td width="12%">
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.grandtotal')</td>
+                                                    <td width="12%" class="text-align-right">@{{ formatNumeric(po.grandtotal) }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
-                        <div class="col-10">
+                        <div class="col-12">
+                            <div class="block block-shadow-on-hover block-mode-loading-refresh" id="remarksListBlock">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">@lang('purchase_order.index.panel.remarks_panel.title')</h3>
+                                    <div class="block-options">
+                                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div>
+                                        <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#tabs_remarks">@lang('purchase_order.index.tabs.remarks')</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tabs_internal">@lang('purchase_order.index.tabs.internal')</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#tabs_private">@lang('purchase_order.index.tabs.private')</a>
+                                            </li>
+                                        </ul>
+                                        <div class="block-content tab-content overflow-hidden">
+                                            <div class="tab-pane fade fade-up show active" id="tabs_remarks" role="tabpanel">
+                                                <textarea id="inputRemarks" name="remarks" class="form-control" rows="5" v-model="po.remarks"></textarea>
+                                            </div>
+                                            <div class="tab-pane fade fade-up show" id="tabs_internal" role="tabpanel">
+                                                <textarea id="inputInternalRemarks" name="internal_remarks" class="form-control" rows="5" v-model="po.internal_remarks"></textarea>
+                                            </div>
+                                            <div class="tab-pane fade fade-up show" id="tabs_private" role="tabpanel">
+                                                <textarea id="inputPrivateRemarks" name="private_remarks" class="form-control" rows="5" v-model="po.private_remarks"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12 text-center">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <button type="submit" class="btn btn-primary min-width-125">
                                     @lang('buttons.submit_button')
+                                </button>
+                                <button type="button" class="btn btn-primary min-width-125">
+                                    @lang('buttons.print_preview_button')
                                 </button>
                                 <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
                                     @lang('buttons.cancel_button')
@@ -395,6 +526,7 @@
                 poTypeDDL: [],
                 supplierDDL: [],
                 vendorTruckingDDL: [],
+                expenseTypeDDL: [],
                 warehouseDDL: [],
                 selectedDate: new Date(),
                 selectedSupplier: {},
@@ -405,7 +537,13 @@
                 isFinishLoadingMounted: false,
                 allProduct: [],
                 mode: '',
-                po: { }
+                po: {
+                    items:[],
+                    expenses: [],
+                    disc_total_percent: 0,
+                    subtotal: 0,
+                    grandtotal: 0
+                }
             },
             mounted: function () {
                 this.mode = 'list';
@@ -417,7 +555,8 @@
                     this.getPOType(),
                     this.getWarehouse(),
                     this.getVendorTrucking(),
-                    this.getAllProduct()
+                    this.getAllProduct(),
+                    this.getExpenseType()
                 ]).then(() => {
                     this.isFinishLoadingMounted = true;
                 });
@@ -508,7 +647,9 @@
                         items: [],
                         expenses: [],
                         disc_total_percent: 0,
-                        disc_total_value: 0
+                        disc_total_value: 0,
+                        subtotal: 0,
+                        grandtotal: 0
                     }
                 },
                 onChangeProductSelected(productId) {
@@ -519,23 +660,50 @@
                         let prd = _.cloneDeep(_.find(this.product_options, { hId: productId }));
                         this.po.items.push({
                             product: prd,
-                            selected_product_unit: {
-                                hId: '',
-                                unit: {
-                                    hId: ''
-                                },
-                                conversion_value: 1
-                            },
+                            selected_product_unit: this.defaultProductUnit(),
                             base_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
                             quantity: 0,
                             price: 0,
-                            discounts: 0
+                            discount_pct: 0,
+                            discount: 0,
+                            total: 0
                         });
                     }
                 },
                 removeItem: function (index) {
-                    var vm = this;
-                    vm.po.items.splice(index, 1);
+                    this.po.items.splice(index, 1);
+                },
+                addExpense: function () {
+                    this.po.expenses.push({
+                        name: '',
+                        type: {
+                            code: ''
+                        },
+                        is_internal_expense: false,
+                        is_internal_expense_val: 0,
+                        amount: 0,
+                        remarks: ''
+                    });
+                },
+                removeExpense: function (index) {
+                    this.po.expenses.splice(index, 1);
+                },
+                defaultProductUnit: function(){
+                    return {
+                        hId: '',
+                        unit: {
+                            hId: ''
+                        },
+                        conversion_value: 1
+                    };
+                },
+                onChangeProductUnit: function(itemIndex) {
+                    if (this.po.items[itemIndex].selected_product_unit.hId == '') {
+                        this.po.items[itemIndex].selected_product_unit = this.defaultProductUnit();
+                    } else {
+                        var pUnit = _.find(this.po.items[itemIndex].product.product_units, { hId: this.po.items[itemIndex].selected_product_unit.hId });
+                        _.merge(this.po.items[itemIndex].selected_product_unit, pUnit);
+                    }
                 },
                 getSupplier: function() {
                     return new Promise((resolve, reject) => {
@@ -614,6 +782,32 @@
                         response => { this.po.po_code = response.data; }
                     );
                 },
+                getExpenseType: function() {
+                    axios.get(route('api.get.lookup.bycategory', 'EXPENSE_TYPE').url()).then(
+                        response => { this.expenseTypeDDL = response.data; }
+                    );
+                },
+                calculateTotal: function() {
+                    var allItemTotal = 0;
+                    _.forEach(this.po.items, function(item, key) {
+                        var itemTotal = 0;
+                        itemTotal = item.selected_product_unit.conversion_value * item.quantity * item.price;
+                        item.total = itemTotal;
+                        allItemTotal += itemTotal;
+                    });
+
+                    var expenseTotal = 0;
+                    try {
+                        _.forEach(this.po.expenses, function (expense, key) {
+                            if (expense.type.code === 'EXPENSETYPE.ADD')
+                                expenseTotal += expense.amount;
+                            else
+                                expenseTotal -= expense.amount;
+                        });
+                    } catch(e) { console.log('error b'); }
+
+                    this.po.subtotal = allItemTotal + expenseTotal;
+                },
             },
             watch: {
                 'po.supplierHId': function() {
@@ -651,6 +845,12 @@
                             Codebase.blocks('#poCRUDBlock', 'close')
                             break;
                     }
+                },
+                'po.items': {
+                    deep: true,
+                    handler: function() {
+                        this.calculateTotal();
+                    }
                 }
             },
             computed: {
@@ -665,6 +865,19 @@
                         roundingMethod: 'U',
                         minimumValue: '0',
                         unformatOnSubmit: true
+                    }
+                },
+                percentageFormat: function() {
+                    var conf = document.getElementById("appSettings").value.split('|');
+                    return {
+                        digitGroupSeparator: conf[3],
+                        allowDecimalPadding: false,
+                        suffixText: ' %',
+                        roundingMethod: 'U',
+                        minimumValue: '0',
+                        maximumValue: '100',
+                        unformatOnSubmit: true,
+                        showWarnings: false
                     }
                 },
                 flatPickrConfig: function() {

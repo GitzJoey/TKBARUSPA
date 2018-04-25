@@ -13,7 +13,7 @@ heading {
 }
 
 .block.block-shadow-on-hover {
-  transition: box-shadow 1s;
+  transition: box-shadow 0.5s;
 }
 
 .block.block-shadow-on-hover:hover {
@@ -54,4 +54,8 @@ ul.plain-breadcrumb li a {
 ul.plain-breadcrumb li a:hover {
   color: #01447e;
   text-decoration: underline;
+}
+
+.text-align-right {
+  text-align: right;
 }

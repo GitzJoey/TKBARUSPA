@@ -26,6 +26,14 @@ return [
             'transaction_panel' => [
                 'title' => 'Transactions',
             ],
+            'remarks_panel' => [
+                'title' => 'Remarks',
+            ],
+        ],
+        'tabs' => [
+            'remarks' => 'Remarks',
+            'internal' => 'Internal',
+            'private' => 'Private',
         ],
         'table' => [
             'list_table' => [
@@ -45,6 +53,25 @@ return [
                     'price_unit' => 'Price',
                     'total_price' => 'Total Price',
                     'discount' => 'Discount',
+                    'title' => 'Items',
+                ],
+            ],
+            'expense_table' => [
+                'header' => [
+                    'name' => 'Name',
+                    'type' => 'Type',
+                    'internal_expense' => 'Internal Expense',
+                    'remarks' => 'Remarks',
+                    'amount' => 'Amount',
+                    'title' => 'Expenses',
+                ],
+            ],
+            'total_table' => [
+                'header' => [
+                    'subtotal' => 'Sub Total',
+                    'disc_total_pct' => 'Discount %',
+                    'disc_total_value' => 'Discount',
+                    'grandtotal' => 'TOTAL',
                 ],
             ],
         ],
@@ -60,5 +87,6 @@ return [
         'shipping_date' => 'Shipping Date',
         'warehouse' => 'Warehouse',
         'vendor_trucking' => 'Vendor Trucking',
+        'po_copy_code' => '',
     ],
 ];

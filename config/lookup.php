@@ -26,6 +26,7 @@ return [
         'GIRO_STATUS' => 'GIROSTATUS',
         'EMPLOYEE_SALARY_ACTION' => 'EMPSALARYACTION',
         'STOCK_MERGE_TYPE' => 'STOCKMERGETYPE',
+        'EXPENSE_TYPE' => 'EXPENSETYPE',
     ],
 
     'VALUE' => [
@@ -126,6 +127,10 @@ return [
             'FIFO' => 'STOCKMERGETYPE.FIFO',
             'LIFO' => 'STOCKMERGETYPE.LIFO',
             'AVG' => 'STOCKMERGETYPE.AVG',
+        ],
+        'EXPENSE_TYPE' => [
+            'ADD' => 'EXPENSETYPE.ADD',
+            'SUB' => 'EXPENSETYPE.SUB',
         ],
     ],
 ];

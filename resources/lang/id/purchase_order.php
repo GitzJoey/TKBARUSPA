@@ -26,6 +26,14 @@ return [
             'transaction_panel' => [
                 'title' => 'Transaksi',
             ],
+            'remarks_panel' => [
+                'title' => 'Keterangan',
+            ],
+        ],
+        'tabs' => [
+            'remarks' => 'Keterangan',
+            'internal' => 'Internal',
+            'private' => 'Privat',
         ],
         'table' => [
             'list_table' => [
@@ -45,6 +53,25 @@ return [
                     'price_unit' => 'Harga',
                     'total_price' => 'Total Harga',
                     'discount' => 'Diskon',
+                    'title' => 'Barang',
+                ],
+            ],
+            'expense_table' => [
+                'header' => [
+                    'name' => 'Nama',
+                    'type' => 'Tipe',
+                    'remarks' => 'Keterangan',
+                    'amount' => 'Jumlah',
+                    'internal_expense' => 'Internal',
+                    'title' => 'Biaya-Biaya',
+                ],
+            ],
+            'total_table' => [
+                'header' => [
+                    'subtotal' => 'Sub Total',
+                    'disc_total_pct' => 'Diskon %',
+                    'disc_total_value' => 'Diskon',
+                    'grandtotal' => 'TOTAL',
                 ],
             ],
         ],
@@ -60,5 +87,6 @@ return [
         'shipping_date' => 'Tgl Pengiriman',
         'warehouse' => 'Gudang',
         'vendor_trucking' => 'Layanan Angkutan',
+        'po_status' => '',
     ],
 ];
