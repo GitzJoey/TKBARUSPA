@@ -138,7 +138,7 @@
                         <label for="inputCost" class="col-2 col-form-label">@lang('truck_maintenance.fields.cost')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                            <vue-autonumeric id="inputCost" type="text" name="cost" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truckmtc.fields.cost') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->store->thousand_separator }}',decimalCharacter: '{{ Auth::user()->store->decimal_separator }}',decimalPlaces: '{{ Auth::user()->store->decimal_digit }}',minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
+                            <vue-autonumeric id="inputCost" type="text" name="cost" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.cost') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->company->thousand_separator }}',decimalCharacter: '{{ Auth::user()->company->decimal_separator }}',decimalPlaces: '{{ Auth::user()->company->decimal_digit }}',minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
                                 <div v-show="errors.has('cost')" class="invalid-feedback">@{{ errors.first('cost') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
@@ -150,7 +150,7 @@
                         <label for="inputOdometer" class="col-2 col-form-label">@lang('truck_maintenance.fields.odometer')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                            	<vue-autonumeric id="inputOdometer" name="odometer" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->store->thousand_separator }}',decimalCharacter: '{{ Auth::user()->store->decimal_separator }}',decimalPlaces: 0,minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
+                            	<vue-autonumeric id="inputOdometer" name="odometer" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->company->thousand_separator }}',decimalCharacter: '{{ Auth::user()->company->decimal_separator }}',decimalPlaces: 0,minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
                                 <div v-show="errors.has('odometer')" class="invalid-feedback">@{{ errors.first('odometer') }}</div>
                             </template>
                             <template v-if="mode == 'show'">

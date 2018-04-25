@@ -10,9 +10,9 @@ namespace App\Services\Implementations;
 
 use App\Models\TruckMaintenance;
 
-use App\Services\TruckMaintenance;
+use App\Services\TruckMaintenanceService;
 
-class TruckMaintenanceServiceImpl implements TruckMaintenance
+class TruckMaintenanceServiceImpl implements TruckMaintenanceService
 {
     public function create(
         $company_id,
@@ -21,7 +21,7 @@ class TruckMaintenanceServiceImpl implements TruckMaintenance
         $maintenance_type,
         $cost,
         $odometer,
-        $remarks,
+        $remarks
     )
     {
         TruckMaintenance::create([
@@ -48,7 +48,7 @@ class TruckMaintenanceServiceImpl implements TruckMaintenance
         $maintenance_type,
         $cost,
         $odometer,
-        $remarks,
+        $remarks
     )
     {
         $truckMaintenance = TruckMaintenance::find($id);

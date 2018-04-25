@@ -39,7 +39,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
                 Route::get('', 'VendorTruckingController@index')->name('db.truck.vendor_trucking');
             });
             Route::group(['prefix' => 'truck_maintenance'], function () {
-                Route::get('', 'TruckMaintenance@index')->name('db.truck.truck_maintenance');
+                Route::get('', 'TruckMaintenanceController@index')->name('db.truck.truck_maintenance');
             });
             Route::get('', 'TruckController@index')->name('db.truck');
         });

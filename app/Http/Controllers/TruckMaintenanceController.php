@@ -51,7 +51,7 @@ class TruckMaintenanceController extends Controller
             $request['maintenance_type'],
             $request['cost'],
             $request['odometer'],
-            $request['remarks'],
+            $request['remarks']
         );
         
         return response()->json();
@@ -75,7 +75,7 @@ class TruckMaintenanceController extends Controller
             $request['maintenance_type'],
             $request['cost'],
             $request['odometer'],
-            $request['remarks'],
+            $request['remarks']
         );
 
         return response()->json();
