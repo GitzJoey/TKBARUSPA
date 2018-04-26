@@ -145,7 +145,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(p, pIdx) in prefixes">
+                                    <tr v-for="(p, pIdx) in phone_provider.prefixes">
                                         <td v-bind:class="{ 'is-invalid':errors.has('prefixes' + pIdx) }">
                                             <input type="hidden" name="level[]" v-bind:value="pIdx">
                                             <input type="text" class="form-control" v-model="p.prefix" name="prefixes[]"
@@ -153,7 +153,7 @@
                                                 v-bind:data-vv-name="'prefixes' + pIdx">
                                         </td>
                                         <td class="text-center valign-middle">
-                                            <button type="button" class="btn btn-sm btn-danger" v-show="prefixes.length" v-on:click="removePrefix(pIdx)">@lang('buttons.remove_button')</button>
+                                            <button type="button" class="btn btn-sm btn-danger" v-show="phone_provider.prefixes.length" v-on:click="removePrefix(pIdx)">@lang('buttons.remove_button')</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -221,5 +221,5 @@
     <script type="application/javascript">
 
     </script>
-    <script type="application/javascript" src="{{ mix('js/apps/phone_provider.min.js') }}"></script>
+    <script type="application/javascript" src="{{ mix('js/apps/phone_provider.js') }}"></script>
 @endsection
