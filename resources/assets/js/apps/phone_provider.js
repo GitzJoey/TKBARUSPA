@@ -56,14 +56,7 @@ var phoneProviderVue = new Vue ({
         editSelected: function(idx) {
             this.mode = 'edit';
             this.errors.clear();
-            this.prefixes = [];
-            var pr = this.phoneProviderList[idx].prefixes;
-            for (var i = 0; i < pr.length; i++) {
-                this.prefixes.push({
-                    'phone_provider_id': pr[i].phoneProviderHId,
-                    'prefix': pr[i].prefix
-                });
-            }
+            this.prefixes = this.phoneProviderList[idx].prefixes;
             this.phone_provider = this.phoneProviderList[idx];
         },
         deleteSelected: function(idx) {
@@ -78,7 +71,7 @@ var phoneProviderVue = new Vue ({
         },
         addNewPrefix : function() {
             this.prefixes.push({
-                'phone_provider_id': '',
+                'phoneProviderHId': '',
                 'prefix': ''
             });
         },
