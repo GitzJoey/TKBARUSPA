@@ -275,7 +275,7 @@
                                 @endpermission
                                 @permission('menu-phoneprovider')
                                     <li>
-                                        <a href="#"><span class="fa fa-phone-square fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.phone_provider')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.settings.phone_provider') || if_route_pattern('db.settings.phone_provider.*')) }}"href="{{ route('db.settings.phone_provider') }}"><span class="fa fa-phone-square fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.phone_provider')</a>
                                     </li>
                                 @endpermission
                             </ul>

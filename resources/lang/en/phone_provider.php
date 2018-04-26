@@ -2,27 +2,27 @@
 
 return [
     'index' => [
-        'title' => 'Provider Telepon',
-        'page_title' => 'Provider Telepon',
+        'title' => 'Phone Provider',
+        'page_title' => 'Phone Provider',
         'page_title_desc' => '',
         'panel' => [
             'list_panel' => [
-                'title' => 'Daftar Provider Telepon',
+                'title' => 'Phone Provider Lists',
             ],
             'crud_panel' => [
-                'title_create' => 'Tambah Provider Telepon',
-                'title_show' => 'Tampilkan Provider Telepon',
-                'title_edit' => 'Ubah Provider Telepon',
+                'title_create' => 'Create Phone Provider',
+                'title_show' => 'Show Phone Provider',
+                'title_edit' => 'Edit Phone Provider',
             ],
         ],
         'table' => [
             'phone_provider_list' => [
                 'header' => [
-                    'name' => 'Nama',
-                    'short_name' => 'Singkatan',
+                    'name' => 'Name',
+                    'short_name' => 'Short Name',
                     'prefix' => 'Prefix',
                     'status' => 'Status',
-                    'remarks' => 'Keterangan',
+                    'remarks' => 'Remarks',
                 ],
             ],
             'prefix' => [
@@ -32,11 +32,11 @@ return [
             ],
         ],
         'fields' => [
-            'name' => 'Nama',
-            'short_name' => 'Singkatan',
+            'name' => 'Name',
+            'short_name' => 'Short Name',
             'symbol' => 'Symbol',
             'status' => 'Status',
-            'remarks' => 'Keterangan',
+            'remarks' => 'Remarks',
             'prefix' => 'Prefix',
         ],
     ],
