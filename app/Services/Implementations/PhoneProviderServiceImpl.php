@@ -88,6 +88,7 @@ class PhoneProviderServiceImpl implements PhoneProviderService
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            throw $e;
         };
     }
 
