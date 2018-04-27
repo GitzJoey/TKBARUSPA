@@ -15,11 +15,12 @@
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
-        "lodash": "^4.17.4",
+        "lodash": "^4.17.10",
         "popper.js": "^1.14.3",
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "accounting-js": "^1.1.1",
         "animate.css": "^3.6.1",
         "font-awesome": "^4.7.0",
         "fullcalendar": "^3.9.0",
@@ -32,10 +33,9 @@
         "laravel-vue-pagination": "^1.2.0",
         "moment": "^2.22.1",
         "moment-duration-format": "^2.2.2",
-        "numbro": "^2.0.6",
         "pdfjs-dist": "^2.0.489",
         "simple-line-icons": "^2.4.1",
-        "vee-validate": "^2.0.6",
+        "vee-validate": "^2.0.8",
         "vue-autonumeric": "^1.2.0",
         "vue-flatpickr-component": "^7.0.1",
         "vue-multiselect": "^2.1.0"

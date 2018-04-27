@@ -15,7 +15,7 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
-    window.numbro = require('numbro');
+    window.accountingJS = require('accounting-js/dist/accounting.es6');
 } catch (e) {
     console.error(e.message);
 }
@@ -97,20 +97,35 @@ Vue.mixin({
             if (typeof(route) !== 'undefined') return route;
             else return null;
         },
-        formatNumeric: function(value) {
+        formatMoneyToString: function(value) {
+            let settings = document.getElementById("appSettings").value.split('|');
+            let thousandSeparator = settings[3];
+            let decimalSeparator = settings[4];
+            let decimalDigit = parseInt(settings[5]);
+            let currencySymbol = 'Rp';
+
+            return accountingJS.formatMoney(value, {
+                symbol : currencySymbol,
+                decimal : decimalSeparator,
+                thousand: thousandSeparator,
+                precision : decimalDigit,
+                format: {
+                    pos: "%v %s",
+                    neg: "(%v) %s",
+                    zero: "-- %s"
+                } });
+        },
+        formatNumberToString: function(value) {
             let settings = document.getElementById("appSettings").value.split('|');
             let thousandSeparator = settings[3];
             let decimalSeparator = settings[4];
             let decimalDigit = parseInt(settings[5]);
 
-            let decimalDigitFormat = '00';
-            if (decimalDigit != 0) {
-                for (var i = 0; i < decimalDigit; i++) {
-                    decimalDigitFormat += '0';
-                }
-            }
-
-            return '';
+            return accountingJS.formatNumber(value, {
+                decimal : decimalSeparator,
+                thousand: thousandSeparator,
+                precision : decimalDigit
+            });
         }
     }
 });

@@ -311,11 +311,12 @@
                                                 <tr v-for="(i, iIdx) in po.items">
                                                     <td>@{{ i.product.name }}</td>
                                                     <td width="5%">
-                                                        <input type="text" name="item_quantity[]"
+                                                        <vue-autonumeric type="text" name="item_quantity[]"
                                                                  v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
+                                                                 v-bind:options="numericFormat"
                                                                  v-bind:data-vv-name="'quantity_' + iIdx"
                                                                  v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
-                                                                 v-model="i.quantity" v-validate="'required|numeric:2'"></input>
+                                                                 v-model="i.quantity" v-validate="'required'"></vue-autonumeric>
                                                     </td>
                                                     <td width="15%">
                                                         <select v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('product_unit_' + iIdx) }"
@@ -338,15 +339,15 @@
                                                                          v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
                                                     </td>
                                                     <td width="7%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="percentageFormat" placeholder="0%"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="percentageFormat" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
                                                     </td>
                                                     <td width="10%">
-                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="currencyFormat" placeholder="0"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="currencyFormat" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
                                                     </td>
                                                     <td width="3%">
                                                         <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
                                                     </td>
-                                                    <td width="12%" class="text-align-right">@{{ i.total }}</td>
+                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(i.total) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -365,15 +366,15 @@
                                                     </th>
                                                 </tr>
                                                 <tr>
-                                                    <th width="20%">@lang('purchase_order.index.table.expense_table.header.name')</th>
-                                                    <th width="20%"
+                                                    <th>@lang('purchase_order.index.table.expense_table.header.name')</th>
+                                                    <th width="15%"
                                                         class="text-center">@lang('purchase_order.index.table.expense_table.header.type')</th>
                                                     <th width="10%"
                                                         class="text-center">@lang('purchase_order.index.table.expense_table.header.internal_expense')</th>
-                                                    <th width="25%"
+                                                    <th width="30%"
                                                         class="text-center">@lang('purchase_order.index.table.expense_table.header.remarks')</th>
-                                                    <th width="5%">&nbsp;</th>
-                                                    <th width="20%"
+                                                    <th width="3%">&nbsp;</th>
+                                                    <th width="12%"
                                                         class="text-center">@lang('purchase_order.index.table.expense_table.header.amount')</th>
                                                 </tr>
                                             </thead>
@@ -408,7 +409,7 @@
                                                         </button>
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
-                                                        <vue-autonumeric name="expense_amount[]" type="text" class="form-control"
+                                                        <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
                                                                          v-model="expense.amount" v-validate="'required'"
                                                                          v-bind:options="currencyFormat"
                                                                          v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
@@ -423,7 +424,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.subtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ formatNumeric(po.subtotal) }}</td>
+                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(po.subtotal) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
@@ -434,12 +435,12 @@
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
                                                     <td width="12%">
-
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="currencyFormat"></vue-autonumeric>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.grandtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ formatNumeric(po.grandtotal) }}</td>
+                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(po.grandtotal) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -541,6 +542,7 @@
                     items:[],
                     expenses: [],
                     disc_total_percent: 0,
+                    disc_total_value: 0,
                     subtotal: 0,
                     grandtotal: 0
                 }
@@ -718,6 +720,24 @@
                         });
                     });
                 },
+                setDiscountValue: function(index) {
+                    if (typeof(index) != 'number') {
+                        this.po.disc_total_value = (this.po.disc_total_percent / 100) * this.po.subtotal;
+                    } else {
+                        this.po.items[index].discount =
+                            (this.po.items[index].discount_pct / 100) *
+                            (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price);
+                    }
+                },
+                setDiscountPct: function(index) {
+                    if (typeof(index) != 'number') {
+                        this.po.disc_total_percent = (this.po.disc_total_value / this.po.subtotal) * 100;
+                    } else {
+                        this.po.items[index].discount_pct =
+                            (this.po.items[index].discount /
+                            (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price)) * 100;
+                    }
+                },
                 getSupplierType: function() {
                     return new Promise((resolve, reject) => {
                         axios.get(route('api.get.lookup.bycategory', 'SUPPLIER_TYPE').url()).then(
@@ -791,22 +811,22 @@
                     var allItemTotal = 0;
                     _.forEach(this.po.items, function(item, key) {
                         var itemTotal = 0;
-                        itemTotal = item.selected_product_unit.conversion_value * item.quantity * item.price;
+                        itemTotal = (item.selected_product_unit.conversion_value * item.quantity * item.price) - item.discount;
                         item.total = itemTotal;
+
                         allItemTotal += itemTotal;
                     });
 
                     var expenseTotal = 0;
-                    try {
-                        _.forEach(this.po.expenses, function (expense, key) {
-                            if (expense.type.code === 'EXPENSETYPE.ADD')
-                                expenseTotal += expense.amount;
-                            else
-                                expenseTotal -= expense.amount;
-                        });
-                    } catch(e) { console.log('error b'); }
+                    _.forEach(this.po.expenses, function (expense, key) {
+                        if (expense.type.code === 'EXPENSETYPE.ADD')
+                            expenseTotal += expense.amount;
+                        else
+                            expenseTotal -= expense.amount;
+                    });
 
                     this.po.subtotal = allItemTotal + expenseTotal;
+                    this.po.grandtotal = this.po.subtotal - this.po.disc_total_value;
                 },
             },
             watch: {
@@ -831,6 +851,26 @@
                         );
                     }
                 },
+                'po.items': {
+                    deep: true,
+                    handler: function(oldVal, newVal) {
+                        this.calculateTotal();
+                    }
+                },
+                'po.expenses': {
+                    deep: true,
+                    handler: function(oldVal, newVal) {
+                        this.calculateTotal();
+                    }
+                },
+                'po.disc_total_percent': function() {
+                    this.setDiscountValue();
+                    this.calculateTotal();
+                },
+                'po.disc_total_value': function() {
+                    this.setDiscountPct();
+                    this.calculateTotal();
+                },
                 mode: function() {
                     switch (this.mode) {
                         case 'create':
@@ -845,12 +885,6 @@
                             Codebase.blocks('#poCRUDBlock', 'close')
                             break;
                     }
-                },
-                'po.items': {
-                    deep: true,
-                    handler: function() {
-                        this.calculateTotal();
-                    }
                 }
             },
             computed: {
@@ -860,11 +894,26 @@
                         digitGroupSeparator: conf[3],
                         decimalCharacter: conf[4],
                         decimalCharacterAlternative: '.',
+                        decimalPlaces: 0,
                         currencySymbol: ' Rp',
                         currencySymbolPlacement: 's',
                         roundingMethod: 'U',
                         minimumValue: '0',
-                        unformatOnSubmit: true
+                        unformatOnSubmit: true,
+                        caretPositionOnFocus: 'start'
+                    }
+                },
+                numericFormat: function() {
+                    var conf = document.getElementById("appSettings").value.split('|');
+                    return {
+                        digitGroupSeparator: conf[3],
+                        decimalCharacter: conf[4],
+                        decimalCharacterAlternative: '.',
+                        decimalPlaces: 1,
+                        roundingMethod: 'U',
+                        minimumValue: '0',
+                        unformatOnSubmit: true,
+                        caretPositionOnFocus: 'start'
                     }
                 },
                 percentageFormat: function() {
@@ -877,7 +926,8 @@
                         minimumValue: '0',
                         maximumValue: '100',
                         unformatOnSubmit: true,
-                        showWarnings: false
+                        showWarnings: false,
+                        caretPositionOnFocus: 'start'
                     }
                 },
                 flatPickrConfig: function() {

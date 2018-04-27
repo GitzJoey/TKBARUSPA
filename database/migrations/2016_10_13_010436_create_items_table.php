@@ -22,8 +22,9 @@ class CreateItemsTable extends Migration
             $table->unsignedBigInteger('base_unit_id')->default(0);
             $table->decimal('conversion_value', 19, 2)->default(0);
             $table->decimal('quantity', 19, 2)->default(0);
-            $table->decimal('price', 19, 2)->default(0);
             $table->decimal('to_base_quantity', 19, 2)->default(0);
+            $table->decimal('price', 19, 2)->default(0);
+            $table->decimal('discount', 19, 2)->default(0);
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->unsignedBigInteger('deleted_by')->default(0);
