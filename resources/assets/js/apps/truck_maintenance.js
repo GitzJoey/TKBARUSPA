@@ -82,7 +82,7 @@ var truckMaintenanceVue = new Vue ({
             }
         },
         getPlateNumber: function() {
-             axios.get(route('api.get.truck.plate_number.read').url()).then(
+             axios.get(route('api.get.truck.read').url()).then(
                 response => { this.plateNumberDDL = response.data; }
             );
         },
