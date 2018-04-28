@@ -15,7 +15,6 @@ try {
     require('jquery-gotop/src/jquery.gotop');
     require('fullcalendar/dist/fullcalendar');
     require('fullcalendar/dist/locale/id');
-    window.accountingJS = require('accounting-js/dist/accounting.es6');
 } catch (e) {
     console.error(e.message);
 }
@@ -96,36 +95,69 @@ Vue.mixin({
         route: function() {
             if (typeof(route) !== 'undefined') return route;
             else return null;
-        },
-        formatMoneyToString: function(value) {
-            let settings = document.getElementById("appSettings").value.split('|');
-            let thousandSeparator = settings[3];
-            let decimalSeparator = settings[4];
-            let decimalDigit = parseInt(settings[5]);
-            let currencySymbol = 'Rp';
+        }
+    },
+    computed: {
+        defaultFlatPickrConfig: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            var flatPickrTimeFormat = '';
+            switch (conf[2]) {
+                case "G:H:s": flatPickrTimeFormat = 'H:i:S'; break;
+                case "g:i A": flatPickrTimeFormat = ' h:i K'; break;
+                default: break;
+            }
 
-            return accountingJS.formatMoney(value, {
-                symbol : currencySymbol,
-                decimal : decimalSeparator,
-                thousand: thousandSeparator,
-                precision : decimalDigit,
-                format: {
-                    pos: "%v %s",
-                    neg: "(%v) %s",
-                    zero: "-- %s"
-                } });
+            return {
+                enableTime: true,
+                dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
+                plugins: [new confirmDatePlugin({
+                    confirmIcon: "<i class='fa fa-check'></i>",
+                    confirmText: ""
+                }), new scrollPlugin()],
+                minuteIncrement: 15
+            }
         },
-        formatNumberToString: function(value) {
-            let settings = document.getElementById("appSettings").value.split('|');
-            let thousandSeparator = settings[3];
-            let decimalSeparator = settings[4];
-            let decimalDigit = parseInt(settings[5]);
-
-            return accountingJS.formatNumber(value, {
-                decimal : decimalSeparator,
-                thousand: thousandSeparator,
-                precision : decimalDigit
-            });
+        defaultCurrencyConfig: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return {
+                digitGroupSeparator: conf[3],
+                decimalCharacter: conf[4],
+                decimalCharacterAlternative: '.',
+                decimalPlaces: 0,
+                currencySymbol: ' Rp',
+                currencySymbolPlacement: 's',
+                roundingMethod: 'U',
+                minimumValue: '0',
+                unformatOnSubmit: true,
+                caretPositionOnFocus: 'start'
+            }
+        },
+        defaultNumericConfig: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return {
+                digitGroupSeparator: conf[3],
+                decimalCharacter: conf[4],
+                decimalCharacterAlternative: '.',
+                decimalPlaces: 1,
+                roundingMethod: 'U',
+                minimumValue: '0',
+                unformatOnSubmit: true,
+                caretPositionOnFocus: 'start'
+            }
+        },
+        defaultPercentageConfig: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return {
+                digitGroupSeparator: conf[3],
+                allowDecimalPadding: false,
+                suffixText: ' %',
+                roundingMethod: 'U',
+                minimumValue: '0',
+                maximumValue: '100',
+                unformatOnSubmit: true,
+                showWarnings: false,
+                caretPositionOnFocus: 'start'
+            }
         }
     }
 });
