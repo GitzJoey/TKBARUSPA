@@ -347,7 +347,9 @@
                                                     <td width="3%">
                                                         <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
                                                     </td>
-                                                    <td width="12%" class="text-align-right">@{{ i.total }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="i.total"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -424,7 +426,9 @@
                                             <tbody>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.subtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ po.subtotal }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.subtotal"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
@@ -440,7 +444,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.grandtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ po.grandtotal }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.grandtotal"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -889,24 +895,27 @@
             },
             computed: {
                 flatPickrInlineConfig: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
+                    var conf = Object.assign({}, this.defaultFlatPickrConfig);
 
-                    return {
-                        inline: true,
-                        altInput: true,
-                        altInputClass: 'hideTextBox',
-                        enableTime: false,
-                        dateFormat: conf[1],
-                        plugins: [new confirmDatePlugin({
-                            confirmIcon: "<i class='fa fa-check'></i>",
-                            confirmText: ""
-                        }), new scrollPlugin()],
-                        enable: [
-                            function(date) {
-                                return (date.getMonth() % 2 === 0 && date.getDate() < 15);
-                            }
-                        ]
-                    }
+                    conf.inline = true;
+                    conf.altInput = true;
+                    conf.altInputClass = 'hideTextBox';
+                    conf.enableTime = false;
+                    conf.enable = [
+                        function(date) {
+                            return (date.getMonth() % 2 === 0 && date.getDate() < 15);
+                        }
+                    ];
+
+                    return conf;
+                },
+                currencyFormatToString: function() {
+                    var conf = Object.assign({}, this.defaultCurrencyConfig);
+
+                    conf.readOnly = true;
+                    conf.noEventListeners = true;
+
+                    return conf;
                 },
                 defaultPleaseSelect: function() {
                     return '';
