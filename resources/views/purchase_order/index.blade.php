@@ -57,11 +57,11 @@
                         </thead>
                         <tbody>
                             <tr v-for="(po, poIdx) in poList">
+                                <td>@{{ po.code }}</td>
+                                <td>@{{ po.po_created }}</td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-secondary" v-on:click="showSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
@@ -205,7 +205,7 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
                                         <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputPoCreated" name="po.po_created" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            <flat-pickr id="inputPoCreated" name="po_created" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -309,7 +309,10 @@
                                                     <td colspan="8" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
                                                 </tr>
                                                 <tr v-for="(i, iIdx) in po.items">
-                                                    <td>@{{ i.product.name }}</td>
+                                                    <td>
+                                                        @{{ i.product.name }}
+                                                        <input type="hidden" name="item_product_id[]" v-model="i.product.hId"/>
+                                                    </td>
                                                     <td width="5%">
                                                         <vue-autonumeric type="text" name="item_quantity[]"
                                                                  v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
@@ -329,6 +332,8 @@
                                                             <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                             <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
                                                         </select>
+                                                        <input type="hidden" name="conversion_value[]" v-model="i.conversion_value">
+                                                        <input type="hidden" name="base_product_unit_id[]" v-model="i.base_product_unit.hId">
                                                     </td>
                                                     <td width="13%">
                                                         <vue-autonumeric type="text" name="item_price[]"
@@ -576,20 +581,22 @@
                         this.errors.clear();
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
-                            axios.post('/api/post/po/save', new FormData($('#poForm')[0])).then(response => {
+                            axios.post(route('api.post.po.save'), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             }).catch(e => {
                                 this.handleErrors(e);
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             });
                         } else if (this.mode == 'edit') {
-                            axios.post('/api/post/po/edit/' + this.po.hId, new FormData($('#poForm')[0])).then(response => {
+                            axios.post(route('api.post.po.edit.', this.po.hId), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             }).catch(e => {
                                 this.handleErrors(e);
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             });
-                        } else {
-                        }
-                        Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                        } else { }
                     });
                 },
                 getAllPO: function (date) {
@@ -669,7 +676,7 @@
                         this.po.items.push({
                             product: prd,
                             selected_product_unit: this.defaultProductUnit(),
-                            base_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
+                            base_product_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
                             quantity: 0,
                             price: 0,
                             discount_pct: 0,

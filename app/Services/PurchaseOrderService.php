@@ -11,18 +11,42 @@ namespace App\Services;
 interface PurchaseOrderService
 {
     public function create(
-        $name,
-        $symbol,
+        $code,
+        $po_type,
+        $po_created,
+        $shipping_date,
+        $supplier_type,
+        $items,
+        $expenses,
+        $supplier_id,
+        $walk_in_supplier,
+        $walk_in_supplier_detail,
+        $warehouse_id,
+        $disc_total_value,
         $status,
-        $remarks
+        $remarks,
+        $internal_remarks,
+        $private_remarks
     );
     public function read();
     public function update(
         $id,
-        $name,
-        $symbol,
+        $code,
+        $po_type,
+        $po_created,
+        $shipping_date,
+        $supplier_type,
+        $items,
+        $expenses,
+        $supplier_id,
+        $walk_in_supplier,
+        $walk_in_supplier_detail,
+        $warehouse_id,
+        $disc_total_value,
         $status,
-        $remarks
+        $remarks,
+        $internal_remarks,
+        $private_remarks
     );
 
     public function generatePOCode();
