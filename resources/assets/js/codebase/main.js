@@ -169,6 +169,14 @@ Vue.mixin({
         },
         defaultDateTimeFormat: function() {
             return conf[1] + ' ' + conf[2];
+        },
+        databaseDateFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[6];
+        },
+        databaseTimeFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[7];
         }
     }
 });

@@ -26,6 +26,8 @@ return [
         'PHP_TIME' => 'G:H:s',
         'PHP_DATETIME' => 'd M Y G:H:s',
         'DATABASE_DATETIME' => 'Y-m-d H:i:s',
+        'DATABASE_DATE' => 'Y-m-d',
+        'DATABASE_TIME' => 'H:i:s',
     ],
 
     'DIGIT_GROUP_SEPARATOR' => ',',

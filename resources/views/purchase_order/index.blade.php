@@ -56,6 +56,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr v-if="poList.length == 0">
+                                <td colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
+                            </tr>
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
                                 <td>@{{ po.po_created }}</td>
@@ -560,7 +563,7 @@
             },
             mounted: function () {
                 this.mode = 'list';
-                this.getAllPO(moment().format(this.defaultDateFormat));
+                this.getAllPO(moment().formatPHP(this.databaseDateFormat));
 
                 Promise.all([
                     this.getSupplier(),
@@ -601,8 +604,7 @@
                 },
                 getAllPO: function (date) {
                     Codebase.blocks('#poListBlock', 'state_toggle');
-                    console.log(date);
-                    console.log(typeof(date))
+
                     var qS = [];
                     if (date && typeof(date) == 'string') {
                         qS.push({'key': 'date', 'value': date});

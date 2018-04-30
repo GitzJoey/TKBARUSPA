@@ -69,7 +69,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
                 'vendor_trucking_id' => empty($vendor_trucking_id) ? 0 : $vendor_trucking_id,
                 'warehouse_id' => $warehouse_id,
                 'company_id' => Auth::user()->company->id,
-                'disc_value' => $disc_total_value,
+                'discount' => $disc_total_value,
             ];
 
             $po = PurchaseOrder::create($params);
@@ -161,7 +161,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         return $result;
     }
 
-    public function getLastPODates($limit = 50)
+    public function getPODates($limit = 50)
     {
         $po = PurchaseOrder::all()->groupBy(function ($po) {
             return $po->po_created->format('d-M-y');
@@ -174,7 +174,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
     public function searchPOByDate($date)
     {
-        $date = Carbon::parse($date)->format('Y-m-d');
+        $date = Carbon::parse($date)->format(Config::get('const.DATETIME_FORMAT.DATABASE_DATE'));
 
         $purchaseOrders = PurchaseOrder::with([ 'items.product', 'supplier.profiles', 'receipts.item.product',
             'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }

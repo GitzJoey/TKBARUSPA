@@ -22,6 +22,8 @@ class AppConfig
         $thousandSeparator = Config::get('const.DIGIT_GROUP_SEPARATOR');
         $decimalSeparator = Config::get('const.DECIMAL_SEPARATOR');
         $decimalDigit = Config::get('const.DECIMAL_DIGIT');
+        $databaseDateFormat = Config::get('const.DATETIME_FORMAT.DATABSE_DATE');
+        $databaseTimeFormat = Config::get('const.DATETIME_FORMAT.DATABSE_TIME');
 
         if (!is_null(Config::get('session.lifetime'))) {
             $sessionTimeout = Config::get('session.lifetime');
@@ -38,17 +40,22 @@ class AppConfig
         }
 
         $result =
-            $sessionTimeout.
-            $separator.
-            $dateFormat.
-            $separator.
-            $timeFormat.
-            $separator.
-            $thousandSeparator.
-            $separator.
-            $decimalSeparator.
-            $separator.
-            $decimalDigit;
+            $sessionTimeout         //[0]
+            .$separator
+            .$dateFormat            //[1]
+            .$separator
+            .$timeFormat            //[2]
+            .$separator
+            .$thousandSeparator     //[3]
+            .$separator
+            .$decimalSeparator      //[4]
+            .$separator
+            .$decimalDigit          //[5]
+            .$separator
+            .$databaseDateFormat    //[6]
+            .$separator
+            .$databaseTimeFormat    //[7]
+        ;
 
         return $result;
     }
