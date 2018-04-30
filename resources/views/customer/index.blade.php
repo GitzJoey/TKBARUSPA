@@ -158,13 +158,13 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputCodeSign" class="col-2 col-form-label">@lang('customer.fields.code_sign')</label>
+                                <label for="inputCodeSign" class="col-2 col-form-label">@lang('customer.fields.sign_code')</label>
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                        <input id="inputCodeSign" name="code_sign" v-model="customer.code_sign" type="text" class="form-control" placeholder="@lang('customer.fields.code_sign')">
+                                        <input id="inputCodeSign" name="sign_code" v-model="customer.sign_code" type="text" class="form-control" placeholder="@lang('customer.fields.sign_code')">
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">@{{ customer.code_sign }}</div>
+                                        <div class="form-control-plaintext">@{{ customer.sign_code }}</div>
                                     </template>
                                 </div>
                             </div>
@@ -632,7 +632,7 @@ var customerVue = new Vue ({
             return {
                 hId: '',
                 name: '',
-                code_sign: '',
+                sign_code: '',
                 address: '',
                 city: '',
                 phone_number: '',

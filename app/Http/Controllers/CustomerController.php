@@ -75,7 +75,7 @@ class CustomerController extends Controller
         $this->customerService->create(
             Auth::user()->company->id,
             $request['name'],
-            $request['code_sign'],
+            $request['sign_code'],
             $request['address'],
             $request['city'],
             $request['phone_number'],
@@ -103,13 +103,13 @@ class CustomerController extends Controller
         $inputtedBankAccountId = [];
         for ($i = 0; $i < count($request['bank_id']); $i++) {
             array_push($bank_accounts, array (
-                'bank_account_id' => Hashids::decode($request['bank_account_id'][$i])[0],
+                'bank_account_id' => is_null($request['bank_account_id'][$i]) ? '' : Hashids::decode($request['bank_account_id'][$i])[0],
                 'bank_id' => Hashids::decode($request['bank_id'][$i])[0],
                 'account_name' => $request["account_name"][$i],
                 'account_number' => $request["account_number"][$i],
                 'bank_remarks' => $request["bank_remarks"][$i],
             ));
-            array_push($inputtedBankAccountId, Hashids::decode($request['bank_account_id'][$i])[0]);
+            array_push($inputtedBankAccountId, is_null($request['bank_account_id'][$i]) ? '' : Hashids::decode($request['bank_account_id'][$i])[0]);
         }
 
         $persons_in_charge = [];
@@ -120,16 +120,16 @@ class CustomerController extends Controller
             $pic_phone = [];
             for ($j = 0; $j < count($request['profile_' . $i . '_phone_provider']); $j++) {
                 array_push($pic_phone, array(
-                    'phone_number_id' => Hashids::decode($request['profile_' . $i .'_phone_numbers_id'][$j])[0],
+                    'phone_number_id' => is_null($request['profile_' . $i .'_phone_numbers_id'][$j]) ? '' : Hashids::decode($request['profile_' . $i .'_phone_numbers_id'][$j])[0],
                     'phone_provider_id' => Hashids::decode($request['profile_' . $i . '_phone_provider'][$j])[0],
                     'number' => $request['profile_' . $i . '_phone_number'][$j],
                     'remarks' => $request['profile_' . $i . '_remarks'][$j]
                 ));
-                array_push($inputtedPhoneNumberId, Hashids::decode($request['profile_' . $i .'_phone_numbers_id'][$j])[0]);
+                array_push($inputtedPhoneNumberId, is_null($request['profile_' . $i .'_phone_numbers_id'][$j]) ? '' : Hashids::decode($request['profile_' . $i .'_phone_numbers_id'][$j])[0]);
             }
 
             array_push($persons_in_charge, array (
-                'profile_id' => $request['profile_id'][$i],
+                'profile_id' => is_null($request['profile_id'][$i]) ? '' : Hashids::decode($request['profile_id'][$i])[0],
                 'first_name' => $request['first_name'][$i],
                 'last_name' => $request['last_name'][$i],
                 'address' => $request['profile_address'][$i],
@@ -137,14 +137,14 @@ class CustomerController extends Controller
                 'phone_numbers' => $pic_phone
             ));
 
-            array_push($inputtedProfileId, Hashids::decode($request['profile_id'][$i])[0]);
+            array_push($inputtedProfileId, is_null($request['profile_id'][$i]) ? '' : Hashids::decode($request['profile_id'][$i])[0]);
         }
 
         $this->customerService->update(
             $id,
             Auth::user()->company->id,
             $request['name'],
-            $request['code_sign'],
+            $request['sign_code'],
             $request['address'],
             $request['city'],
             $request['phone_number'],

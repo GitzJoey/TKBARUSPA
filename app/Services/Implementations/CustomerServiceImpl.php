@@ -27,7 +27,7 @@ class CustomerServiceImpl implements CustomerService
 	public function create(
         $company_id,
         $name,
-        $code_sign,
+        $sign_code,
         $address,
         $city,
         $phone_number,
@@ -45,6 +45,7 @@ class CustomerServiceImpl implements CustomerService
             $customers = [
                 'company_id' => $company_id,
                 'name' => $name,
+                'sign_code' => $sign_code,
                 'address' => $address,
                 'city' => $city,
                 'phone_number' => $phone_number,
@@ -96,7 +97,7 @@ class CustomerServiceImpl implements CustomerService
     	$id,
         $company_id,
         $name,
-        $code_sign,
+        $sign_code,
         $address,
         $city,
         $phone_number,
@@ -106,7 +107,10 @@ class CustomerServiceImpl implements CustomerService
         $remarks,
         $payment_due_day,
         $bank_accounts,
-        $persons_in_charge
+        $inputtedBankAccountId,
+        $persons_in_charge,
+        $inputtedProfileId,
+        $inputtedPhoneNumberId
     )
     {
         DB::beginTransaction();
@@ -174,6 +178,7 @@ class CustomerServiceImpl implements CustomerService
             }
 
             $customer->name = $name;
+            $customer->sign_code = $sign_code;
             $customer->address = $address;
             $customer->city = $city;
             $customer->phone_number = $phone_number;

@@ -8,7 +8,7 @@ interface CustomerService
 	public function create(
 		$company_id,
         $name,
-        $code_sign,
+        $sign_code,
         $address,
         $city,
         $phone_number,
@@ -24,9 +24,9 @@ interface CustomerService
     public function readAll();
    	public function update(
    		$id,
-		$company_id,
+        $company_id,
         $name,
-        $code_sign,
+        $sign_code,
         $address,
         $city,
         $phone_number,
@@ -36,7 +36,10 @@ interface CustomerService
         $remarks,
         $payment_due_day,
         $bank_accounts,
-        $persons_in_charge
+        $inputtedBankAccountId,
+        $persons_in_charge,
+        $inputtedProfileId,
+        $inputtedPhoneNumberId
 	);
 	public function delete(
 		$id
