@@ -102,7 +102,7 @@ var customerVue = new Vue ({
             return {
                 hId: '',
                 name: '',
-                sign_code: '',
+                code_sign: '',
                 address: '',
                 city: '',
                 phone_number: '',

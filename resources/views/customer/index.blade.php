@@ -158,13 +158,13 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="inputCodeSign" class="col-2 col-form-label">@lang('customer.fields.sign_code')</label>
+                                <label for="inputCodeSign" class="col-2 col-form-label">@lang('customer.fields.code_sign')</label>
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
-                                        <input id="inputCodeSign" name="sign_code" v-model="customer.sign_code" type="text" class="form-control" placeholder="@lang('customer.fields.sign_code')">
+                                        <input id="inputCodeSign" name="code_sign" v-model="customer.code_sign" type="text" class="form-control" placeholder="@lang('customer.fields.code_sign')">
                                     </template>
                                     <template v-if="mode == 'show'">
-                                        <div class="form-control-plaintext">@{{ customer.sign_code }}</div>
+                                        <div class="form-control-plaintext">@{{ customer.code_sign }}</div>
                                     </template>
                                 </div>
                             </div>
