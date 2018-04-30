@@ -29,20 +29,20 @@ var customerVue = new Vue ({
                         new FormData($('#customerForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.customer.edit', this.customer.hId).url(),
                         new FormData($('#customerForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
                     });
                 } else { }
             });
@@ -62,7 +62,7 @@ var customerVue = new Vue ({
                 Codebase.blocks('#customerListBlock', 'state_toggle');
             }).catch(e => { 
                 this.handleErrors(e); 
-                Codebase.blocks('#companyListBlock', 'state_toggle'); 
+                Codebase.blocks('#customerListBlock', 'state_toggle'); 
             }); 
         },
         createNew: function() {
