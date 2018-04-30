@@ -58,6 +58,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
             Route::get('', 'SupplierController@index')->name('db.supplier');
         });
 
+        Route::group(['prefix' => 'customer'], function () {
+            Route::get('', 'CustomerController@index')->name('db.customer');
+        });
+
         Route::group(['prefix' => 'settings'], function () {
             Route::get('user', 'UserController@index')->name('db.settings.user');
             Route::get('company', 'CompanyController@index')->name('db.settings.company');

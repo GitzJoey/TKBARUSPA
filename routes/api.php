@@ -50,6 +50,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('read', 'SupplierController@read')->name('api.get.supplier.read');
     });
 
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('read', 'CustomerController@read')->name('api.get.customer.read');
+    });
+
     Route::group(['prefix' => 'truck'], function () {
         Route::group(['prefix' => 'vendor_trucking'], function () {
             Route::get('read', 'VendorTruckingController@read')->name('api.get.truck.vendor_trucking.read');
@@ -141,6 +145,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('save', 'SupplierController@store')->name('api.post.supplier.save');
         Route::post('edit/{id}', 'SupplierController@update')->name('api.post.supplier.edit');
         Route::post('delete/{id}', 'SupplierController@delete')->name('api.post.supplier.delete');
+    });
+
+    Route::group(['prefix' => 'customer'], function () {
+        Route::post('save', 'CustomerController@store')->name('api.post.customer.save');
+        Route::post('edit/{id}', 'CustomerController@update')->name('api.post.customer.edit');
+        Route::post('delete/{id}', 'CustomerController@delete')->name('api.post.customer.delete');
     });
 
     Route::group(['prefix' => 'settings'], function () {
