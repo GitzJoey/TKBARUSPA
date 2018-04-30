@@ -72,9 +72,10 @@ return [
         'supplier' => [
             'api.get.lookup.*',
             'api.get.bank.*',
+            'api.get.product.*',
             'api.get.supplier.*',
-            'api.post.supplier.*',
             'api.get.settings.phone_provider.*',
+            'api.post.supplier.*',
         ],
         'vendor_trucking' => [
             'api.get.lookup.*',
