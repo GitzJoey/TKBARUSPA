@@ -45,7 +45,10 @@ var companyVue = new Vue ({
             axios.get(route('api.get.settings.company.read').url()).then(response => {
                 this.companyList = response.data;
                 Codebase.blocks('#companyListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#companyListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

@@ -158,6 +158,17 @@ Vue.mixin({
                 showWarnings: false,
                 caretPositionOnFocus: 'start'
             }
+        },
+        defaultDateFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[1];
+        },
+        defaultTimeFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[2];
+        },
+        defaultDateTimeFormat: function() {
+            return conf[1] + ' ' + conf[2];
         }
     }
 });

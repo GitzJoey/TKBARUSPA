@@ -61,7 +61,10 @@ var supplierVue = new Vue ({
             axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.supplierList = response.data;
                 Codebase.blocks('#supplierListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#supplierListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

@@ -43,7 +43,10 @@ var truckVue = new Vue ({
             axios.get(route('api.get.truck.read').url()).then(response => {
                 this.truckList = response.data;
                 Codebase.blocks('#truckListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#truckListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

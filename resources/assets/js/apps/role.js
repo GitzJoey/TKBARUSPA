@@ -41,7 +41,10 @@ var roleVue = new Vue ({
             axios.get(route('api.get.settings.role.read').url()).then(response => {
                 this.roleList = response.data;
                 Codebase.blocks('#roleListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#roleListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

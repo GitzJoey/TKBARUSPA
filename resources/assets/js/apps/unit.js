@@ -41,7 +41,10 @@ var unitVue = new Vue ({
             axios.get(route('api.get.settings.unit.read').url()).then(response => {
                 this.unitList = response.data;
                 Codebase.blocks('#unitListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#unitListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

@@ -44,7 +44,10 @@ var priceLevelVue = new Vue ({
             axios.get(route('api.get.price.price_level.read').url()).then(response => {
                 this.priceLevelList = response.data;
                 Codebase.blocks('#priceLevelListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#priceLevelListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

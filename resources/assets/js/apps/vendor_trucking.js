@@ -46,7 +46,10 @@ var vendorTruckingVue = new Vue ({
             axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
                 this.vendorTruckingList = response.data;
                 Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

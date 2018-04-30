@@ -43,7 +43,10 @@ var warehouseVue = new Vue ({
             axios.get(route('api.get.warehouse.read').url()).then(response => {
                 this.warehouseList = response.data;
                 Codebase.blocks('#warehouseListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#warehouseListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

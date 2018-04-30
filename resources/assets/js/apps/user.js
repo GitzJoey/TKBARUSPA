@@ -54,7 +54,10 @@ var userVue = new Vue ({
             axios.get(route('api.get.settings.user.read').url()).then(response => {
                 this.userList = response.data;
                 Codebase.blocks('#userListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#userListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';

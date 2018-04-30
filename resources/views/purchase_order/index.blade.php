@@ -560,7 +560,7 @@
             },
             mounted: function () {
                 this.mode = 'list';
-                this.getAllPO();
+                this.getAllPO(moment().format(this.defaultDateFormat));
 
                 Promise.all([
                     this.getSupplier(),
@@ -601,17 +601,19 @@
                 },
                 getAllPO: function (date) {
                     Codebase.blocks('#poListBlock', 'state_toggle');
-
+                    console.log(date);
+                    console.log(typeof(date))
                     var qS = [];
                     if (date && typeof(date) == 'string') {
                         qS.push({'key': 'date', 'value': date});
                     }
 
-                    axios.get(route('api.get.po.read').url()).then(response => {
+                    axios.get(route('api.get.po.read').url() + this.generateQueryStrings(qS)).then(response => {
                         this.poList = response.data;
                         Codebase.blocks('#poListBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
+                        Codebase.blocks('#poListBlock', 'state_toggle');
                     });
                 },
                 onChangeSupplierType: function (type) {

@@ -58,7 +58,10 @@ var productVue = new Vue ({
             axios.get(route('api.get.product.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.productList = response.data;
                 Codebase.blocks('#productListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#productListBlock', 'state_toggle');
+            });
         },
         createNew: function() {
             this.mode = 'create';
