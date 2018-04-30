@@ -77,6 +77,13 @@ return [
             'api.get.settings.phone_provider.*',
             'api.post.supplier.*',
         ],
+        'customer' => [
+            'api.get.lookup.*',
+            'api.get.bank.*',
+            'api.get.customer.*',
+            'api.get.settings.phone_provider.*',
+            'api.post.customer.*',
+        ],
         'vendor_trucking' => [
             'api.get.lookup.*',
             'api.get.bank.*',

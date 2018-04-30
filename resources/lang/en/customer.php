@@ -64,7 +64,7 @@ return [
     'fields' => [
         'search_customer' => 'Search Customer',
         'name' => 'Name',
-        'sign_code' => 'Sign Code',
+        'code_sign' => 'Sign Code',
         'address' => 'Address',
         'city' => 'City',
         'phone' => 'Phone',

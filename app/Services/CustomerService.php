@@ -8,7 +8,7 @@ interface CustomerService
 	public function create(
 		$company_id,
         $name,
-        $sign_code,
+        $code_sign,
         $address,
         $city,
         $phone_number,
@@ -26,7 +26,7 @@ interface CustomerService
    		$id,
         $company_id,
         $name,
-        $sign_code,
+        $code_sign,
         $address,
         $city,
         $phone_number,

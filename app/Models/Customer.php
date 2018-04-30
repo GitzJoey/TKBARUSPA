@@ -68,19 +68,14 @@ class Customer extends Model
         return $this->belongsTo('App\Models\PriceLevel', 'price_level_id');
     }
 
-    public function store()
+    public function company()
     {
-        return null;//$this->belongsTo('App\Models\Store', 'store_id');
+        return null;//$this->belongsTo('App\Models\Company', 'company_id');
     }
 
     public function sales_orders()
     {
         return null;//$this->hasMany('App\Models\SalesOrder');
-    }
-
-    public function expense()
-    {
-        return $this->morphMany('App\Models\Expense', 'expensable');
     }
 
     public static function boot()

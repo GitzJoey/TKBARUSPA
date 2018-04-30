@@ -75,7 +75,7 @@ class CustomerController extends Controller
         $this->customerService->create(
             Auth::user()->company->id,
             $request['name'],
-            $request['sign_code'],
+            $request['code_sign'],
             $request['address'],
             $request['city'],
             $request['phone_number'],
@@ -144,7 +144,7 @@ class CustomerController extends Controller
             $id,
             Auth::user()->company->id,
             $request['name'],
-            $request['sign_code'],
+            $request['code_sign'],
             $request['address'],
             $request['city'],
             $request['phone_number'],

@@ -64,7 +64,7 @@ return [
     'fields' => [
         'search_customer' => 'Cari Pelanggan',
         'name' => 'Nama',
-        'sign_code' => 'Alias',
+        'code_sign' => 'Alias',
         'address' => 'Alamat',
         'city' => 'Kota',
         'phone' => 'Telepon',
