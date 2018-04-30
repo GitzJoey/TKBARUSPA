@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(u, uIdx) in truckMaintenanceList">
-                                <td>@{{ u.truck.plate_number }}</td>
+                                <td>@{{ u.plate_number }}</td>
                                 <td>@{{ u.maintenance_date }}</td>
                                 <td>@{{ u.maintenance_type }}</td>
                                 <td>@{{ u.cost }}</td>
@@ -110,7 +110,7 @@
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select class="form-control" id="inputPlateNumber" name="plate_number" v-model="truckMaintenance.plate_number" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.plate_number') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(s, sIdx) in plateNumberDDL" v-bind:value="s.hId">@{{ s.plate_number }}</option>
+                                    <option v-for="(s, sIdx) in truckDDL" v-bind:value="s.hId">@{{ s.plate_number }}</option>
                                 </select>
                                 <div v-show="errors.has('plate_number')" class="invalid-feedback">@{{ errors.first('plate_number') }}</div>
                             </template>

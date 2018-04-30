@@ -2,7 +2,7 @@ var truckMaintenanceVue = new Vue ({
     el: '#truckMaintenanceVue',
     data: {
         truckMaintenanceList: [],
-        plateNumberDDL: [],
+        truckDDL: [],
         maintenanceTypeDDL: [],
         mode: '',
         truckMaintenance: { }
@@ -83,7 +83,7 @@ var truckMaintenanceVue = new Vue ({
         },
         getPlateNumber: function() {
              axios.get(route('api.get.truck.read').url()).then(
-                response => { this.plateNumberDDL = response.data; }
+                response => { this.truckDDL = response.data; }
             );
         },
         getLookupMaintenanceType: function() {
