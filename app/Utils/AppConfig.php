@@ -22,8 +22,8 @@ class AppConfig
         $thousandSeparator = Config::get('const.DIGIT_GROUP_SEPARATOR');
         $decimalSeparator = Config::get('const.DECIMAL_SEPARATOR');
         $decimalDigit = Config::get('const.DECIMAL_DIGIT');
-        $databaseDateFormat = Config::get('const.DATETIME_FORMAT.DATABSE_DATE');
-        $databaseTimeFormat = Config::get('const.DATETIME_FORMAT.DATABSE_TIME');
+        $databaseDateFormat = Config::get('const.DATETIME_FORMAT.DATABASE_DATE');
+        $databaseTimeFormat = Config::get('const.DATETIME_FORMAT.DATABASE_TIME');
 
         if (!is_null(Config::get('session.lifetime'))) {
             $sessionTimeout = Config::get('session.lifetime');

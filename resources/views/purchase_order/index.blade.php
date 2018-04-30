@@ -57,11 +57,11 @@
                         </thead>
                         <tbody>
                             <tr v-if="poList.length == 0">
-                                <td colspan="6">@lang('labels.DATA_NOT_FOUND')</td>
+                                <td colspan="6" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
                             </tr>
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
-                                <td>@{{ po.po_created }}</td>
+                                <td>@{{ moment(po.po_created).format(defaultDateTimeFormat) }}</td>
                                 <td></td>
                                 <td></td>
                                 <td>@{{ po.statusI18n }}</td>
@@ -912,9 +912,10 @@
                     conf.altInput = true;
                     conf.altInputClass = 'hideTextBox';
                     conf.enableTime = false;
+                    conf.dateFormat = 'Y-m-d';
                     conf.enable = [
                         function(date) {
-                            return (date.getMonth() % 2 === 0 && date.getDate() < 15);
+                            return '2018-03-30';
                         }
                     ];
 
