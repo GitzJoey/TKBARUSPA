@@ -17,7 +17,7 @@ class AddItemableIdToItemsTable extends Migration
             $table->unsignedBigInteger('itemable_id');
         });
 
-        DB::statement("ALTER TABLE items CHANGE COLUMN itemable_id itemable_id BIGINT(20) UNSIGNED DEFAULT '0' AFTER base_unit_id");
+        DB::statement("ALTER TABLE items CHANGE COLUMN itemable_id itemable_id BIGINT(20) UNSIGNED DEFAULT '0' AFTER base_product_unit_id");
     }
 
     /**
