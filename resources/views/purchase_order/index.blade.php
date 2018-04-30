@@ -57,11 +57,11 @@
                         </thead>
                         <tbody>
                             <tr v-for="(po, poIdx) in poList">
+                                <td>@{{ po.code }}</td>
+                                <td>@{{ po.po_created }}</td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-secondary" v-on:click="showSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
@@ -205,7 +205,7 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
                                         <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputPoCreated" name="po.po_created" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            <flat-pickr id="inputPoCreated" name="po_created" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -232,7 +232,7 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('shipping_date') }">
                                         <label for="inputShippingDate" class="col-3 col-form-label">@lang('purchase_order.fields.shipping_date')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputShippingDate" v-model="po.shipping_date" name="shipping_date" v-bind:config="flatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.shipping_date') }}"></flat-pickr>
+                                            <flat-pickr id="inputShippingDate" v-model="po.shipping_date" name="shipping_date" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.shipping_date') }}"></flat-pickr>
                                         </div>
                                         <span v-show="errors.has('shipping_date')" class="invalid-feedback">@{{ errors.first('shipping_date') }}</span>
                                     </div>
@@ -309,11 +309,14 @@
                                                     <td colspan="8" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
                                                 </tr>
                                                 <tr v-for="(i, iIdx) in po.items">
-                                                    <td>@{{ i.product.name }}</td>
+                                                    <td>
+                                                        @{{ i.product.name }}
+                                                        <input type="hidden" name="item_product_id[]" v-model="i.product.hId"/>
+                                                    </td>
                                                     <td width="5%">
                                                         <vue-autonumeric type="text" name="item_quantity[]"
                                                                  v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
-                                                                 v-bind:options="numericFormat"
+                                                                 v-bind:options="defaultNumericConfig"
                                                                  v-bind:data-vv-name="'quantity_' + iIdx"
                                                                  v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
                                                                  v-model="i.quantity" v-validate="'required'"></vue-autonumeric>
@@ -329,25 +332,29 @@
                                                             <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                             <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
                                                         </select>
+                                                        <input type="hidden" name="conversion_value[]" v-model="i.conversion_value">
+                                                        <input type="hidden" name="base_product_unit_id[]" v-model="i.base_product_unit.hId">
                                                     </td>
                                                     <td width="13%">
                                                         <vue-autonumeric type="text" name="item_price[]"
                                                                          v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('price_' + iIdx) }"
                                                                          v-model="i.price" v-validate="'required'"
-                                                                         v-bind:options="currencyFormat"
+                                                                         v-bind:options="defaultCurrencyConfig"
                                                                          v-bind:data-vv-name="'price_' + iIdx"
                                                                          v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
                                                     </td>
                                                     <td width="7%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="percentageFormat" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="defaultPercentageConfig" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
                                                     </td>
                                                     <td width="10%">
-                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="currencyFormat" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
                                                     </td>
                                                     <td width="3%">
                                                         <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
                                                     </td>
-                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(i.total) }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="i.total"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -411,7 +418,7 @@
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
                                                         <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
                                                                          v-model="expense.amount" v-validate="'required'"
-                                                                         v-bind:options="currencyFormat"
+                                                                         v-bind:options="defaultCurrencyConfig"
                                                                          v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
                                                                          v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
                                                     </td>
@@ -424,23 +431,27 @@
                                             <tbody>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.subtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(po.subtotal) }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.subtotal"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
                                                     <td width="12%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="percentageFormat" placeholder="0%"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="defaultPercentageConfig" placeholder="0%"></vue-autonumeric>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
                                                     <td width="12%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="currencyFormat"></vue-autonumeric>
+                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.grandtotal')</td>
-                                                    <td width="12%" class="text-align-right">@{{ formatMoneyToString(po.grandtotal) }}</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.grandtotal"></vue-autonumeric>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -570,20 +581,22 @@
                         this.errors.clear();
                         Codebase.blocks('#poCRUDBlock', 'state_toggle');
                         if (this.mode == 'create') {
-                            axios.post('/api/post/po/save', new FormData($('#poForm')[0])).then(response => {
+                            axios.post(route('api.post.po.save'), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             }).catch(e => {
                                 this.handleErrors(e);
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             });
                         } else if (this.mode == 'edit') {
-                            axios.post('/api/post/po/edit/' + this.po.hId, new FormData($('#poForm')[0])).then(response => {
+                            axios.post(route('api.post.po.edit.', this.po.hId), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             }).catch(e => {
                                 this.handleErrors(e);
+                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
                             });
-                        } else {
-                        }
-                        Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                        } else { }
                     });
                 },
                 getAllPO: function (date) {
@@ -663,7 +676,7 @@
                         this.po.items.push({
                             product: prd,
                             selected_product_unit: this.defaultProductUnit(),
-                            base_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
+                            base_product_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
                             quantity: 0,
                             price: 0,
                             discount_pct: 0,
@@ -888,87 +901,28 @@
                 }
             },
             computed: {
-                currencyFormat: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
-                    return {
-                        digitGroupSeparator: conf[3],
-                        decimalCharacter: conf[4],
-                        decimalCharacterAlternative: '.',
-                        decimalPlaces: 0,
-                        currencySymbol: ' Rp',
-                        currencySymbolPlacement: 's',
-                        roundingMethod: 'U',
-                        minimumValue: '0',
-                        unformatOnSubmit: true,
-                        caretPositionOnFocus: 'start'
-                    }
-                },
-                numericFormat: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
-                    return {
-                        digitGroupSeparator: conf[3],
-                        decimalCharacter: conf[4],
-                        decimalCharacterAlternative: '.',
-                        decimalPlaces: 1,
-                        roundingMethod: 'U',
-                        minimumValue: '0',
-                        unformatOnSubmit: true,
-                        caretPositionOnFocus: 'start'
-                    }
-                },
-                percentageFormat: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
-                    return {
-                        digitGroupSeparator: conf[3],
-                        allowDecimalPadding: false,
-                        suffixText: ' %',
-                        roundingMethod: 'U',
-                        minimumValue: '0',
-                        maximumValue: '100',
-                        unformatOnSubmit: true,
-                        showWarnings: false,
-                        caretPositionOnFocus: 'start'
-                    }
-                },
-                flatPickrConfig: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
-                    var flatPickrTimeFormat = '';
-                    switch (conf[2]) {
-                        case "G:H:s": flatPickrTimeFormat = 'H:i:S'; break;
-                        case "g:i A": flatPickrTimeFormat = ' h:i K'; break;
-                        default: break;
-                    }
-
-                    return {
-                        enableTime: true,
-                        dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
-                        plugins: [new confirmDatePlugin({
-                            confirmIcon: "<i class='fa fa-check'></i>",
-                            confirmText: ""
-                        }), new scrollPlugin()],
-                        minuteIncrement: 15,
-
-                    }
-                },
                 flatPickrInlineConfig: function() {
-                    var conf = document.getElementById("appSettings").value.split('|');
+                    var conf = Object.assign({}, this.defaultFlatPickrConfig);
 
-                    return {
-                        inline: true,
-                        altInput: true,
-                        altInputClass: 'hideTextBox',
-                        enableTime: false,
-                        dateFormat: conf[1],
-                        plugins: [new confirmDatePlugin({
-                            confirmIcon: "<i class='fa fa-check'></i>",
-                            confirmText: ""
-                        }), new scrollPlugin()],
-                        enable: [
-                            function(date) {
-                                return (date.getMonth() % 2 === 0 && date.getDate() < 15);
-                            }
-                        ]
-                    }
+                    conf.inline = true;
+                    conf.altInput = true;
+                    conf.altInputClass = 'hideTextBox';
+                    conf.enableTime = false;
+                    conf.enable = [
+                        function(date) {
+                            return (date.getMonth() % 2 === 0 && date.getDate() < 15);
+                        }
+                    ];
+
+                    return conf;
+                },
+                currencyFormatToString: function() {
+                    var conf = Object.assign({}, this.defaultCurrencyConfig);
+
+                    conf.readOnly = true;
+                    conf.noEventListeners = true;
+
+                    return conf;
                 },
                 defaultPleaseSelect: function() {
                     return '';

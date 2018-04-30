@@ -100,6 +100,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'po'], function () {
+        Route::post('save', 'PurchaseOrderController@store')->name('api.post.po.save');
+        Route::post('edit/{id}', 'PurchaseOrderController@update')->name('api.post.po.edit');
+    });
 
     Route::group(['prefix' => 'warehouse'], function () {
         Route::post('save', 'WarehouseController@store')->name('api.post.warehouse.save');

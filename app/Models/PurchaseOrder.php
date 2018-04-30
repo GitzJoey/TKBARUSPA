@@ -152,6 +152,16 @@ class PurchaseOrder extends Model
         return HashIds::encode($this->attributes['supplier_id']);
     }
 
+    public function getVendorTruckingHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['vendor_trucking_id']);
+    }
+
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
+    }
+
     public function items()
     {
         return $this->morphMany('App\Models\Item', 'itemable');
@@ -169,7 +179,7 @@ class PurchaseOrder extends Model
 
     public function vendorTrucking()
     {
-        return null;//$this->belongsTo('App\Model\VendorTrucking', 'vendor_trucking_id');
+        return $this->belongsTo('App\Models\VendorTrucking', 'vendor_trucking_id');
     }
 
     public function company()
@@ -179,12 +189,22 @@ class PurchaseOrder extends Model
 
     public function warehouse()
     {
-        return null;//$this->belongsTo('App\Models\Warehouse', 'warehouse_id');
+        return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
     }
 
     public function payments()
     {
         return null;//$this->morphMany('App\Models\Payment', 'payable');
+    }
+
+    public function expenses()
+    {
+        return $this->morphMany('App\Models\Expense', 'expensable');
+    }
+
+    public function copies()
+    {
+        return null;//$this->hasMany('App\Models\PurchaseOrderCopy', 'main_po_id');
     }
 
     public function totalAmount()
@@ -219,16 +239,6 @@ class PurchaseOrder extends Model
             && $payment->status !== 'GIROPAYMENTSTATUS.WE'
             && $payment->status !== 'PAYMENTTYPE.FR';
         })->sum('total_amount');
-    }
-
-    public function expenses()
-    {
-        return null;//$this->morphMany('App\Models\Expense', 'expensable');
-    }
-
-    public function copies()
-    {
-        return null;//$this->hasMany('App\Models\PurchaseOrderCopy', 'main_po_id');
     }
 
     public static function boot()

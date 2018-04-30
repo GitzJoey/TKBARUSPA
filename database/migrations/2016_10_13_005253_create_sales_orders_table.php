@@ -31,8 +31,7 @@ class CreateSalesOrdersTable extends Migration
             $table->string('internal_remarks')->nullable();
             $table->string('private_remarks')->nullable();
             $table->string('status')->nullable();
-            $table->decimal('disc_percent', 5,2)->unsigned()->nullable();
-            $table->decimal('disc_value', 19,2)->unsigned()->nullable();
+            $table->decimal('discount', 19,2)->unsigned()->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->unsignedBigInteger('deleted_by')->default(0);

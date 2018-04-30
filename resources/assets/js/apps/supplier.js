@@ -30,20 +30,20 @@ var supplierVue = new Vue ({
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.supplier.edit', this.supplier.hId).url(),
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
                     });
                 } else { }
             });

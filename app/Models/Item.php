@@ -105,6 +105,11 @@ class Item extends Model
         return $this->morphTo();
     }
 
+    public function baseProductUnit()
+    {
+        return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
+    }
+
     public static function boot()
     {
         parent::boot();

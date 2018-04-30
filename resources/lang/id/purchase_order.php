@@ -87,6 +87,6 @@ return [
         'shipping_date' => 'Tgl Pengiriman',
         'warehouse' => 'Gudang',
         'vendor_trucking' => 'Layanan Angkutan',
-        'po_status' => '',
+        'po_status' => 'Status',
     ],
 ];
