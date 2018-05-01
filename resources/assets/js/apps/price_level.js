@@ -18,35 +18,35 @@ var priceLevelVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                this.loadingPanel('#priceLevelCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.price.price_level.save').url(), new FormData($('#priceLevelForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#priceLevelCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#priceLevelCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.price.price_level.edit', this.priceLevel.hId).url(),
                         new FormData($('#priceLevelForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#priceLevelCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#priceLevelCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#priceLevelCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllPriceLevel: function(page) {
-            Codebase.blocks('#priceLevelListBlock', 'state_toggle');
+            this.loadingPanel('#priceLevelListBlock', 'TOGGLE');
             axios.get(route('api.get.price.price_level.read').url()).then(response => {
                 this.priceLevelList = response.data;
-                Codebase.blocks('#priceLevelListBlock', 'state_toggle');
+                this.loadingPanel('#priceLevelListBlock', 'TOGGLE');
             }).catch(e => {
                 this.handleErrors(e);
-                Codebase.blocks('#priceLevelListBlock', 'state_toggle');
+                this.loadingPanel('#priceLevelListBlock', 'TOGGLE');
             });
         },
         createNew: function() {
@@ -137,13 +137,13 @@ var priceLevelVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#priceLevelListBlock', 'close')
-                    Codebase.blocks('#priceLevelCRUDBlock', 'open')
+                    this.contentPanel('#priceLevelListBlock', 'CLOSE')
+                    this.contentPanel('#priceLevelCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#priceLevelListBlock', 'open')
-                    Codebase.blocks('#priceLevelCRUDBlock', 'close')
+                    this.contentPanel('#priceLevelListBlock', 'OPEN')
+                    this.contentPanel('#priceLevelCRUDBlock', 'CLOSE')
                     break;
             }
         }

@@ -95,6 +95,31 @@ Vue.mixin({
         route: function() {
             if (typeof(route) !== 'undefined') return route;
             else return null;
+        },
+        loadingPanel: function(elementId, state) {
+            switch (state.toUpperCase()) {
+                case "ON":
+                    break;
+                case "OFF":
+                    break;
+                case "TOGGLE":
+                default:
+                    Codebase.blocks(elementId, 'state_toggle');
+                    break;
+            }
+        },
+        contentPanel: function(elementId, state) {
+            switch (state.toUpperCase()) {
+                case "OPEN":
+                    Codebase.blocks(elementId, 'open');
+                    break;
+                case "CLOSE":
+                    Codebase.blocks(elementId, 'close');
+                    break;
+                case "TOGGLE":
+                default:
+                    break;
+            }
         }
     },
     computed: {

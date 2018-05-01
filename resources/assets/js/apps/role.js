@@ -16,34 +16,34 @@ var roleVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                this.loadingPanel('#roleCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.role.save').url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#roleCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#roleCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.role.edit', this.role.hId).url(), new FormData($('#roleForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#roleCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#roleCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#roleCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllRole: function() {
-            Codebase.blocks('#roleListBlock', 'state_toggle');
+            this.loadingPanel('#roleListBlock', 'TOGGLE');
             axios.get(route('api.get.settings.role.read').url()).then(response => {
                 this.roleList = response.data;
-                Codebase.blocks('#roleListBlock', 'state_toggle');
+                this.loadingPanel('#roleListBlock', 'TOGGLE');
             }).catch(e => {
                 this.handleErrors(e);
-                Codebase.blocks('#roleListBlock', 'state_toggle');
+                this.loadingPanel('#roleListBlock', 'TOGGLE');
             });
         },
         createNew: function() {
@@ -93,13 +93,13 @@ var roleVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#roleListBlock', 'close')
-                    Codebase.blocks('#roleCRUDBlock', 'open')
+                    this.contentPanel('#roleListBlock', 'CLOSE')
+                    this.contentPanel('#roleCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#roleListBlock', 'open')
-                    Codebase.blocks('#roleCRUDBlock', 'close')
+                    this.contentPanel('#roleListBlock', 'OPEN')
+                    this.contentPanel('#roleCRUDBlock', 'CLOSE')
                     break;
             }
         }

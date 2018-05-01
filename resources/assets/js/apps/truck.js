@@ -18,34 +18,34 @@ var truckVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                this.loadingPanel('#truckCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.truck.save').url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.truck.edit', this.truck.hId).url(), new FormData($('#truckForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#truckCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllTruck: function() {
-            Codebase.blocks('#truckListBlock', 'state_toggle');
+            this.loadingPanel('#truckListBlock', 'TOGGLE');
             axios.get(route('api.get.truck.read').url()).then(response => {
                 this.truckList = response.data;
-                Codebase.blocks('#truckListBlock', 'state_toggle');
+                this.loadingPanel('#truckListBlock', 'TOGGLE');
             }).catch(e => {
                 this.handleErrors(e);
-                Codebase.blocks('#truckListBlock', 'state_toggle');
+                this.loadingPanel('#truckListBlock', 'TOGGLE');
             });
         },
         createNew: function() {
@@ -102,13 +102,13 @@ var truckVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#truckListBlock', 'close')
-                    Codebase.blocks('#truckCRUDBlock', 'open')
+                    this.contentPanel('#truckListBlock', 'CLOSE')
+                    this.contentPanel('#truckCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#truckListBlock', 'open')
-                    Codebase.blocks('#truckCRUDBlock', 'close')
+                    this.contentPanel('#truckListBlock', 'OPEN')
+                    this.contentPanel('#truckCRUDBlock', 'CLOSE')
                     break;
             }
         }

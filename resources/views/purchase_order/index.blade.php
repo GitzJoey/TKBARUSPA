@@ -582,28 +582,28 @@
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) return;
                         this.errors.clear();
-                        Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                         if (this.mode == 'create') {
                             axios.post(route('api.post.po.save'), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
                             axios.post(route('api.post.po.edit.', this.po.hId), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
                         } else { }
                     });
                 },
                 getAllPO: function (date) {
-                    Codebase.blocks('#poListBlock', 'state_toggle');
+                    this.loadingPanel('#poListBlock', 'TOGGLE');
 
                     var qS = [];
                     if (date && typeof(date) == 'string') {
@@ -612,10 +612,10 @@
 
                     axios.get(route('api.get.po.read').url() + this.generateQueryStrings(qS)).then(response => {
                         this.poList = response.data;
-                        Codebase.blocks('#poListBlock', 'state_toggle');
+                        this.loadingPanel('#poListBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#poListBlock', 'state_toggle');
+                        this.loadingPanel('#poListBlock', 'TOGGLE');
                     });
                 },
                 onChangeSupplierType: function (type) {
@@ -893,13 +893,13 @@
                         case 'create':
                         case 'edit':
                         case 'show':
-                            Codebase.blocks('#poListBlock', 'close')
-                            Codebase.blocks('#poCRUDBlock', 'open')
+                            this.contentPanel('#poListBlock', 'CLOSE')
+                            this.contentPanel('#poCRUDBlock', 'OPEN')
                             break;
                         case 'list':
                         default:
-                            Codebase.blocks('#poListBlock', 'open')
-                            Codebase.blocks('#poCRUDBlock', 'close')
+                            this.contentPanel('#poListBlock', 'OPEN')
+                            this.contentPanel('#poCRUDBlock', 'CLOSE')
                             break;
                     }
                 }

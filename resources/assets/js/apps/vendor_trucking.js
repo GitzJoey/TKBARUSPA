@@ -18,37 +18,37 @@ var vendorTruckingVue = new Vue ({
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                this.loadingPanel('#vendorTruckingCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.truck.vendor_trucking.save').url(),
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#vendorTruckingCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#vendorTruckingCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.truck.vendor_trucking.edit', this.vendorTrucking.hId).url(),
                         new FormData($('#vendorTruckingForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#vendorTruckingCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#vendorTruckingCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#vendorTruckingCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllVendorTrucking: function() {
-            Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
+            this.loadingPanel('#vendorTruckingListBlock', 'TOGGLE');
 
             axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
                 this.vendorTruckingList = response.data;
-                Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
+                this.loadingPanel('#vendorTruckingListBlock', 'TOGGLE');
             }).catch(e => {
                 this.handleErrors(e);
-                Codebase.blocks('#vendorTruckingListBlock', 'state_toggle');
+                this.loadingPanel('#vendorTruckingListBlock', 'TOGGLE');
             });
         },
         createNew: function() {
@@ -115,13 +115,13 @@ var vendorTruckingVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#vendorTruckingListBlock', 'close')
-                    Codebase.blocks('#vendorTruckingCRUDBlock', 'open')
+                    this.contentPanel('#vendorTruckingListBlock', 'CLOSE')
+                    this.contentPanel('#vendorTruckingCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#vendorTruckingListBlock', 'open')
-                    Codebase.blocks('#vendorTruckingCRUDBlock', 'close')
+                    this.contentPanel('#vendorTruckingListBlock', 'OPEN')
+                    this.contentPanel('#vendorTruckingCRUDBlock', 'CLOSE')
                     break;
             }
         }

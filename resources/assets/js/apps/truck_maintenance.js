@@ -21,31 +21,31 @@ var truckMaintenanceVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
-                Codebase.blocks('#truckMaintenanceCRUDBlock', 'state_toggle');
+                this.loadingPanel('#truckMaintenanceCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.truck.truck_maintenance.save').url(), new FormData($('#truckMaintenanceForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#truckMaintenanceCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckMaintenanceCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#truckMaintenanceCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckMaintenanceCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.truck.truck_maintenance.edit', this.truckMaintenance.hId).url(), new FormData($('#truckMaintenanceForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#truckMaintenanceCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckMaintenanceCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#truckMaintenanceCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#truckMaintenanceCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllTruckMaintenance: function() {
-            Codebase.blocks('#truckMaintenanceListBlock', 'state_toggle');
+            this.loadingPanel('#truckMaintenanceListBlock', 'TOGGLE');
             axios.get(route('api.get.truck.truck_maintenance.read').url()).then(response => {
                 this.truckMaintenanceList = response.data;
-                Codebase.blocks('#truckMaintenanceListBlock', 'state_toggle');
+                this.loadingPanel('#truckMaintenanceListBlock', 'TOGGLE');
             }).catch(e => { this.handleErrors(e); });
         },
         createNew: function() {
@@ -104,13 +104,13 @@ var truckMaintenanceVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#truckMaintenanceListBlock', 'close')
-                    Codebase.blocks('#truckMaintenanceCRUDBlock', 'open')
+                    this.contentPanel('#truckMaintenanceListBlock', 'CLOSE')
+                    this.contentPanel('#truckMaintenanceCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#truckMaintenanceListBlock', 'open')
-                    Codebase.blocks('#truckMaintenanceCRUDBlock', 'close')
+                    this.contentPanel('#truckMaintenanceListBlock', 'OPEN')
+                    this.contentPanel('#truckMaintenanceCRUDBlock', 'CLOSE')
                     break;
             }
         }

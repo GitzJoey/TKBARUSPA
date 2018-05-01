@@ -28,35 +28,35 @@ var userVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                this.loadingPanel('#userCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.user.save').url(), new FormData($('#userForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#userCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#userCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.user.edit', this.user.hId).url(),
                         new FormData($('#userForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#userCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#userCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#userCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllUser: function(page) {
-            Codebase.blocks('#userListBlock', 'state_toggle');
+            this.loadingPanel('#userListBlock', 'TOGGLE');
             axios.get(route('api.get.settings.user.read').url()).then(response => {
                 this.userList = response.data;
-                Codebase.blocks('#userListBlock', 'state_toggle');
+                this.loadingPanel('#userListBlock', 'TOGGLE');
             }).catch(e => {
                 this.handleErrors(e);
-                Codebase.blocks('#userListBlock', 'state_toggle');
+                this.loadingPanel('#userListBlock', 'TOGGLE');
             });
         },
         createNew: function() {
@@ -170,13 +170,13 @@ var userVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#userListBlock', 'close')
-                    Codebase.blocks('#userCRUDBlock', 'open')
+                    this.contentPanel('#userListBlock', 'CLOSE')
+                    this.contentPanel('#userCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#userListBlock', 'open')
-                    Codebase.blocks('#userCRUDBlock', 'close')
+                    this.contentPanel('#userListBlock', 'OPEN')
+                    this.contentPanel('#userCRUDBlock', 'CLOSE')
                     break;
             }
         }
