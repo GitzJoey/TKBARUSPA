@@ -5,12 +5,16 @@ var truckMaintenanceVue = new Vue ({
         truckDDL: [],
         maintenanceTypeDDL: [],
         mode: '',
-        truckMaintenance: { }
+        truckMaintenance: {
+            truck: {
+                hId: ''
+            }
+        }
     },
     mounted: function () {
         this.mode = 'list';
         this.getAllTruckMaintenance();
-        this.getPlateNumber();
+        this.getTruck();
         this.getLookupMaintenanceType();
     },
     methods: {
@@ -73,15 +77,17 @@ var truckMaintenanceVue = new Vue ({
             return {
                 hId: '',
                 companyHId: '',
-                plate_number: '',
-                maintenance_date: '',
+                truck: {
+                    hId: '',
+                },
+                maintenance_date: new Date(),
                 maintenance_type: '',
-                cost: '',
-                odometer: '',
+                cost: 0,
+                odometer: 0,
                 remarks: ''
             }
         },
-        getPlateNumber: function() {
+        getTruck: function() {
              axios.get(route('api.get.truck.read').url()).then(
                 response => { this.truckDDL = response.data; }
             );
@@ -113,19 +119,21 @@ var truckMaintenanceVue = new Vue ({
         defaultPleaseSelect: function() {
             return '';
         },
-        flatPickrConfig: function() {
-            var conf = document.getElementById("appSettings").value.split('|');
+        currencyConfig: function() {
+            var conf = Object.assign({}, this.defaultCurrencyConfig);
 
-            return {
-                enableTime: false,
-                dateFormat: conf[1],
-                plugins: [new confirmDatePlugin({
-                    confirmIcon: "<i class='fa fa-check'></i>",
-                    confirmText: ""
-                }), new scrollPlugin()],
-                minuteIncrement: 15,
+            conf.readOnly = true;
+            conf.noEventListeners = true;
 
-            }
+            return conf;
+        },
+        numericConfig: function() {
+            var conf = Object.assign({}, this.defaultNumericConfig);
+
+            conf.readOnly = true;
+            conf.noEventListeners = true;
+
+            return conf;
         }
     }
 }); 

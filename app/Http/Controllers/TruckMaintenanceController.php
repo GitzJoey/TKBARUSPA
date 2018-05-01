@@ -12,6 +12,7 @@ use Auth;
 use Config;
 use Validator;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 use App\Services\TruckMaintenanceService;
 
@@ -38,7 +39,7 @@ class TruckMaintenanceController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'plate_number' => 'required',
+            'truck_id' => 'required',
             'maintenance_type' => 'required',
             'cost' => 'required|numeric',
             'odometer' => 'required|numeric',
@@ -46,7 +47,7 @@ class TruckMaintenanceController extends Controller
         
         $this->truckMaintenanceService->create(
             Auth::user()->company->id,
-            $request['plate_number'],
+            Hashids::decode($request['truck_id'])[0],
             date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
             $request['maintenance_type'],
             $request['cost'],
@@ -55,7 +56,6 @@ class TruckMaintenanceController extends Controller
         );
         
         return response()->json();
-            
     }
 
     public function update($id, Request $request)
@@ -70,7 +70,7 @@ class TruckMaintenanceController extends Controller
         $this->truckMaintenanceService->update(
             $id,
             Auth::user()->company->id,
-            $request['plate_number'],
+            Hashids::decode($request['truck_id'])[0],
             date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
             $request['maintenance_type'],
             $request['cost'],

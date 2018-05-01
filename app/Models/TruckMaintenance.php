@@ -10,10 +10,11 @@ namespace App\Models;
 
 use Auth;
 use Lang;
-use App\Traits\CompanyFilter;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Traits\CompanyFilter;
 
 class TruckMaintenance extends Model
 {
@@ -49,6 +50,7 @@ class TruckMaintenance extends Model
         'hId',
         'companyHId',
         'truckHId',
+        'maintenanceTypeI18n'
     ];
 
     public function getHIdAttribute()
@@ -74,6 +76,11 @@ class TruckMaintenance extends Model
     public function company()
     {
         return $this->belongsTo('App\Models\Company');
+    }
+
+    public function getMaintenanceTypeI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['maintenance_type']);
     }
 
     public static function boot()

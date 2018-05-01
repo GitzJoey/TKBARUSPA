@@ -10,6 +10,9 @@ namespace App\Services\Implementations;
 
 use App\Models\TruckMaintenance;
 
+use DB;
+use Exception;
+
 use App\Services\TruckMaintenanceService;
 
 class TruckMaintenanceServiceImpl implements TruckMaintenanceService
@@ -24,20 +27,29 @@ class TruckMaintenanceServiceImpl implements TruckMaintenanceService
         $remarks
     )
     {
-        TruckMaintenance::create([
-            'company_id' => $company_id,
-            'truck_id' => $truck_id,
-            'maintenance_date' => $maintenance_date,
-            'maintenance_type' => $maintenance_type,
-            'cost' => $cost,
-            'odometer' => $odometer,
-            'remarks' => $remarks
-        ]);
+        DB::beginTransaction();
+        try {
+            $tm = new TruckMaintenance;
+
+            $tm->company_id = $company_id;
+            $tm->truck_id = $truck_id;
+            $tm->maintenance_date = $maintenance_date;
+            $tm->maintenance_type = $maintenance_type;
+            $tm->cost = $cost;
+            $tm->odometer = $odometer;
+            $tm->remarks = $remarks;
+
+            $tm->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function read()
     {
-        return TruckMaintenance::get();
+        return TruckMaintenance::with('truck')->get();
     }
 
     public function update(
@@ -51,18 +63,26 @@ class TruckMaintenanceServiceImpl implements TruckMaintenanceService
         $remarks
     )
     {
-        $truckMaintenance = TruckMaintenance::find($id);
+        DB::beginTransaction();
+        try {
+            $truckMaintenance = TruckMaintenance::find($id);
 
-        if (!is_null($truckMaintenance)) {
-            $truckMaintenance->company_id = $company_id;
-            $truckMaintenance->truck_id = $truck_id;
-            $truckMaintenance->maintenance_date = $maintenance_date;
-            $truckMaintenance->maintenance_type = $maintenance_type;
-            $truckMaintenance->cost = $cost;
-            $truckMaintenance->odometer = $odometer;
-            $truckMaintenance->remarks = $remarks;
+            if (!is_null($truckMaintenance)) {
+                $truckMaintenance->company_id = $company_id;
+                $truckMaintenance->truck_id = $truck_id;
+                $truckMaintenance->maintenance_date = $maintenance_date;
+                $truckMaintenance->maintenance_type = $maintenance_type;
+                $truckMaintenance->cost = $cost;
+                $truckMaintenance->odometer = $odometer;
+                $truckMaintenance->remarks = $remarks;
 
-            $truckMaintenance->save();
+                $truckMaintenance->save();
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
     }
 

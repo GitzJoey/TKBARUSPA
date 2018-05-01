@@ -95,9 +95,6 @@ Vue.mixin({
         route: function() {
             if (typeof(route) !== 'undefined') return route;
             else return null;
-        },
-        moment: function() {
-            return moment;
         }
     },
     computed: {

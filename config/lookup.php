@@ -100,7 +100,7 @@ return [
         ],
         'TRUCK_MAINTENANCE_TYPE' => [
             'REGULAR_CHECKUP' => 'TRUCKMTCTYPE.R',
-            'TIRE_CHANGE' => 'TRUCKMTCTYPE.TR',
+            'TIRE_CHANGE' => 'TRUCKMTCTYPE.TC',
             'SPAREPART_CHANGE' => 'TRUCKMTCTYPE.SPC',
             'OIL_CHANGE' => 'TRUCKMTCTYPE.OC',
         ],

@@ -45,18 +45,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(u, uIdx) in truckMaintenanceList">
-                                <td>@{{ u.plate_number }}</td>
-                                <td>@{{ u.maintenance_date }}</td>
-                                <td>@{{ u.maintenance_type }}</td>
-                                <td>@{{ u.cost }}</td>
-                                <td>@{{ u.odometer }}</td>
-                                <td>@{{ u.remarks }}</td>
+                            <tr v-for="(tm, tmIdx) in truckMaintenanceList">
+                                <td>@{{ tm.truck.plate_number }}</td>
+                                <td>@{{ tm.maintenance_date}}</td>
+                                <td>@{{ tm.maintenanceTypeI18n }}</td>
+                                <td><vue-autonumeric v-model="tm.cost" v-bind:tag="'span'" v-bind:options="currencyConfig"></vue-autonumeric></td>
+                                <td><vue-autonumeric v-model="tm.odometer" v-bind:tag="'span'" v-bind:options="numericConfig"></vue-autonumeric></td>
+                                <td>@{{ tm.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(uIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(uIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(u.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(tmIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(tmIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(tm.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
@@ -96,26 +96,26 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <div class="input-group">
-                                    <flat-pickr name="maintenance_date" v-model="truckMaintenance.maintenance_date" v-bind:config="flatPickrConfig" class="form-control" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.maintenance_date') }}"></flat-pickr>
+                                    <flat-pickr name="maintenance_date" v-model="truckMaintenance.maintenance_date" v-bind:config="defaultFlatPickrConfig" class="form-control" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.maintenance_date') }}"></flat-pickr>
                                 </div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.maintenance_date }}</div>
+                                <div class="form-control-plaintext">@{{ truckMaintenance.maintenance_date }}</div>
                             </template>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('plate_number') }">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('truck_id') }">
                         <label for="inputPlateNumber" class="col-2 col-form-label">@lang('truck_maintenance.fields.plate_number')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <select class="form-control" id="inputPlateNumber" name="plate_number" v-model="truckMaintenance.plate_number" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.plate_number') }}">
+                                <select class="form-control" id="inputPlateNumber" name="truck_id" v-model="truckMaintenance.truck.hId" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.plate_number') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(s, sIdx) in truckDDL" v-bind:value="s.hId">@{{ s.plate_number }}</option>
+                                    <option v-for="(t, tIdx) in truckDDL" v-bind:value="t.hId">@{{ t.plate_number }} - @{{ t.typeI18n }}</option>
                                 </select>
-                                <div v-show="errors.has('plate_number')" class="invalid-feedback">@{{ errors.first('plate_number') }}</div>
+                                <div v-show="errors.has('truck_id')" class="invalid-feedback">@{{ errors.first('truck_id') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.plate_number }}</div>
+                                <div class="form-control-plaintext">@{{ truckMaintenance.truck.plate_number }}</div>
                             </template>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                                 <div v-show="errors.has('maintenance_type')" class="invalid-feedback">@{{ errors.first('maintenance_type') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.maintenance_type }}</div>
+                                <div class="form-control-plaintext">@{{ truckMaintenance.maintenanceTypeI18n }}</div>
                             </template>
                         </div>
                     </div>
@@ -138,11 +138,11 @@
                         <label for="inputCost" class="col-2 col-form-label">@lang('truck_maintenance.fields.cost')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                            <vue-autonumeric id="inputCost" type="text" name="cost" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.cost') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->company->thousand_separator }}',decimalCharacter: '{{ Auth::user()->company->decimal_separator }}',decimalPlaces: '{{ Auth::user()->company->decimal_digit }}',minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
+                                <vue-autonumeric id="inputCost" type="text" name="cost" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.cost') }}" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                 <div v-show="errors.has('cost')" class="invalid-feedback">@{{ errors.first('cost') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.cost }}</div>
+                                <div class="form-control-plaintext"><vue-autonumeric v-model="truckMaintenance.cost" v-bind:tag="'span'" v-bind:options="currencyConfig"></vue-autonumeric></div>
                             </template>
                         </div>
                     </div>
@@ -150,11 +150,11 @@
                         <label for="inputOdometer" class="col-2 col-form-label">@lang('truck_maintenance.fields.odometer')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                            	<vue-autonumeric id="inputOdometer" name="odometer" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="{ digitGroupSeparator: '{{ Auth::user()->company->thousand_separator }}',decimalCharacter: '{{ Auth::user()->company->decimal_separator }}',decimalPlaces: 0,minimumValue: '0',emptyInputBehavior: 'null' }"></vue-autonumeric>
+                            	<vue-autonumeric id="inputOdometer" name="odometer" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="defaultNumericConfig"></vue-autonumeric>
                                 <div v-show="errors.has('odometer')" class="invalid-feedback">@{{ errors.first('odometer') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.odometer }}</div>
+                                <div class="form-control-plaintext"><vue-autonumeric v-model="truckMaintenance.odometer" v-bind:tag="'span'" v-bind:options="numericConfig"></vue-autonumeric></div>
                             </template>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                                        v-model="truckMaintenance.remarks">
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truck_maintenance.remarks }}</div>
+                                <div class="form-control-plaintext">@{{ truckMaintenance.remarks }}</div>
                             </template>
                         </div>
                     </div>
