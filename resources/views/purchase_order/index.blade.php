@@ -62,8 +62,8 @@
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
                                 <td>@{{ moment(po.po_created).formatPHP(defaultDateTimeFormat) }}</td>
-                                <td></td>
-                                <td></td>
+                                <td>@{{ po.supplier_type == 'SUPPLIERTYPE.WI' ? po.walk_in_supplier : po.supplier.name }}</td>
+                                <td>@{{ moment(po.shipping_date).formatPHP(defaultDateTimeFormat) }}</td>
                                 <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">

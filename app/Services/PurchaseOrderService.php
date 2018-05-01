@@ -11,6 +11,7 @@ namespace App\Services;
 interface PurchaseOrderService
 {
     public function create(
+        $company_id,
         $code,
         $po_type,
         $po_created,
@@ -22,6 +23,7 @@ interface PurchaseOrderService
         $walk_in_supplier,
         $walk_in_supplier_detail,
         $warehouse_id,
+        $vendor_trucking_id,
         $disc_total_value,
         $status,
         $remarks,

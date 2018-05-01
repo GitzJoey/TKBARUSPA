@@ -90,6 +90,7 @@ class PurchaseOrderController extends Controller
         }
 
         $this->purchaseOrderService->create(
+            Auth::user()->company->id,
             $request['code'],
             $request['po_type'],
             $request['po_created'],
@@ -97,10 +98,11 @@ class PurchaseOrderController extends Controller
             $request['supplier_type'],
             $items,
             $expenses,
-            $request['supplier_id'] == 0 ? 0:Hashids::decode($request['supplier_id'])[0],
+            is_null($request['supplier_id']) ? 0:Hashids::decode($request['supplier_id'])[0],
             $request['walk_in_supplier'],
             $request['walk_in_supplier_detail'],
             Hashids::decode($request['warehouse_id'])[0],
+            is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
             $request['disc_total_value'],
             $request['status'],
             $request['remarks'],
