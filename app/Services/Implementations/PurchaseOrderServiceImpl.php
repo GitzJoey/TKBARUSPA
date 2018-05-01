@@ -176,9 +176,12 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
     {
         $date = Carbon::parse($date)->format(Config::get('const.DATETIME_FORMAT.DATABASE_DATE'));
 
-        $purchaseOrders = PurchaseOrder::with([ 'items.product', 'supplier.profiles', 'receipts.item.product',
-            'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
-        ])->where('po_created', 'like', $date.'%')->get();
+        $purchaseOrders = PurchaseOrder::with([
+            'items.product'
+            ,'supplier.profiles'
+            //,'receipts.item.product'
+            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->get();//->where('po_created', 'like', $date.'%')->get();
 
         return $purchaseOrders;
     }

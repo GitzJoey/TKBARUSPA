@@ -61,7 +61,7 @@
                             </tr>
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
-                                <td>@{{ moment(po.po_created).format(defaultDateTimeFormat) }}</td>
+                                <td>@{{ moment(po.po_created).formatPHP(defaultDateTimeFormat) }}</td>
                                 <td></td>
                                 <td></td>
                                 <td>@{{ po.statusI18n }}</td>

@@ -96,6 +96,9 @@ Vue.mixin({
             if (typeof(route) !== 'undefined') return route;
             else return null;
         },
+        moment: function() {
+            return moment();
+        },
         loadingPanel: function(elementId, state) {
             switch (state.toUpperCase()) {
                 case "ON":
@@ -193,7 +196,7 @@ Vue.mixin({
             return conf[2];
         },
         defaultDateTimeFormat: function() {
-            return conf[1] + ' ' + conf[2];
+            return this.defaultDateFormat + ' ' + this.defaultTimeFormat;
         },
         databaseDateFormat: function() {
             var conf = document.getElementById("appSettings").value.split('|');
