@@ -24,32 +24,32 @@ var supplierVue = new Vue ({
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
+                this.loadingPanel('#supplierCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.supplier.save').url(),
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#supplierCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#supplierCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.supplier.edit', this.supplier.hId).url(),
                         new FormData($('#supplierForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#supplierCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#supplierCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#supplierCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllSupplier: function(page) {
-            Codebase.blocks('#supplierListBlock', 'state_toggle');
+            this.loadingPanel('#supplierListBlock', 'TOGGLE');
 
             var qS = [];
             if (this.search_supplier_query) { qS.push({ 'key':'s', 'value':this.search_supplier_query }); }
@@ -60,8 +60,11 @@ var supplierVue = new Vue ({
 
             axios.get(route('api.get.supplier.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.supplierList = response.data;
-                Codebase.blocks('#supplierListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+                this.loadingPanel('#supplierListBlock', 'TOGGLE');
+            }).catch(e => {
+                this.handleErrors(e);
+                this.loadingPanel('#supplierListBlock', 'TOGGLE');
+            });
         },
         createNew: function() {
             this.mode = 'create';
@@ -209,13 +212,13 @@ var supplierVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#supplierListBlock', 'close')
-                    Codebase.blocks('#supplierCRUDBlock', 'open')
+                    this.contentPanel('#supplierListBlock', 'CLOSE')
+                    this.contentPanel('#supplierCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#supplierListBlock', 'open')
-                    Codebase.blocks('#supplierCRUDBlock', 'close')
+                    this.contentPanel('#supplierListBlock', 'OPEN')
+                    this.contentPanel('#supplierCRUDBlock', 'CLOSE')
                     break;
             }
         }

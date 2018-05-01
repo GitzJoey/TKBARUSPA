@@ -16,32 +16,35 @@ var unitVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#unitCRUDBlock', 'state_toggle');
+                this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.unit.save').url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.unit.edit', this.unit.hId).url(), new FormData($('#unitForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#unitCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllUnit: function() {
-            Codebase.blocks('#unitListBlock', 'state_toggle');
+            this.loadingPanel('#unitListBlock', 'TOGGLE');
             axios.get(route('api.get.settings.unit.read').url()).then(response => {
                 this.unitList = response.data;
-                Codebase.blocks('#unitListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+                this.loadingPanel('#unitListBlock', 'TOGGLE');
+            }).catch(e => {
+                this.handleErrors(e);
+                this.loadingPanel('#unitListBlock', 'TOGGLE');
+            });
         },
         createNew: function() {
             this.mode = 'create';
@@ -89,13 +92,13 @@ var unitVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#unitListBlock', 'close')
-                    Codebase.blocks('#unitCRUDBlock', 'open')
+                    this.contentPanel('#unitListBlock', 'CLOSE')
+                    this.contentPanel('#unitCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#unitListBlock', 'open')
-                    Codebase.blocks('#unitCRUDBlock', 'close')
+                    this.contentPanel('#unitListBlock', 'OPEN')
+                    this.contentPanel('#unitCRUDBlock', 'CLOSE')
                     break;
             }
         }

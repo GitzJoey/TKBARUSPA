@@ -15,15 +15,17 @@ class TrucksTableSeeder extends Seeder
     {
         $truckTypes = Config::get('lookup.VALUE.TRUCK_TYPE');
 
-        foreach ($truckTypes as $key => $truckType){
+        $index = 0;
+        foreach ($truckTypes as $key => $truckType) {
+            $index++;
             $truck = [
                 'company_id' => 1,
                 'type' => $truckType,
-                'plate_number' => "B 100$key AG",
+                'plate_number' => "B 100$index AG",
                 'inspection_date' => Carbon::yesterday(),
-                'driver' => "Driver $key",
+                'driver' => "Driver $index",
                 'status' => 'STATUS.ACTIVE',
-                'remarks' => "Dummy truck $key"
+                'remarks' => "Dummy truck $index"
             ];
 
             Truck::create($truck);

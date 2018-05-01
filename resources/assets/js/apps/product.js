@@ -21,32 +21,32 @@ var productVue = new Vue ({
         validateBeforeSubmit: function() {
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) return;
-                Codebase.blocks('#productCRUDBlock', 'state_toggle');
+                this.loadingPanel('#productCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.product.save').url(),
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#productCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#productCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.product.edit', this.product.hId).url(),
                         new FormData($('#productForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#productCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#productCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#productCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllProduct: function(page) {
-            Codebase.blocks('#productListBlock', 'state_toggle');
+            this.loadingPanel('#productListBlock', 'TOGGLE');
 
             var qS = [];
             if (this.search_product_query) { qS.push({ 'key':'p', 'value':this.search_product_query }); }
@@ -57,8 +57,11 @@ var productVue = new Vue ({
 
             axios.get(route('api.get.product.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.productList = response.data;
-                Codebase.blocks('#productListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+                this.loadingPanel('#productListBlock', 'TOGGLE');
+            }).catch(e => {
+                this.handleErrors(e);
+                this.loadingPanel('#productListBlock', 'TOGGLE');
+            });
         },
         createNew: function() {
             this.mode = 'create';
@@ -177,13 +180,13 @@ var productVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#productListBlock', 'close')
-                    Codebase.blocks('#productCRUDBlock', 'open')
+                    this.contentPanel('#productListBlock', 'CLOSE')
+                    this.contentPanel('#productCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#productListBlock', 'open')
-                    Codebase.blocks('#productCRUDBlock', 'close')
+                    this.contentPanel('#productListBlock', 'OPEN')
+                    this.contentPanel('#productCRUDBlock', 'CLOSE')
                     break;
             }
         }

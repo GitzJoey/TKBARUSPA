@@ -20,32 +20,35 @@ var companyVue = new Vue ({
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                this.loadingPanel('#companyCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.company.save').url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#companyCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#companyCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.company.edit', this.company.hId).url(), new FormData($('#companyForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#companyCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#companyCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllCompany: function() {
-            Codebase.blocks('#companyListBlock', 'state_toggle');
+            this.loadingPanel('#companyListBlock', 'TOGGLE');
             axios.get(route('api.get.settings.company.read').url()).then(response => {
                 this.companyList = response.data;
-                Codebase.blocks('#companyListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+                this.loadingPanel('#companyListBlock', 'TOGGLE');
+            }).catch(e => {
+                this.handleErrors(e);
+                this.loadingPanel('#companyListBlock', 'TOGGLE');
+            });
         },
         createNew: function() {
             this.mode = 'create';
@@ -125,13 +128,13 @@ var companyVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#companyListBlock', 'close')
-                    Codebase.blocks('#companyCRUDBlock', 'open')
+                    this.contentPanel('#companyListBlock', 'CLOSE')
+                    this.contentPanel('#companyCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#companyListBlock', 'open')
-                    Codebase.blocks('#companyCRUDBlock', 'close')
+                    this.contentPanel('#companyListBlock', 'OPEN')
+                    this.contentPanel('#companyCRUDBlock', 'CLOSE')
                     break;
             }
         }

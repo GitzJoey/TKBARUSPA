@@ -143,9 +143,13 @@
                                         </a>
                                     </li>
                                 @endpermission
+                                @permission('menu-truck_maintenance')
                                 <li>
-                                    <a href=""><span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')</a>
+                                    <a class="{{ active_class(if_route_pattern('db.truck.truck_maintenance') || if_route_pattern('db.truck.truck_maintenance.*')) }}" href="{{ route('db.truck.truck_maintenance') }}">
+                                        <span class="fa fa-ambulance fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck.maintenance')
+                                    </a>
                                 </li>
+                                @endpermission
                             </ul>
                         </li>
                     @endpermission

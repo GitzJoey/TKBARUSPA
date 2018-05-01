@@ -56,11 +56,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr v-if="poList.length == 0">
+                                <td colspan="6" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
+                            </tr>
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
-                                <td>@{{ po.po_created }}</td>
-                                <td></td>
-                                <td></td>
+                                <td>@{{ moment(po.po_created).formatPHP(defaultDateTimeFormat) }}</td>
+                                <td>@{{ po.supplier_type == 'SUPPLIERTYPE.WI' ? po.walk_in_supplier : po.supplier.name }}</td>
+                                <td>@{{ moment(po.shipping_date).formatPHP(defaultDateTimeFormat) }}</td>
                                 <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
@@ -560,7 +563,7 @@
             },
             mounted: function () {
                 this.mode = 'list';
-                this.getAllPO();
+                this.getAllPO(moment().formatPHP(this.databaseDateFormat));
 
                 Promise.all([
                     this.getSupplier(),
@@ -579,39 +582,40 @@
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) return;
                         this.errors.clear();
-                        Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                         if (this.mode == 'create') {
                             axios.post(route('api.post.po.save'), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
                             axios.post(route('api.post.po.edit.', this.po.hId), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
-                                Codebase.blocks('#poCRUDBlock', 'state_toggle');
+                                this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
                         } else { }
                     });
                 },
                 getAllPO: function (date) {
-                    Codebase.blocks('#poListBlock', 'state_toggle');
+                    this.loadingPanel('#poListBlock', 'TOGGLE');
 
                     var qS = [];
                     if (date && typeof(date) == 'string') {
                         qS.push({'key': 'date', 'value': date});
                     }
 
-                    axios.get(route('api.get.po.read').url()).then(response => {
+                    axios.get(route('api.get.po.read').url() + this.generateQueryStrings(qS)).then(response => {
                         this.poList = response.data;
-                        Codebase.blocks('#poListBlock', 'state_toggle');
+                        this.loadingPanel('#poListBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
+                        this.loadingPanel('#poListBlock', 'TOGGLE');
                     });
                 },
                 onChangeSupplierType: function (type) {
@@ -889,13 +893,13 @@
                         case 'create':
                         case 'edit':
                         case 'show':
-                            Codebase.blocks('#poListBlock', 'close')
-                            Codebase.blocks('#poCRUDBlock', 'open')
+                            this.contentPanel('#poListBlock', 'CLOSE')
+                            this.contentPanel('#poCRUDBlock', 'OPEN')
                             break;
                         case 'list':
                         default:
-                            Codebase.blocks('#poListBlock', 'open')
-                            Codebase.blocks('#poCRUDBlock', 'close')
+                            this.contentPanel('#poListBlock', 'OPEN')
+                            this.contentPanel('#poCRUDBlock', 'CLOSE')
                             break;
                     }
                 }
@@ -908,9 +912,10 @@
                     conf.altInput = true;
                     conf.altInputClass = 'hideTextBox';
                     conf.enableTime = false;
+                    conf.dateFormat = 'Y-m-d';
                     conf.enable = [
                         function(date) {
-                            return (date.getMonth() % 2 === 0 && date.getDate() < 15);
+                            return '2018-03-30';
                         }
                     ];
 

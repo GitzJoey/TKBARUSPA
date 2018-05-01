@@ -13,7 +13,6 @@ use App\Models\Expense;
 use App\Models\PurchaseOrder;
 
 use DB;
-use Auth;
 use Config;
 use Exception;
 use Carbon\Carbon;
@@ -24,6 +23,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 {
 
     public function create(
+            $company_id,
             $code,
             $po_type,
             $po_created,
@@ -35,6 +35,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $walk_in_supplier,
             $walk_in_supplier_detail,
             $warehouse_id,
+            $vendor_trucking_id,
             $disc_total_value,
             $status,
             $remarks,
@@ -53,26 +54,25 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
                 $supplier_id = 0;
             }
 
-            $params = [
-                'code' => $code,
-                'po_type' => $po_type,
-                'po_created' => date('Y-m-d H:i:s', strtotime($po_created)),
-                'shipping_date' => date('Y-m-d H:i:s', strtotime($shipping_date)),
-                'supplier_type' => $supplier_type,
-                'walk_in_supplier' => $walk_in_supplier,
-                'walk_in_supplier_detail' => $walk_in_supplier_detail,
-                'remarks' => $remarks,
-                'internal_remarks' => $internal_remarks,
-                'private_remarks' => $private_remarks,
-                'status' => 'POSTATUS.WA',
-                'supplier_id' => $supplier_id,
-                'vendor_trucking_id' => empty($vendor_trucking_id) ? 0 : $vendor_trucking_id,
-                'warehouse_id' => $warehouse_id,
-                'company_id' => Auth::user()->company->id,
-                'disc_value' => $disc_total_value,
-            ];
+            $po = new PurchaseOrder;
+            $po->code = $code;
+            $po->po_type = $po_type;
+            $po->po_created = date('Y-m-d H:i:s', strtotime($po_created));
+            $po->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
+            $po->supplier_type = $supplier_type;
+            $po->walk_in_supplier = $walk_in_supplier;
+            $po->walk_in_supplier_detail = $walk_in_supplier_detail;
+            $po->remarks = $remarks;
+            $po->internal_remarks = $internal_remarks;
+            $po->private_remarks = $private_remarks;
+            $po->status = 'POSTATUS.WA';
+            $po->supplier_id = $supplier_id;
+            $po->vendor_trucking_id = $vendor_trucking_id;
+            $po->warehouse_id = $warehouse_id;
+            $po->company_id = $company_id;
+            $po->discount = $disc_total_value;
 
-            $po = PurchaseOrder::create($params);
+            $po->save();
 
             for ($i = 0; $i < count($items); $i++) {
                 $item = new Item();
@@ -161,7 +161,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         return $result;
     }
 
-    public function getLastPODates($limit = 50)
+    public function getPODates($limit = 50)
     {
         $po = PurchaseOrder::all()->groupBy(function ($po) {
             return $po->po_created->format('d-M-y');
@@ -174,11 +174,14 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
     public function searchPOByDate($date)
     {
-        $date = Carbon::parse($date)->format('Y-m-d');
+        $date = Carbon::parse($date)->format(Config::get('const.DATETIME_FORMAT.DATABASE_DATE'));
 
-        $purchaseOrders = PurchaseOrder::with([ 'items.product', 'supplier.profiles', 'receipts.item.product',
-            'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
-        ])->where('po_created', 'like', '%'.$date.'%')->get();
+        $purchaseOrders = PurchaseOrder::with([
+            'items.product'
+            ,'supplier.personsInCharge'
+            //,'receipts.item.product'
+            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->get();//->where('po_created', 'like', $date.'%')->get();
 
         return $purchaseOrders;
     }

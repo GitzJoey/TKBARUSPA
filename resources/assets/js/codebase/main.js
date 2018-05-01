@@ -95,6 +95,34 @@ Vue.mixin({
         route: function() {
             if (typeof(route) !== 'undefined') return route;
             else return null;
+        },
+        moment: function() {
+            return moment();
+        },
+        loadingPanel: function(elementId, state) {
+            switch (state.toUpperCase()) {
+                case "ON":
+                    break;
+                case "OFF":
+                    break;
+                case "TOGGLE":
+                default:
+                    Codebase.blocks(elementId, 'state_toggle');
+                    break;
+            }
+        },
+        contentPanel: function(elementId, state) {
+            switch (state.toUpperCase()) {
+                case "OPEN":
+                    Codebase.blocks(elementId, 'open');
+                    break;
+                case "CLOSE":
+                    Codebase.blocks(elementId, 'close');
+                    break;
+                case "TOGGLE":
+                default:
+                    break;
+            }
         }
     },
     computed: {
@@ -158,6 +186,25 @@ Vue.mixin({
                 showWarnings: false,
                 caretPositionOnFocus: 'start'
             }
+        },
+        defaultDateFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[1];
+        },
+        defaultTimeFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[2];
+        },
+        defaultDateTimeFormat: function() {
+            return this.defaultDateFormat + ' ' + this.defaultTimeFormat;
+        },
+        databaseDateFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[6];
+        },
+        databaseTimeFormat: function() {
+            var conf = document.getElementById("appSettings").value.split('|');
+            return conf[7];
         }
     }
 });

@@ -18,32 +18,35 @@ var warehouseVue = new Vue ({
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) { return; }
                 this.errors.clear();
-                Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                this.loadingPanel('#warehouseCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.warehouse.save').url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#warehouseCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#warehouseCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.warehouse.edit', this.warehouse.hId).url(), new FormData($('#warehouseForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#warehouseCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#warehouseCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#warehouseCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllWarehouse: function() {
-            Codebase.blocks('#warehouseListBlock', 'state_toggle');
+            this.loadingPanel('#warehouseListBlock', 'TOGGLE');
             axios.get(route('api.get.warehouse.read').url()).then(response => {
                 this.warehouseList = response.data;
-                Codebase.blocks('#warehouseListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+                this.loadingPanel('#warehouseListBlock', 'TOGGLE');
+            }).catch(e => {
+                this.handleErrors(e);
+                this.loadingPanel('#warehouseListBlock', 'TOGGLE');
+            });
         },
         createNew: function() {
             this.mode = 'create';
@@ -116,13 +119,13 @@ var warehouseVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#warehouseListBlock', 'close')
-                    Codebase.blocks('#warehouseCRUDBlock', 'open')
+                    this.contentPanel('#warehouseListBlock', 'CLOSE')
+                    this.contentPanel('#warehouseCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#warehouseListBlock', 'open')
-                    Codebase.blocks('#warehouseCRUDBlock', 'close')
+                    this.contentPanel('#warehouseListBlock', 'OPEN')
+                    this.contentPanel('#warehouseCRUDBlock', 'CLOSE')
                     break;
             }
         }
