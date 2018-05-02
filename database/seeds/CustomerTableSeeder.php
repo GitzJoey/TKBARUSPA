@@ -51,7 +51,7 @@ class CustomerTableSeeder extends Seeder
                 $pf->first_name = "First Name ".$p;
                 $pf->last_name = "First Name ".$p;
 
-                $customer->profiles()->save($pf);
+                $customer->personsInCharge()->save($pf);
 
                 for ($ph = 0; $ph < 1; $ph++) {
                     $phone = new PhoneNumber();

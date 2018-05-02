@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
-use App\Services\CustomerService;
 use Vinkla\Hashids\Facades\Hashids;
+
+use App\Services\CustomerService;
 
 class CustomerController extends Controller
 {
@@ -30,7 +31,8 @@ class CustomerController extends Controller
         if ($all) {
             return $this->customerService->readAll();
         } else {
-            return $this->customerService->read();
+            $searchQuery = $request->has('s') ? $request->query('s'):'';
+            return $this->customerService->read($searchQuery);
         }
     }
 
@@ -83,6 +85,7 @@ class CustomerController extends Controller
             $request['tax_id'],
             $request['status'],
             $request['remarks'],
+            Hashids::decode($request['price_level_id'])[0],
             $request['payment_due_day'],
             $bank_accounts,
             $persons_in_charge
@@ -152,6 +155,7 @@ class CustomerController extends Controller
             $request['tax_id'],
             $request['status'],
             $request['remarks'],
+            Hashids::decode($request['price_level_id'])[0],
             $request['payment_due_day'],
             $bank_accounts,
             $inputtedBankAccountId,

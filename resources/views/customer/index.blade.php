@@ -486,6 +486,23 @@
                             </template>
                         </div>
                         <div class="tab-pane fade fade-up show" id="tabs_settings" role="tabpanel">
+                            <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_settings.price_level_id') }">
+                                <label for="inputPriceLevel" class="col-2 col-form-label">@lang('customer.fields.price_level')</label>
+                                <div class="col-md-10">
+                                    <template v-if="mode == 'create' || mode == 'edit'">
+                                        <select name="price_level_id" class="form-control"
+                                                v-model="customer.priceLevelHId"
+                                                v-validate="'required'" data-vv-as="{{ trans('customer.fields.price_level') }}" data-vv-scope="tabs_settings">
+                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                            <option v-for="(pp, ppIdx) in priceLevelDDL" v-bind:value="pp.hId">@{{ pp.name }} (@{{ pp.description }})</option>
+                                        </select>
+                                        <span v-show="errors.has('tabs_settings.price_level_id')" class="invalid-feedback">@{{ errors.first('tabs_settings.price_level_id') }}</span>
+                                    </template>
+                                    <template v-if="mode == 'show'">
+                                        <div class="form-control-plaintext">@{{ customer.price_level.name }}</div>
+                                    </template>
+                                </div>
+                            </div>
                             <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('tabs_settings.payment_due_day') }">
                                 <label for="inputPaymentDueDay" class="col-2 col-form-label">@lang('customer.fields.payment_due_day')</label>
                                 <div class="col-md-10">

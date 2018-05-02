@@ -1,9 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\Model\Customer;
-
-interface CustomerService 
+interface CustomerService
 {
 	public function create(
 		$company_id,
@@ -16,13 +14,17 @@ interface CustomerService
         $tax_id,
         $status,
         $remarks,
+        $price_level,
         $payment_due_day,
         $bank_accounts,
         $persons_in_charge
 	);
-	public function read();
-    public function readAll();
-   	public function update(
+
+	public function read($searchQuery = '');
+
+	public function readAll();
+
+	public function update(
    		$id,
         $company_id,
         $name,
@@ -34,6 +36,7 @@ interface CustomerService
         $tax_id,
         $status,
         $remarks,
+        $price_level,
         $payment_due_day,
         $bank_accounts,
         $inputtedBankAccountId,
@@ -41,6 +44,7 @@ interface CustomerService
         $inputtedProfileId,
         $inputtedPhoneNumberId
 	);
+
 	public function delete(
 		$id
 	);

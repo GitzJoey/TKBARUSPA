@@ -9,7 +9,8 @@ var customerVue = new Vue ({
         mode: '',
         search_customer_query: '',
         active_page: 0,
-        tableLoaded: false
+        tableLoaded: false,
+        priceLevelDDL: []
     },
     mounted: function () {
         this.mode = 'list';
@@ -17,6 +18,7 @@ var customerVue = new Vue ({
         this.getBank();
         this.getPhoneProvider();
         this.getAllCustomer();
+        this.getPriceLevel();
     },
     methods: {
         validateBeforeSubmit: function() {
@@ -69,19 +71,16 @@ var customerVue = new Vue ({
             this.mode = 'create';
             this.errors.clear();
             this.customer = this.emptyCustomer();
-            this.getProduct();
         },
         editSelected: function(idx) {
             this.mode = 'edit';
             this.errors.clear();
             this.customer = this.customerList.data[idx];
-            this.getProduct();
         },
         showSelected: function(idx) {
             this.mode = 'show';
             this.errors.clear();
             this.customer = this.customerList.data[idx];
-            console.log(this.customer);
         },
         deleteSelected: function(idx) {
             axios.post(route('api.post.customer.delete', idx).url()).then(response => {
@@ -110,7 +109,8 @@ var customerVue = new Vue ({
                 tax_id: '',
                 status: '',
                 remarks: '',
-                payment_due_day: '',
+                payment_due_day: 0,
+                priceLevelHId: '',
                 bank_accounts: [],
                 persons_in_charge: [],
                 products: [],
@@ -176,6 +176,11 @@ var customerVue = new Vue ({
         getBank: function() {
             axios.get(route('api.get.bank.read').url()).then(
                 response => { this.bankDDL = response.data; }
+            );
+        },
+        getPriceLevel: function() {
+            axios.get(route('api.get.price.price_level.read').url()).then(
+                response => { this.priceLevelDDL = response.data; }
             );
         }
     },

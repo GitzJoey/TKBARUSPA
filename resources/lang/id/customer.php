@@ -79,6 +79,7 @@ return [
         'phone_number' => 'No Telp',
         'bank' => 'Bank',
         'bank_account' => 'Akun Bank',
+        'price_level' => 'Tingkatan Harga',
         'payment_due_day' => 'Tenggat Bayar',
     ],
 ];

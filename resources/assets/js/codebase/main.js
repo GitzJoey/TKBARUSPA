@@ -130,7 +130,7 @@ Vue.mixin({
             var conf = document.getElementById("appSettings").value.split('|');
             var flatPickrTimeFormat = '';
             switch (conf[2]) {
-                case "G:H:s": flatPickrTimeFormat = 'H:i:S'; break;
+                case "H:i:s": flatPickrTimeFormat = 'H:i:S'; break;
                 case "g:i A": flatPickrTimeFormat = ' h:i K'; break;
                 default: break;
             }

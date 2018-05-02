@@ -30,6 +30,7 @@ class Customer extends Model
 
     protected $hidden = [
         'id',
+        'price_level_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -40,6 +41,7 @@ class Customer extends Model
 
     protected $appends = [
         'hId',
+        'priceLevelHId',
         'statusI18n'
     ];
 
@@ -51,6 +53,11 @@ class Customer extends Model
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getPriceLevelHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['price_level_id']);
     }
 
     public function personsInCharge()
@@ -70,7 +77,7 @@ class Customer extends Model
 
     public function company()
     {
-        return null;//$this->belongsTo('App\Models\Company', 'company_id');
+        return $this->belongsTo('App\Models\Company', 'company_id');
     }
 
     public function sales_orders()

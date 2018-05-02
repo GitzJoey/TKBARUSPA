@@ -87,6 +87,7 @@ return [
             'api.get.lookup.*',
             'api.get.bank.*',
             'api.get.customer.*',
+            'api.get.price.price_level.*',
             'api.get.settings.phone_provider.*',
             'api.post.customer.*',
         ],

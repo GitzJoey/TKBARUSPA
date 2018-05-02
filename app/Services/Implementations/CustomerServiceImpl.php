@@ -14,14 +14,28 @@ use App\Services\CustomerService;
 
 class CustomerServiceImpl implements CustomerService
 {
-	public function read()
+	public function read($searchQuery = '')
     {
-        return Customer::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank')->paginate(Config::get('const.PAGINATION'));
+        $customer = [];
+        if (strlen($searchQuery)) {
+            $param = $searchQuery;
+            $customer = Customer::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'priceLevel')
+                ->where('name', 'like', '%'.$param.'%')
+                ->orWhereHas('personsInCharge', function ($query) use ($param) {
+                    $query->where('first_name', 'like', '%'.$param.'%')
+                        ->orWhere('last_name', 'like', '%'.$param.'%');
+                })->paginate(Config::get('const.PAGINATION'));
+        } else {
+            $customer = Customer::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'priceLevel')
+                ->paginate(Config::get('const.PAGINATION'));
+        }
+
+        return $customer;
     }
 
     public function readAll()
     {
-        return Customer::get();
+        return Customer::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank')->get();
     }
 
 	public function create(
@@ -35,6 +49,7 @@ class CustomerServiceImpl implements CustomerService
         $tax_id,
         $status,
         $remarks,
+        $price_level_id,
         $payment_due_day,
         $bank_accounts,
         $persons_in_charge
@@ -42,21 +57,22 @@ class CustomerServiceImpl implements CustomerService
     {
         DB::beginTransaction();
         try {
-            $customers = [
-                'company_id' => $company_id,
-                'name' => $name,
-                'code_sign' => $code_sign,
-                'address' => $address,
-                'city' => $city,
-                'phone_number' => $phone_number,
-                'fax_num' => $fax_num,
-                'tax_id' => $tax_id,
-                'status' => $status,
-                'remarks' => $remarks,
-                'payment_due_day' => $payment_due_day,
-            ];
+            $customer = new Customer;
 
-            $customer = Customer::create($customers);
+            $customer->company_id = $company_id;
+            $customer->name = $name;
+            $customer->code_sign = $code_sign;
+            $customer->address = $address;
+            $customer->city = $city;
+            $customer->phone_number = $phone_number;
+            $customer->fax_num = $fax_num;
+            $customer->tax_id = $tax_id;
+            $customer->status = $status;
+            $customer->remarks = $remarks;
+            $customer->price_level_id = $price_level_id;
+            $customer->payment_due_day = $payment_due_day;
+
+            $customer->save();
 
             for ($i = 0; $i < count($bank_accounts); $i++) {
                 $ba = new BankAccount();
@@ -105,6 +121,7 @@ class CustomerServiceImpl implements CustomerService
         $tax_id,
         $status,
         $remarks,
+        $price_level_id,
         $payment_due_day,
         $bank_accounts,
         $inputtedBankAccountId,
@@ -186,6 +203,7 @@ class CustomerServiceImpl implements CustomerService
             $customer->tax_id = $tax_id;
             $customer->status = $status;
             $customer->remarks = $remarks;
+            $customer->price_level_id = $price_level_id;
             $customer->payment_due_day = $payment_due_day;
 
             $customer->save();
@@ -199,22 +217,27 @@ class CustomerServiceImpl implements CustomerService
 
     public function delete($id) 
     {
-    	$customer = Customer::findOrFail($id);
+        DB::beginTransaction();
+        try {
+            $customer = Customer::findOrFail($id);
 
-        foreach ($customer->personsInCharge as $p) {
-            foreach ($p->phoneNumbers as $ph) {
-                $ph->delete();
+            foreach ($customer->personsInCharge as $p) {
+                foreach ($p->phoneNumbers as $ph) {
+                    $ph->delete();
+                }
+                $p->delete();
             }
-            $p->delete();
-        }
 
-        foreach ($customer->bankAccounts as $ba) {
-            $ba->delete();
-        }
+            foreach ($customer->bankAccounts as $ba) {
+                $ba->delete();
+            }
 
-        $customer->delete();
+            $customer->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
-
-	
-
 }

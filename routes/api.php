@@ -28,6 +28,7 @@ Route::bind('id', function ($id) {
 Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'po'], function () {
         Route::get('read', 'PurchaseOrderController@read')->name('api.get.po.read');
+        Route::get('by/dates', 'PurchaseOrderController@getPODates')->name('api.get.po.by.dates');
         Route::get('generate/po_code', 'PurchaseOrderController@generatePOCode')->name('api.get.po.generate.po_code');
     });
 
@@ -52,6 +53,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'customer'], function () {
         Route::get('read', 'CustomerController@read')->name('api.get.customer.read');
+        Route::get('readall', 'CustomerController@readAll')->name('api.get.customer.readall');
     });
 
     Route::group(['prefix' => 'truck'], function () {
