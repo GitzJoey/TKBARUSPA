@@ -23,32 +23,32 @@ var customerVue = new Vue ({
             this.$validator.validateScopes().then(isValid => {
                 if (!isValid) return;
                 this.errors.clear();
-                Codebase.blocks('#customerCRUDBlock', 'state_toggle');
+                this.loadingPanel('#customerCRUDBlock', 'TOGGLE');
                 if (this.mode == 'create') {
                     axios.post(route('api.post.customer.save').url(),
                         new FormData($('#customerForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#customerCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#customerCRUDBlock', 'TOGGLE');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.customer.edit', this.customer.hId).url(),
                         new FormData($('#customerForm')[0]),
                         { headers: { 'content-type': 'multipart/form-data' } }).then(response => {
                         this.backToList();
-                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#customerCRUDBlock', 'TOGGLE');
                     }).catch(e => {
                         this.handleErrors(e);
-                        Codebase.blocks('#customerCRUDBlock', 'state_toggle');
+                        this.loadingPanel('#customerCRUDBlock', 'TOGGLE');
                     });
                 } else { }
             });
         },
         getAllCustomer: function(page) {
-            Codebase.blocks('#customerListBlock', 'state_toggle');
+            this.loadingPanel('#customerListBlock', 'TOGGLE');
 
             var qS = [];
             if (this.search_customer_query) { qS.push({ 'key':'s', 'value':this.search_customer_query }); }
@@ -59,10 +59,10 @@ var customerVue = new Vue ({
 
             axios.get(route('api.get.customer.read').url() + this.generateQueryStrings(qS)).then(response => {
                 this.customerList = response.data;
-                Codebase.blocks('#customerListBlock', 'state_toggle');
+                this.loadingPanel('#customerListBlock', 'TOGGLE');
             }).catch(e => { 
                 this.handleErrors(e); 
-                Codebase.blocks('#customerListBlock', 'state_toggle'); 
+                this.loadingPanel('#customerListBlock', 'TOGGLE'); 
             }); 
         },
         createNew: function() {
@@ -185,13 +185,13 @@ var customerVue = new Vue ({
                 case 'create':
                 case 'edit':
                 case 'show':
-                    Codebase.blocks('#customerListBlock', 'close')
-                    Codebase.blocks('#customerCRUDBlock', 'open')
+                    this.contentPanel('#customerListBlock', 'CLOSE')
+                    this.contentPanel('#customerCRUDBlock', 'OPEN')
                     break;
                 case 'list':
                 default:
-                    Codebase.blocks('#customerListBlock', 'open')
-                    Codebase.blocks('#customerCRUDBlock', 'close')
+                    this.contentPanel('#customerListBlock', 'OPEN')
+                    this.contentPanel('#customerCRUDBlock', 'CLOSE')
                     break;
             }
         }
