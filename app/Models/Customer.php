@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sugito
- * Date: 9/10/2016
- * Time: 11:06 AM
- */
 
 namespace App\Models;
 
@@ -14,19 +8,24 @@ use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PhoneProvider extends Model
+class Customer extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
-    protected $table = "phone_providers";
+    protected $table = 'customers';
 
     protected $fillable = [
         'name',
-        'short_name',
+        'address',
+        'city',
+        'phone_number',
+        'fax_num',
+        'tax_id',
+        'payment_due_day',
         'status',
-        'remarks'
+        'remarks',
     ];
 
     protected $hidden = [
@@ -41,33 +40,42 @@ class PhoneProvider extends Model
 
     protected $appends = [
         'hId',
-        'fullName',
         'statusI18n'
     ];
-
-    public function getHIdAttribute()
-    {
-        return HashIds::encode($this->attributes['id']);
-    }
-
-    public function getFullNameAttribute()
-    {
-        return $this->attributes['name'] . '(' . $this->attributes['short_name'] . ')';
-    }
 
     public function getStatusI18nAttribute()
     {
         return Lang::get('lookup.'.$this->attributes['status']);
     }
 
-    public function phoneNumbers()
+    public function getHIdAttribute()
     {
-        $this->hasMany('App\Models\PhoneNumber');
+        return HashIds::encode($this->attributes['id']);
     }
 
-    public function prefixes()
+    public function personsInCharge()
     {
-        return $this->hasMany('App\Models\PhonePrefix');
+        return $this->morphMany('App\Models\Profile', 'owner');
+    }
+
+    public function bankAccounts()
+    {
+        return $this->morphMany('App\Models\BankAccount', 'owner');
+    }
+
+    public function priceLevel()
+    {
+        return $this->belongsTo('App\Models\PriceLevel', 'price_level_id');
+    }
+
+    public function company()
+    {
+        return null;//$this->belongsTo('App\Models\Company', 'company_id');
+    }
+
+    public function sales_orders()
+    {
+        return null;//$this->hasMany('App\Models\SalesOrder');
     }
 
     public static function boot()

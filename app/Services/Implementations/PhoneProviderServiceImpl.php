@@ -8,7 +8,9 @@
 
 namespace App\Services\Implementations;
 
+use DB;
 use App\Models\PhoneProvider;
+use App\Models\PhonePrefix;
 
 use App\Services\PhoneProviderService;
 
@@ -17,46 +19,83 @@ class PhoneProviderServiceImpl implements PhoneProviderService
 
     public function create(
         $name,
-        $short_code,
+        $short_name,
         $status,
-        $remarks
+        $remarks,
+        $prefixes
     )
     {
-        PhoneProvider::create([
-            'name' => $name,
-            'short_code' => $short_code,
-            'status' => $status,
-            'remarks' => $remarks,
-        ]);
+        DB::beginTransaction();
+
+        try {
+            $ph = new PhoneProvider();
+            $ph->name = $name;
+            $ph->short_name = $short_name;
+            $ph->status = $status;
+            $ph->remarks = $remarks;
+
+            $ph->save();
+
+            for ($i = 0; $i < count($prefixes); $i++) {
+                $pp = new PhonePrefix();
+                $pp->prefix = $prefixes[$i];
+
+                $ph->prefixes()->save($pp);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function read()
     {
-        return PhoneProvider::get();
+        return PhoneProvider::with('prefixes')->get();
     }
 
     public function update(
         $id,
         $name,
-        $short_code,
+        $short_name,
         $status,
-        $remarks
+        $remarks,
+        $prefixes
     )
     {
-        $ph = PhoneProvider::find($id);
+        DB::beginTransaction();
 
-        if (!is_null($ph)) {
-            $ph->name = $name;
-            $ph->short_code = $short_code;
-            $ph->status = $status;
-            $ph->remarks = $remarks;
+        try {
+            $ph = PhoneProvider::find($id);
 
-            $ph->save();
-        }
+            if (!is_null($ph)) {
+                $ph->name = $name;
+                $ph->short_name = $short_name;
+                $ph->status = $status;
+                $ph->remarks = $remarks;
+
+                $ph->save();
+            }
+
+            $ph->prefixes->each(function($pr) { $pr->delete(); });
+
+            for ($i = 0; $i < count($prefixes); $i++) {
+                $pp = new PhonePrefix();
+                $pp->prefix = $prefixes[$i];
+
+                $ph->prefixes()->save($pp);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        };
     }
 
     public function delete($id)
     {
-        PhoneProvider::find($id)->delete();
+        $ph = PhoneProvider::find($id);
+        $ph->prefixes->each(function($ph) { $ph->delete(); });
+        $ph->delete();
     }
 }

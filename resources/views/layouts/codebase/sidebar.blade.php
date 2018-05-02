@@ -222,17 +222,21 @@
                             </ul>
                         </li>
                     @endpermission
+                    @permission('menu-customer')
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-smile-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.customer')</span></a>
                         <ul>
                             <li>
-                                <a href="#"><span class="fa fa-smile-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.customer')</a>
+                                <a class="{{ active_class(if_route_pattern('db.customer') || if_route_pattern('db.customer.*')) }}" href="{{ route('db.customer') }}">
+                                    <span class="fa fa-building-o fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.customer')
+                                </a>
                             </li>
                             <li>
                                 <a href="#"><span class="fa fa-check fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.customer.confirmation')</a>
                             </li>
                         </ul>
                     </li>
+                    @endpermission
                     @permission('menu-supplier')
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-building-o fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.supplier')</span></a>
@@ -279,7 +283,7 @@
                                 @endpermission
                                 @permission('menu-phoneprovider')
                                     <li>
-                                        <a href="#"><span class="fa fa-phone-square fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.phone_provider')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.settings.phone_provider') || if_route_pattern('db.settings.phone_provider.*')) }}"href="{{ route('db.settings.phone_provider') }}"><span class="fa fa-phone-square fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.settings.phone_provider')</a>
                                     </li>
                                 @endpermission
                             </ul>

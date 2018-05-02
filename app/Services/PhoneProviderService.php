@@ -14,7 +14,8 @@ interface PhoneProviderService
         $name,
         $short_name,
         $status,
-        $remarks
+        $remarks,
+        $prefixes
     );
     public function read();
     public function update(
@@ -22,7 +23,8 @@ interface PhoneProviderService
         $name,
         $symbol,
         $status,
-        $remarks
+        $remarks,
+        $prefixes
     );
     public function delete($id);
 }
