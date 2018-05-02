@@ -20,18 +20,18 @@ var phoneProviderVue = new Vue ({
                 if (this.mode == 'create') {
                     axios.post(route('api.post.settings.phone_provider.save').url(), new FormData($('#phoneProviderForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#phoneProviderCRUDBlock', 'state_toggle');
                     }).catch(e => { 
                         this.handleErrors(e); 
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#phoneProviderCRUDBlock', 'state_toggle');
                     });
                 } else if (this.mode == 'edit') {
                     axios.post(route('api.post.settings.phone_provider.edit', this.phone_provider.hId).url(), new FormData($('#phoneProviderForm')[0])).then(response => {
                         this.backToList();
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#phoneProviderCRUDBlock', 'state_toggle');
                     }).catch(e => { 
                         this.handleErrors(e);
-                        Codebase.blocks('#companyCRUDBlock', 'state_toggle');
+                        Codebase.blocks('#phoneProviderCRUDBlock', 'state_toggle');
                     });
                 } else { }
             });
