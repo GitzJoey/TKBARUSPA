@@ -23,6 +23,7 @@ use Laratrust\Models\LaratrustRole;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereUpdatedAt($value)
  * @property-read mixed $h_id
+ * @property-read mixed $selected_permission_ids
  */
 class Role extends LaratrustRole
 {

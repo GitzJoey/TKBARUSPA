@@ -82,6 +82,13 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withoutTrashed()
  * @mixin \Eloquent
+ * @property float|null $discount
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
+ * @property-read mixed $status_i18n
+ * @property-read mixed $vendor_trucking_h_id
+ * @property-read \App\Models\VendorTrucking $vendorTrucking
+ * @property-read \App\Models\Warehouse $warehouse
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscount($value)
  */
 class PurchaseOrder extends Model
 {

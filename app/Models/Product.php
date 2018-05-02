@@ -68,6 +68,7 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Supplier[] $supplier
  */
 class Product extends Model
 {

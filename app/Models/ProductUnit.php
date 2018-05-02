@@ -55,6 +55,9 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductUnit withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProductUnit withoutTrashed()
  * @mixin \Eloquent
+ * @property int|null $display
+ * @property-read mixed $company_h_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductUnit whereDisplay($value)
  */
 class ProductUnit extends Model
 {

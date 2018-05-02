@@ -62,6 +62,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Item withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Item withoutTrashed()
  * @mixin \Eloquent
+ * @property int $selected_product_unit_id
+ * @property int $base_product_unit_id
+ * @property float $discount
+ * @property-read \App\Models\ProductUnit $baseProductUnit
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Item whereBaseProductUnitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Item whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Item whereSelectedProductUnitId($value)
  */
 class Item extends Model
 {

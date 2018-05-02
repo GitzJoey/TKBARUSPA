@@ -21,6 +21,7 @@ use Laratrust\Models\LaratrustPermission;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereUpdatedAt($value)
+ * @property-read mixed $group
  */
 class Permission extends LaratrustPermission
 {
