@@ -41,7 +41,10 @@ var phoneProviderVue = new Vue ({
             axios.get(route('api.get.settings.phone_provider.read').url()).then(response => {
                 this.phoneProviderList = response.data;
                 Codebase.blocks('#phoneProviderListBlock', 'state_toggle');
-            }).catch(e => { this.handleErrors(e); });
+            }).catch(e => {
+                this.handleErrors(e);
+                Codebase.blocks('#phoneProviderListBlock', 'state_toggle');
+            });
         },
         createNew : function() {
             this.mode = 'create';
