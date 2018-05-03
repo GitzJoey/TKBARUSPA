@@ -1,5 +1,5 @@
 <div class="modal" id="supplierDetailModal" tabindex="-1" role="dialog" aria-labelledby="supplierDetailModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-popin" role="document">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">

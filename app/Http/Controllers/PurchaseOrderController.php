@@ -55,14 +55,10 @@ class PurchaseOrderController extends Controller
                 'item_selected_unit_id.*'   => 'required',
                 'item_quantity.*'           => 'required|numeric',
                 'item_price.*'              => 'required|numeric',
-                'discount.*'                => 'required|numeric',
+                'item_discount.*'           => 'required|numeric',
                 'supplier_id'               => 'required_if:supplier_type,SUPPLIERTYPE.R',
                 'walk_in_supplier'          => 'required_if:supplier_type,SUPPLIERTYPE.WI|string|max:255',
                 'warehouse_id'              => 'required',
-                'item_disc_percent.*.*'     => 'numeric',
-                'item_disc_value.*.*'       => 'numeric',
-                'disc_total_percent'        => 'numeric',
-                'disc_total_value'          => 'numeric',
         ])->validate();
 
         $items = [];
@@ -76,7 +72,7 @@ class PurchaseOrderController extends Controller
                     'conversion_value' => floatval($request["conversion_value"][$i]),
                     'quantity' => floatval($request["item_quantity"][$i]),
                     'price' => floatval($request["item_price"][$i]),
-                    'discount' => floatval($request["discount"][$i])
+                    'discount' => floatval($request["item_discount"][$i])
                 )
             );
         }
@@ -108,7 +104,7 @@ class PurchaseOrderController extends Controller
             $request['walk_in_supplier_detail'],
             Hashids::decode($request['warehouse_id'])[0],
             is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
-            $request['disc_total_value'],
+            $request['discount'],
             $request['status'],
             $request['remarks'],
             $request['internal_remarks'],

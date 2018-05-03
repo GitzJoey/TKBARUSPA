@@ -447,7 +447,7 @@
                                                     </td>
                                                     <td width="10%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" name="item_discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
@@ -591,7 +591,7 @@
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
                                                     <td width="12%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" name="discount" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.disc_total_value"></vue-autonumeric></div>
@@ -1107,10 +1107,8 @@
                     var conf = Object.assign({}, this.defaultFlatPickrConfig);
 
                     conf.inline = true;
-                    conf.altInput = true;
                     conf.altInputClass = 'hideTextBox';
                     conf.enableTime = false;
-                    conf.dateFormat = 'Y-m-d';
                     conf.enable = this.allPODates;
 
                     return conf;

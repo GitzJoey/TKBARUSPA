@@ -36,7 +36,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $walk_in_supplier_detail,
             $warehouse_id,
             $vendor_trucking_id,
-            $disc_total_value,
+            $discount,
             $status,
             $remarks,
             $internal_remarks,
@@ -70,7 +70,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $po->vendor_trucking_id = $vendor_trucking_id;
             $po->warehouse_id = $warehouse_id;
             $po->company_id = $company_id;
-            $po->discount = $disc_total_value;
+            $po->discount = $discount;
 
             $po->save();
 
@@ -125,7 +125,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $walk_in_supplier,
         $walk_in_supplier_detail,
         $warehouse_id,
-        $disc_total_value,
+        $discount,
         $status,
         $remarks,
         $internal_remarks,

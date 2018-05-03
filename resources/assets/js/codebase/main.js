@@ -139,7 +139,9 @@ Vue.mixin({
             return {
                 locale: language == 'id' ? flatPickrID:'en',
                 enableTime: true,
-                dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
+                altInput: true,
+                altFormat: conf[1] + ' ' + flatPickrTimeFormat,
+                dateFormat: 'Y-m-d H:i:S',
                 plugins: [new confirmDatePlugin({
                     confirmIcon: "<i class='fa fa-check'></i>",
                     confirmText: ""
