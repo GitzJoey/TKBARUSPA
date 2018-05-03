@@ -44,11 +44,12 @@ window.VeeValidateID = require('vee-validate/dist/locale/id');
 
 Vue.use(VeeValidate, {
     delay: 100,
-    locale: $('html').attr('lang'),
+    locale: language,
     dictionary: VeeValidateID
 });
 
 window.flatPickr = require('vue-flatpickr-component');
+const flatPickrID = require('flatpickr/dist/l10n/id').default.id;
 Vue.use(flatPickr);
 
 //Vue.component('passport-clients', require('./components/passport/Clients.vue'));
@@ -136,6 +137,7 @@ Vue.mixin({
             }
 
             return {
+                locale: language == 'id' ? flatPickrID:'en',
                 enableTime: true,
                 dateFormat: conf[1] + ' ' + flatPickrTimeFormat,
                 plugins: [new confirmDatePlugin({

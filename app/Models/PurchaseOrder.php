@@ -156,6 +156,7 @@ class PurchaseOrder extends Model
 
     public function getSupplierHIdAttribute()
     {
+        if ($this->attributes['supplier_id'] == 0) return '';
         return HashIds::encode($this->attributes['supplier_id']);
     }
 
