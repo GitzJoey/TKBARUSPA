@@ -188,6 +188,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'items.selectedProductUnit.unit'
             ,'items.baseProductUnit.unit'
             ,'supplier.personsInCharge'
+            ,'supplier.products.productType'
             ,'expenses'
             ,'warehouse'
             ,'vendorTrucking'
