@@ -146,7 +146,7 @@
                                                     <select id="inputSupplierId" name="supplier_id" class="form-control"
                                                             v-validate="po.supplier_type == 'SUPPLIERTYPE.R' ? 'required':''"
                                                             data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
-                                                            v-model="po.supplierHId">
+                                                            v-model="po.supplierHId" v-on:change="populateSupplier(po.supplierHId)">
                                                         <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                         <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
                                                     </select>
@@ -157,7 +157,9 @@
                                                 </template>
                                             </div>
                                             <div class="col-sm-2">
-                                                <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal">
+                                                <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal" data-target="#supplierDetailModal"
+                                                        v-bind:disabled="po.supplierHId == ''">
                                                     <span class="fa fa-info-circle fa-lg"></span>
                                                 </button>
                                             </div>
@@ -685,6 +687,8 @@
                 </form>
             </div>
         </div>
+
+        @include('purchase_order.supplier')
     </div>
 @endsection
 
@@ -716,6 +720,10 @@
                 po: {
                     items:[],
                     expenses: [],
+                    supplier: {
+                        hId: '',
+                        name: ''
+                    },
                     disc_total_percent: 0,
                     disc_total_value: 0,
                     subtotal: 0,
@@ -837,6 +845,10 @@
                         productHId: '',
                         items: [],
                         expenses: [],
+                        supplier: {
+                            hId: '',
+                            name: ''
+                        },
                         disc_total_percent: 0,
                         disc_total_value: 0,
                         subtotal: 0,
@@ -1028,8 +1040,8 @@
                         });
                     });
                 },
-                test: function(date) {
-                    console.log(date);
+                populateSupplier: function(id) {
+                    this.po.supplier = _.cloneDeep(_.find(this.supplierDDL, { hId: id }));
                 }
             },
             watch: {
