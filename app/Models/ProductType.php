@@ -82,11 +82,23 @@ class ProductType extends Model
 
     protected $appends = [
         'hId',
+        'companyHId',
+        'statusI18n',
     ];
 
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getStatusI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['status']);
     }
 
     public function company()

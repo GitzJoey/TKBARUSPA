@@ -27,6 +27,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
         Route::get('', 'DashboardController@index')->name('db');
 
         Route::group(['prefix' => 'product'], function () {
+            Route::group(['prefix' => 'product_type'], function () {
+                Route::get('', 'ProductTypeController@index')->name('db.product.product_type');
+            });
             Route::get('', 'ProductController@index')->name('db.product');
         });
 
