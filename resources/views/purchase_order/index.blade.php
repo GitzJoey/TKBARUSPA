@@ -32,7 +32,7 @@
                 <h3 class="block-title">@lang('purchase_order.index.panel.list_panel.title')</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                    <button type="button" class="btn-block-option" v-on:click="getAllPO">
+                    <button type="button" class="btn-block-option" v-on:click="renderPOListData">
                         <i class="si si-refresh"></i>
                     </button>
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
@@ -40,7 +40,7 @@
             </div>
             <div class="block-content">
                 <div class="row col-3">
-                    <flat-pickr id="inputPoList" v-bind:config="flatPickrInlineConfig" v-model="selectedDate" v-on:on-change="getAllPO(selectedDate)" class="form-control"></flat-pickr>
+                    <flat-pickr id="inputPoList" v-bind:config="flatPickrInlineConfig" v-model="selectedDate" v-on:input="renderPOListData" class="form-control"></flat-pickr>
                 </div>
                 <br/>
                 <div class="table-responsive">
@@ -61,9 +61,10 @@
                             </tr>
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
-                                <td>@{{ moment(po.po_created).formatPHP(defaultDateTimeFormat) }}</td>
-                                <td>@{{ po.supplier_type == 'SUPPLIERTYPE.WI' ? po.walk_in_supplier : po.supplier.name }}</td>
-                                <td>@{{ moment(po.shipping_date).formatPHP(defaultDateTimeFormat) }}</td>
+                                <td>@{{ po.po_created }}</td>
+                                <td>
+                                </td>
+                                <td>@{{ po.shipping_date }}</td>
                                 <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
@@ -559,11 +560,12 @@
                     disc_total_value: 0,
                     subtotal: 0,
                     grandtotal: 0
-                }
+                },
+                allPODates: []
             },
             mounted: function () {
                 this.mode = 'list';
-                this.getAllPO(moment().formatPHP(this.databaseDateFormat));
+                this.renderPOListData();
 
                 Promise.all([
                     this.getSupplier(),
@@ -602,20 +604,30 @@
                         } else { }
                     });
                 },
-                getAllPO: function (date) {
+                renderPOListData: function () {
                     this.loadingPanel('#poListBlock', 'TOGGLE');
 
-                    var qS = [];
-                    if (date && typeof(date) == 'string') {
-                        qS.push({'key': 'date', 'value': date});
-                    }
+                    var seldate = moment(this.selectedDate).formatPHP(this.databaseDateFormat);
 
-                    axios.get(route('api.get.po.read').url() + this.generateQueryStrings(qS)).then(response => {
-                        this.poList = response.data;
+                    Promise.all([
+                        this.getAllPODates(),
+                        this.getAllPOData(seldate)
+                    ]).then(() => {
                         this.loadingPanel('#poListBlock', 'TOGGLE');
-                    }).catch(e => {
-                        this.handleErrors(e);
-                        this.loadingPanel('#poListBlock', 'TOGGLE');
+                    });
+                },
+                getAllPOData: function(date) {
+                    return new Promise((resolve, reject) => {
+                        var qS = [];
+                        qS.push({'key': 'date', 'value': date});
+
+                        axios.get(route('api.get.po.read').url() + this.generateQueryStrings(qS)).then(response => {
+                            this.poList = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
                     });
                 },
                 onChangeSupplierType: function (type) {
@@ -648,7 +660,7 @@
                 backToList: function () {
                     this.mode = 'list';
                     this.errors.clear();
-                    this.getAllPO();
+                    this.renderPOListData();
                 },
                 emptyPO: function () {
                     return {
@@ -845,6 +857,20 @@
                     this.po.subtotal = allItemTotal + expenseTotal;
                     this.po.grandtotal = this.po.subtotal - this.po.disc_total_value;
                 },
+                getAllPODates: function() {
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.po.by.dates').url()).then(response => {
+                            this.allPODates = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
+                },
+                test: function(date) {
+                    console.log(date);
+                }
             },
             watch: {
                 'po.supplierHId': function() {
@@ -913,11 +939,7 @@
                     conf.altInputClass = 'hideTextBox';
                     conf.enableTime = false;
                     conf.dateFormat = 'Y-m-d';
-                    conf.enable = [
-                        function(date) {
-                            return '2018-03-30';
-                        }
-                    ];
+                    conf.enable = this.allPODates;
 
                     return conf;
                 },

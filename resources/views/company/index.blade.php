@@ -367,7 +367,7 @@
                                 <div class="col-md-10">
                                     <template v-if="mode == 'create' || mode == 'edit'">
                                         <select name="time_format" class="form-control" v-model="company.time_format">
-                                            <option value="G:H:s" v-bind:selected="company.phpTimeFormat == 'H:i:s'">HH:MM:SS (@{{ displayDateTimeNow('HH:mm:ss') }}) (default)</option>
+                                            <option value="H:i:s" v-bind:selected="company.phpTimeFormat == 'H:i:s'">HH:MM:SS (@{{ displayDateTimeNow('HH:mm:ss') }}) (default)</option>
                                             <option value="g:i A" v-bind:selected="company.phpTimeFormat == 'g:i A'">H:MM A (@{{ displayDateTimeNow('h:mm A') }})</option>
                                         </select>
                                     </template>

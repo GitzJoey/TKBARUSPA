@@ -164,12 +164,19 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
     public function getPODates($limit = 50)
     {
         $po = PurchaseOrder::all()->groupBy(function ($po) {
-            return $po->po_created->format('d-M-y');
+            return $po->po_created->format('Y-m-d');
         })->take($limit)->map(function($item) {
-            return $item->all()[0]->po_created->format('d/m/y');
+            return $item->all()[0]->po_created->format('Y-m-d');
         });
 
-        return $po;
+        $poResult = [];
+        foreach ($po as $p) {
+            if (!in_array($p, $poResult)) {
+                array_push($poResult, $p);
+            }
+        }
+
+        return $poResult;
     }
 
     public function searchPOByDate($date)
@@ -181,7 +188,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'supplier.personsInCharge'
             //,'receipts.item.product'
             //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
-        ])->get();//->where('po_created', 'like', $date.'%')->get();
+        ])->where('po_created', 'like', $date.'%')->get();
 
         return $purchaseOrders;
     }

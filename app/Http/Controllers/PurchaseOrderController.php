@@ -38,6 +38,11 @@ class PurchaseOrderController extends Controller
         return $this->purchaseOrderService->generatePOCode();
     }
 
+    public function getPODates()
+    {
+        return $this->purchaseOrderService->getPODates();
+    }
+
     public function store(Request $request)
     {
         Validator::make($request->all(), [

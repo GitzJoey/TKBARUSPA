@@ -46,6 +46,8 @@ use Laratrust\Traits\LaratrustUserTrait;
  * @property-read mixed $active_i18n
  * @property-read mixed $company_h_id
  * @property-read mixed $h_id
+ * @property-read mixed $active_lookup
+ * @property-read mixed $role_h_id
  */
 class User extends Authenticatable
 {
