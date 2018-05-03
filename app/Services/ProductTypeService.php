@@ -10,5 +10,21 @@ namespace App\Services;
 
 interface ProductTypeService
 {
-    public function read();
+	public function create(
+		$company_id,
+		$name,
+		$short_code,
+		$description,
+		$status
+	);
+	public function read();
+	public function update(
+		$id,
+		$company_id,
+		$name,
+		$short_code,
+		$description,
+		$status
+	);
+	public function delete($id);
 }

@@ -120,6 +120,11 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
     });
 
     Route::group(['prefix' => 'product'], function () {
+        Route::group(['prefix' => 'product_type'], function () {
+            Route::post('save', 'ProductTypeController@store')->name('api.post.product.product_type.save');
+            Route::post('edit/{id}', 'ProductTypeController@update')->name('api.post.product.product_type.edit');
+            Route::post('delete/{id}', 'ProductTypeController@delete')->name('api.post.product.product_type.delete');
+        });
         Route::post('save', 'ProductController@store')->name('api.post.product.save');
         Route::post('edit/{id}', 'ProductController@update')->name('api.post.product.edit');
         Route::post('delete/{id}', 'ProductController@delete')->name('api.post.product.delete');

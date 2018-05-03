@@ -21,6 +21,7 @@ use App\Services\RoleService;
 use App\Services\TruckService;
 use App\Services\TruckMaintenanceService;
 use App\Services\CustomerService;
+use App\Services\ProductTypeService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
@@ -39,6 +40,7 @@ use App\Services\Implementations\RoleServiceImpl;
 use App\Services\Implementations\TruckServiceImpl;
 use App\Services\Implementations\TruckMaintenanceServiceImpl;
 use App\Services\Implementations\CustomerServiceImpl;
+use App\Services\Implementations\ProductTypeServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -126,6 +128,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CustomerService::class, function() {
             return new CustomerServiceImpl();
         });
+
+        $this->app->singleton(ProductTypeService::class, function() {
+            return new ProductServiceImpl();
+        });
     }
 
     /**
@@ -151,6 +157,7 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\TruckService',
             'App\Services\TruckMaintenanceService',
             'App\Services\CustomerService',
+            'App\Services\ProductTypeService',
         ];
     }
 }
