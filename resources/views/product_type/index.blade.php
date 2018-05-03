@@ -24,7 +24,7 @@
                 <h3 class="block-title">@lang('product_type.index.panel.list_panel.title')</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                    <button type="button" class="btn-block-option" v-on:click="getAllTruckMaintenance">
+                    <button type="button" class="btn-block-option" v-on:click="getAllProductType">
                         <i class="si si-refresh"></i>
                     </button>
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
@@ -92,7 +92,7 @@
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
 								<input id="inputName" name="name" type="text" class="form-control" placeholder="@lang('product_type.fields.name')"
-                                v-model="productType.nama" v-validate="'required'" data-vv-as="{{ trans('product_type.fields.name') }}">
+                                v-model="productType.name" v-validate="'required'" data-vv-as="{{ trans('product_type.fields.name') }}">
                                 <div v-show="errors.has('name')" class="invalid-feedback">@{{ errors.first('name') }}</div>
                             </template>
                             <template v-if="mode == 'show'">

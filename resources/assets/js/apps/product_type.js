@@ -66,6 +66,11 @@ var productTypeVue = new Vue ({
                 this.backToList();
             }).catch(e => { this.handleErrors(e); });
         },
+        backToList : function() {
+            this.mode = 'list';
+            this.errors.clear();
+            this.getAllProductType();
+        },
         emptyProductType: function() {
             return {
                 hId: '',

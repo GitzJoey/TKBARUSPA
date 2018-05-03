@@ -216,7 +216,9 @@
                                 @endpermission
                                 @permission('menu-product_type')
                                     <li>
-                                        <a href="#"><span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')</a>
+                                        <a class="{{ active_class(if_route_pattern('db.product.product_type') || if_route_pattern('db.product.product_type.*')) }}" href="{{ route('db.product.product_type') }}">
+                                            <span class="fa fa-cubes fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.product.type')
+                                        </a>
                                     </li>
                                 @endpermission
                             </ul>

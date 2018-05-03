@@ -25,7 +25,7 @@
                 <h3 class="block-title">@lang('phone_provider.index.panel.list_panel.title')</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                    <button type="button" class="btn-block-option" v-on:click="">
+                    <button type="button" class="btn-block-option" v-on:click="getAllPhoneProvider">
                         <i class="si si-refresh"></i>
                     </button>
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
@@ -45,21 +45,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(u, uIdx) in phoneProviderList">
-                                <td>@{{ u.name }}</td>
-                                <td>@{{ u.short_name }}</td>
+                            <tr v-for="(pp, ppIdx) in phoneProviderList">
+                                <td>@{{ pp.name }}</td>
+                                <td>@{{ pp.short_name }}</td>
                                 <td class="text-center">
-                                    <div v-for="(a, prefixId) in u.prefixes">
-                                        @{{ a.prefix }}
+                                    <div v-for="(p, pIdx) in pp.prefixes">
+                                        @{{ p.prefix }}
                                     </div>
                                 </td>
-                                <td>@{{ u.statusI18n }}</td>
-                                <td>@{{ u.remarks }}</td>
+                                <td>@{{ pp.statusI18n }}</td>
+                                <td>@{{ pp.remarks }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(uIdx)"><span class="fa fa-info fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(uIdx)"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(u.hId)"><span class="fa fa-close fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(ppIdx)"><span class="fa fa-info fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(ppIdx)"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(pp.hId)"><span class="fa fa-close fa-fw"></span></button>
                                     </div>
                                 </td>
                             </tr>
