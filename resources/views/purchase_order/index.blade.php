@@ -634,27 +634,27 @@
                                         <div class="block-content tab-content overflow-hidden">
                                             <div class="tab-pane fade fade-up show active" id="tabs_remarks" role="tabpanel">
                                                 <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <textarea id="inputRemarks" name="remarks" class="form-control" rows="5" v-model="po.remarks"></textarea>
                                                 </template>
                                                 <template v-if="mode == 'show'">
-                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                    <div class="form-control-plaintext">@{{ po.remarks }}</div>
                                                 </template>
-                                                <textarea id="inputRemarks" name="remarks" class="form-control" rows="5" v-model="po.remarks"></textarea>
                                             </div>
                                             <div class="tab-pane fade fade-up show" id="tabs_internal" role="tabpanel">
                                                 <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <textarea id="inputInternalRemarks" name="internal_remarks" class="form-control" rows="5" v-model="po.internal_remarks"></textarea>
                                                 </template>
                                                 <template v-if="mode == 'show'">
-                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                    <div class="form-control-plaintext">@{{ po.internal_remarks }}</div>
                                                 </template>
-                                                <textarea id="inputInternalRemarks" name="internal_remarks" class="form-control" rows="5" v-model="po.internal_remarks"></textarea>
                                             </div>
                                             <div class="tab-pane fade fade-up show" id="tabs_private" role="tabpanel">
                                                 <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <textarea id="inputPrivateRemarks" name="private_remarks" class="form-control" rows="5" v-model="po.private_remarks"></textarea>
                                                 </template>
                                                 <template v-if="mode == 'show'">
-                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                    <div class="form-control-plaintext">@{{ po.private_remarks }}</div>
                                                 </template>
-                                                <textarea id="inputPrivateRemarks" name="private_remarks" class="form-control" rows="5" v-model="po.private_remarks"></textarea>
                                             </div>
                                         </div>
                                     </div>

@@ -30,7 +30,7 @@ return [
                 'header' => [
                     'name' => 'Nama',
                     'address' => 'Alamat',
-                    'tax_id' => 'TaxOutput ID',
+                    'tax_id' => 'NPWP ID',
                     'status' => 'Status',
                     'remarks' => 'Keterangan',
                 ],

@@ -30,7 +30,7 @@ return [
                 'header' => [
                     'name' => 'Name',
                     'address' => 'Address',
-                    'tax_id' => 'TaxOutput ID',
+                    'tax_id' => 'Tax ID',
                     'status' => 'Status',
                     'remarks' => 'Remarks',
                 ],
