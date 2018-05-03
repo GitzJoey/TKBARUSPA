@@ -84,11 +84,29 @@ class Item extends Model
 
     protected $hidden = [
         'id',
-        'itemable_type'
+        'stock_id',
+        'company_id',
+        'product_id',
+        'base_product_unit_id',
+        'selected_product_unit_id',
+        'itemable_id',
+        'itemable_type',
+        'created_by',
+        'created_at',
+        'updated_by',
+        'updated_at',
+        'deleted_by',
+        'deleted_at',
     ];
 
     protected $appends = [
         'hId'
+    ];
+
+    protected $casts = [
+        'conversion_value' => 'float',
+        'quantity' => 'float',
+        'price' => 'float',
     ];
 
     public function getHIdAttribute()

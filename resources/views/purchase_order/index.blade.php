@@ -62,19 +62,19 @@
                             <tr v-for="(po, poIdx) in poList">
                                 <td>@{{ po.code }}</td>
                                 <td>@{{ po.po_created }}</td>
-                                <td>
+                                <td>@{{ po.supplier_type == 'SUPPLIERTYPE.WI' ? po.walk_in_supplier : po.supplier.name }}
                                 </td>
                                 <td>@{{ po.shipping_date }}</td>
                                 <td>@{{ po.statusI18n }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="showSelected(poIdx)" v-bind:disabled="!isFinishLoadingMounted">
                                             <span class="fa fa-info fa-fw"></span>
                                         </button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(cIdx)" v-bind:disabled="!isFinishLoadingMounted">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="editSelected(poIdx)" v-bind:disabled="!isFinishLoadingMounted">
                                             <span class="fa fa-pencil fa-fw"></span>
                                         </button>
-                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(c.hId)" v-bind:disabled="!isFinishLoadingMounted">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="deleteSelected(po.hId)" v-bind:disabled="!isFinishLoadingMounted">
                                             <span class="fa fa-close fa-fw"></span>
                                         </button>
                                     </div>
@@ -124,27 +124,37 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('supplier_type') }">
                                         <label for="inputSupplierType" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_type')</label>
                                         <div class="col-9">
-                                            <select id="inputSupplierType" name="supplier_type" class="form-control"
-                                                    v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.supplier_type') }}"
-                                                    v-model="po.supplier_type" v-on:change="onChangeSupplierType(po.supplier_type)">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(st, stIdx) of supplierTypeDDL" v-bind:value="st.code">@{{ st.description }}</option>
-                                            </select>
-                                            <span v-show="errors.has('supplier_type')" class="invalid-feedback">@{{ errors.first('supplier_type') }}</span>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select id="inputSupplierType" name="supplier_type" class="form-control"
+                                                        v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.supplier_type') }}"
+                                                        v-model="po.supplier_type" v-on:change="onChangeSupplierType(po.supplier_type)">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(st, stIdx) of supplierTypeDDL" v-bind:value="st.code">@{{ st.description }}</option>
+                                                </select>
+                                                <span v-show="errors.has('supplier_type')" class="invalid-feedback">@{{ errors.first('supplier_type') }}</span>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.supplierTypeI18n }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                     <template v-if="po.supplier_type == 'SUPPLIERTYPE.R'">
                                         <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('supplier_id') }">
                                             <label for="inputSupplierId" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_name')</label>
                                             <div class="col-md-7">
-                                                <select id="inputSupplierId" name="supplier_id" class="form-control"
-                                                        v-validate="po.supplier_type == 'SUPPLIERTYPE.R' ? 'required':''"
-                                                        data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
-                                                        v-model="po.supplierHId">
-                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                    <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
-                                                </select>
-                                                <span v-show="errors.has('supplier_id')" class="help-block" v-cloak>@{{ errors.first('supplier_id') }}</span>
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <select id="inputSupplierId" name="supplier_id" class="form-control"
+                                                            v-validate="po.supplier_type == 'SUPPLIERTYPE.R' ? 'required':''"
+                                                            data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
+                                                            v-model="po.supplierHId">
+                                                        <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                        <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
+                                                    </select>
+                                                    <span v-show="errors.has('supplier_id')" class="help-block" v-cloak>@{{ errors.first('supplier_id') }}</span>
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ po.supplier.name }}</div>
+                                                </template>
                                             </div>
                                             <div class="col-sm-2">
                                                 <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal">
@@ -157,21 +167,31 @@
                                         <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('walk_in_supplier') }">
                                             <label for="inputSupplierName" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_name')</label>
                                             <div class="col-md-9">
-                                                <input type="text" id="inputSupplierName" name="walk_in_supplier"
-                                                       v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
-                                                       data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
-                                                       class="form-control" v-model="po.supplier_name">
-                                                <span v-show="errors.has('walk_in_supplier')" class="invalid-feedback">@{{ errors.first('walk_in_supplier') }}</span>
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <input type="text" id="inputSupplierName" name="walk_in_supplier"
+                                                           v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
+                                                           data-vv-as="{{ trans('purchase_order.fields.supplier_name') }}"
+                                                           class="form-control" v-model="po.supplier_name">
+                                                    <span v-show="errors.has('walk_in_supplier')" class="invalid-feedback">@{{ errors.first('walk_in_supplier') }}</span>
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ po.walk_in_supplier }}</div>
+                                                </template>
                                             </div>
                                         </div>
                                         <div v-bind:class="{ 'form-group row':true, 'has-error':errors.has('walk_in_supplier_detail') }">
                                             <label for="inputSupplierDetails" class="col-3 col-form-label">@lang('purchase_order.fields.supplier_details')</label>
                                             <div class="col-md-9">
-                                                <textarea id="inputSupplierDetails" name="walk_in_supplier_detail" class="form-control" rows="5"
-                                                    v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
-                                                    data-vv-as="{{ trans('purchase_order.fields.supplier_details') }}"
-                                                    v-model="po.supplier_details"></textarea>
-                                                <span v-show="errors.has('walk_in_supplier_detail')" class="invalid-feedback">@{{ errors.first('walk_in_supplier_detail') }}</span>
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <textarea id="inputSupplierDetails" name="walk_in_supplier_detail" class="form-control" rows="5"
+                                                              v-validate="po.supplier_type == 'SUPPLIERTYPE.WI' ? 'required':''"
+                                                              data-vv-as="{{ trans('purchase_order.fields.supplier_details') }}"
+                                                              v-model="po.supplier_details"></textarea>
+                                                    <span v-show="errors.has('walk_in_supplier_detail')" class="invalid-feedback">@{{ errors.first('walk_in_supplier_detail') }}</span>
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ po.supplier_details }}</div>
+                                                </template>
                                             </div>
                                         </div>
                                     </template>
@@ -190,33 +210,56 @@
                                     <div class="form-group row">
                                         <label for="inputPoCode" class="col-3 col-form-label">@lang('purchase_order.fields.po_code')</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" id="inputPoCode" name="code" v-model="po.po_code" placeholder="PO Code" readonly>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" id="inputPoCode" name="code" v-model="po.po_code" placeholder="PO Code" readonly>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.po_code }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_type') }">
                                         <label for="inputPoType" class="col-3 col-form-label">@lang('purchase_order.fields.po_type')</label>
                                         <div class="col-md-9">
-                                            <select id="inputPoType" name="po_type" class="form-control"
-                                                    v-validate="'required'"
-                                                    data-vv-as="{{ trans('purchase_order.fields.po_type') }}"
-                                                    v-model="po.po_type">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(poType, poTypeIdx) of poTypeDDL" v-bind:value="poType.code">@{{ poType.description }}</option>
-                                            </select>
-                                            <span v-show="errors.has('po_type')" class="invalid-feedback" v-cloak>@{{ errors.first('po_type') }}</span>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select id="inputPoType" name="po_type" class="form-control"
+                                                        v-validate="'required'"
+                                                        data-vv-as="{{ trans('purchase_order.fields.po_type') }}"
+                                                        v-model="po.po_type">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(poType, poTypeIdx) of poTypeDDL" v-bind:value="poType.code">@{{ poType.description }}</option>
+                                                </select>
+                                                <span v-show="errors.has('po_type')" class="invalid-feedback" v-cloak>@{{ errors.first('po_type') }}</span>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.poTypeI18n }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('po_created') }">
                                         <label for="inputPoCreated" class="col-3 col-form-label">@lang('purchase_order.fields.po_created')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputPoCreated" name="po_created" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <flat-pickr id="inputPoCreated" name="po_created" class="form-control"
+                                                            v-bind:config="defaultFlatPickrConfig"
+                                                            v-model="po.po_created" v-validate="'required'"
+                                                            data-vv-as="{{ trans('purchase_order.fields.po_created') }}"></flat-pickr>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.po_created }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputPoStatus" class="col-3 col-form-label">@lang('purchase_order.fields.po_status')</label>
                                         <div class="col-sm-9">
-                                            <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
-                                            <input type="hidden" name="po_status" v-model="po.po_status"/>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
+                                                <input type="hidden" name="po_status" v-model="po.po_status"/>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
@@ -236,32 +279,49 @@
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('shipping_date') }">
                                         <label for="inputShippingDate" class="col-3 col-form-label">@lang('purchase_order.fields.shipping_date')</label>
                                         <div class="col-md-9">
-                                            <flat-pickr id="inputShippingDate" v-model="po.shipping_date" name="shipping_date" v-bind:config="defaultFlatPickrConfig" v-model="po.po_created" class="form-control" v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.shipping_date') }}"></flat-pickr>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <flat-pickr id="inputShippingDate" name="shipping_date" class="form-control"
+                                                            v-model="po.shipping_date" v-bind:config="defaultFlatPickrConfig"
+                                                            v-validate="'required'" data-vv-as="{{ trans('purchase_order.fields.shipping_date') }}"></flat-pickr>
+                                                <span v-show="errors.has('shipping_date')" class="invalid-feedback">@{{ errors.first('shipping_date') }}</span>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.shipping_date }}</div>
+                                            </template>
                                         </div>
-                                        <span v-show="errors.has('shipping_date')" class="invalid-feedback">@{{ errors.first('shipping_date') }}</span>
                                     </div>
                                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('warehouse_id') }">
                                         <label for="inputWarehouse" class="col-3 col-form-label">@lang('purchase_order.fields.warehouse')</label>
                                         <div class="col-sm-9">
-                                            <select id="inputWarehouse" name="warehouse_id" class="form-control"
-                                                    v-model="po.warehouseHId"
-                                                    v-validate="'required'"
-                                                    data-vv-as="{{ trans('purchase_order.fields.warehouse') }}">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(warehouse, warehouseIdx) of warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.remarks ? '('+warehouse.remarks+')':'' }}</option>
-                                            </select>
-                                            <span v-show="errors.has('warehouse_id')" class="invalid-feedback">@{{ errors.first('warehouse_id') }}</span>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select id="inputWarehouse" name="warehouse_id" class="form-control"
+                                                        v-model="po.warehouseHId"
+                                                        v-validate="'required'"
+                                                        data-vv-as="{{ trans('purchase_order.fields.warehouse') }}">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(warehouse, warehouseIdx) of warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.remarks ? '('+warehouse.remarks+')':'' }}</option>
+                                                </select>
+                                                <span v-show="errors.has('warehouse_id')" class="invalid-feedback">@{{ errors.first('warehouse_id') }}</span>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.warehouse.name }} @{{ po.warehouse.remarks ? '('+po.warehouse.remarks+')':'' }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="form-group row">
                                         <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('purchase_order.fields.vendor_trucking')</label>
                                         <div class="col-md-9">
-                                            <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
-                                                    v-model="po.vendorTruckingHId">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
-                                            </select>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
+                                                        v-model="po.vendorTruckingHId">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
+                                                </select>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ po.vendor_trucking ? po.vendor_trucking.name:'' }}</div>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
@@ -280,15 +340,23 @@
                                 <div class="block-content">
                                     <div class="row">
                                         <div class="col-11">
-                                            <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(p, pIdx) in product_options" v-bind:value="p.hId">@{{ p.name }}</option>
-                                            </select>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(p, pIdx) in product_options" v-bind:value="p.hId">@{{ p.name }}</option>
+                                                </select>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                            </template>
                                         </div>
                                         <div class="col-1">
-                                            <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal" v-on:click="insertItem(productSelected)">
-                                                <span class="fa fa-plus fa-fw"></span>
-                                            </button>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal" v-on:click="insertItem(productSelected)">
+                                                    <span class="fa fa-plus fa-fw"></span>
+                                                </button>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                            </template>
                                         </div>
                                     </div>
                                     <br/>
@@ -314,47 +382,81 @@
                                                 </tr>
                                                 <tr v-for="(i, iIdx) in po.items">
                                                     <td>
-                                                        @{{ i.product.name }}
-                                                        <input type="hidden" name="item_product_id[]" v-model="i.product.hId"/>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            @{{ i.product.name }}
+                                                            <input type="hidden" name="item_product_id[]" v-model="i.product.hId"/>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ i.product.name }}</div>
+                                                        </template>
                                                     </td>
                                                     <td width="5%">
-                                                        <vue-autonumeric type="text" name="item_quantity[]"
-                                                                 v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
-                                                                 v-bind:options="defaultNumericConfig"
-                                                                 v-bind:data-vv-name="'quantity_' + iIdx"
-                                                                 v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
-                                                                 v-model="i.quantity" v-validate="'required'"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" name="item_quantity[]"
+                                                                             v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
+                                                                             v-bind:options="defaultNumericConfig"
+                                                                             v-bind:data-vv-name="'quantity_' + iIdx"
+                                                                             v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
+                                                                             v-model="i.quantity" v-validate="'required'"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.quantity" v-bind:options="numericFormatToString"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                     <td width="15%">
-                                                        <select v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('product_unit_' + iIdx) }"
-                                                                name="item_selected_product_unit_id[]"
-                                                                v-model="i.selected_product_unit.hId"
-                                                                v-bind:data-vv-name="'product_unit_' + iIdx"
-                                                                v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.unit') }} ' + (iIdx + 1)"
-                                                                v-validate="'required'"
-                                                                v-on:change="onChangeProductUnit(iIdx)">
-                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                            <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
-                                                        </select>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <select v-bind:class="{ 'form-control':true, 'is-invalid':errors.has('product_unit_' + iIdx) }"
+                                                                    name="item_selected_product_unit_id[]"
+                                                                    v-model="i.selected_product_unit.hId"
+                                                                    v-bind:data-vv-name="'product_unit_' + iIdx"
+                                                                    v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.unit') }} ' + (iIdx + 1)"
+                                                                    v-validate="'required'"
+                                                                    v-on:change="onChangeProductUnit(iIdx)">
+                                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                                <option v-for="(pu, puIdx) in i.product.product_units" v-bind:value="pu.hId">@{{ pu.unit.unitName }}</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ i.selected_product_unit.unit.name }}</div>
+                                                        </template>
                                                         <input type="hidden" name="conversion_value[]" v-model="i.conversion_value">
                                                         <input type="hidden" name="base_product_unit_id[]" v-model="i.base_product_unit.hId">
                                                     </td>
                                                     <td width="13%">
-                                                        <vue-autonumeric type="text" name="item_price[]"
-                                                                         v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('price_' + iIdx) }"
-                                                                         v-model="i.price" v-validate="'required'"
-                                                                         v-bind:options="defaultCurrencyConfig"
-                                                                         v-bind:data-vv-name="'price_' + iIdx"
-                                                                         v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" name="item_price[]"
+                                                                             v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('price_' + iIdx) }"
+                                                                             v-model="i.price" v-validate="'required'"
+                                                                             v-bind:options="defaultCurrencyConfig"
+                                                                             v-bind:data-vv-name="'price_' + iIdx"
+                                                                             v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.price" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                     <td width="7%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="defaultPercentageConfig" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="defaultPercentageConfig" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount_pct" v-bind:options="percentageFormatToString"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                     <td width="10%">
-                                                        <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" name="discount[]" class="form-control text-align-right" v-model="i.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setDiscountPct(iIdx)" placeholder="0"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                     <td width="3%">
-                                                        <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                        </template>
                                                     </td>
                                                     <td width="12%" class="text-align-right">
                                                         <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="i.total"></vue-autonumeric>
@@ -369,11 +471,15 @@
                                                 <tr>
                                                     <th colspan="5">@lang('purchase_order.index.table.expense_table.header.title')</th>
                                                     <th class="text-align-right">
-                                                        <button type="button" class="btn-block-option"
-                                                                data-toggle="tooltip" title="{{ trans('buttons.create_new_button') }}"
-                                                                v-on:click="addExpense">
-                                                            <i class="si si-plus"></i>
-                                                        </button>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <button type="button" class="btn-block-option"
+                                                                    data-toggle="tooltip" title="{{ trans('buttons.create_new_button') }}"
+                                                                    v-on:click="addExpense">
+                                                                <i class="si si-plus"></i>
+                                                            </button>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                        </template>
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -395,36 +501,65 @@
                                                 </tr>
                                                 <tr v-for="(expense, expenseIndex) in po.expenses">
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_name_' + expenseIndex) }">
-                                                        <input name="expense_name[]" type="text" class="form-control"
-                                                               v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
-                                                               v-bind:data-vv-name="'expense_name_' + expenseIndex">
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input name="expense_name[]" type="text" class="form-control"
+                                                                   v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
+                                                                   v-bind:data-vv-name="'expense_name_' + expenseIndex">
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ expense.name }}</div>
+                                                        </template>
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
-                                                        <select class="form-control" v-model="expense.type.code" name="expense_type[]"
-                                                                v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
-                                                                v-bind:data-vv-name="'expense_type_' + expenseIndex">
-                                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                            <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
-                                                        </select>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <select class="form-control" v-model="expense.type.code" name="expense_type[]"
+                                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
+                                                                    v-bind:data-vv-name="'expense_type_' + expenseIndex">
+                                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                                <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
+                                                            </select>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ expense.typeI18n }}</div>
+                                                        </template>
                                                     </td>
                                                     <td class="text-center">
-                                                        <input type="checkbox" v-model="expense.is_internal_expense">
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input type="checkbox" v-model="expense.is_internal_expense">
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <input type="checkbox" v-model="expense.is_internal_expense" disabled>
+                                                        </template>
                                                         <input type="hidden" name="is_internal_expense" v-model="expense.is_internal_expense_val">
                                                     </td>
                                                     <td>
-                                                        <input name="expense_remarks[]" type="text" class="form-control" v-model="expense.remarks"/>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <input name="expense_remarks[]" type="text" class="form-control" v-model="expense.remarks"/>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext">@{{ expense.remarks }}</div>
+                                                        </template>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-danger btn-md" v-on:click="removeExpense(expenseIndex)">
-                                                            <span class="fa fa-minus"></span>
-                                                        </button>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeExpense(expenseIndex)">
+                                                                <span class="fa fa-minus"></span>
+                                                            </button>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                        </template>
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
-                                                        <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
-                                                                         v-model="expense.amount" v-validate="'required'"
-                                                                         v-bind:options="defaultCurrencyConfig"
-                                                                         v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
-                                                                         v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
+                                                                             v-model="expense.amount" v-validate="'required'"
+                                                                             v-bind:options="defaultCurrencyConfig"
+                                                                             v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
+                                                                             v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="expense.amount" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -442,13 +577,23 @@
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
                                                     <td width="12%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="defaultPercentageConfig" placeholder="0%"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="defaultPercentageConfig" placeholder="0%"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="percentageFormatToString" v-model="po.disc_total_percent"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
                                                     <td width="12%">
-                                                        <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.disc_total_value"></vue-autonumeric></div>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -488,12 +633,27 @@
                                         </ul>
                                         <div class="block-content tab-content overflow-hidden">
                                             <div class="tab-pane fade fade-up show active" id="tabs_remarks" role="tabpanel">
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                </template>
                                                 <textarea id="inputRemarks" name="remarks" class="form-control" rows="5" v-model="po.remarks"></textarea>
                                             </div>
                                             <div class="tab-pane fade fade-up show" id="tabs_internal" role="tabpanel">
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                </template>
                                                 <textarea id="inputInternalRemarks" name="internal_remarks" class="form-control" rows="5" v-model="po.internal_remarks"></textarea>
                                             </div>
                                             <div class="tab-pane fade fade-up show" id="tabs_private" role="tabpanel">
+                                                <template v-if="mode == 'create' || mode == 'edit'">
+                                                </template>
+                                                <template v-if="mode == 'show'">
+                                                    <div class="form-control-plaintext">@{{ '' }}</div>
+                                                </template>
                                                 <textarea id="inputPrivateRemarks" name="private_remarks" class="form-control" rows="5" v-model="po.private_remarks"></textarea>
                                             </div>
                                         </div>
@@ -940,6 +1100,22 @@
                     conf.enableTime = false;
                     conf.dateFormat = 'Y-m-d';
                     conf.enable = this.allPODates;
+
+                    return conf;
+                },
+                percentageFormatToString: function() {
+                    var conf = Object.assign({}, this.defaultPercentageConfig);
+
+                    conf.readOnly = true;
+                    conf.noEventListeners = true;
+
+                    return conf;
+                },
+                numericFormatToString: function() {
+                    var conf = Object.assign({}, this.defaultNumericConfig);
+
+                    conf.readOnly = true;
+                    conf.noEventListeners = true;
 
                     return conf;
                 },

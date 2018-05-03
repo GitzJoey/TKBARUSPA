@@ -185,7 +185,12 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
         $purchaseOrders = PurchaseOrder::with([
             'items.product'
+            ,'items.selectedProductUnit.unit'
+            ,'items.baseProductUnit.unit'
             ,'supplier.personsInCharge'
+            ,'expenses'
+            ,'warehouse'
+            ,'vendorTrucking'
             //,'receipts.item.product'
             //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
         ])->where('po_created', 'like', $date.'%')->get();

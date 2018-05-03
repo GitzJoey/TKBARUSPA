@@ -112,8 +112,7 @@ class PurchaseOrder extends Model
         'internal_remarks',
         'private_remarks',
         'status',
-        'disc_percent',
-        'disc_value',
+        'discount',
     ];
 
     protected $hidden = [
@@ -137,6 +136,12 @@ class PurchaseOrder extends Model
         'vendorTruckingHId',
         'warehouseHId',
         'statusI18n',
+        'supplierTypeI18n',
+        'poTypeI18n',
+    ];
+
+    protected $casts = [
+        'discount' => 'float'
     ];
 
     public function getHIdAttribute()
@@ -167,6 +172,16 @@ class PurchaseOrder extends Model
     public function getStatusI18nAttribute()
     {
         return Lang::get('lookup.'.$this->attributes['status']);
+    }
+
+    public function getSupplierTypeI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['supplier_type']);
+    }
+
+    public function getPoTypeI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['po_type']);
     }
 
     public function items()
