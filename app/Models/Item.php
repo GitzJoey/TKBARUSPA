@@ -79,7 +79,9 @@ class Item extends Model
     protected $table = 'items';
 
     protected $fillable = [
-        'quantity'
+        'quantity',
+        'discount',
+        'price',
     ];
 
     protected $hidden = [
@@ -105,7 +107,9 @@ class Item extends Model
 
     protected $casts = [
         'conversion_value' => 'float',
+        'to_base_quantity' => 'float',
         'quantity' => 'float',
+        'discount' => 'float',
         'price' => 'float',
     ];
 

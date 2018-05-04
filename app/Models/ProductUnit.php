@@ -96,6 +96,10 @@ class ProductUnit extends Model
         'companyHId',
     ];
 
+    protected $casts = [
+        'conversion_value' => 'float',
+    ];
+
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
