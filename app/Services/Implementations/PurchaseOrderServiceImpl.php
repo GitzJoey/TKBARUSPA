@@ -114,13 +114,16 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
     public function update(
         $id,
+        $company_id,
         $code,
         $po_type,
         $po_created,
         $shipping_date,
         $supplier_type,
         $items,
+        $inputtedItemIds,
         $expenses,
+        $inputtedExpenseIds,
         $supplier_id,
         $walk_in_supplier,
         $walk_in_supplier_detail,
@@ -132,7 +135,75 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $private_remarks
     )
     {
-        // TODO: Implement update() method.
+        DB::beginTransaction();
+
+        try {
+            // Get current PO
+            $currentPo = PurchaseOrder::with('items', 'expenses')->find($id);
+
+            // Get IDs of current PO's items
+            $poItemsId = $currentPo->items->map(function ($item) {
+                return $item->id;
+            })->all();
+
+            // Get the id of removed items
+            $poItemsToBeDeleted = array_diff($poItemsId, $inputtedItemIds);
+
+            // Remove the items that removed on the revise page
+            Item::destroy($poItemsToBeDeleted);
+
+            $currentPo->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
+            $currentPo->warehouse_id = $warehouse_id;
+            $currentPo->vendor_trucking_id = empty($vendor_trucking_id) ? 0 : $vendor_trucking_id;
+            $currentPo->remarks = $remarks;
+            $currentPo->internal_remarks = $internal_remarks;
+            $currentPo->private_remarks = $private_remarks;
+            $currentPo->discount = $discount;
+
+            for ($i = 0; $i < count($inputtedItemIds); $i++) {
+                $item = Item::findOrNew($inputtedItemIds[$i]);
+                $item->product_id = $items[$i]['product_id'];
+                $item->company_id = $items[$i]['company_id'];
+                $item->selected_product_unit_id = $items[$i]['selected_product_unit_id'];
+                $item->base_product_unit_id = $items[$i]['base_product_unit_id'];
+                $item->conversion_value = $items[$i]['conversion_value'];
+                $item->quantity = $items[$i]['quantity'];
+                $item->price = $items[$i]['price'];
+                $item->discount = $items[$i]['discount'];
+                $item->to_base_quantity = $item->quantity * $item->conversion_value;
+
+                $currentPo->items()->save($item);
+            }
+
+            // Get IDs of current PO's expenses
+            $poExpensesId = $currentPo->expenses->map(function ($expense) {
+                return $expense->id;
+            })->all();
+
+            // Get the id of removed expenses
+            $poExpensesToBeDeleted = array_diff($poExpensesId, $inputtedExpenseIds);
+
+            // Remove the expenses that removed on the revise page
+            Expense::destroy($poExpensesToBeDeleted);
+
+            for($i = 0; $i < count($inputtedExpenseIds); $i++){
+                $expense = Expense::findOrNew($inputtedExpenseIds[$i]);
+                $expense->name = $expenses[$i]['name'];
+                $expense->type = $expenses[$i]['type'];
+                $expense->is_internal_expense = $expenses[$i]['is_internal_expense'];
+                $expense->amount = $expenses[$i]['amount'];
+                $expense->remarks = $expenses[$i]['remarks'];
+
+                $currentPo->expenses()->save($expense);
+            }
+
+            $currentPo->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function generatePOCode()
@@ -184,7 +255,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $date = Carbon::parse($date)->format(Config::get('const.DATETIME_FORMAT.DATABASE_DATE'));
 
         $purchaseOrders = PurchaseOrder::with([
-            'items.product'
+            'items.product.productUnits.unit'
             ,'items.selectedProductUnit.unit'
             ,'items.baseProductUnit.unit'
             ,'supplier.personsInCharge'

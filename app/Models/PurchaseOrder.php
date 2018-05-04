@@ -141,7 +141,7 @@ class PurchaseOrder extends Model
     ];
 
     protected $casts = [
-        'discount' => 'float'
+        'discount' => 'float',
     ];
 
     public function getHIdAttribute()
@@ -167,7 +167,7 @@ class PurchaseOrder extends Model
 
     public function getVendorTruckingHIdAttribute()
     {
-        return HashIds::encode($this->attributes['vendor_trucking_id']);
+        return $this->attributes['vendor_trucking_id'] == 0 ? '':HashIds::encode($this->attributes['vendor_trucking_id']);
     }
 
     public function getStatusI18nAttribute()

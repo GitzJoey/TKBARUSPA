@@ -33,13 +33,16 @@ interface PurchaseOrderService
     public function read();
     public function update(
         $id,
+        $company_id,
         $code,
         $po_type,
         $po_created,
         $shipping_date,
         $supplier_type,
         $items,
+        $inputtedItemIds,
         $expenses,
+        $inputtedExpenseIds,
         $supplier_id,
         $walk_in_supplier,
         $walk_in_supplier_detail,

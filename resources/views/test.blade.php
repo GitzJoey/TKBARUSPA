@@ -8,22 +8,11 @@
 
 @section('content')
     <div id="test1">
-        <div class="input-group">
-            <flat-pickr v-model="date" class="form-control"></flat-pickr>
-        </div>
     </div>
 
     <br><br><br>
 
     <div id="test2">
-        <vue-autonumeric v-model="aa" v-bind:options="{
-            digitGroupSeparator: '.',
-            decimalCharacter: ',',
-            decimalCharacterAlternative: '.',
-            currencySymbol: '\u00a0€',
-            currencySymbolPlacement: 's',
-            roundingMethod: 'U',
-            minimumValue: '0'}"></vue-autonumeric>
     </div>
 
     <br><br><br>
@@ -55,7 +44,5 @@
 
             }
         });
-
-
     </script>
 @endsection

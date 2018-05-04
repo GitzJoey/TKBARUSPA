@@ -111,6 +111,7 @@
             </div>
             <div class="block-content">
                 <form id="poForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                    <input type="hidden" name="id" v-model="po.hId" />
                     <div class="form-group row">
                         <div class="col-6">
                             <div class="block block-shadow-on-hover block-mode-loading-refresh" id="supplierListBlock">
@@ -213,10 +214,10 @@
                                         <label for="inputPoCode" class="col-3 col-form-label">@lang('purchase_order.fields.po_code')</label>
                                         <div class="col-md-9">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <input type="text" class="form-control" id="inputPoCode" name="code" v-model="po.po_code" placeholder="PO Code" readonly>
+                                                <input type="text" class="form-control" id="inputPoCode" name="code" v-model="po.code" placeholder="PO Code" readonly>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext">@{{ po.po_code }}</div>
+                                                <div class="form-control-plaintext">@{{ po.code }}</div>
                                             </template>
                                         </div>
                                     </div>
@@ -257,7 +258,7 @@
                                         <div class="col-sm-9">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
-                                                <input type="hidden" name="po_status" v-model="po.po_status"/>
+                                                <input type="hidden" name="po_status" v-model="po.status"/>
                                             </template>
                                             <template v-if="mode == 'show'">
                                                 <div class="form-control-plaintext">@{{ poStatusDesc }}</div>
@@ -391,6 +392,7 @@
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext">@{{ i.product.name }}</div>
                                                         </template>
+                                                        <input type="hidden" name="item_id[]" v-model="i.hId" />
                                                     </td>
                                                     <td width="5%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
@@ -439,10 +441,10 @@
                                                     </td>
                                                     <td width="7%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_pct" v-bind:options="defaultPercentageConfig" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="i.discount_percentage" v-bind:options="defaultPercentageConfig" placeholder="0%" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
                                                         </template>
                                                         <template v-if="mode == 'show'">
-                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount_pct" v-bind:options="percentageFormatToString"></vue-autonumeric></div>
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount_percentage" v-bind:options="percentageFormatToString"></vue-autonumeric></div>
                                                         </template>
                                                     </td>
                                                     <td width="10%">
@@ -511,6 +513,7 @@
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext">@{{ expense.name }}</div>
                                                         </template>
+                                                        <input type="hidden" name="expense_id[]" v-model="expense.hId" />
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
@@ -580,10 +583,10 @@
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
                                                     <td width="12%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.disc_total_percent" v-bind:options="defaultPercentageConfig" placeholder="0%"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.discount_percentage" v-bind:options="defaultPercentageConfig" placeholder="0%"></vue-autonumeric>
                                                         </template>
                                                         <template v-if="mode == 'show'">
-                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="percentageFormatToString" v-model="po.disc_total_percent"></vue-autonumeric></div>
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="percentageFormatToString" v-model="po.discount_percentage"></vue-autonumeric></div>
                                                         </template>
                                                     </td>
                                                 </tr>
@@ -591,10 +594,10 @@
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
                                                     <td width="12%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="discount" class="form-control text-align-right" v-model="po.disc_total_value" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" name="discount" class="form-control text-align-right" v-model="po.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                                         </template>
                                                         <template v-if="mode == 'show'">
-                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.disc_total_value"></vue-autonumeric></div>
+                                                            <div class="form-control-plaintext"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.discount"></vue-autonumeric></div>
                                                         </template>
                                                     </td>
                                                 </tr>
@@ -711,7 +714,6 @@
                 selectedDate: new Date(),
                 selectedSupplier: {},
                 poStatusDesc: '',
-                statusDDL: [],
                 product_options: [],
                 productSelected: '',
                 isFinishLoadingMounted: false,
@@ -724,8 +726,8 @@
                         hId: '',
                         name: ''
                     },
-                    disc_total_percent: 0,
-                    disc_total_value: 0,
+                    discount_percentage: 0,
+                    discount: 0,
                     subtotal: 0,
                     grandtotal: 0
                 },
@@ -762,10 +764,11 @@
                                 this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.po.edit.', this.po.hId), new FormData($('#poForm')[0])).then(response => {
+                            axios.post(route('api.post.po.edit', this.po.hId), new FormData($('#poForm')[0])).then(response => {
                                 this.backToList();
                                 this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             }).catch(e => {
+                                console.log(e);
                                 this.handleErrors(e);
                                 this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                             });
@@ -811,12 +814,28 @@
                 editSelected: function (idx) {
                     this.mode = 'edit';
                     this.errors.clear();
-                    this.po = this.poList[idx];
+                    this.po  = _.merge({
+                        discount_percentage: 0,
+                        discount: 0,
+                        subtotal: 0,
+                        grandtotal: 0,
+                        items: [
+                            { discount_percentage: 0 }
+                        ]
+                    }, this.poList[idx]);
                 },
                 showSelected: function (idx) {
                     this.mode = 'show';
                     this.errors.clear();
-                    this.po = this.poList[idx];
+                    this.po  = _.merge({
+                        discount_percentage: 0,
+                        discount: 0,
+                        subtotal: 0,
+                        grandtotal: 0,
+                        items: [
+                            { discount_percentage: 0 }
+                        ]
+                    }, this.poList[idx]);
                 },
                 deleteSelected: function (idx) {
                     axios.post('/api/post/po/delete/' + idx).then(response => {
@@ -833,7 +852,7 @@
                 emptyPO: function () {
                     return {
                         hId: '',
-                        po_code: this.generatePOCode(),
+                        code: this.generatePOCode(),
                         po_created: new Date(),
                         shipping_date: new Date(),
                         supplier_type: '',
@@ -841,7 +860,7 @@
                         warehouseHId: '',
                         vendorTruckingHId: '',
                         po_type: '',
-                        po_status: 'POSTATUS.D',
+                        status: 'POSTATUS.D',
                         productHId: '',
                         items: [],
                         expenses: [],
@@ -849,8 +868,8 @@
                             hId: '',
                             name: ''
                         },
-                        disc_total_percent: 0,
-                        disc_total_value: 0,
+                        discount_percentage: 0,
+                        discount: 0,
                         subtotal: 0,
                         grandtotal: 0
                     }
@@ -867,7 +886,7 @@
                             base_product_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
                             quantity: 0,
                             price: 0,
-                            discount_pct: 0,
+                            discount_percentage: 0,
                             discount: 0,
                             total: 0
                         });
@@ -878,6 +897,7 @@
                 },
                 addExpense: function () {
                     this.po.expenses.push({
+                        hId: '',
                         name: '',
                         type: {
                             code: ''
@@ -923,18 +943,18 @@
                 },
                 setDiscountValue: function(index) {
                     if (typeof(index) != 'number') {
-                        this.po.disc_total_value = (this.po.disc_total_percent / 100) * this.po.subtotal;
+                        this.po.discount = (this.po.discount_percentage / 100) * this.po.subtotal;
                     } else {
                         this.po.items[index].discount =
-                            (this.po.items[index].discount_pct / 100) *
+                            (this.po.items[index].discount_percentage / 100) *
                             (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price);
                     }
                 },
                 setDiscountPct: function(index) {
                     if (typeof(index) != 'number') {
-                        this.po.disc_total_percent = (this.po.disc_total_value / this.po.subtotal) * 100;
+                        this.po.disc_total_percent = (this.po.discount / this.po.subtotal) * 100;
                     } else {
-                        this.po.items[index].discount_pct =
+                        this.po.items[index].discount_percentage =
                             (this.po.items[index].discount /
                             (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price)) * 100;
                     }
@@ -1000,7 +1020,7 @@
                 },
                 generatePOCode: function() {
                     axios.get(route('api.get.po.generate.po_code').url()).then(
-                        response => { this.po.po_code = response.data; }
+                        response => { this.po.code = response.data; }
                     );
                 },
                 getExpenseType: function() {
@@ -1016,6 +1036,10 @@
                         item.total = itemTotal;
 
                         allItemTotal += itemTotal;
+
+                        if (item.discount != 0 && item.discount_percentage == 0) {
+
+                        }
                     });
 
                     var expenseTotal = 0;
@@ -1027,7 +1051,7 @@
                     });
 
                     this.po.subtotal = allItemTotal + expenseTotal;
-                    this.po.grandtotal = this.po.subtotal - this.po.disc_total_value;
+                    this.po.grandtotal = this.po.subtotal - this.po.discount;
                 },
                 getAllPODates: function() {
                     return new Promise((resolve, reject) => {
@@ -1059,8 +1083,8 @@
                         this.product_options = this.allProduct;
                     }
                 },
-                'po.po_status': function() {
-                    if (this.po.po_status != '') {
+                'po.status': function() {
+                    if (this.po.status != '') {
                         axios.get(route('api.get.lookup.description.byvalue', 'POSTATUS.D').url()).then(
                             response => { this.poStatusDesc = response.data; }
                         );
@@ -1078,13 +1102,17 @@
                         this.calculateTotal();
                     }
                 },
-                'po.disc_total_percent': function() {
+                'po.discount_percentage': function() {
                     this.setDiscountValue();
                     this.calculateTotal();
                 },
-                'po.disc_total_value': function() {
-                    this.setDiscountPct();
-                    this.calculateTotal();
+                'po.discount': {
+                    immediate: true,
+                    handler: function (newVal, OldVal) {
+                        console.log('a');
+                        this.setDiscountPct();
+                        this.calculateTotal();
+                    }
                 },
                 mode: function() {
                     switch (this.mode) {

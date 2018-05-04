@@ -102,7 +102,7 @@ class Item extends Model
     ];
 
     protected $appends = [
-        'hId'
+        'hId',
     ];
 
     protected $casts = [
