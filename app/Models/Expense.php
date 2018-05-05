@@ -76,6 +76,10 @@ class Expense extends Model
         'typeI18n'
     ];
 
+    protected $casts = [
+        'amount' => 'float'
+    ];
+
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
