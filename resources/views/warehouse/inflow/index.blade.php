@@ -122,7 +122,7 @@
                 <form id="inflowForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('receipt_date') }">
                         <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <flat-pickr id="inputReceiptDate" class="form-control"
                                         v-model="selectedReceiptDate" v-bind:config="defaultFlatPickrConfig"
                                         v-validate="'required'" data-vv-as="{{ trans('warehouse_inflow.fields.receipt_date') }}"
@@ -133,7 +133,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('warehouse_inflow.fields.vendor_trucking')</label>
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
                                     v-model="po.vendorTruckingHId">
                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
@@ -143,7 +143,7 @@
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('license_plate') }">
                         <label for="inputLicensePlate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.license_plate')</label>
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div v-show="!readOnlyLicensePlateSelect">
                                 <select id="selectLicensePlate" class="form-control"
                                         v-model="selectedLicensePlate"
@@ -428,7 +428,7 @@
                 createNew: function(index) {
                     this.mode = 'create';
                     this.errors.clear();
-                    this.po = this.poWAList[index];
+                    this.po = Object.assign({ }, this.poWAList[index]);
 
                     if (!this.po.hasOwnProperty('receipts')) {
                         this.po.receipts = [];
@@ -486,6 +486,8 @@
                             resolve(true);
                             return;
                         }
+
+                        this.poWAList = [];
                         axios.get(route('api.get.po.status.waiting_arrival', warehouseId).url()).then(response => {
                             this.poWAList = response.data;
                             resolve(true);
@@ -498,7 +500,7 @@
                 backToList: function() {
                     this.mode = 'list';
                     this.errors.clear();
-                    this.renderPOWAData(this.selectedWarehouse);
+                    this.renderInflowtData();
                 },
                 getExpenseType: function() {
                     axios.get(route('api.get.lookup.bycategory', 'EXPENSE_TYPE').url()).then(
