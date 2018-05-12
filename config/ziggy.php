@@ -58,6 +58,13 @@ return [
             'api.post.warehouse.*',
             'api.get.settings.unit.*',
         ],
+        'warehouse' => [
+            'api.get.po.*',
+            'api.get.warehouse.*',
+            'api.get.truck.*',
+            'api.get.truck.vendor_trucking.*',
+            'api.post.warehouse.inflow.*',
+        ],
         'price_level' => [
             'api.get.lookup.*',
             'api.get.price.price_level.*',

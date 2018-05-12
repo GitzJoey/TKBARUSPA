@@ -29,6 +29,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'po'], function () {
         Route::get('read', 'PurchaseOrderController@read')->name('api.get.po.read');
         Route::get('by/dates', 'PurchaseOrderController@getPODates')->name('api.get.po.by.dates');
+        Route::get('status/waiting/arrival/{warehouseId}', 'PurchaseOrderController@getAllWaitingArrivalPO')->name('api.get.po.status.waiting_arrival');
         Route::get('generate/po_code', 'PurchaseOrderController@generatePOCode')->name('api.get.po.generate.po_code');
     });
 
@@ -117,6 +118,10 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('save', 'WarehouseController@store')->name('api.post.warehouse.save');
         Route::post('edit/{id}', 'WarehouseController@update')->name('api.post.warehouse.edit');
         Route::post('delete/{id}', 'WarehouseController@delete')->name('api.post.warehouse.delete');
+
+        Route::group(['prefix' => 'warehouse'], function () {
+            Route::post('save/{id}', 'WarehouseInflowController@store')->name('api.post.warehouse.inflow.save');
+        });
     });
 
     Route::group(['prefix' => 'product'], function () {

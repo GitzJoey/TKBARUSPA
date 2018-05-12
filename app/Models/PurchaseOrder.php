@@ -192,7 +192,7 @@ class PurchaseOrder extends Model
 
     public function receipts()
     {
-        return null;//$this->hasManyThrough('App\Model\Receipt', 'App\Model\Item', 'itemable_id', 'item_id', 'id');
+        return $this->hasManyThrough('App\Models\Receipt', 'App\Models\Item', 'itemable_id', 'item_id', 'id');
     }
 
     public function supplier()

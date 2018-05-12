@@ -250,6 +250,24 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         return $poResult;
     }
 
+    public function getPOById($id)
+    {
+        $purchaseOrder = PurchaseOrder::with([
+            'items.product.productUnits.unit'
+            ,'items.selectedProductUnit.unit'
+            ,'items.baseProductUnit.unit'
+            ,'supplier.personsInCharge'
+            ,'supplier.products.productType'
+            ,'expenses'
+            ,'warehouse'
+            ,'vendorTrucking'
+            //,'receipts.item.product'
+            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->where('id', '=', $id)->firstOrFail();
+
+        return $purchaseOrder;
+    }
+
     public function searchPOByDate($date)
     {
         $date = Carbon::parse($date)->format(Config::get('const.DATETIME_FORMAT.DATABASE_DATE'));
@@ -266,6 +284,42 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             //,'receipts.item.product'
             //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
         ])->where('po_created', 'like', $date.'%')->get();
+
+        return $purchaseOrders;
+    }
+
+    public function searchPOByStatus($status)
+    {
+        $purchaseOrders = PurchaseOrder::with([
+            'items.product.productUnits.unit'
+            ,'items.selectedProductUnit.unit'
+            ,'items.baseProductUnit.unit'
+            ,'supplier.personsInCharge'
+            ,'supplier.products.productType'
+            ,'expenses'
+            ,'warehouse'
+            ,'vendorTrucking'
+            //,'receipts.item.product'
+            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->where('status', '=', $status)->get();
+
+        return $purchaseOrders;
+    }
+
+    public function getAllWaitingArrivalPO($warehouseId, $status)
+    {
+        $purchaseOrders = PurchaseOrder::with([
+            'items.product.productUnits.unit'
+            ,'items.selectedProductUnit.unit'
+            ,'items.baseProductUnit.unit'
+            ,'supplier.personsInCharge'
+            ,'supplier.products.productType'
+            ,'expenses'
+            ,'warehouse'
+            ,'vendorTrucking'
+            //,'receipts.item.product'
+            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+        ])->where('status', '=', $status)->where('warehouse_id', '=', $warehouseId)->get();
 
         return $purchaseOrders;
     }

@@ -91,6 +91,7 @@
                             </ul>
                         </li>
                     @endpermission
+                    @permission('menu-warehouse|menu-warehouse_inflow|menu-warehouse_outflow')
                     <li>
                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-wrench fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.warehouse')</span></a>
                         @permission('menu-warehouse')
@@ -102,9 +103,13 @@
                                         </a>
                                     </li>
                                 @endpermission
+                                @permission('menu-warehouse_inflow')
                                 <li>
-                                    <a href="#"><span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')</a>
+                                    <a class="{{ active_class(if_route_pattern('db.warehouse.inflow') || if_route_pattern('db.warehouse.inflow.*')) }}" href="{{ route('db.warehouse.inflow') }}">
+                                        <span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')
+                                    </a>
                                 </li>
+                                @endpermission
                                 <li>
                                     <a href="#"><span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')</a>
                                 </li>
@@ -125,6 +130,7 @@
                             </ul>
                         @endpermission
                     </li>
+                    @endpermission
                     @permission('menu-truck|menu-vendor_trucking')
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-truck fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.truck')</span></a>

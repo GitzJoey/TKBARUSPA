@@ -187,4 +187,17 @@ class PurchaseOrderController extends Controller
             $request['private_remarks']
         );
     }
+
+    public function getPOByStatus($status)
+    {
+        return $this->purchaseOrderService->searchPOByStatus($status);
+    }
+
+    public function getAllWaitingArrivalPO($warehouseId)
+    {
+        $status = 'POSTATUS.WA';
+        $warehouseId = Hashids::decode($warehouseId)[0];
+
+        return $this->purchaseOrderService->getAllWaitingArrivalPO($warehouseId, $status);
+    }
 }

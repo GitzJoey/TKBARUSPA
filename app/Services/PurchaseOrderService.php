@@ -58,5 +58,11 @@ interface PurchaseOrderService
 
     public function getPODates($limit);
 
+    public function getPOById($id);
+
     public function searchPOByDate($date);
+
+    public function searchPOByStatus($status);
+
+    public function getAllWaitingArrivalPO($warehouseId, $status);
 }
