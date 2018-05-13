@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-05-02 19:07:39.
+    * Generated on 2018-05-13 05:19:35.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -82,6 +82,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -261,6 +262,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -440,6 +442,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -619,6 +622,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -798,6 +802,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -977,6 +982,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
@@ -1156,6 +1162,7 @@ namespace PHPSTORM_META {
         'App\Services\TruckService' => \App\Services\Implementations\TruckServiceImpl::class,
         'App\Services\TruckMaintenanceService' => \App\Services\Implementations\TruckMaintenanceServiceImpl::class,
         'App\Services\CustomerService' => \App\Services\Implementations\CustomerServiceImpl::class,
+        'App\Services\WarehouseInflowService' => \App\Services\Implementations\WarehouseInflowServiceImpl::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,

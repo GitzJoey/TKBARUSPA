@@ -52,6 +52,8 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProductType whereUpdatedBy($value)
+ * @property-read mixed $company_h_id
+ * @property-read mixed $status_i18n
  */
 class ProductType extends Model
 {

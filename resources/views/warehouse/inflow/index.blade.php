@@ -131,16 +131,6 @@
                             <span v-show="errors.has('receipt_date')" class="invalid-feedback">@{{ errors.first('receipt_date') }}</span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('warehouse_inflow.fields.vendor_trucking')</label>
-                        <div class="col-md-9">
-                            <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
-                                    v-model="po.vendorTruckingHId">
-                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
-                            </select>
-                        </div>
-                    </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('license_plate') }">
                         <label for="inputLicensePlate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.license_plate')</label>
                         <div class="col-md-9">
@@ -161,6 +151,12 @@
                                    v-show="selectedLicensePlate != '' ? false:true"
                                    data-vv-as="{{ trans('warehouse_inflow.fields.license_plate') }}">
                             <span v-show="errors.has('license_plate')" class="invalid-feedback">@{{ errors.first('license_plate') }}</span>
+                        </div>
+                    </div>
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver_name') }">
+                        <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_inflow.fields.driver_name')</label>
+                        <div class="col-md-9">
+                            <input id="inputDriverName" name="driver_name" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
                         </div>
                     </div>
                     <div class="table-responsive">

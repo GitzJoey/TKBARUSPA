@@ -48,7 +48,7 @@ return [
     ],
     'fields' => [
         'receipt_date' => 'Tgl Terima',
-        'vendor_trucking' => 'Layanan Angkutan',
+        'driver_name' => 'Nama Supir',
         'license_plate' => 'Plat Nomor',
     ],
 ];

@@ -89,6 +89,9 @@ use App\Traits\CompanyFilter;
  * @property-read \App\Models\VendorTrucking $vendorTrucking
  * @property-read \App\Models\Warehouse $warehouse
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscount($value)
+ * @property-read mixed $po_type_i18n
+ * @property-read mixed $supplier_type_i18n
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Receipt[] $receipts
  */
 class PurchaseOrder extends Model
 {

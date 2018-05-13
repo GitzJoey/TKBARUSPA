@@ -45,9 +45,9 @@ class WarehouseInflowController extends Controller
                     'brutto' => $request['brutto'][$i],
                     'netto' => $request['netto'][$i],
                     'tare' => $request['tare'][$i],
-                    'item_id' => $request['item_id'][$i],
-                    'selected_product_unit_id' => $request['selected_product_unit_id'][$i],
-                    'base_product_unit_id' => $request['base_unit_id'][$i],
+                    'item_id' => is_null($request['item_id'][$i]) ? '' : $request['item_id'][$i],
+                    'selected_product_unit_id' => Hashids::decode($request['selected_product_unit_id'][$i])[0],
+                    'base_product_unit_id' => Hashids::decode($request['base_unit_id'][$i])[0],
                     'company_id' => Auth::user()->company_id
                 ));
 

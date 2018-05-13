@@ -48,7 +48,7 @@ return [
     ],
     'fields' => [
         'receipt_date' => 'Receipt Date',
-        'vendor_trucking' => 'Vendor Trucking',
+        'driver_name' => 'Driver Name',
         'license_plate' => 'License Plate',
     ],
 ];
