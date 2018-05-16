@@ -126,8 +126,7 @@
                             <flat-pickr id="inputReceiptDate" class="form-control"
                                         v-model="receipt.receipt_date" v-bind:config="defaultFlatPickrConfig"
                                         v-validate="'required'" data-vv-as="{{ trans('warehouse_inflow.fields.receipt_date') }}"
-                                        data-vv-name="{{ trans('warehouse_inflow.fields.receipt_date') }}"
-                                        v-on:input="onChangeReceiptDate"></flat-pickr>
+                                        data-vv-name="{{ trans('warehouse_inflow.fields.receipt_date') }}"></flat-pickr>
                             <span v-show="errors.has('receipt_date')" class="invalid-feedback">@{{ errors.first('receipt_date') }}</span>
                         </div>
                     </div>
@@ -185,8 +184,7 @@
                                             <select name="selected_product_unit_id[]"
                                                     class="form-control"
                                                     v-model="rd.selectedProductUnitsHId"
-                                                    v-validate="'required'"
-                                                    v-bind:disabled="readOnly"
+                                                    v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.unit') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'punit_' + rdIdx">
                                                 <option value="">@lang('labels.PLEASE_SELECT')</option>
@@ -194,28 +192,28 @@
                                             </select>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'brutto_' + rd.item.hId" type="text" class="form-control text-right" name="brutto[]"
-                                                    v-model="rd.brutto" v-validate="readOnly ? '':'required'"
-                                                    v-bind:readonly="readOnly"
+                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" type="text" class="form-control text-right" name="brutto[]"
+                                                    v-model="rd.brutto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'brutto_' + rdIdx"
+                                                    v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('brutto', rdIdx)"></vue-autonumeric>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('netto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'netto_' + rd.item.hId" type="text" class="form-control text-right" name="netto[]"
-                                                    v-model="rd.netto" v-validate="readOnly ? '':'required'"
-                                                    v-bind:readonly="readOnly"
+                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" type="text" class="form-control text-right" name="netto[]"
+                                                    v-model="rd.netto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'netto_' + rdIdx"
+                                                    v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('netto', rdIdx)"></vue-autonumeric>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tare_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'tare_' + rd.item.hId" type="text" class="form-control text-right" name="tare[]"
-                                                    v-model="rd.tare" v-validate="readOnly ? '':'required'"
-                                                    v-bind:readonly="readOnly"
+                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" type="text" class="form-control text-right" name="tare[]"
+                                                    v-model="rd.tare" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'tare_' + rdIdx"
-                                                    v-on:change="reValidate('tare', rdIdx)"></vue-autonumeric>
+                                                    v-bind:options="defaultNumericConfig"
+                                                    v-on:input="reValidate('tare', rdIdx)"></vue-autonumeric>
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-danger btn-md" v-on:click="removeReceipt(rdIdx)" disabled><span class="fa fa-minus"/></button>
@@ -301,11 +299,10 @@
                         var result = false;
                         var itemIdx = args[0];
 
-                        if (this.po == undefined) { result = true; }
-                        if (this.po.receipts == undefined) { result = true; }
+                        if (this.receipt.receipt_details[itemIdx] == undefined) return true;
 
-                        if (this.po.receipts[itemIdx].brutto ==
-                            this.po.receipts[itemIdx].netto + this.po.receipts[itemIdx].tare) {
+                        if (this.receipt.receipt_details[itemIdx].brutto ==
+                            this.receipt.receipt_details[itemIdx].netto + this.receipt.receipt_details[itemIdx].tare) {
                             result = true;
                         }
 
