@@ -51,5 +51,6 @@ return [
         'driver_name' => 'Nama Supir',
         'vendor_trucking' => 'Penyedia Angkutan',
         'license_plate' => 'Plat Nomor',
+        'remarks' => 'Keterangan',
     ],
 ];

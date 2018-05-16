@@ -136,7 +136,7 @@
                         <div class="col-md-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
-                                        v-model="receipt.vendorTruckingHId">
+                                        v-model="receipt.vendorTruckingHId" v-on:change="onChangeVendorTrucking">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                     <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
                                 </select>
@@ -146,29 +146,112 @@
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('license_plate') }">
                         <label for="inputLicensePlate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.license_plate')</label>
                         <div class="col-md-9">
-                            <div v-show="!readOnlyLicensePlateSelect">
-                                <select id="selectLicensePlate" class="form-control"
-                                        v-model="selectedLicensePlate"
-                                        v-on:change="onChangeSelectLicensePlate" v-bind:disabled="readOnlyLicensePlateSelect">
-                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(truck, truckIdx) of truckDDL" v-bind:value="truck.plate_number">@{{ truck.plate_number }}</option>
-                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.SELECT_OTHER')</option>
-                                </select>
-                                <br>
-                            </div>
-                            <input id="inputLicensePlate" type="text" name="license_plate" class="form-control"
-                                   v-model="licensePlate"
-                                   v-validate="'required'"
-                                   v-bind:readonly="readOnlyLicensePlateSelect ? true:selectedLicensePlate == '' ? false:true"
-                                   v-show="selectedLicensePlate != '' ? false:true"
-                                   data-vv-as="{{ trans('warehouse_inflow.fields.license_plate') }}">
-                            <span v-show="errors.has('license_plate')" class="invalid-feedback">@{{ errors.first('license_plate') }}</span>
+                            <select id="selectLicensePlate" class="form-control" name="truck_id"
+                                    v-model="receipt.truckHId">
+                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                <option v-for="(truck, truckIdx) of truckDDL" v-bind:value="truck.hId">@{{ truck.license_plate }}</option>
+                            </select>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver_name') }">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver') }">
                         <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_inflow.fields.driver_name')</label>
                         <div class="col-md-9">
-                            <input id="inputDriverName" name="driver_name" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
+                            <input id="inputDriverName" name="driver" v-model="receipt.driver" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="receiptListTable" class="table table-bordered table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="50%">@lang('warehouse_inflow.index.table.item_table.header.product_name')</th>
+                                        <th width="15%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.unit')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.brutto')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.netto')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.tare')</th>
+                                        <th width="5%" class="text-center">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(rd, rdIdx) in receipt.receipt_details">
+                                        <input type="hidden" name="item_id[]" v-bind:value="rd.item.hId">
+                                        <input type="hidden" name="product_id[]" v-bind:value="rd.item.productHId">
+                                        <input type="hidden" name="base_product_unit_id[]" v-bind:value="rd.item.baseProductUnitHId">
+                                        <td>
+                                            @{{ rd.item.product.name }}
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('punit_' + rdIdx) }">
+                                            <select name="selected_product_unit_id[]"
+                                                    class="form-control"
+                                                    v-model="rd.selectedProductUnitsHId"
+                                                    v-validate="'required'"
+                                                    v-bind:disabled="readOnly"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.unit') }} ' + (rdIdx + 1)"
+                                                    v-bind:data-vv-name="'punit_' + rdIdx">
+                                                <option value="">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="product_unit in rd.item.product.product_units" v-bind:value="product_unit.unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
+                                            </select>
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
+                                            <vue-autonumeric v-bind:id="'brutto_' + rd.item.hId" type="text" class="form-control text-right" name="brutto[]"
+                                                    v-model="rd.brutto" v-validate="readOnly ? '':'required'"
+                                                    v-bind:readonly="readOnly"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (rdIdx + 1)"
+                                                    v-bind:data-vv-name="'brutto_' + rdIdx"
+                                                    v-on:input="reValidate('brutto', rdIdx)"></vue-autonumeric>
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('netto_' + rdIdx) }">
+                                            <vue-autonumeric v-bind:id="'netto_' + rd.item.hId" type="text" class="form-control text-right" name="netto[]"
+                                                    v-model="rd.netto" v-validate="readOnly ? '':'required'"
+                                                    v-bind:readonly="readOnly"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (rdIdx + 1)"
+                                                    v-bind:data-vv-name="'netto_' + rdIdx"
+                                                    v-on:input="reValidate('netto', rdIdx)"></vue-autonumeric>
+                                        </td>
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tare_' + rdIdx) }">
+                                            <vue-autonumeric v-bind:id="'tare_' + rd.item.hId" type="text" class="form-control text-right" name="tare[]"
+                                                    v-model="rd.tare" v-validate="readOnly ? '':'required'"
+                                                    v-bind:readonly="readOnly"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (rdIdx + 1)"
+                                                    v-bind:data-vv-name="'tare_' + rdIdx"
+                                                    v-on:change="reValidate('tare', rdIdx)"></vue-autonumeric>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeReceipt(rdIdx)" disabled><span class="fa fa-minus"/></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_inflow.fields.remarks')</label>
+                        <div class="col-md-9">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <input type="text" class="form-control" id="inputRemarks" name="remarks" v-model="receipt.remarks" placeholder="@lang('warehouse_inflow.fields.remarks')">
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <div class="form-control-plaintext">@{{ receipt.remarks }}</div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label" for="inputButton">&nbsp;</label>
+                        <div class="col-9">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button type="submit" class="btn btn-primary min-width-125">
+                                    @lang('buttons.submit_button')
+                                </button>
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                    @lang('buttons.cancel_button')
+                                </button>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
+                                    @lang('buttons.back_button')
+                                </button>
+                            </template>
                         </div>
                     </div>
                 </form>
@@ -189,8 +272,8 @@
                 mode: '',
                 warehouseDDL: [],
                 vendorTruckingDDL: [],
-                expenseTypeDDL: [],
                 truckDDL: [],
+                expenseTypeDDL: [],
                 selectedWarehouse: '',
                 poWAList: [],
                 po: { },
@@ -198,9 +281,11 @@
                     hId: '',
                     receipt_date: new Date(),
                     vendorTruckingHId: '',
+                    truckHId: '',
                     article_code: '',
                     driver_name: '',
-                    receipt_details: []
+                    receipt_details: [],
+                    remarks: ''
                 },
                 expenses: [
 
@@ -280,7 +365,6 @@
                     Promise.all([
                         this.getWarehouse(),
                         this.getVendorTrucking(),
-                        this.getTruck(),
                         this.getExpenseType(),
                         this.getPOWAList(this.selectedWarehouse)
                     ]).then(() => {
@@ -336,24 +420,6 @@
                         });
                     });
                 },
-                getTruck: function() {
-                    return new Promise((resolve, reject) => {
-                        axios.get(route('api.get.truck.read').url()).then(response => {
-                            this.truckDDL = response.data;
-                            resolve(true);
-                        }).catch(e => {
-                            this.handleErrors(e);
-                            reject(e.response.data.message);
-                        });
-                    });
-                },
-                onChangeSelectLicensePlate: function() {
-                    if (this.selectedLicensePlate != '') {
-                        this.licensePlate = this.selectedLicensePlate;
-                    } else {
-                        this.licensePlate = '';
-                    }
-                },
                 reValidate: function(field, idx) {
                     if (field == 'brutto') {
                         this.$validator.validate('netto_' + idx);
@@ -372,8 +438,12 @@
                         _.merge(this.po.receipts[itemIndex].selected_product_units, pUnit);
                     }
                 },
-                onChangeReceiptDate: function() {
-
+                onChangeVendorTrucking: function() {
+                    this.truckDDL = [];
+                    this.receipt.truckHId = '';
+                    if (this.receipt.vendorTruckingHId != '') {
+                        this.truckDDL = _.find(this.vendorTruckingDDL, { hId: this.receipt.vendorTruckingHId }).trucks;
+                    }
                 },
                 addExpense: function () {
                     if (!this.po.hasOwnProperty('expenses')) {
@@ -395,9 +465,6 @@
                 }
             },
             watch: {
-                selectedLicensePlate: function() {
-
-                },
                 mode: function() {
                     switch (this.mode) {
                         case 'create':

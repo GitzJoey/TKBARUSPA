@@ -384,8 +384,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputRemarks" class="col-sm-2 control-label">@lang('product.fields.remarks')</label>
-                        <div class="col-sm-10">
+                        <label for="inputRemarks" class="col-2 col-form-label">@lang('product.fields.remarks')</label>
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <input type="text" class="form-control" id="inputRemarks" name="remarks" v-model="product.remarks" placeholder="@lang('product.fields.remarks')">
                             </template>

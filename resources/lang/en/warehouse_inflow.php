@@ -51,5 +51,6 @@ return [
         'driver_name' => 'Driver Name',
         'vendor_trucking' => 'Vendor Trucking',
         'license_plate' => 'License Plate',
+        'remarks' => 'Remarks',
     ],
 ];

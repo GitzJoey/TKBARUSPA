@@ -21,12 +21,14 @@ class Receipt extends Model
         'license_plate',
         'driver_name',
         'receipt_date',
+        'remarks',
     ];
 
     protected $hidden = [
         'id',
         'po_id',
         'vendor_trucking_id',
+        'truck_id',
         'company_id',
         'created_by',
         'created_at',
@@ -42,6 +44,7 @@ class Receipt extends Model
         'baseProductUnitHId',
         'companyHId',
         'vendorTruckingHId',
+        'truckHId',
     ];
 
     public function getHIdAttribute()
@@ -67,6 +70,11 @@ class Receipt extends Model
     public function getVendorTruckingHIdAttribute()
     {
         return Hashids::encode($this->attributes['vendor_trucking_id']);
+    }
+
+    public function getTruckHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['truck_id']);
     }
 
     public function receiptDetails()
