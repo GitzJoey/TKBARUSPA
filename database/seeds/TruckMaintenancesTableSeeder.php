@@ -13,10 +13,10 @@ class TruckMaintenancesTableSeeder extends Seeder
      */
     public function run()
     {
-        $trucks = Truck::all();
+        $trucks = Truck::whereHas('vendorTrucking', function($q) { $q->where('maintenance_by_company', '=', 1); })->get();
         $maintenanceTypes = Config::get('lookup.VALUE.TRUCK_MAINTENANCE_TYPE');
 
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 3; $i++) {
             foreach ($trucks as $key => $truck){
                 foreach ($maintenanceTypes as $key => $maintenanceType){
                     $truckMaintenance = [

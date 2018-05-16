@@ -4,6 +4,7 @@ namespace App\Services\Implementations;
 
 use App\Models\VendorTrucking;
 use App\Models\BankAccount;
+use App\Models\Truck;
 
 use DB;
 use Exception;
@@ -20,7 +21,8 @@ class VendorTruckingServiceImpl implements VendorTruckingService
         $tax_id,
         $status,
         $remarks,
-        $bankAccounts
+        $bankAccounts,
+        $trucks
     )
     {
         DB::beginTransaction();
@@ -44,6 +46,18 @@ class VendorTruckingServiceImpl implements VendorTruckingService
                 $vendorTrucking->bankAccounts()->save($ba);
             }
 
+            for ($i = 0; $i < count($trucks); $i++) {
+                $tr = new Truck();
+                $tr->company_id = $trucks[$i]["company_id"];
+                $tr->type = $trucks[$i]["type"];
+                $tr->license_plate = $trucks[$i]["license_plate"];
+                $tr->inspection_date = $trucks[$i]["inspection_date"];
+                $tr->driver = $trucks[$i]["driver"];
+                $tr->remarks = $trucks[$i]["remarks"];
+
+                $vendorTrucking->trucks()->save($tr);
+            }
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -53,7 +67,25 @@ class VendorTruckingServiceImpl implements VendorTruckingService
 
     public function read()
     {
-        return VendorTrucking::with('bankAccounts.bank')->get();
+        return VendorTrucking::with('bankAccounts.bank', 'trucks')->get();
+    }
+
+    public function readAllTrucksMaintainedByCompany()
+    {
+        $allTrucks = [];
+        $vendorTrucking = VendorTrucking::with('trucks')->where('maintenance_by_company', '=', 1)->get();
+
+        foreach ($vendorTrucking as $vt) {
+            foreach ($vt->trucks as $t) {
+                array_push($allTrucks, array(
+                    'hId' => $t->hId,
+                    'license_plate' => $t->license_plate,
+                    'typeI18n' => $t->typeI18n
+                ));
+            }
+        }
+
+        return $allTrucks;
     }
 
     public function update(
@@ -63,19 +95,30 @@ class VendorTruckingServiceImpl implements VendorTruckingService
         $address,
         $tax_id,
         $status,
+        $maintenanceByCompany,
         $remarks,
-        $bankAccounts
+        $bankAccounts,
+        $inputtedBankAccountIds,
+        $trucks,
+        $inputtedTruckIds
     )
     {
         DB::beginTransaction();
 
         try {
-            $vendorTrucking = VendorTrucking::with('bankAccounts.bank')->find($id);
+            $vendorTrucking = VendorTrucking::with('bankAccounts.bank', 'trucks')->find($id);
 
-            $vendorTrucking->bankAccounts->each(function($ba) { $ba->delete(); });
+            $vendorTruckingBankAccountIds = $vendorTrucking->bankAccounts->map(function ($bankAccount) {
+                return $bankAccount->id;
+            })->all();
+
+            $vendorTruckingBankAccountsToBeDeleted = array_diff($vendorTruckingBankAccountIds, isset($inputtedBankAccountIds) ?
+                $inputtedBankAccountIds : []);
+
+            BankAccount::destroy($vendorTruckingBankAccountsToBeDeleted);
 
             for ($i = 0; $i < count($bankAccounts); $i++) {
-                $ba = new BankAccount();
+                $ba = BankAccount::findOrNew($bankAccounts[$i]['bank_account_id']);
                 $ba->bank_id = $bankAccounts[$i]["bank_id"];
                 $ba->account_name = $bankAccounts[$i]["account_name"];
                 $ba->account_number = $bankAccounts[$i]["account_number"];
@@ -84,12 +127,34 @@ class VendorTruckingServiceImpl implements VendorTruckingService
                 $vendorTrucking->bankAccounts()->save($ba);
             }
 
+            $vendorTruckingTruckIds = $vendorTrucking->trucks->map(function ($truck) {
+                return $truck->id;
+            })->all();
+
+            $vendorTruckingTrucksToBeDeleted = array_diff($vendorTruckingTruckIds, isset($inputtedTruckIds) ?
+                $inputtedTruckIds : []);
+
+            Truck::destroy($vendorTruckingTrucksToBeDeleted);
+
+            for ($i = 0; $i < count($trucks); $i++) {
+                $tr = Truck::findOrNew($trucks[$i]['truck_id']);
+                $tr->company_id = $trucks[$i]["company_id"];
+                $tr->type = $trucks[$i]["type"];
+                $tr->license_plate = $trucks[$i]["license_plate"];
+                $tr->inspection_date = $trucks[$i]["inspection_date"];
+                $tr->driver = $trucks[$i]["driver"];
+                $tr->remarks = $trucks[$i]["remarks"];
+
+                $vendorTrucking->trucks()->save($tr);
+            }
+
             $vendorTrucking->update([
                 'company_id' => $company_id,
                 'name' => $name,
                 'address' => $address,
                 'tax_id' => $tax_id,
                 'status' => $status,
+                'maintenance_by_company' => $maintenanceByCompany,
                 'remarks' => $remarks
             ]);
 

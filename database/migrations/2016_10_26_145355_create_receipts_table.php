@@ -16,20 +16,12 @@ class CreateReceiptsTable extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id')->default(0);
-            $table->unsignedBigInteger('item_id')->default(0);
-            $table->unsignedBigInteger('selected_product_unit_id')->default(0);
-            $table->unsignedBigInteger('base_product_unit_id')->default(0);
-            $table->decimal('conversion_value', 19, 2)->default(0);
-            $table->date('receipt_date')->nullable();
-            $table->decimal('brutto', 19, 2)->default(0);
-            $table->decimal('base_brutto', 19, 2)->default(0);
-            $table->decimal('netto', 19, 2)->default(0);
-            $table->decimal('base_netto', 19, 2)->default(0);
-            $table->decimal('tare', 19, 2)->default(0);
-            $table->decimal('base_tare', 19, 2)->default(0);
-            $table->string('license_plate')->nullable();
+            $table->unsignedBigInteger('po_id')->default(0);
+            $table->unsignedBigInteger('vendor_trucking_id')->default(0);
             $table->string('article_code')->nullable();
+            $table->string('license_plate')->nullable();
             $table->string('driver_name')->nullable();
+            $table->date('receipt_date')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->unsignedBigInteger('deleted_by')->default(0);

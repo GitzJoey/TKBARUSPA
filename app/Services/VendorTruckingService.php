@@ -11,10 +11,13 @@ interface VendorTruckingService
         $tax_id,
         $status,
         $remarks,
-        $bankAccounts
+        $bankAccounts,
+        $trucks
     );
 
     public function read();
+
+    public function readAllTrucksMaintainedByCompany();
 
     public function update(
         $id,
@@ -24,7 +27,11 @@ interface VendorTruckingService
         $tax_id,
         $status,
         $remarks,
-        $bankAccounts
+        $maintenanceByCompany,
+        $bankAccounts,
+        $inputtedBankAccountIds,
+        $trucks,
+        $inputtedTruckIds
     );
 
     public function delete($id);

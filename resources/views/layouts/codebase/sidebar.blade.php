@@ -131,17 +131,10 @@
                         @endpermission
                     </li>
                     @endpermission
-                    @permission('menu-truck|menu-vendor_trucking')
+                    @permission('menu-vendor_trucking|menu-truck_maintenance')
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-truck fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.truck')</span></a>
                             <ul>
-                                @permission('menu-truck')
-                                    <li>
-                                        <a class="{{ active_class(if_route_pattern('db.truck') || if_route_pattern('db.truck.*')) }}" href="{{ route('db.truck') }}">
-                                            <span class="fa fa-truck fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.truck')
-                                        </a>
-                                    </li>
-                                @endpermission
                                 @permission('menu-vendor_trucking')
                                     <li>
                                         <a class="{{ active_class(if_route_pattern('db.truck.vendor_trucking') || if_route_pattern('db.truck.vendor_trucking.*')) }}" href="{{ route('db.truck.vendor_trucking') }}">

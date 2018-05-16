@@ -60,6 +60,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'truck'], function () {
         Route::group(['prefix' => 'vendor_trucking'], function () {
             Route::get('read', 'VendorTruckingController@read')->name('api.get.truck.vendor_trucking.read');
+            Route::get('all/trucks/maintenance/by/company', 'VendorTruckingController@readAllTrucksMaintainedByCompany')->name('api.get.truck.vendor_trucking.all_trucks_maintained_by_company');
         });
         Route::group(['prefix' => 'truck_maintenance'], function () {
             Route::get('read', 'TruckMaintenanceController@read')->name('api.get.truck.truck_maintenance.read');
@@ -154,9 +155,6 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('edit/{id}', 'TruckMaintenanceController@update')->name('api.post.truck.truck_maintenance.edit');
             Route::post('delete/{id}', 'TruckMaintenanceController@delete')->name('api.post.truck.truck_maintenance.delete');
         });
-        Route::post('save', 'TruckController@store')->name('api.post.truck.save');
-        Route::post('edit/{id}', 'TruckController@update')->name('api.post.truck.edit');
-        Route::post('delete/{id}', 'TruckController@delete')->name('api.post.truck.delete');
     });
 
     Route::group(['prefix' => 'supplier'], function () {

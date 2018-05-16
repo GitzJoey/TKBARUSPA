@@ -19,7 +19,6 @@ use App\Services\PriceLevelService;
 use App\Services\VendorTruckingService;
 use App\Services\UserService;
 use App\Services\RoleService;
-use App\Services\TruckService;
 use App\Services\TruckMaintenanceService;
 use App\Services\CustomerService;
 
@@ -38,7 +37,6 @@ use App\Services\Implementations\PriceLevelServiceImpl;
 use App\Services\Implementations\VendorTruckingServiceImpl;
 use App\Services\Implementations\UserServiceImpl;
 use App\Services\Implementations\RoleServiceImpl;
-use App\Services\Implementations\TruckServiceImpl;
 use App\Services\Implementations\TruckMaintenanceServiceImpl;
 use App\Services\Implementations\CustomerServiceImpl;
 
@@ -115,10 +113,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(RoleService::class, function (){
             return new RoleServiceImpl();
-        });
-
-        $this->app->singleton(TruckService::class, function() {
-            return new TruckServiceImpl();
         });
 
         $this->app->singleton(TruckMaintenanceService::class, function() {

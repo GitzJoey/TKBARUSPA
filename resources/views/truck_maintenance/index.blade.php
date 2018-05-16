@@ -46,7 +46,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(tm, tmIdx) in truckMaintenanceList">
-                                <td>@{{ tm.truck.plate_number }}</td>
+                                <td>@{{ tm.truck.license_plate }}</td>
                                 <td>@{{ tm.maintenance_date}}</td>
                                 <td>@{{ tm.maintenanceTypeI18n }}</td>
                                 <td><vue-autonumeric v-model="tm.cost" v-bind:tag="'span'" v-bind:options="currencyConfig"></vue-autonumeric></td>
@@ -105,17 +105,17 @@
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('truck_id') }">
-                        <label for="inputPlateNumber" class="col-2 col-form-label">@lang('truck_maintenance.fields.plate_number')</label>
+                        <label for="inputLicensePlate" class="col-2 col-form-label">@lang('truck_maintenance.fields.license_plate')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <select class="form-control" id="inputPlateNumber" name="truck_id" v-model="truckMaintenance.truck.hId" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.plate_number') }}">
+                                <select class="form-control" id="inputLicensePlate" name="truck_id" v-model="truckMaintenance.truck.hId" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.license_plate') }}">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                    <option v-for="(t, tIdx) in truckDDL" v-bind:value="t.hId">@{{ t.plate_number }} - @{{ t.typeI18n }}</option>
+                                    <option v-for="(t, tIdx) in truckDDL" v-bind:value="t.hId">@{{ t.license_plate }} - @{{ t.typeI18n }}</option>
                                 </select>
                                 <div v-show="errors.has('truck_id')" class="invalid-feedback">@{{ errors.first('truck_id') }}</div>
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ truckMaintenance.truck.plate_number }}</div>
+                                <div class="form-control-plaintext">@{{ truckMaintenance.truck.license_plate }} - @{{ truckMaintenance.truck.typeI18n }}</div>
                             </template>
                         </div>
                     </div>

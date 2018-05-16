@@ -19,6 +19,7 @@ class CreateVendorTruckingsTable extends Migration
             $table->string('name')->nullable();
             $table->string('address')->nullable();
             $table->string('tax_id')->nullable();
+            $table->boolean('maintenance_by_company')->nullable();
             $table->string('status')->nullable();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);

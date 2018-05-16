@@ -35,6 +35,11 @@ class VendorTruckingController extends Controller
         return $this->vendorTruckingService->read();
     }
 
+    public function readAllTrucksMaintainedByCompany()
+    {
+        return $this->vendorTruckingService->readAllTrucksMaintainedByCompany();
+    }
+
     public function store(Request $request)
     {
         Validator::make($request->all(), [
@@ -55,6 +60,19 @@ class VendorTruckingController extends Controller
             ));
         }
 
+        $trucks = [];
+
+        for ($i = 0; $i < count($request['truck_id']); $i++) {
+            array_push($trucks, array (
+                'company_id' => Auth::user()->company->id,
+                'type' => $request['truck_type'][$i],
+                'license_plate' => $request["truck_license_plate"][$i],
+                'inspection_date' => $request["truck_inspection_date"][$i],
+                'driver' => $request["truck_driver"][$i],
+                'remarks' => $request["truck_remarks"][$i],
+            ));
+        }
+
         $this->vendorTruckingService->create(
             Auth::user()->company->id,
             $request['name'],
@@ -62,7 +80,8 @@ class VendorTruckingController extends Controller
             $request['tax_id'],
             $request['status'],
             $request['remarks'],
-            $bankAccounts
+            $bankAccounts,
+            $trucks
         );
 
         return response()->json();
@@ -70,22 +89,41 @@ class VendorTruckingController extends Controller
 
     public function update($id, Request $req)
     {
-        $validator = $this->validate($req, [
+        Validator::make($req->all(), [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'tax_id' => 'required|string|max:255',
             'status' => 'required',
-        ]);
+        ])->validate();
 
         $bankAccounts = [];
+        $inputtedBankAccountIds = [];
 
-        for ($i = 0; $i < count($req['bank_id']); $i++) {
+        for ($i = 0; $i < count($req['bank_account_id']); $i++) {
             array_push($bankAccounts, array (
-                'bank_id' => Hashids::decode($req['bank_id'][$i])[0],
+                'bank_account_id' => is_null($req['bank_account_id'][$i]) ? '':Hashids::decode($req['bank_account_id'][$i])[0],
+                'bank_id' => is_null($req['bank_id'][$i]) ? '':Hashids::decode($req['bank_id'][$i])[0],
                 'account_name' => $req["account_name"][$i],
                 'account_number' => $req["account_number"][$i],
                 'bank_remarks' => $req["bank_remarks"][$i],
             ));
+            array_push($inputtedBankAccountIds, is_null($req['bank_account_id'][$i]) ? '':Hashids::decode($req['bank_account_id'][$i])[0]);
+        }
+
+        $trucks = [];
+        $inputtedTruckIds = [];
+
+        for ($i = 0; $i < count($req['truck_id']); $i++) {
+            array_push($trucks, array (
+                'company_id' => Auth::user()->company->id,
+                'truck_id' => is_null($req['truck_id'][$i]) ? '':Hashids::decode($req['truck_id'][$i])[0],
+                'type' => $req['truck_type'][$i],
+                'license_plate' => $req["truck_license_plate"][$i],
+                'inspection_date' => $req["truck_inspection_date"][$i],
+                'driver' => $req["truck_driver"][$i],
+                'remarks' => $req["truck_remarks"][$i],
+            ));
+            array_push($inputtedTruckIds, is_null($req['truck_id'][$i]) ? '':Hashids::decode($req['truck_id'][$i])[0]);
         }
 
         $this->vendorTruckingService->update(
@@ -95,8 +133,12 @@ class VendorTruckingController extends Controller
             $req['address'],
             $req['tax_id'],
             $req['status'],
+            $req['maintenance_by_company'] ? 1:0,
             $req['remarks'],
-            $bankAccounts
+            $bankAccounts,
+            $inputtedBankAccountIds,
+            $trucks,
+            $inputtedTruckIds
         );
 
         return response()->json();

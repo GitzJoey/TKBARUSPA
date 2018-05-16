@@ -29,7 +29,7 @@ return [
         ],
     ],
     'fields' => [
-        'plate_number' => 'Plate Number',
+        'license_plate' => 'License Plate',
         'maintenance_date' => 'Maintenance Date',
         'maintenance_type' => 'Maintenance Type',
         'cost' => 'Cost',

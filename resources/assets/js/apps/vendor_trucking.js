@@ -4,6 +4,7 @@ var vendorTruckingVue = new Vue ({
         mode: '',
         statusDDL: [],
         bankDDL: [],
+        truckTypeDDL: [],
         vendorTrucking: {},
         vendorTruckingList: []
     },
@@ -12,6 +13,7 @@ var vendorTruckingVue = new Vue ({
         this.getLookupStatus();
         this.getAllVendorTrucking();
         this.getBank();
+        this.getLookupTruckType();
     },
     methods: {
         validateBeforeSubmit: function() {
@@ -83,17 +85,33 @@ var vendorTruckingVue = new Vue ({
                 address: '',
                 tax_id: '',
                 status: '',
+                maintenance_by_company: 0,
                 remarks: '',
-                bank_accounts: []
+                bank_accounts: [],
+                trucks: []
             }
         },
         addBankAccounts: function() {
             this.vendorTrucking.bank_accounts.push({
-                'bankHId': '',
-                'account_name': '',
-                'account_number': '',
-                'remarks': ''
+                bankHId: '',
+                account_name: '',
+                account_number: '',
+                remarks: ''
             });
+        },
+        addTruck: function() {
+            this.vendorTrucking.trucks.push({
+                hId: '',
+                type: '',
+                plate_number: '',
+                inspection_date: new Date(),
+                driver: '',
+                status: '',
+                remarks: ''
+            })
+        },
+        removeTruck: function(idx) {
+            this.vendorTrucking.trucks.splice(idx, 1);
         },
         removeSelectedBankAccounts: function(idx) {
             this.vendorTrucking.bank_accounts.splice(idx, 1);
@@ -106,6 +124,11 @@ var vendorTruckingVue = new Vue ({
         getBank: function() {
             axios.get(route('api.get.bank.read').url()).then(
                 response => { this.bankDDL = response.data; }
+            );
+        },
+        getLookupTruckType: function() {
+            axios.get(route('api.get.lookup.bycategory', 'TRUCK_TYPE').url()).then(
+                response => { this.truckTypeDDL = response.data; }
             );
         }
     },
@@ -129,6 +152,15 @@ var vendorTruckingVue = new Vue ({
     computed: {
         defaultPleaseSelect: function() {
             return '';
+        },
+        flatPickrConfig: function() {
+            var conf = Object.assign({}, this.defaultFlatPickrConfig);
+            var confDate = document.getElementById("appSettings").value.split('|')[1];
+
+            conf.enableTime = false;
+            conf.altFormat = confDate;
+
+            return conf;
         }
     }
 });

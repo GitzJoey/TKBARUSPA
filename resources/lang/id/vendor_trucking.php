@@ -34,6 +34,15 @@ return [
                     'remarks' => 'Catatan',
                 ],
             ],
+            'truck_list' => [
+                'header' => [
+                    'type' => 'Tipe',
+                    'plate_number' => 'Nomor Plat',
+                    'inspection_date' => 'Tanggal Inspeksi',
+                    'driver' => 'Sopir',
+                    'remarks' => 'Keterangan',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -44,5 +53,9 @@ return [
         'status' => 'Status',
         'remarks' => 'Keterangan',
         'bank' => 'Akun Bank',
+        'truck_list' => 'Daftar Truk',
+        'license_plate' => 'Plat Nomor',
+        'driver' => 'Sopir',
+        'maintenance_by_company' => 'Pemeliharaan Oleh Perusahaan'
     ],
 ];

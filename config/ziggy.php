@@ -11,16 +11,11 @@ return [
             'api.get.settings.role.*',
             'api.post.settings.role.*',
         ],
-        'truck' => [
-            'api.get.lookup.*',
-            'api.get.truck.*',
-            'api.post.truck.*',
-        ],
         'truck_maintenance' => [
             'api.get.lookup.*',
+            'api.get.truck.vendor_trucking.*',
             'api.get.truck.truck_maintenance.*',
             'api.post.truck.truck_maintenance.*',
-            'api.get.truck.*',
         ],
         'unit' => [
             'api.get.lookup.*',
@@ -61,7 +56,6 @@ return [
         'warehouse' => [
             'api.get.po.*',
             'api.get.warehouse.*',
-            'api.get.truck.*',
             'api.get.truck.vendor_trucking.*',
             'api.post.warehouse.inflow.*',
         ],

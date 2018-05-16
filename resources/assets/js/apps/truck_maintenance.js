@@ -88,7 +88,7 @@ var truckMaintenanceVue = new Vue ({
             }
         },
         getTruck: function() {
-             axios.get(route('api.get.truck.read').url()).then(
+             axios.get(route('api.get.truck.vendor_trucking.all_trucks_maintained_by_company').url()).then(
                 response => { this.truckDDL = response.data; }
             );
         },

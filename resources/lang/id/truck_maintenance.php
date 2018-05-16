@@ -29,7 +29,7 @@ return [
         ],
     ],
     'fields' => [
-        'plate_number' => 'Plat Nomor',
+        'license_plate' => 'Plat Nomor',
         'maintenance_date' => 'Tgl Pemeliharaan',
         'maintenance_type' => 'Tipe Pemeliharaan',
         'cost' => 'Ongkos',

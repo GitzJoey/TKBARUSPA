@@ -20,11 +20,11 @@ class TrucksTableSeeder extends Seeder
             $index++;
             $truck = [
                 'company_id' => 1,
+                'vendor_trucking_id' => $index,
                 'type' => $truckType,
-                'plate_number' => "B 100$index AG",
+                'license_plate' => "B 100$index AG",
                 'inspection_date' => Carbon::yesterday(),
                 'driver' => "Driver $index",
-                'status' => 'STATUS.ACTIVE',
                 'remarks' => "Dummy truck $index"
             ];
 

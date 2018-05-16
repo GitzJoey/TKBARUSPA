@@ -73,12 +73,12 @@ class Truck extends Model
         'plate_number',
         'inspection_date',
         'driver',
-        'status',
         'remarks'
     ];
 
     protected $hidden = [
         'id',
+        'vendor_trucking_id',
         'company_id',
         'created_by',
         'created_at',
@@ -91,7 +91,6 @@ class Truck extends Model
     protected $appends = [
         'hId',
         'companyHId',
-        'statusI18n',
         'typeI18n'
     ];
 
@@ -105,11 +104,6 @@ class Truck extends Model
         return HashIds::encode($this->attributes['company_id']);
     }
 
-    public function getStatusI18nAttribute()
-    {
-        return Lang::get('lookup.'.$this->attributes['status']);
-    }
-
     public function getTypeI18nAttribute()
     {
         return Lang::get('lookup.'.$this->attributes['type']);
@@ -120,9 +114,14 @@ class Truck extends Model
         return $this->belongsTo('App\Models\Company');
     }
 
+    public function vendorTrucking()
+    {
+        return $this->belongsTo('App\Models\VendorTrucking');
+    }
+
     public function truckMaintenances()
     {
-        return null; //$this->hasMany('App\Models\TruckMaintenance');
+        return $this->hasMany('App\Models\TruckMaintenance');
     }
 
     public static function boot()

@@ -165,6 +165,7 @@
                                             <template v-if="mode == 'show'">
                                                 <div class="form-control-plaintext">@{{ ba.bank.bankFullName }}</div>
                                             </template>
+                                            <input type="hidden" name="bank_account_id[]" v-model="ba.hId"/>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tabs_bankAccounts.account_name_' + baIdx) }">
                                             <template v-if="mode == 'create' || mode == 'edit'">
@@ -205,6 +206,104 @@
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <button class="btn btn-sm btn-default" type="button" v-on:click="addBankAccounts">@lang('buttons.create_new_button')</button>
                             </template>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputTruckList" class="col-2 col-form-label">@lang('vendor_trucking.fields.truck_list')</label>
+                        <div class="col-md-10">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">@lang('vendor_trucking.index.table.truck_list.header.type')</th>
+                                        <th class="text-center">@lang('vendor_trucking.index.table.truck_list.header.plate_number')</th>
+                                        <th class="text-center">@lang('vendor_trucking.index.table.truck_list.header.inspection_date')</th>
+                                        <th class="text-center">@lang('vendor_trucking.index.table.truck_list.header.driver')</th>
+                                        <th class="text-center">@lang('vendor_trucking.index.table.truck_list.header.remarks')</th>
+                                        <th class="text-center">@lang('labels.ACTION')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(t, tIdx) in vendorTrucking.trucks">
+                                        <td width="20%">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <select class="form-control" id="inputTruckType" name="truck_type[]"
+                                                        v-model="t.type"
+                                                        v-validate="'required'"
+                                                        data-vv-as="{{ trans('vendor_trucking.fields.type') }}">
+                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                    <option v-for="(tt, ttIdx) in truckTypeDDL" v-bind:value="tt.code">@{{ tt.description }}</option>
+                                                </select>
+                                                <div v-show="errors.has('truck_type')" class="invalid-feedback">@{{ errors.first('truck_type') }}</div>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ t.typeI18n }}</div>
+                                            </template>
+                                            <input type="hidden" name="truck_id[]" v-model="t.hId"/>
+                                        </td>
+                                        <td>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input id="inputLicensePlate" name="truck_license_plate[]" type="text" class="form-control" placeholder="@lang('vendor_trucking.fields.license_plate')"
+                                                       v-model="t.license_plate" v-validate="'required'" data-vv-as="{{ trans('vendor_trucking.fields.license_plate') }}">
+                                                <div v-show="errors.has('license_plate')" class="invalid-feedback">@{{ errors.first('license_plate') }}</div>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ t.license_plate }}</div>
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <div class="input-group">
+                                                    <flat-pickr name="truck_inspection_date[]" class="form-control" v-validate="'required'"
+                                                            v-model="t.inspection_date" v-bind:config="flatPickrConfig"
+                                                            data-vv-as="{{ trans('vendor_trucking.fields.inspection_date') }}"></flat-pickr>
+                                                </div>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ t.inspection_date }}</div>
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input id="inputDriver" name="truck_driver[]" type="text" class="form-control" placeholder="@lang('vendor_trucking.fields.driver')"
+                                                       v-model="t.driver" v-validate="'required'" data-vv-as="{{ trans('vendor_trucking.fields.driver') }}">
+                                                <div v-show="errors.has('driver')" class="invalid-feedback">@{{ errors.first('driver') }}</div>
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ t.driver }}</div>
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <input type="text" class="form-control" id="inputRemarks" name="truck_remarks[]" placeholder="@lang('vendor_trucking.fields.remarks')"
+                                                       v-model="t.remarks">
+                                            </template>
+                                            <template v-if="mode == 'show'">
+                                                <div class="form-control-plaintext">@{{ t.remarks }}</div>
+                                            </template>
+                                        </td>
+                                        <td class="text-center">
+                                            <template v-if="mode == 'create' || mode == 'edit'">
+                                                <button type="button" class="btn btn-sm btn-danger" v-on:click="removeTruck(tIdx)"><span class="fa fa-close"></span></button>
+                                            </template>
+                                            <template v-if="mode == 'show'"></template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <button class="btn btn-sm btn-default" type="button" v-on:click="addTruck">@lang('buttons.create_new_button')</button>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputMaintenanceByCompany" class="col-2 col-form-label">@lang('vendor_trucking.fields.maintenance_by_company')</label>
+                        <div class="col-md-10">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <input type="checkbox" v-model="vendorTrucking.maintenance_by_company">
+                            </template>
+                            <template v-if="mode == 'show'">
+                            </template>
+                            <input type="hidden" v-model="vendorTrucking.maintenance_by_company" name="maintenance_by_company[]" />
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('status') }">

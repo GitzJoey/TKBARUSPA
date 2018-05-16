@@ -34,6 +34,15 @@ return [
                     'remarks' => 'Remarks',
                 ],
             ],
+            'truck_list' => [
+                'header' => [
+                    'type' => 'Type',
+                    'plate_number' => 'Plate Number',
+                    'inspection_date' => 'Inspection Date',
+                    'driver' => 'Driver',
+                    'remarks' => 'Remarks',
+                ],
+            ],
         ],
     ],
     'fields' => [
@@ -44,5 +53,9 @@ return [
         'status' => 'Status',
         'remarks' => 'Remarks',
         'bank' => 'Bank Accounts',
+        'truck_list' => 'Truck Lists',
+        'license_plate' => 'License Plate',
+        'driver' => 'Driver',
+        'maintenance_by_company' => 'Maintenance By Company'
     ],
 ];

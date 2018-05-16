@@ -124,11 +124,23 @@
                         <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
                         <div class="col-md-9">
                             <flat-pickr id="inputReceiptDate" class="form-control"
-                                        v-model="selectedReceiptDate" v-bind:config="defaultFlatPickrConfig"
+                                        v-model="receipt.receipt_date" v-bind:config="defaultFlatPickrConfig"
                                         v-validate="'required'" data-vv-as="{{ trans('warehouse_inflow.fields.receipt_date') }}"
                                         data-vv-name="{{ trans('warehouse_inflow.fields.receipt_date') }}"
                                         v-on:input="onChangeReceiptDate"></flat-pickr>
                             <span v-show="errors.has('receipt_date')" class="invalid-feedback">@{{ errors.first('receipt_date') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('warehouse_inflow.fields.vendor_trucking')</label>
+                        <div class="col-md-9">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
+                                        v-model="receipt.vendorTruckingHId">
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
+                                </select>
+                            </template>
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('license_plate') }">
@@ -159,182 +171,6 @@
                             <input id="inputDriverName" name="driver_name" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table id="itemsListTable" class="table table-bordered table-striped table-vcenter">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th width="50%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.product_name')</th>
-                                    <th width="15%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.unit')</th>
-                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.brutto')</th>
-                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.netto')</th>
-                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.tare')</th>
-                                    <th width="5%">&nbsp;</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(receipt, receiptIdx) in po.receipts">
-                                    <td>
-                                        @{{ receipt.item.product.name }}
-                                        <input type="hidden" name="receipt_id[]" v-bind:value="receipt.hId">
-                                        <input type="hidden" name="item_id[]" v-bind:value="receipt.itemHId">
-                                        <input type="hidden" name="product_id[]" v-bind:value="receipt.item.productHId">
-                                        <input type="hidden" name="base_product_unit_id[]" v-bind:value="receipt.baseProductUnitHId">
-                                        <input type="hidden" name="receipt_date[]" v-model="receipt.receipt_date"/>
-                                        <input type="hidden" name="license_plate[]" v-model="receipt.license_plate"/>
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('unit_' + receiptIdx) }">
-                                        <select name="selected_product_unit_id[]"
-                                                class="form-control"
-                                                v-model="receipt.selectedProductUnitsHId"
-                                                v-validate="'required'"
-                                                v-bind:disabled="readOnly"
-                                                v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.unit') }} ' + (receiptIdx + 1)"
-                                                v-bind:data-vv-name="'unit_' + receiptIdx"
-                                                v-on:change="onChangeProductUnit(receiptIdx)">
-                                            <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                            <option v-for="product_unit in receipt.item.product.product_units" v-bind:value="product_unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
-                                        </select>
-                                        <input type="hidden" name="conversion_value[]" v-model="receipt.selected_product_units.conversion_value">
-                                        <input type="hidden" name="base_product_unit_id[]" v-model="receipt.base_product_unit.hId">
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + receiptIdx) }">
-                                        <vue-autonumeric v-bind:id="'brutto_' + receipt.item.hId" type="text" class="form-control text-right" name="brutto[]"
-                                                v-model="receipt.brutto"
-                                                v-validate="readOnly ? '':'required|checkequal:' + receiptIdx"
-                                                v-bind:readonly="readOnly"
-                                                v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (receiptIdx + 1)"
-                                                v-bind:data-vv-name="'brutto_' + receiptIdx"
-                                                v-bind:options="defaultNumericConfig"
-                                                v-on:input="reValidate('brutto', receiptIdx)"></vue-autonumeric>
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('netto_' + receiptIdx) }">
-                                        <vue-autonumeric v-bind:id="'netto_' + receipt.item.hId" type="text" class="form-control text-right" name="netto[]"
-                                                v-model="receipt.netto"
-                                                v-validate="readOnly ? '':'required|checkequal:' + receiptIdx"
-                                                v-bind:readonly="readOnly"
-                                                v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (receiptIdx + 1)"
-                                                v-bind:data-vv-name="'netto_' + receiptIdx"
-                                                v-bind:options="defaultNumericConfig"
-                                                v-on:input="reValidate('netto', receiptIdx)"></vue-autonumeric>
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('tare_' + receiptIdx) }">
-                                        <vue-autonumeric v-bind:id="'tare_' + receipt.item.hId" type="text" class="form-control text-right" name="tare[]"
-                                                v-model="receipt.tare"
-                                                v-validate="readOnly ? '':'required|checkequal:' + receiptIdx"
-                                                v-bind:readonly="readOnly"
-                                                v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (receiptIdx + 1)"
-                                                v-bind:data-vv-name="'tare_' + receiptIdx"
-                                                v-bind:options="defaultNumericConfig"
-                                                v-on:input="reValidate('tare', receiptIdx)"></vue-autonumeric>
-                                    </td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-danger btn-md" v-on:click="removeReceipt(receiptIdx)" disabled><span class="fa fa-minus"/></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="table-responsive">
-                        <table id="expensesListTable" class="table table-bordered table-striped table-vcenter">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th colspan="5">@lang('warehouse_inflow.index.table.expense_table.header.title')</th>
-                                    <th class="text-align-right">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <button type="button" class="btn-block-option"
-                                                    data-toggle="tooltip" title="{{ trans('buttons.create_new_button') }}"
-                                                    v-on:click="addExpense">
-                                                <i class="si si-plus"></i>
-                                            </button>
-                                        </template>
-                                        <template v-if="mode == 'show'">
-                                        </template>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th width="20%">@lang('warehouse_inflow.index.table.expense_table.header.name')</th>
-                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.type')</th>
-                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.internal_expense')</th>
-                                    <th width="25%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.remarks')</th>
-                                    <th width="5%">&nbsp;</th>
-                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.amount')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-if="po.expenses.length == 0">
-                                    <td colspan="6" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
-                                </tr>
-                                <tr v-for="(expense, expenseIndex) in po.expenses">
-                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_name_' + expenseIndex) }">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <input name="expense_name[]" type="text" class="form-control"
-                                                   v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
-                                                   v-bind:data-vv-name="'expense_name_' + expenseIndex">
-                                        </template>
-                                        <input type="hidden" name="expense_id[]" v-model="expense.hId" />
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <select class="form-control" v-model="expense.type" name="expense_type[]"
-                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
-                                                    v-bind:data-vv-name="'expense_type_' + expenseIndex" disabled>
-                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
-                                            </select>
-                                        </template>
-                                    </td>
-                                    <td class="text-center">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <input type="checkbox" v-model="expense.is_internal_expense" disabled>
-                                        </template>
-                                        <input type="hidden" name="is_internal_expense" v-model="expense.is_internal_expense_val">
-                                    </td>
-                                    <td>
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <input name="expense_remarks[]" type="text" class="form-control" v-model="expense.remarks"/>
-                                        </template>
-                                    </td>
-                                    <td class="text-center">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeExpense(expenseIndex)">
-                                                <span class="fa fa-minus"></span>
-                                            </button>
-                                        </template>
-                                    </td>
-                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
-                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                            <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
-                                                             v-model="expense.amount" v-validate="'required'"
-                                                             v-bind:options="defaultCurrencyConfig"
-                                                             v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
-                                                             v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
-                                        </template>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3 col-form-label">&nbsp;</div>
-                        <div class="col-md-8">
-                            <template v-if="mode == 'create' || mode == 'edit'">
-                                <button type="submit" class="btn btn-primary min-width-125">
-                                    @lang('buttons.submit_button')
-                                </button>
-                                <button type="button" class="btn btn-primary min-width-125">
-                                    @lang('buttons.print_preview_button')
-                                </button>
-                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
-                                    @lang('buttons.cancel_button')
-                                </button>
-                            </template>
-                            <template v-if="mode == 'show'">
-                                <button type="button" class="btn btn-default min-width-125" v-on:click="backToList">
-                                    @lang('buttons.back_button')
-                                </button>
-                            </template>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
@@ -350,33 +186,25 @@
         var inflowVue = new Vue ({
             el: '#inflowVue',
             data: {
+                mode: '',
                 warehouseDDL: [],
                 vendorTruckingDDL: [],
                 expenseTypeDDL: [],
                 truckDDL: [],
-                poWAList: [],
-                mode: '',
                 selectedWarehouse: '',
-                selectedLicensePlate: '',
-                readOnlyLicensePlateSelect: false,
-                readOnly: false,
-                licensePlate: '',
-                po: {
+                poWAList: [],
+                po: { },
+                receipt: {
                     hId: '',
-                    warehouseHId: '',
-                    warehouse: {
-                        hId: '',
-                        name: ''
-                    },
-                    items: [],
-                    expenses: [],
-                    supplier: {
-                        hId: '',
-                        name: ''
-                    },
-                    receipts: []
+                    receipt_date: new Date(),
+                    vendorTruckingHId: '',
+                    article_code: '',
+                    driver_name: '',
+                    receipt_details: []
                 },
-                selectedReceiptDate: new Date()
+                expenses: [
+
+                ]
             },
             mounted: function () {
                 this.$validator.extend('checkequal', {
@@ -426,14 +254,8 @@
                     this.errors.clear();
                     this.po = Object.assign({ }, this.poWAList[index]);
 
-                    if (!this.po.hasOwnProperty('receipts')) {
-                        this.po.receipts = [];
-                    }
-
                     for (var i = 0; i < this.po.items.length; i++) {
-                        this.po.receipts.push({
-                            hId: '',
-                            receipt_date: new Date(),
+                        this.receipt.receipt_details.push({
                             item: _.cloneDeep(this.po.items[i]),
                             selected_product_units: {
                                 hId: ''

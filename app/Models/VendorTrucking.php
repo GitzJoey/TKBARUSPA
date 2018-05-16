@@ -71,6 +71,7 @@ class VendorTrucking extends Model
         'address',
         'tax_id',
         'status',
+        'maintenance_by_company',
         'remarks'
     ];
 
@@ -103,6 +104,11 @@ class VendorTrucking extends Model
     public function bankAccounts()
     {
         return $this->morphMany('App\Models\BankAccount', 'owner');
+    }
+
+    public function trucks()
+    {
+        return $this->hasMany('App\Models\Truck');
     }
 
     public function purchaseOrders()
