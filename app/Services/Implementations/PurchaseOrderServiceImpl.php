@@ -10,6 +10,8 @@ namespace App\Services\Implementations;
 
 use App\Models\Item;
 use App\Models\Expense;
+use App\Models\Receipt;
+use App\Models\ReceiptDetail;
 use App\Models\PurchaseOrder;
 
 use DB;
@@ -203,6 +205,56 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
+        }
+    }
+
+    public function addReceipt($poId, $receipt, $receiptDetailArr)
+    {
+        $currentPO = PurchaseOrder::with('receipts')->whereId($poId);
+
+        $r = new Receipt();
+        $r->company_id = $receipt['company_id'];
+        $r->po_id = $receipt['po_id'];
+        $r->vendor_trucking_id = $receipt['vendor_trucking_id'];
+        $r->truck_id = $receipt['truck_id'];
+        $r->article_code = $receipt['article_code'];
+        $r->license_plate = $receipt['license_plate'];
+        $r->driver_name = $receipt['driver_name'];
+        $r->receipt_date = $receipt['receipt_date'];
+
+        $currentPO->receipts()->save($r);
+
+        for ($i = 0; $i < count($receiptDetailArr); $i++) {
+            $rd = new ReceiptDetail();
+            $rd->company_id = $receiptDetailArr[$i]['company_id'];
+            $rd->item_id = $receiptDetailArr[$i]['item_id'];
+            $rd->selected_product_unit_id = $receiptDetailArr[$i]['selected_product_unit_id'];
+            $rd->base_product_unit_id = $receiptDetailArr[$i]['base_product_unit_id'];
+            $rd->conversion_value = $receiptDetailArr[$i]['conversion_value'];
+            $rd->brutto = $receiptDetailArr[$i]['brutto'];
+            $rd->base_brutto = $receiptDetailArr[$i]['conversion_value'] * $receiptDetailArr[$i]['brutto'];
+            $rd->netto = $receiptDetailArr[$i]['netto'];
+            $rd->base_netto = $receiptDetailArr[$i]['conversion_value'] * $receiptDetailArr[$i]['netto'];
+            $rd->tare = $receiptDetailArr[$i]['tare'];
+            $rd->base_tare = $receiptDetailArr[$i]['conversion_value'] * $receiptDetailArr[$i]['tare'];
+
+            $r->receiptDetails()->save(rd);
+        }
+    }
+
+    public function addExpenses($poId, $expensesArr)
+    {
+        $currentPO = PurchaseOrder::with('expenses')->whereId($poId);
+
+        for($i = 0; $i < count($expensesArr); $i++){
+            $expense = new Expense();
+            $expense->name = $expensesArr[$i]['name'];
+            $expense->type = $expensesArr[$i]['type'];
+            $expense->is_internal_expense = $expensesArr[$i]['is_internal_expense'];
+            $expense->amount = $expensesArr[$i]['amount'];
+            $expense->remarks = $expensesArr[$i]['remarks'];
+
+            $currentPO->expenses()->save($expense);
         }
     }
 

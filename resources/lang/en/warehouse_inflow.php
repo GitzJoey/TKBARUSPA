@@ -42,11 +42,13 @@ return [
                     'internal_expense' => 'Internal',
                     'remarks' => 'Remarks',
                     'amount' => 'Amount',
+                    'total' => 'Total',
                 ],
             ],
         ],
     ],
     'fields' => [
+        'po_detail' => 'PO Detail',
         'receipt_date' => 'Receipt Date',
         'driver_name' => 'Driver Name',
         'vendor_trucking' => 'Vendor Trucking',

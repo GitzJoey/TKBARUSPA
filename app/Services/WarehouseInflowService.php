@@ -8,9 +8,7 @@ interface WarehouseInflowService
         $company_id,
         $po_id,
         $receipts,
-        $inputtedReceipts,
-        $expenses,
-        $inputtedExpenses
+        $expenses
     );
     public function readReceipt();
     public function updateReceipt(

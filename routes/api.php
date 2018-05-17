@@ -120,7 +120,7 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('edit/{id}', 'WarehouseController@update')->name('api.post.warehouse.edit');
         Route::post('delete/{id}', 'WarehouseController@delete')->name('api.post.warehouse.delete');
 
-        Route::group(['prefix' => 'warehouse'], function () {
+        Route::group(['prefix' => 'inflow'], function () {
             Route::post('save/{id}', 'WarehouseInflowController@store')->name('api.post.warehouse.inflow.save');
         });
     });

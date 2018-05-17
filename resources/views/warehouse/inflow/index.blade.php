@@ -40,7 +40,7 @@
                     <option v-for="warehouse in warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.address != '' ? '- ' + warehouse.address:''}}</option>
                 </select>
                 <br/>
-                <div class="table-responsive">
+                <div class="">
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
                             <tr>
@@ -65,7 +65,7 @@
                                         <button class="btn btn-sm btn-secondary" v-on:click="createNew(pIdx)">
                                             <span class="fa fa-plus fa-fw"></span>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled><span class="fa fa-pencil fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnEdit">
                                             <a class="dropdown-item" href="javascript:void(0)">
                                                 Receipt 1
@@ -78,7 +78,7 @@
                                                 Final Receipt
                                             </a>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-close fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled><span class="fa fa-close fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnDelete">
                                             <a class="dropdown-item" href="javascript:void(0)">
                                                 Receipt 1
@@ -120,6 +120,13 @@
             </div>
             <div class="block-content">
                 <form id="inflowForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                    <div class="form-group row">
+                        <label for="inputPODetail" class="col-3 col-form-label">@lang('warehouse_inflow.fields.po_detail')</label>
+                        <div class="col-md-9">
+                            <div class="form-control-plaintext">@{{ po.code }}</div>
+                        </div>
+                    </div>
+                    <hr/>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('receipt_date') }">
                         <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
                         <div class="col-md-9">
@@ -223,6 +230,94 @@
                             </table>
                         </div>
                     </div>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="expensesListTable" class="table table-bordered table-striped table-vcenter">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="5">@lang('warehouse_inflow.index.table.expense_table.header.title')</th>
+                                    <th class="text-align-right">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <button type="button" class="btn-block-option"
+                                                    data-toggle="tooltip" title="{{ trans('buttons.create_new_button') }}"
+                                                    v-on:click="addExpense">
+                                                <i class="si si-plus"></i>
+                                            </button>
+                                        </template>
+                                        <template v-if="mode == 'show'">
+                                        </template>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th width="20%">@lang('warehouse_inflow.index.table.expense_table.header.name')</th>
+                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.type')</th>
+                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.internal_expense')</th>
+                                    <th width="25%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.remarks')</th>
+                                    <th width="5%">&nbsp;</th>
+                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.amount')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-if="expenses.length == 0">
+                                    <td colspan="6" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
+                                </tr>
+                                <tr v-for="(expense, expenseIndex) in expenses">
+                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_name_' + expenseIndex) }">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <input name="expense_name[]" type="text" class="form-control"
+                                                   v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
+                                                   v-bind:data-vv-name="'expense_name_' + expenseIndex">
+                                        </template>
+                                        <input type="hidden" name="expense_id[]" v-model="expense.hId" />
+                                    </td>
+                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <select class="form-control" v-model="expense.type" name="expense_type[]"
+                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
+                                                    v-bind:data-vv-name="'expense_type_' + expenseIndex" disabled>
+                                                <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                                <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
+                                            </select>
+                                        </template>
+                                    </td>
+                                    <td class="text-center">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <input type="checkbox" v-model="expense.is_internal_expense" disabled>
+                                        </template>
+                                        <input type="hidden" name="is_internal_expense" v-model="expense.is_internal_expense_val">
+                                    </td>
+                                    <td>
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <input name="expense_remarks[]" type="text" class="form-control" v-model="expense.remarks"/>
+                                        </template>
+                                    </td>
+                                    <td class="text-center">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeExpense(expenseIndex)">
+                                                <span class="fa fa-minus"></span>
+                                            </button>
+                                        </template>
+                                    </td>
+                                    <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
+                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                            <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
+                                                             v-model="expense.amount" v-validate="'required'"
+                                                             v-bind:options="defaultCurrencyConfig"
+                                                             v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
+                                                             v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr v-if="expenses.length != 0">
+                                    <td colspan="5" class="text-right">@lang('warehouse_inflow.index.table.expense_table.header.total')</td>
+                                    <td class="text-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="totalExpense"></vue-autonumeric></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
                     <div class="form-group row">
                         <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_inflow.fields.remarks')</label>
                         <div class="col-md-9">
@@ -443,11 +538,7 @@
                     }
                 },
                 addExpense: function () {
-                    if (!this.po.hasOwnProperty('expenses')) {
-                        this.po.expenses = [];
-                    }
-
-                    this.po.expenses.push({
+                    this.expenses.push({
                         hId: '',
                         name: '',
                         type: 'EXPENSETYPE.ADD',
@@ -458,7 +549,7 @@
                     });
                 },
                 removeExpense: function (index) {
-                    this.po.expenses.splice(index, 1);
+                    this.expenses.splice(index, 1);
                 }
             },
             watch: {
@@ -479,11 +570,19 @@
                 }
             },
             computed: {
+                totalExpense: function() {
+                    var result = 0;
+                    _.each(this.expenses, function(e) {
+                        result += e.amount;
+                    });
+
+                    return result;
+                },
                 defaultPleaseSelect: function() {
                     return '';
                 },
-                numericFormatToString: function() {
-                    var conf = Object.assign({}, this.defaultNumericConfig);
+                currencyFormatToString: function() {
+                    var conf = Object.assign({}, this.defaultCurrencyConfig);
 
                     conf.readOnly = true;
                     conf.noEventListeners = true;

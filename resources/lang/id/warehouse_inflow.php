@@ -42,11 +42,13 @@ return [
                     'internal_expense' => 'Internal',
                     'remarks' => 'Keterangan',
                     'amount' => 'Jumlah',
+                    'total' => 'Total',
                 ],
             ],
         ],
     ],
     'fields' => [
+        'po_detail' => 'Detil Pembelian',
         'receipt_date' => 'Tgl Terima',
         'driver_name' => 'Nama Supir',
         'vendor_trucking' => 'Penyedia Angkutan',

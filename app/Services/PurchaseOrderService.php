@@ -54,6 +54,10 @@ interface PurchaseOrderService
         $private_remarks
     );
 
+    public function addReceipt($poId, $receipt, $receiptDetailArr);
+
+    public function addExpenses($poId, $expensesArr);
+
     public function generatePOCode();
 
     public function getPODates($limit);
