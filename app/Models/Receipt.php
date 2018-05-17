@@ -8,6 +8,57 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Vinkla\Hashids\Facades\Hashids;
 
+/**
+ * App\Models\Receipt
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $po_id
+ * @property int $vendor_trucking_id
+ * @property int $truck_id
+ * @property string|null $article_code
+ * @property string|null $license_plate
+ * @property string|null $driver_name
+ * @property \Carbon\Carbon|null $receipt_date
+ * @property string|null $remarks
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\Models\ProductUnit $baseProductUnit
+ * @property-read mixed $base_product_unit_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $item_h_id
+ * @property-read mixed $selected_product_units_h_id
+ * @property-read mixed $truck_h_id
+ * @property-read mixed $vendor_trucking_h_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ReceiptDetail[] $receiptDetails
+ * @property-read \App\Models\ProductUnit $selectedProductUnit
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Receipt onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereArticleCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereDriverName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereLicensePlate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt wherePoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereReceiptDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereRemarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereTruckId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereVendorTruckingId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Receipt withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Receipt withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Receipt extends Model
 {
     use SoftDeletes;

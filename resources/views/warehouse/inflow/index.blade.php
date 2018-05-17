@@ -124,13 +124,14 @@
                         <label for="inputPODetail" class="col-3 col-form-label">@lang('warehouse_inflow.fields.po_detail')</label>
                         <div class="col-md-9">
                             <div class="form-control-plaintext">@{{ po.code }}</div>
+                            <input type="hidden" name="po_id" v-model="po.hId">
                         </div>
                     </div>
                     <hr/>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('receipt_date') }">
                         <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
                         <div class="col-md-9">
-                            <flat-pickr id="inputReceiptDate" class="form-control"
+                            <flat-pickr id="inputReceiptDate" class="form-control" name="receipt_date"
                                         v-model="receipt.receipt_date" v-bind:config="defaultFlatPickrConfig"
                                         v-validate="'required'" data-vv-as="{{ trans('warehouse_inflow.fields.receipt_date') }}"
                                         data-vv-name="{{ trans('warehouse_inflow.fields.receipt_date') }}"></flat-pickr>
@@ -159,11 +160,12 @@
                             </select>
                         </div>
                     </div>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver') }">
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver_name') }">
                         <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_inflow.fields.driver_name')</label>
                         <div class="col-md-9">
-                            <input id="inputDriverName" name="driver" v-model="receipt.driver" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
+                            <input id="inputDriverName" name="driver" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
                         </div>
+                        <span v-show="errors.has('driver_name')" class="invalid-feedback">@{{ errors.first('driver_name') }}</span>
                     </div>
                     <br/>
                     <div class="row">
@@ -181,11 +183,12 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(rd, rdIdx) in receipt.receipt_details">
-                                        <input type="hidden" name="item_id[]" v-bind:value="rd.item.hId">
-                                        <input type="hidden" name="product_id[]" v-bind:value="rd.item.productHId">
-                                        <input type="hidden" name="base_product_unit_id[]" v-bind:value="rd.item.baseProductUnitHId">
                                         <td>
                                             @{{ rd.item.product.name }}
+                                            <input type="hidden" name="receipt_detail_id" v-model="rd.hId">
+                                            <input type="hidden" name="item_id[]" v-model="rd.item.hId">
+                                            <input type="hidden" name="product_id[]" v-model="rd.item.product.hId">
+                                            <input type="hidden" name="base_product_unit_id[]" v-model="rd.item.base_product_unit.hId">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('punit_' + rdIdx) }">
                                             <select name="selected_product_unit_id[]"
@@ -193,10 +196,12 @@
                                                     v-model="rd.selectedProductUnitsHId"
                                                     v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.unit') }} ' + (rdIdx + 1)"
-                                                    v-bind:data-vv-name="'punit_' + rdIdx">
+                                                    v-bind:data-vv-name="'punit_' + rdIdx"
+                                                    v-on:change="onChangeSelectedProductUnit(rdIdx)">
                                                 <option value="">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="product_unit in rd.item.product.product_units" v-bind:value="product_unit.unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
+                                                <option v-for="product_unit in rd.item.product.product_units" v-bind:value="product_unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
                                             </select>
+                                            <input type="hidden" name="conversion_value[]" v-model="rd.selected_product_units.conversion_value">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
                                             <vue-autonumeric v-bind:id="'brutto_' + rdIdx" type="text" class="form-control text-right" name="brutto[]"
@@ -272,13 +277,14 @@
                                     </td>
                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                            <select class="form-control" v-model="expense.type" name="expense_type[]"
+                                            <select class="form-control" v-model="expense.type"
                                                     v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
                                                     v-bind:data-vv-name="'expense_type_' + expenseIndex" disabled>
                                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                 <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
                                             </select>
                                         </template>
+                                        <input type="hidden" name="expense_type[]" v-model="expense.type">
                                     </td>
                                     <td class="text-center">
                                         <template v-if="mode == 'create' || mode == 'edit'">
@@ -524,10 +530,10 @@
                         this.$validator.validate('netto_' + idx);
                     }
                 },
-                onChangeProductUnit: function(itemIndex) {
-                    if (this.po.receipts[itemIndex].selectedProductUnitsHId != '') {
-                        var pUnit = _.find(this.po.receipts[itemIndex].item.product.product_units, { hId: this.po.receipts[itemIndex].selectedProductUnitsHId });
-                        _.merge(this.po.receipts[itemIndex].selected_product_units, pUnit);
+                onChangeSelectedProductUnit: function(itemIndex) {
+                    if (this.receipt.receipt_details[itemIndex].selectedProductUnitsHId != '') {
+                        var pUnit = _.find(this.receipt.receipt_details[itemIndex].item.product.product_units, { hId: this.receipt.receipt_details[itemIndex].selectedProductUnitsHId });
+                        this.receipt.receipt_details[itemIndex].selected_product_units = pUnit;
                     }
                 },
                 onChangeVendorTrucking: function() {

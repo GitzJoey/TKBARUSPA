@@ -98,6 +98,7 @@ class ProductUnit extends Model
 
     protected $casts = [
         'conversion_value' => 'float',
+        'is_base' => 'integer',
     ];
 
     public function getHIdAttribute()

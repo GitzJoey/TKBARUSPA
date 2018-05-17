@@ -52,6 +52,7 @@ return [
         'short_code' => 'Kode',
         'description' => 'Deskripsi',
         'barcode' => 'Barcode',
+        'stock_merge_type' => 'Tipe Penggabungan Stok',
         'minimal_in_stock' => 'Minimal Di Stok',
         'status' => 'Status',
         'remarks' => 'Keterangan',

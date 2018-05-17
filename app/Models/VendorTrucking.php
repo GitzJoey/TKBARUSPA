@@ -55,6 +55,9 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorTrucking withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VendorTrucking withoutTrashed()
  * @mixin \Eloquent
+ * @property int|null $maintenance_by_company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Truck[] $trucks
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VendorTrucking whereMaintenanceByCompany($value)
  */
 class VendorTrucking extends Model
 {

@@ -57,6 +57,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Truck withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Truck withoutTrashed()
  * @mixin \Eloquent
+ * @property int $vendor_trucking_id
+ * @property string|null $license_plate
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TruckMaintenance[] $truckMaintenances
+ * @property-read \App\Models\VendorTrucking $vendorTrucking
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereLicensePlate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Truck whereVendorTruckingId($value)
  */
 class Truck extends Model
 {

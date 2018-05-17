@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: gitzj
- * Date: 3/29/2018
- * Time: 9:29 PM
+ * Date: 5/17/2018
+ * Time: 1:34 PM
  */
 
 namespace App\Services;
@@ -13,15 +13,15 @@ interface PurchaseOrderService
     public function create(
         $company_id,
         $code,
-        $po_type,
-        $po_created,
+        $so_type,
+        $so_created,
         $shipping_date,
-        $supplier_type,
+        $customer_type,
         $items,
         $expenses,
-        $supplier_id,
-        $walk_in_supplier,
-        $walk_in_supplier_detail,
+        $customer_id,
+        $walk_in_customer,
+        $walk_in_customer_detail,
         $warehouse_id,
         $vendor_trucking_id,
         $discount,
@@ -35,17 +35,17 @@ interface PurchaseOrderService
         $id,
         $company_id,
         $code,
-        $po_type,
-        $po_created,
+        $so_type,
+        $so_created,
         $shipping_date,
-        $supplier_type,
+        $customer_type,
         $items,
         $inputtedItemIds,
         $expenses,
         $inputtedExpenseIds,
-        $supplier_id,
-        $walk_in_supplier,
-        $walk_in_supplier_detail,
+        $customer_id,
+        $walk_in_customer,
+        $walk_in_customer_detail,
         $warehouse_id,
         $discount,
         $status,
@@ -53,20 +53,4 @@ interface PurchaseOrderService
         $internal_remarks,
         $private_remarks
     );
-
-    public function addReceipt($poId, $receipt, $receiptDetailArr);
-
-    public function addExpenses($poId, $expensesArr);
-
-    public function generatePOCode();
-
-    public function getPODates($limit);
-
-    public function getPOById($id);
-
-    public function searchPOByDate($date);
-
-    public function searchPOByStatus($status);
-
-    public function getAllWaitingArrivalPO($warehouseId, $status);
 }

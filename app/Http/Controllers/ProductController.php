@@ -120,6 +120,7 @@ class ProductController extends Controller
             $request['short_code'],
             $request['barcode'],
             $productUnits,
+            $request['stock_merge_type'],
             $request['minimal_in_stock'],
             $request['description'],
             $request['status'],
@@ -190,7 +191,7 @@ class ProductController extends Controller
         $productCategories = [];
         for ($i = 0; $i < count($request['cat_level']); $i++) {
             array_push($productCategories, array (
-                'cat_level' => Hashids::decode($request['cat_level'][$i])[0],
+                'cat_level' => $request['cat_level'][$i],
                 'cat_code' => $request["cat_code"][$i],
                 'cat_name' => $request["cat_name"][$i],
                 'cat_description' => $request["cat_description"][$i],
@@ -207,6 +208,7 @@ class ProductController extends Controller
             $request['short_code'],
             $request['barcode'],
             $productUnits,
+            $request['stock_merge_type'],
             $request['minimal_in_stock'],
             $request['description'],
             $request['status'],

@@ -23,6 +23,7 @@ Class CreateProductsTable extends Migration
             $table->string('barcode')->nullable();
             $table->string('description')->nullable();
             $table->string('image_filename')->nullable();
+            $table->string('stock_merge_type')->nullable();
             $table->integer('minimal_in_stock')->default(0);
             $table->string('status')->nullable();
             $table->string('remarks')->nullable();

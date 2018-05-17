@@ -14,13 +14,13 @@ use App\Services\SupplierService;
 use App\Services\PhoneProviderService;
 use App\Services\PurchaseOrderService;
 use App\Services\WarehouseService;
-use App\Services\WarehouseInflowService;
 use App\Services\PriceLevelService;
 use App\Services\VendorTruckingService;
 use App\Services\UserService;
 use App\Services\RoleService;
 use App\Services\TruckMaintenanceService;
 use App\Services\CustomerService;
+use App\Services\StockService;
 
 use App\Services\Implementations\DatabaseServiceImpl;
 use App\Services\Implementations\CompanyServiceImpl;
@@ -32,13 +32,13 @@ use App\Services\Implementations\SupplierServiceImpl;
 use App\Services\Implementations\PhoneProviderServiceImpl;
 use App\Services\Implementations\PurchaseOrderServiceImpl;
 use App\Services\Implementations\WarehouseServiceImpl;
-use App\Services\Implementations\WarehouseInflowServiceImpl;
 use App\Services\Implementations\PriceLevelServiceImpl;
 use App\Services\Implementations\VendorTruckingServiceImpl;
 use App\Services\Implementations\UserServiceImpl;
 use App\Services\Implementations\RoleServiceImpl;
 use App\Services\Implementations\TruckMaintenanceServiceImpl;
 use App\Services\Implementations\CustomerServiceImpl;
+use App\Services\Implementations\StockServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -123,8 +123,8 @@ class AppServiceProvider extends ServiceProvider
             return new CustomerServiceImpl();
         });
 
-        $this->app->singleton(WarehouseInflowService::class, function() {
-            return new WarehouseInflowServiceImpl();
+        $this->app->singleton(StockService::class, function() {
+            return new StockServiceImpl();
         });
     }
 
@@ -144,7 +144,7 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\ProductTypeService',
             'App\Services\PurchaseOrderService',
             'App\Services\WarehouseService',
-            'App\Services\WarehouseInflowService',
+            'App\Services\StockService',
             'App\Services\PriceLevelService',
             'App\Services\VendorTruckingService',
             'App\Services\UserService',

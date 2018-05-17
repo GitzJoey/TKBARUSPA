@@ -69,6 +69,9 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withoutTrashed()
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Supplier[] $supplier
+ * @property string|null $stock_merge_type
+ * @property-read mixed $stock_merge_type_i18n
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereStockMergeType($value)
  */
 class Product extends Model
 {
@@ -86,6 +89,7 @@ class Product extends Model
         'barcode',
         'description',
         'image_path',
+        'stock_merge_type',
         'minimal_in_stock',
         'status',
         'remarks'
@@ -110,6 +114,7 @@ class Product extends Model
         'productTypeHId',
         'baseUnitSymbol',
         'statusI18n',
+        'stockMergeTypeI18n'
     ];
 
     public function getHIdAttribute()
@@ -130,6 +135,11 @@ class Product extends Model
     public function getStatusI18nAttribute()
     {
         return Lang::get('lookup.'.$this->attributes['status']);
+    }
+
+    public function getStockMergeTypeI18nAttribute()
+    {
+        return Lang::get('lookup.'.$this->attributes['stock_merge_type']);
     }
 
     public function company()

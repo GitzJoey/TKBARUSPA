@@ -30,6 +30,7 @@ class ProductServiceImpl implements ProductService
         $short_code,
         $barcode,
         $productUnits,
+        $stock_merge_type,
         $minimal_in_stock,
         $description,
         $status,
@@ -54,6 +55,7 @@ class ProductServiceImpl implements ProductService
             $product->image_filename = $imageName;
             $product->short_code = $short_code;
             $product->barcode = $barcode;
+            $product->stock_merge_type = $stock_merge_type;
             $product->minimal_in_stock = $minimal_in_stock;
             $product->description = $description;
             $product->status = $status;
@@ -120,6 +122,7 @@ class ProductServiceImpl implements ProductService
         $short_code,
         $barcode,
         $productUnits,
+        $stock_merge_type,
         $minimal_in_stock,
         $description,
         $status,
@@ -192,6 +195,7 @@ class ProductServiceImpl implements ProductService
                 'status' => $status,
                 'remarks' => $remarks,
                 'barcode' => $barcode,
+                'stock_merge_type' => $stock_merge_type,
                 'minimal_in_stock' => $minimal_in_stock,
             ]);
 

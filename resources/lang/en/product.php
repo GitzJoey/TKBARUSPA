@@ -52,6 +52,7 @@ return [
         'short_code' => 'Short Code',
         'description' => 'Description',
         'barcode' => 'Barcode',
+        'stock_merge_type' => 'Stock Merge Type',
         'minimal_in_stock' => 'Minimal In Stock',
         'status' => 'Status',
         'remarks' => 'Remarks',

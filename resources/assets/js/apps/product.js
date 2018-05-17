@@ -5,6 +5,7 @@ var productVue = new Vue ({
         statusDDL: [],
         prodTypeDDL: [],
         unitDDL: [],
+        stockMergeTypeDDL: [],
         mode: '',
         product: { },
         search_product_query: '',
@@ -15,6 +16,7 @@ var productVue = new Vue ({
         this.getAllProduct();
         this.getLookupStatus();
         this.getProductType();
+        this.getStockMergeType();
         this.getUnit();
     },
     methods: {
@@ -72,14 +74,6 @@ var productVue = new Vue ({
             this.mode = 'edit';
             this.errors.clear();
             this.product = this.productList.data[idx];
-
-            for (var i = 0; i < this.product.product_units; i++) {
-                if (this.product.product_units[i].is_base) {
-                    this.product.product_units[i].is_base_val = 1;
-                } else {
-                    this.product.product_units[i].is_base_val = 0;
-                }
-            }
         },
         showSelected: function(idx) {
             this.mode = 'show';
@@ -109,16 +103,17 @@ var productVue = new Vue ({
                 symbol: '',
                 status: '',
                 remarks: '',
+                stock_merge_type: '',
                 product_categories: [],
                 product_units: []
             }
         },
         addCategory: function() {
             this.product.product_categories.push({
-                'code':'',
-                'name':'',
-                'description':'',
-                'level':0
+                code: '',
+                name: '',
+                description: '',
+                level: 0
             });
         },
         removeCategory: function(idx) {
@@ -126,13 +121,11 @@ var productVue = new Vue ({
         },
         addNewProductUnit: function () {
             this.product.product_units.push({
-                'unitHId': '',
-                'is_base': false,
-                'is_base_val': 0,
-                'display': false,
-                'display_val': 0,
-                'conversion_value': '',
-                'remarks': ''
+                unitHId: '',
+                is_base: 0,
+                display: 0,
+                conversion_value: 0,
+                remarks: ''
             });
         },
         removeProductUnit: function (idx) {
@@ -140,18 +133,15 @@ var productVue = new Vue ({
         },
         changeIsBase: function (idx) {
             if (this.product.product_units[idx].is_base) {
-                this.product.product_units[idx].is_base_val = 1;
                 this.product.product_units[idx].conversion_value = '1';
                 for (var i = 0; i < this.product.product_units.length; i++) {
                     if (i == idx) continue;
                     this.product.product_units[i].is_base = !this.product.product_units[idx].is_base;
-                    this.product.product_units[i].is_base_val = 0;
                 }
             }
         },
         changeDisplay: function (idx) {
             if (this.product.product_units[idx].display) {
-                this.product.product_units[idx].display_val = 1;
                 for (var i = 0; i < this.product.product_units.length; i++) {
                     if (i == idx) continue;
                     this.product.product_units[i].display = !this.product.product_units[idx].display;
@@ -166,6 +156,11 @@ var productVue = new Vue ({
         getProductType: function() {
             axios.get(route('api.get.product.product_type.read').url()).then(
                 response => { this.prodTypeDDL = response.data; }
+            );
+        },
+        getStockMergeType: function() {
+            axios.get(route('api.get.lookup.bycategory', 'STOCK_MERGE_TYPE').url()).then(
+                response => { this.stockMergeTypeDDL = response.data; }
             );
         },
         getUnit: function() {

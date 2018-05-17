@@ -281,7 +281,6 @@
                                                 <div class="custom-control custom-checkbox mb-5">
                                                     <input class="custom-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)">
                                                     <label class="custom-control-label text-primary" v-bind:for="'punit_is_base_' + (punitIdx + 1)"></label>
-                                                    <input type="hidden" v-model="punit.is_base_val" name="is_base[]"/>
                                                 </div>
                                             </template>
                                             <template v-if="mode == 'show'">
@@ -292,13 +291,13 @@
                                                     </div>
                                                 </div>
                                             </template>
+                                            <input type="hidden" v-model="punit.is_base" name="is_base[]"/>
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <div class="custom-control custom-checkbox mb-5">
                                                     <input class="custom-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)">
                                                     <label class="custom-control-label text-primary" v-bind:for="'punit_display_' + (punitIdx + 1)"></label>
-                                                    <input type="hidden" v-model="punit.display_val" name="display[]"/>
                                                 </div>
                                             </template>
                                             <template v-if="mode == 'show'">
@@ -309,6 +308,7 @@
                                                     </div>
                                                 </div>
                                             </template>
+                                            <input type="hidden" v-model="punit.display" name="display[]"/>
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('conv_val_' + punitIdx) }">
                                             <template v-if="mode == 'create' || mode == 'edit'">
@@ -346,6 +346,25 @@
                             </template>
                             <template v-if="mode == 'show'">
                                 <div class="form-control-plaintext"></div>
+                            </template>
+                        </div>
+                    </div>
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('stock_merge_type') }">
+                        <label for="inputStockMergeType" class="col-sm-2 col-form-label">@lang('product.fields.stock_merge_type')</label>
+                        <div class="col-sm-10">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <select class="form-control"
+                                        name="stock_merge_type"
+                                        v-model="product.stock_merge_type"
+                                        v-validate="'required'"
+                                        data-vv-as="{{ trans('product.fields.stock_merge_type') }}">
+                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
+                                    <option v-for="(smt, smtIdx) in stockMergeTypeDDL" v-bind:value="smt.code">@{{ smt.description }}</option>
+                                </select>
+                                <span v-show="errors.has('stock_merge_type')" class="invalid-feedback" v-cloak>@{{ errors.first('stock_merge_type') }}</span>
+                            </template>
+                            <template v-if="mode == 'show'">
+                                <div class="form-control-plaintext">@{{ product.stockMergeTypeI18n }}</div>
                             </template>
                         </div>
                     </div>

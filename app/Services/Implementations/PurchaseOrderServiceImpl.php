@@ -221,6 +221,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $r->license_plate = $receipt['license_plate'];
         $r->driver_name = $receipt['driver_name'];
         $r->receipt_date = $receipt['receipt_date'];
+        $r->remarks = $receipt['remarks'];
 
         $currentPO->receipts()->save($r);
 
