@@ -14,9 +14,7 @@ use App\Models\Supplier;
 use App\Models\BankAccount;
 use App\Models\PhoneNumber;
 
-use DB;
 use Config;
-use Exception;
 use LaravelLocalization;
 use App\Services\SupplierService;
 

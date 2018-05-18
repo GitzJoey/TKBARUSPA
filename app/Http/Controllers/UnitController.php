@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -43,13 +45,17 @@ class UnitController extends Controller
             'status' => 'required',
         ])->validate();
 
-        //Sample Force Exception
-        //No Need Try Catch Wrapper In Controller
-        //throw new Exception('Test Laravel Exception');
+        DB::beginTransaction();
+        try {
+            //throw New Exception('Test Exception From Controller');
+            $this->unitService->create($req['name'], $req['symbol'], $req['status'], $req['remarks']);
 
-        $this->unitService->create($req['name'], $req['symbol'], $req['status'], $req['remarks']);
-
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update($id, Request $req)
@@ -60,15 +66,29 @@ class UnitController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $this->unitService->update($id, $req['name'], $req['symbol'], $req['status'], $req['remarks']);
+        DB::beginTransaction();
+        try {
+            $this->unitService->update($id, $req['name'], $req['symbol'], $req['status'], $req['remarks']);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id)
     {
-        $this->unitService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->unitService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

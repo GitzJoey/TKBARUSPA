@@ -10,8 +10,6 @@ namespace App\Services\Implementations;
 use App\Models\Role;
 use App\Models\Permission;
 
-use DB;
-use Exception;
 
 use App\Services\RoleService;
 

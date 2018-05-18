@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 
 use App\Services\PhoneProviderService;
-
 
 class PhoneProviderController extends Controller
 {
@@ -36,9 +37,16 @@ class PhoneProviderController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $this->phoneProviderService->create($req['name'], $req['short_name'], $req['status'], $req['remarks'], $req['prefixes']);
+        DB::beginTransaction();
+        try {
+            $this->phoneProviderService->create($req['name'], $req['short_name'], $req['status'], $req['remarks'], $req['prefixes']);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update(Request $req, $id) 
@@ -49,16 +57,30 @@ class PhoneProviderController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $this->phoneProviderService->update($id, $req['name'], $req['short_name'], $req['status'], $req['remarks'], $req['prefixes']);
+        DB::beginTransaction();
+        try {
+            $this->phoneProviderService->update($id, $req['name'], $req['short_name'], $req['status'], $req['remarks'], $req['prefixes']);
 
-        return response()->json($req->all());
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id) 
     {
-        $this->phoneProviderService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->phoneProviderService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
 }

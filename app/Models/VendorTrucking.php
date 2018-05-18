@@ -94,6 +94,10 @@ class VendorTrucking extends Model
         'statusI18n',
     ];
 
+    protected $casts = [
+        'maintenance_by_company' => 'integer'
+    ];
+
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);

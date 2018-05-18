@@ -8,9 +8,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PriceLevel;
-
+use DB;
 use Auth;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -40,18 +40,25 @@ class PriceLevelController extends Controller
             'status' => 'required|string|max:255',
         ])->validate();
 
-        $this->priceLevelService->create(
-            Auth::user()->company->id,
-            $request['type'],
-            $request['weight'],
-            $request['name'],
-            $request['description'],
-            $request['increment_value'],
-            $request['percentage_value'],
-            $request['status']
-        );
+        DB::beginTransaction();
+        try {
+            $this->priceLevelService->create(
+                Auth::user()->company->id,
+                $request['type'],
+                $request['weight'],
+                $request['name'],
+                $request['description'],
+                $request['increment_value'],
+                $request['percentage_value'],
+                $request['status']
+            );
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function read()
@@ -61,25 +68,39 @@ class PriceLevelController extends Controller
 
     public function update($id, Request $request)
     {
-        $this->priceLevelService->update(
-            $id,
-            Auth::user()->company->id,
-            $request['type'],
-            $request['weight'],
-            $request['name'],
-            $request['description'],
-            $request['increment_value'],
-            $request['percentage_value'],
-            $request['status']
-        );
+        DB::beginTransaction();
+        try {
+            $this->priceLevelService->update(
+                $id,
+                Auth::user()->company->id,
+                $request['type'],
+                $request['weight'],
+                $request['name'],
+                $request['description'],
+                $request['increment_value'],
+                $request['percentage_value'],
+                $request['status']
+            );
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id)
     {
-        $this->priceLevelService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->priceLevelService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

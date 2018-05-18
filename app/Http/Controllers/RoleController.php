@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -41,23 +43,29 @@ class RoleController extends Controller
             'description' => 'required',
         ])->validate();
 
-        $rolePermission = [];
-        for($i = 0; $i < count($request['permission']); $i++) {
-            array_push($rolePermission, array (
-                'id' => $request['permission'][$i]
-            ));
+        DB::beginTransaction();
+        try {
+            $rolePermission = [];
+            for($i = 0; $i < count($request['permission']); $i++) {
+                array_push($rolePermission, array (
+                    'id' => $request['permission'][$i]
+                ));
+            }
+
+            $this->roleService->create(
+                $request['name'],
+                $request['display_name'],
+                $request['description'],
+                $rolePermission
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $this->roleService->create(
-            $request['name'],
-            $request['display_name'],
-            $request['description'],
-            $rolePermission
-        );
-
-        return response()->json();
     }
-
 
     public function update($id, Request $request)
     {
@@ -67,32 +75,46 @@ class RoleController extends Controller
             'description' => 'required',
         ])->validate();
 
-        $rolePermission = [];
-        $inputtedRolePermission = [];
-        for($i = 0; $i < count($request['permission']); $i++) {
-            array_push($rolePermission, array (
-                'id' => $request['permission'][$i]
-            ));
-            array_push($inputtedRolePermission, $request['permission'][$i]);
+        DB::beginTransaction();
+        try {
+            $rolePermission = [];
+            $inputtedRolePermission = [];
+            for($i = 0; $i < count($request['permission']); $i++) {
+                array_push($rolePermission, array (
+                    'id' => $request['permission'][$i]
+                ));
+                array_push($inputtedRolePermission, $request['permission'][$i]);
+            }
+
+            $this->roleService->update(
+                $id,
+                $request['name'],
+                $request['display_name'],
+                $request['description'],
+                $rolePermission,
+                $inputtedRolePermission
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $this->roleService->update(
-            $id,
-            $request['name'],
-            $request['display_name'],
-            $request['description'],
-            $rolePermission,
-            $inputtedRolePermission
-        );
-
-        return response()->json();
     }
 
     public function delete($id)
     {
-        $this->roleService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->roleService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function getAllPermissions()

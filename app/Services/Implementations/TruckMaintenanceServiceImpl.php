@@ -10,9 +10,6 @@ namespace App\Services\Implementations;
 
 use App\Models\TruckMaintenance;
 
-use DB;
-use Exception;
-
 use App\Services\TruckMaintenanceService;
 
 class TruckMaintenanceServiceImpl implements TruckMaintenanceService

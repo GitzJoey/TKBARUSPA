@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-interface PurchaseOrderService
+interface SalesOrderService
 {
     public function create(
         $company_id,

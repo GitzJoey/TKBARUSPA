@@ -6,9 +6,6 @@ use App\Models\VendorTrucking;
 use App\Models\BankAccount;
 use App\Models\Truck;
 
-use DB;
-use Exception;
-
 use App\Services\VendorTruckingService;
 
 class VendorTruckingServiceImpl implements VendorTruckingService

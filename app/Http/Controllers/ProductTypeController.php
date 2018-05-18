@@ -8,7 +8,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
+use Exception;
+use Validator;
 use Illuminate\Http\Request;
 
 use App\Services\ProductTypeService;
@@ -42,15 +45,22 @@ class ProductTypeController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $this->productTypeService->create(
-            Auth::user()->company->id,
-            $request['name'],
-            $request['short_code'],
-            $request['description'],
-            $request['status']
-        );
+        DB::beginTransaction();
+        try {
+            $this->productTypeService->create(
+                Auth::user()->company->id,
+                $request['name'],
+                $request['short_code'],
+                $request['description'],
+                $request['status']
+            );
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update($id, Request $request)
@@ -62,22 +72,36 @@ class ProductTypeController extends Controller
             'status' => 'required',
         ])->validate();
 
-        $this->productTypeService->update(
-            $id,
-            Auth::user()->company->id,
-            $request['name'],
-            $request['short_code'],
-            $request['description'],
-            $request['status']
-        );
+        DB::beginTransaction();
+        try {
+            $this->productTypeService->update(
+                $id,
+                Auth::user()->company->id,
+                $request['name'],
+                $request['short_code'],
+                $request['description'],
+                $request['status']
+            );
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id)
     {
-        $this->productTypeService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->productTypeService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

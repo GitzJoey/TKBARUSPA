@@ -21,6 +21,7 @@ class UnitServiceImpl implements UnitService
         $remarks
     )
     {
+        //throw New \Exception('Exception From Services');
         Unit::create([
             'name' => $name,
             'symbol' => $symbol,

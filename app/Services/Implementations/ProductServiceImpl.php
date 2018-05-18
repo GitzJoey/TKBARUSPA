@@ -8,7 +8,6 @@
 
 namespace App\Services\Implementations;
 
-use DB;
 use Config;
 use Intervention\Image\Facades\Image;
 
@@ -20,7 +19,6 @@ use App\Services\ProductService;
 
 class ProductServiceImpl implements ProductService
 {
-
     public function create(
         $company_id,
         $product_type_id,
@@ -46,49 +44,41 @@ class ProductServiceImpl implements ProductService
             Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
         }
 
-        DB::beginTransaction();
-        try {
-            $product = new Product;
-            $product->company_id = $company_id;
-            $product->product_type_id = $product_type_id;
-            $product->name = $name;
-            $product->image_filename = $imageName;
-            $product->short_code = $short_code;
-            $product->barcode = $barcode;
-            $product->stock_merge_type = $stock_merge_type;
-            $product->minimal_in_stock = $minimal_in_stock;
-            $product->description = $description;
-            $product->status = $status;
-            $product->remarks = is_null($remarks) ? '':$remarks;
+        $product = new Product;
+        $product->company_id = $company_id;
+        $product->product_type_id = $product_type_id;
+        $product->name = $name;
+        $product->image_filename = $imageName;
+        $product->short_code = $short_code;
+        $product->barcode = $barcode;
+        $product->stock_merge_type = $stock_merge_type;
+        $product->minimal_in_stock = $minimal_in_stock;
+        $product->description = $description;
+        $product->status = $status;
+        $product->remarks = is_null($remarks) ? '':$remarks;
 
-            $product->save();
+        $product->save();
 
-            for ($i = 0; $i < count($productUnits); $i++) {
-                $punit = new ProductUnit();
-                $punit->unit_id = $productUnits[$i]['unit_id'];
-                $punit->is_base = $productUnits[$i]['is_base'];
-                $punit->display = $productUnits[$i]['display'];
-                $punit->conversion_value = $productUnits[$i]['conversion_value'];
-                $punit->remarks = $productUnits[$i]['remarks'];
+        for ($i = 0; $i < count($productUnits); $i++) {
+            $punit = new ProductUnit();
+            $punit->unit_id = $productUnits[$i]['unit_id'];
+            $punit->is_base = $productUnits[$i]['is_base'];
+            $punit->display = $productUnits[$i]['display'];
+            $punit->conversion_value = $productUnits[$i]['conversion_value'];
+            $punit->remarks = $productUnits[$i]['remarks'];
 
-                $product->productUnits()->save($punit);
-            }
+            $product->productUnits()->save($punit);
+        }
 
-            for ($j = 0; $j < count($productCategories); $j++) {
-                $pcat = new ProductCategory();
-                $pcat->company_id = $company_id;
-                $pcat->code = $productCategories[$j]['cat_code'];
-                $pcat->name = $productCategories[$j]['cat_name'];
-                $pcat->description = $productCategories[$j]['cat_description'];
-                $pcat->level = $productCategories[$j]['cat_level'];
+        for ($j = 0; $j < count($productCategories); $j++) {
+            $pcat = new ProductCategory();
+            $pcat->company_id = $company_id;
+            $pcat->code = $productCategories[$j]['cat_code'];
+            $pcat->name = $productCategories[$j]['cat_name'];
+            $pcat->description = $productCategories[$j]['cat_description'];
+            $pcat->level = $productCategories[$j]['cat_level'];
 
-                $product->productCategories()->save($pcat);
-            }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+            $product->productCategories()->save($pcat);
         }
     }
 
@@ -129,81 +119,72 @@ class ProductServiceImpl implements ProductService
         $remarks
     )
     {
-        DB::beginTransaction();
+        $product = Product::find($id);
 
-        try {
-            $product = Product::find($id);
+        if (!empty($product->image_filename)) {
+            if (!empty($image_filename)) {
+                $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
+                $path = public_path('images') . '/' . $imageName;
 
-            if (!empty($product->image_filename)) {
-                if (!empty($image_filename)) {
-                    $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
-                    $path = public_path('images') . '/' . $imageName;
-
-                    Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
-                } else {
-                    $imageName = $image_filename;
-                }
+                Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
             } else {
-                if (!empty($image_filename)) {
-                    $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
-                    $path = public_path('images') . '/' . $imageName;
-
-                    Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
-                } else {
-                    $imageName = '';
-                }
+                $imageName = $image_filename;
             }
+        } else {
+            if (!empty($image_filename)) {
+                $imageName = time() . '.' . $image_filename->getClientOriginalExtension();
+                $path = public_path('images') . '/' . $imageName;
 
-            $product->productUnits->each(function($pu) { $pu->delete(); });
-
-            $pu = array();
-            for ($i = 0; $i < count($productUnits); $i++) {
-                $punit = new ProductUnit();
-                $punit->unit_id = $productUnits[$i]['unit_id'];
-                $punit->is_base = $productUnits[$i]['is_base'];
-                $punit->display = $productUnits[$i]['display'];
-                $punit->conversion_value = $productUnits[$i]['conversion_value'];
-                $punit->remarks = $productUnits[$i]['remarks'];
-
-                array_push($pu, $punit);
+                Image::make($image_filename->getRealPath())->resize(160, 160)->save($path);
+            } else {
+                $imageName = '';
             }
-
-            $product->productUnits()->saveMany($pu);
-
-            $product->productCategories->each(function($pc) { $pc->delete(); });
-
-            $pclist = array();
-            for ($j = 0; $j  < count($productCategories); $j++) {
-                $pcat = new ProductCategory();
-                $pcat->company_id = $company_id;
-                $pcat->code = $productCategories[$j]['cat_code'];
-                $pcat->name = $productCategories[$j]['cat_name'];
-                $pcat->description = $productCategories[$j]['cat_description'];
-                $pcat->level = $productCategories[$j]['cat_level'];
-
-                array_push($pclist, $pcat);
-            }
-
-            $product->productCategories()->saveMany($pclist);
-
-            $product->update([
-                'product_type_id' => $product_type_id,
-                'name' => $name,
-                'short_code' => $short_code,
-                'description' => $description,
-                'image_filename' => $imageName,
-                'status' => $status,
-                'remarks' => $remarks,
-                'barcode' => $barcode,
-                'stock_merge_type' => $stock_merge_type,
-                'minimal_in_stock' => $minimal_in_stock,
-            ]);
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
         }
+
+        $product->productUnits->each(function($pu) { $pu->delete(); });
+
+        $pu = array();
+        for ($i = 0; $i < count($productUnits); $i++) {
+            $punit = new ProductUnit();
+            $punit->unit_id = $productUnits[$i]['unit_id'];
+            $punit->is_base = $productUnits[$i]['is_base'];
+            $punit->display = $productUnits[$i]['display'];
+            $punit->conversion_value = $productUnits[$i]['conversion_value'];
+            $punit->remarks = $productUnits[$i]['remarks'];
+
+            array_push($pu, $punit);
+        }
+
+        $product->productUnits()->saveMany($pu);
+
+        $product->productCategories->each(function($pc) { $pc->delete(); });
+
+        $pclist = array();
+        for ($j = 0; $j  < count($productCategories); $j++) {
+            $pcat = new ProductCategory();
+            $pcat->company_id = $company_id;
+            $pcat->code = $productCategories[$j]['cat_code'];
+            $pcat->name = $productCategories[$j]['cat_name'];
+            $pcat->description = $productCategories[$j]['cat_description'];
+            $pcat->level = $productCategories[$j]['cat_level'];
+
+            array_push($pclist, $pcat);
+        }
+
+        $product->productCategories()->saveMany($pclist);
+
+        $product->update([
+            'product_type_id' => $product_type_id,
+            'name' => $name,
+            'short_code' => $short_code,
+            'description' => $description,
+            'image_filename' => $imageName,
+            'status' => $status,
+            'remarks' => $remarks,
+            'barcode' => $barcode,
+            'stock_merge_type' => $stock_merge_type,
+            'minimal_in_stock' => $minimal_in_stock,
+        ]);
     }
 
     public function delete($id)

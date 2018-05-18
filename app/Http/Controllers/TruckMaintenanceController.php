@@ -8,8 +8,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use Config;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
@@ -44,18 +46,25 @@ class TruckMaintenanceController extends Controller
             'cost' => 'required|numeric',
             'odometer' => 'required|numeric',
         ])->validate();
-        
-        $this->truckMaintenanceService->create(
-            Auth::user()->company->id,
-            Hashids::decode($request['truck_id'])[0],
-            date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
-            $request['maintenance_type'],
-            $request['cost'],
-            $request['odometer'],
-            $request['remarks']
-        );
-        
-        return response()->json();
+
+        DB::beginTransaction();
+        try {
+            $this->truckMaintenanceService->create(
+                Auth::user()->company->id,
+                Hashids::decode($request['truck_id'])[0],
+                date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
+                $request['maintenance_type'],
+                $request['cost'],
+                $request['odometer'],
+                $request['remarks']
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update($id, Request $request)
@@ -66,19 +75,26 @@ class TruckMaintenanceController extends Controller
             'odometer' => 'required|numeric',
             'remarks' => 'required',
         ])->validate();
-        
-        $this->truckMaintenanceService->update(
-            $id,
-            Auth::user()->company->id,
-            Hashids::decode($request['truck_id'])[0],
-            date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
-            $request['maintenance_type'],
-            $request['cost'],
-            $request['odometer'],
-            $request['remarks']
-        );
 
-        return response()->json();
+        DB::beginTransaction();
+        try {
+            $this->truckMaintenanceService->update(
+                $id,
+                Auth::user()->company->id,
+                Hashids::decode($request['truck_id'])[0],
+                date(Config::get('const.DATETIME_FORMAT.DATABASE_DATETIME'), strtotime($request->input('maintenance_date'))),
+                $request['maintenance_type'],
+                $request['cost'],
+                $request['odometer'],
+                $request['remarks']
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id)

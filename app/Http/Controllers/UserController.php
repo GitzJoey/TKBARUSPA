@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
@@ -51,39 +53,46 @@ class UserController extends Controller
             'company' => 'required',
         ])->validate();
 
-        $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
-        $profile = [];
-        $pic_phone = [];
+        DB::beginTransaction();
+        try {
+            $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
+            $profile = [];
+            $pic_phone = [];
 
-        for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
-            array_push($pic_phone, array(
-                'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
-                'number' => $request['phone_number'][$j],
-                'remarks' => $request['remarks'][$j]
+            for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
+                array_push($pic_phone, array(
+                    'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
+                    'number' => $request['phone_number'][$j],
+                    'remarks' => $request['remarks'][$j]
+                ));
+            }
+
+            array_push($profile, array (
+                'first_name' => $request['first_name'],
+                'last_name' => $request['last_name'],
+                'address' => $request['address'],
+                'ic_num' => $request['ic_num'],
+                'phone_numbers' => $pic_phone
             ));
+
+            $rolesId = Hashids::decode($request['roles'])[0];
+
+            $this->userService->create(
+                $name,
+                $request['email'],
+                $request['password'],
+                $rolesId,
+                Auth::user()->company->id,
+                $request['active'],
+                $profile
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        array_push($profile, array (
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'address' => $request['address'],
-            'ic_num' => $request['ic_num'],
-            'phone_numbers' => $pic_phone
-        ));
-
-        $rolesId = Hashids::decode($request['roles'])[0];
-
-        $this->userService->create(
-            $name,
-            $request['email'],
-            $request['password'],
-            $rolesId,
-            Auth::user()->company->id,
-            $request['active'],
-            $profile
-        );
-
-        return response()->json();
     }
 
     public function update($id, Request $request)
@@ -101,46 +110,60 @@ class UserController extends Controller
             ])->validate();
         }
 
-        $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
-        $profile = [];
-        $pic_phone = [];
+        DB::beginTransaction();
+        try {
+            $name = trim($request['first_name'] . ' ' . $request['last_name'], " ");
+            $profile = [];
+            $pic_phone = [];
 
-        for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
-            array_push($pic_phone, array(
-                'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
-                'number' => $request['phone_number'][$j],
-                'remarks' => $request['remarks'][$j]
+            for ($j = 0; $j < count($request['phone_provider_id']); $j++) {
+                array_push($pic_phone, array(
+                    'phone_provider_id' => Hashids::decode($request['phone_provider_id'][$j])[0],
+                    'number' => $request['phone_number'][$j],
+                    'remarks' => $request['remarks'][$j]
+                ));
+            }
+
+            array_push($profile, array (
+                'first_name' => $request['first_name'],
+                'last_name' => $request['last_name'],
+                'address' => $request['address'],
+                'ic_num' => $request['ic_num'],
+                'phone_numbers' => $pic_phone
             ));
+
+            $rolesId = Hashids::decode($request['roles'])[0];
+
+            $this->userService->update(
+                $id,
+                $name,
+                $request['email'],
+                $request['password'],
+                $rolesId,
+                $request['active'],
+                Auth::user()->company->id,
+                $profile
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        array_push($profile, array (
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'address' => $request['address'],
-            'ic_num' => $request['ic_num'],
-            'phone_numbers' => $pic_phone
-        ));
-
-        $rolesId = Hashids::decode($request['roles'])[0];
-
-        $this->userService->update(
-            $id,
-            $name,
-            $request['email'],
-            $request['password'],
-            $rolesId,
-            $request['active'],
-            Auth::user()->company->id,
-            $profile
-        );
-
-        return response()->json();
     }
 
     public function delete($id)
     {
-        $this->userService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->userService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

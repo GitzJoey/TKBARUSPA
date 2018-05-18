@@ -13,10 +13,8 @@ use App\Models\BankAccount;
 
 use App\Services\CompanyService;
 
-use DB;
 use Log;
 use Config;
-use Exception;
 use LaravelLocalization;
 use Intervention\Image\Facades\Image;
 
@@ -46,62 +44,53 @@ class CompanyServiceImpl implements CompanyService
     {
         Log::debug('[CompanyServiceImpl@create] ');
 
-        DB::beginTransaction();
+        $imageName = '';
 
-        try {
-            $imageName = '';
+        if (!empty($image_path)) {
+            $imageName = time() . '.' . $image_path->getClientOriginalExtension();
+            $path = public_path('images') . '/' . $imageName;
 
-            if (!empty($image_path)) {
-                $imageName = time() . '.' . $image_path->getClientOriginalExtension();
-                $path = public_path('images') . '/' . $imageName;
+            Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
+        }
 
-                Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
-            }
+        if ($is_default == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+            $this->resetIsDefault();
+        }
 
-            if ($is_default == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
-                $this->resetIsDefault();
-            }
+        if ($frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+            $this->resetFrontWeb();
+        }
 
-            if ($frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
-                $this->resetFrontWeb();
-            }
+        $company = Company::create([
+            'name' => $name,
+            'address' => $address,
+            'latitude' => empty($latitude) ? 0:$latitude,
+            'longitude' => empty($longitude) ? 0:$longitude,
+            'phone_num' => $phone_num,
+            'fax_num' => $fax_num,
+            'tax_id' => $tax_id,
+            'status' => $status,
+            'is_default' => $is_default,
+            'frontweb' => $frontweb,
+            'image_filename' => $imageName,
+            'remarks' => empty($remarks) ? '' : $remarks,
+            'date_format' => $date_format,
+            'time_format' => $time_format,
+            'thousand_separator' => $thousand_separator,
+            'decimal_separator' => $decimal_separator,
+            'decimal_digit' => $decimal_digit,
+            'ribbon' => $ribbon,
+        ]);
 
-            $company = Company::create([
-                'name' => $name,
-                'address' => $address,
-                'latitude' => empty($latitude) ? 0:$latitude,
-                'longitude' => empty($longitude) ? 0:$longitude,
-                'phone_num' => $phone_num,
-                'fax_num' => $fax_num,
-                'tax_id' => $tax_id,
-                'status' => $status,
-                'is_default' => $is_default,
-                'frontweb' => $frontweb,
-                'image_filename' => $imageName,
-                'remarks' => empty($remarks) ? '' : $remarks,
-                'date_format' => $date_format,
-                'time_format' => $time_format,
-                'thousand_separator' => $thousand_separator,
-                'decimal_separator' => $decimal_separator,
-                'decimal_digit' => $decimal_digit,
-                'ribbon' => $ribbon,
-            ]);
+        for ($i = 0; $i < count($bank); $i++) {
+            $ba = new BankAccount();
+            $ba->bank_id = $bank[$i]["bank_id"];
+            $ba->account_name = $bank[$i]["account_name"];
+            $ba->account_number = $bank[$i]["account_number"];
+            $ba->remarks = $bank[$i]["bank_remarks"];
 
-            for ($i = 0; $i < count($bank); $i++) {
-                $ba = new BankAccount();
-                $ba->bank_id = $bank[$i]["bank_id"];
-                $ba->account_name = $bank[$i]["account_name"];
-                $ba->account_number = $bank[$i]["account_number"];
-                $ba->remarks = $bank[$i]["bank_remarks"];
-
-                $company->bankAccounts()->save($ba);
-            }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-        };
+            $company->bankAccounts()->save($ba);
+        }
     }
 
     public function read()
@@ -134,80 +123,71 @@ class CompanyServiceImpl implements CompanyService
     {
         Log::debug('[CompanyServiceImpl@update] $id:' . $id);
 
-        DB::beginTransaction();
+        $company = Company::find($id);
 
-        try {
-            $company = Company::find($id);
+        $imageName = '';
 
-            $imageName = '';
+        if (!empty($company ->image_filename)) {
+            if (!empty($image_path)) {
+                $imageName = time() . '.' . $image_path->getClientOriginalExtension();
+                $path = public_path('images') . '/' . $imageName;
 
-            if (!empty($company ->image_filename)) {
-                if (!empty($image_path)) {
-                    $imageName = time() . '.' . $image_path->getClientOriginalExtension();
-                    $path = public_path('images') . '/' . $imageName;
-
-                    Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
-                } else {
-                    $imageName = $company->image_filename;
-                }
+                Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
             } else {
-                if (!empty($image_path)) {
-                    $imageName = time() . '.' . $image_path->getClientOriginalExtension();
-                    $path = public_path('images') . '/' . $imageName;
-
-                    Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
-                } else {
-                    $imageName = '';
-                }
+                $imageName = $company->image_filename;
             }
+        } else {
+            if (!empty($image_path)) {
+                $imageName = time() . '.' . $image_path->getClientOriginalExtension();
+                $path = public_path('images') . '/' . $imageName;
 
-            if ($company->is_default == Config::get('lookup.VALUE.YESNOSELECT.NO') && $is_default == Config::get('lookup.YESNOSELECT.YES')) {
-                $this->resetIsDefault();
+                Image::make($image_path->getRealPath())->resize(160, 160)->save($path);
+            } else {
+                $imageName = '';
             }
+        }
 
-            if ($company->frontweb == Config::get('lookup.VALUE.YESNOSELECT.NO') && $frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
-                $this->resetFrontWeb();
-            }
+        if ($company->is_default == Config::get('lookup.VALUE.YESNOSELECT.NO') && $is_default == Config::get('lookup.YESNOSELECT.YES')) {
+            $this->resetIsDefault();
+        }
 
-            $company->bankAccounts->each(function($ba) { $ba->delete(); });
+        if ($company->frontweb == Config::get('lookup.VALUE.YESNOSELECT.NO') && $frontweb == Config::get('lookup.VALUE.YESNOSELECT.YES')) {
+            $this->resetFrontWeb();
+        }
 
-            for ($i = 0; $i < count($bank); $i++) {
-                $ba = new BankAccount();
-                $ba->bank_id = $bank[$i]["bank_id"];
-                $ba->account_name = $bank[$i]["account_name"];
-                $ba->account_number = $bank[$i]["account_number"];
-                $ba->remarks = $bank[$i]["bank_remarks"];
+        $company->bankAccounts->each(function($ba) { $ba->delete(); });
 
-                $company->bankAccounts()->save($ba);
-            }
+        for ($i = 0; $i < count($bank); $i++) {
+            $ba = new BankAccount();
+            $ba->bank_id = $bank[$i]["bank_id"];
+            $ba->account_name = $bank[$i]["account_name"];
+            $ba->account_number = $bank[$i]["account_number"];
+            $ba->remarks = $bank[$i]["bank_remarks"];
 
-            $company->name = $name;
-            $company->address = $address;
-            $company->latitude = empty($latitude) ? 0:$latitude;
-            $company->longitude = empty($longitude) ? 0:$longitude;
-            $company->phone_num = $phone_num;
-            $company->fax_num = $fax_num;
-            $company->tax_id = $tax_id;
-            $company->status = $status;
-            $company->is_default = $is_default;
-            $company->image_filename = $imageName;
-            $company->frontweb = $frontweb;
-            $company->remarks = empty($remarks) ? '' : $remarks;
+            $company->bankAccounts()->save($ba);
+        }
 
-            $company->date_format = $date_format;
-            $company->time_format = $time_format;
-            $company->thousand_separator = $thousand_separator;
-            $company->decimal_separator = $decimal_separator;
-            $company->decimal_digit = $decimal_digit;
-            $company->ribbon = $ribbon;
+        $company->name = $name;
+        $company->address = $address;
+        $company->latitude = empty($latitude) ? 0:$latitude;
+        $company->longitude = empty($longitude) ? 0:$longitude;
+        $company->phone_num = $phone_num;
+        $company->fax_num = $fax_num;
+        $company->tax_id = $tax_id;
+        $company->status = $status;
+        $company->is_default = $is_default;
+        $company->image_filename = $imageName;
+        $company->frontweb = $frontweb;
+        $company->remarks = empty($remarks) ? '' : $remarks;
 
-            $company->save();
+        $company->date_format = $date_format;
+        $company->time_format = $time_format;
+        $company->thousand_separator = $thousand_separator;
+        $company->decimal_separator = $decimal_separator;
+        $company->decimal_digit = $decimal_digit;
+        $company->ribbon = $ribbon;
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-        };
+        $company->save();
     }
 
     public function delete($id)

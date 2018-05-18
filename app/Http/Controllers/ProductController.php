@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
+use Exception;
 use Validator;
-use App\Http\Requests;
 use LaravelLocalization;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
@@ -90,44 +91,51 @@ class ProductController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
-        $productUnits = [];
-        for ($i = 0; $i < count($request['unit_id']); $i++) {
-            array_push($productUnits, array (
-                'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
-                'is_base' => $request["is_base"][$i],
-                'display' => $request["display"][$i],
-                'conversion_value' => $request["conversion_value"][$i],
-                'remarks' => $request["punit_remarks"][$i],
-            ));
+        DB::beginTransaction();
+        try {
+            $productUnits = [];
+            for ($i = 0; $i < count($request['unit_id']); $i++) {
+                array_push($productUnits, array (
+                    'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
+                    'is_base' => $request["is_base"][$i],
+                    'display' => $request["display"][$i],
+                    'conversion_value' => $request["conversion_value"][$i],
+                    'remarks' => $request["punit_remarks"][$i],
+                ));
+            }
+
+            $productCategories = [];
+            for ($i = 0; $i < count($request['cat_level']); $i++) {
+                array_push($productCategories, array (
+                    'cat_level' => $request['cat_level'][$i],
+                    'cat_code' => $request["cat_code"][$i],
+                    'cat_name' => $request["cat_name"][$i],
+                    'cat_description' => $request["cat_description"][$i],
+                ));
+            }
+
+            $this->productService->create(
+                Auth::user()->company->id,
+                Hashids::decode($request['type'])[0],
+                $productCategories,
+                $request['name'],
+                $request['image_filename'],
+                $request['short_code'],
+                $request['barcode'],
+                $productUnits,
+                $request['stock_merge_type'],
+                $request['minimal_in_stock'],
+                $request['description'],
+                $request['status'],
+                $request['remarks']
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $productCategories = [];
-        for ($i = 0; $i < count($request['cat_level']); $i++) {
-            array_push($productCategories, array (
-                'cat_level' => $request['cat_level'][$i],
-                'cat_code' => $request["cat_code"][$i],
-                'cat_name' => $request["cat_name"][$i],
-                'cat_description' => $request["cat_description"][$i],
-            ));
-        }
-
-        $this->productService->create(
-            Auth::user()->company->id,
-            Hashids::decode($request['type'])[0],
-            $productCategories,
-            $request['name'],
-            $request['image_filename'],
-            $request['short_code'],
-            $request['barcode'],
-            $productUnits,
-            $request['stock_merge_type'],
-            $request['minimal_in_stock'],
-            $request['description'],
-            $request['status'],
-            $request['remarks']
-        );
-
-        return response()->json();
     }
 
     public function update($id, Request $request)
@@ -177,51 +185,65 @@ class ProductController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
-        $productUnits = [];
-        for ($i = 0; $i < count($request['unit_id']); $i++) {
-            array_push($productUnits, array (
-                'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
-                'is_base' => $request["is_base"][$i],
-                'display' => $request["display"][$i],
-                'conversion_value' => $request["conversion_value"][$i],
-                'remarks' => $request["punit_remarks"][$i],
-            ));
+        DB::beginTransaction();
+        try {
+            $productUnits = [];
+            for ($i = 0; $i < count($request['unit_id']); $i++) {
+                array_push($productUnits, array (
+                    'unit_id' => Hashids::decode($request['unit_id'][$i])[0],
+                    'is_base' => $request["is_base"][$i],
+                    'display' => $request["display"][$i],
+                    'conversion_value' => $request["conversion_value"][$i],
+                    'remarks' => $request["punit_remarks"][$i],
+                ));
+            }
+
+            $productCategories = [];
+            for ($i = 0; $i < count($request['cat_level']); $i++) {
+                array_push($productCategories, array (
+                    'cat_level' => $request['cat_level'][$i],
+                    'cat_code' => $request["cat_code"][$i],
+                    'cat_name' => $request["cat_name"][$i],
+                    'cat_description' => $request["cat_description"][$i],
+                ));
+            }
+
+            $this->productService->update(
+                $id,
+                Auth::user()->company->id,
+                $request['type'],
+                $productCategories,
+                $request['name'],
+                $request['image_filename'],
+                $request['short_code'],
+                $request['barcode'],
+                $productUnits,
+                $request['stock_merge_type'],
+                $request['minimal_in_stock'],
+                $request['description'],
+                $request['status'],
+                $request['remarks']
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $productCategories = [];
-        for ($i = 0; $i < count($request['cat_level']); $i++) {
-            array_push($productCategories, array (
-                'cat_level' => $request['cat_level'][$i],
-                'cat_code' => $request["cat_code"][$i],
-                'cat_name' => $request["cat_name"][$i],
-                'cat_description' => $request["cat_description"][$i],
-            ));
-        }
-
-        $this->productService->update(
-            $id,
-            Auth::user()->company->id,
-            $request['type'],
-            $productCategories,
-            $request['name'],
-            $request['image_filename'],
-            $request['short_code'],
-            $request['barcode'],
-            $productUnits,
-            $request['stock_merge_type'],
-            $request['minimal_in_stock'],
-            $request['description'],
-            $request['status'],
-            $request['remarks']
-        );
-
-        return response()->json();
     }
 
     public function delete($id)
     {
-        $this->productService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->productService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

@@ -10,9 +10,6 @@ namespace App\Services\Implementations;
 
 use App\Models\ProductType;
 
-use DB;
-use Exception;
-
 use App\Services\ProductTypeService;
 
 class ProductTypeServiceImpl implements ProductTypeService
@@ -25,22 +22,15 @@ class ProductTypeServiceImpl implements ProductTypeService
 		$status
 	)
 	{
-		DB::beginTransaction();
-		try {
-			$pt = new ProductType;
+        $pt = new ProductType;
 
-			$pt->company_id = $company_id;
-			$pt->name = $name;
-			$pt->short_code = $short_code;
-			$pt->description = $description;
-			$pt->status = $status;
+        $pt->company_id = $company_id;
+        $pt->name = $name;
+        $pt->short_code = $short_code;
+        $pt->description = $description;
+        $pt->status = $status;
 
-			$pt->save();
-			DB::commit();
-		} catch (Exception $e) {
-			DB::rollBack();
-			throw $e;
-		}
+        $pt->save();
 	}
 
 	public function read()
@@ -57,24 +47,17 @@ class ProductTypeServiceImpl implements ProductTypeService
 		$status
 	)
 	{
-		DB::beginTransaction();
-		try {
-			$pt = ProductType::find($id);
+        $pt = ProductType::find($id);
 
-			if(!is_null($pt)) {
-				$pt->company_id = $company_id;
-				$pt->name = $name;
-				$pt->short_code = $short_code;
-				$pt->description = $description;
-				$pt->status = $status;
+        if(!is_null($pt)) {
+            $pt->company_id = $company_id;
+            $pt->name = $name;
+            $pt->short_code = $short_code;
+            $pt->description = $description;
+            $pt->status = $status;
 
-				$pt->save();
-			}
-			DB::commit();
-		} catch (Exception $e) {
-			DB::rollBack();
-			throw $e;
-		}
+            $pt->save();
+        }
 	}
 
 	public function delete($id)

@@ -77,7 +77,8 @@ class Expense extends Model
     ];
 
     protected $casts = [
-        'amount' => 'float'
+        'amount' => 'float',
+        'is_internal_expense' => 'integer',
     ];
 
     public function getHIdAttribute()

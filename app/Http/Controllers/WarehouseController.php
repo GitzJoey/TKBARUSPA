@@ -8,7 +8,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
+use Exception;
 use Validator;
 use LaravelLocalization;
 use Illuminate\Http\Request;
@@ -50,30 +52,37 @@ class WarehouseController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
-        $sections = [];
+        DB::beginTransaction();
+        try {
+            $sections = [];
 
-        for ($i = 0; $i < count($request['section_name']); $i++) {
-            array_push($sections, array(
-                'company_id' => Auth::user()->company->id,
-                'name' => $request['section_name'][$i],
-                'position' => $request['section_position'][$i],
-                'capacity' => $request['section_capacity'][$i],
-                'capacity_unit_id' => Hashids::decode($request['section_capacity_unit_id'][$i])[0],
-                'remarks' => $request['section_remarks'][$i]
-            ));
+            for ($i = 0; $i < count($request['section_name']); $i++) {
+                array_push($sections, array(
+                    'company_id' => Auth::user()->company->id,
+                    'name' => $request['section_name'][$i],
+                    'position' => $request['section_position'][$i],
+                    'capacity' => $request['section_capacity'][$i],
+                    'capacity_unit_id' => Hashids::decode($request['section_capacity_unit_id'][$i])[0],
+                    'remarks' => $request['section_remarks'][$i]
+                ));
+            }
+
+            $this->warehouseService->create(
+                Auth::user()->company->id,
+                $request['name'],
+                $request['address'],
+                $request['phone_num'],
+                $request['status'],
+                $request['remarks'],
+                $sections
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $this->warehouseService->create(
-            Auth::user()->company->id,
-            $request['name'],
-            $request['address'],
-            $request['phone_num'],
-            $request['status'],
-            $request['remarks'],
-            $sections
-        );
-
-        return response()->json();
     }
 
     public function update($id, Request $request)
@@ -90,37 +99,51 @@ class WarehouseController extends Controller
             Validator::make($request->all(), $rules, $messages)->validate();
         }
 
-        $sections = [];
+        DB::beginTransaction();
+        try {
+            $sections = [];
 
-        for ($i = 0; $i < count($request['section_name']); $i++) {
-            array_push($sections, array(
-                'company_id' => Auth::user()->company->id,
-                'name' => $request['section_name'][$i],
-                'position' => $request['section_position'][$i],
-                'capacity' => $request['section_capacity'][$i],
-                'capacity_unit_id' => Hashids::decode($request['section_capacity_unit_id'][$i])[0],
-                'remarks' => $request['section_remarks'][$i]
-            ));
+            for ($i = 0; $i < count($request['section_name']); $i++) {
+                array_push($sections, array(
+                    'company_id' => Auth::user()->company->id,
+                    'name' => $request['section_name'][$i],
+                    'position' => $request['section_position'][$i],
+                    'capacity' => $request['section_capacity'][$i],
+                    'capacity_unit_id' => Hashids::decode($request['section_capacity_unit_id'][$i])[0],
+                    'remarks' => $request['section_remarks'][$i]
+                ));
+            }
+
+            $this->warehouseService->update(
+                $id,
+                Auth::user()->company->id,
+                $request['name'],
+                $request['address'],
+                $request['phone_num'],
+                $request['status'],
+                $request['remarks'],
+                $sections
+            );
+
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $this->warehouseService->update(
-            $id,
-            Auth::user()->company->id,
-            $request['name'],
-            $request['address'],
-            $request['phone_num'],
-            $request['status'],
-            $request['remarks'],
-            $sections
-        );
-
-        return response()->json();
     }
 
     public function delete($id)
     {
-        $this->warehouseService->delete($id);
+        DB::beginTransaction();
+        try {
+            $this->warehouseService->delete($id);
 
-        return response()->json();
+            DB::commit();
+            return response()->json();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
