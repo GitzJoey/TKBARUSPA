@@ -86,7 +86,6 @@ class Item extends Model
 
     protected $hidden = [
         'id',
-        'stock_id',
         'company_id',
         'product_id',
         'base_product_unit_id',

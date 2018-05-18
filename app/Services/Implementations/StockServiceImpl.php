@@ -20,7 +20,7 @@ use App\Services\StockService;
 
 class StockServiceImpl implements StockService
 {
-    public function createPOStockIn(
+    public function createPOStockFlowIn(
         $companyId,
         $poId,
         $warehouseId,
@@ -30,10 +30,12 @@ class StockServiceImpl implements StockService
         $quantity
     )
     {
+        $stockIn = new StockFlow();
+
 
     }
 
-    public function createSOStockOut(
+    public function createSOStockFlowOut(
         $companyId,
         $soId,
         $warehouseId,

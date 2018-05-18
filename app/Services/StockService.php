@@ -10,7 +10,7 @@ namespace App\Services;
 
 interface StockService
 {
-    public function createPOStockIn(
+    public function createPOStockFlowIn(
         $companyId,
         $poId,
         $warehouseId,
@@ -20,7 +20,7 @@ interface StockService
         $quantity
     );
 
-    public function createSOStockOut(
+    public function createSOStockFlowOut(
         $companyId,
         $soId,
         $warehouseId,

@@ -80,4 +80,80 @@ class ReceiptDetail extends Model
         'base_tare',
     ];
 
+    protected $hidden = [
+        'id',
+        'item_id',
+        'selected_product_unit_id',
+        'base_product_unit_id',
+    ];
+
+    protected $appends = [
+        'hId',
+        'itemHId',
+        'selectedProductUnitHId',
+        'baseProductUnitHId',
+    ];
+
+    protected $casts = [
+        'conversion_value' => 'float',
+        'brutto' => 'float',
+        'base_brutto' => 'float',
+        'netto' => 'float',
+        'base_netto' => 'float',
+        'tare' => 'float',
+        'base_tare' => 'float',
+    ];
+
+    public function getHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getItemHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['item_id']);
+    }
+
+    public function getSelectedProductUnitsHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['selected_product_unit_id']);
+    }
+
+    public function getBaseProductUnitHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['base_product_unit_id']);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo('App\Models\Item');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $user = Auth::user();
+            if ($user) {
+                $model->created_by = $user->id;
+                $model->updated_by = $user->id;
+            }
+        });
+
+        static::updating(function ($model) {
+            $user = Auth::user();
+            if ($user) {
+                $model->updated_by = $user->id;
+            }
+        });
+
+        static::deleting(function ($model) {
+            $user = Auth::user();
+            if ($user) {
+                $model->deleted_by = $user->id;
+                $model->save();
+            }
+        });
+    }
 }
