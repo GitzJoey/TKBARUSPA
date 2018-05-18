@@ -218,7 +218,6 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $r->vendor_trucking_id = $receipt['vendor_trucking_id'];
         $r->truck_id = $receipt['truck_id'];
         $r->article_code = $receipt['article_code'];
-        $r->license_plate = $receipt['license_plate'];
         $r->driver_name = $receipt['driver_name'];
         $r->receipt_date = $receipt['receipt_date'];
         $r->remarks = $receipt['remarks'];

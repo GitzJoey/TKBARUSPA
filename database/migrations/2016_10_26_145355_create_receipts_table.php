@@ -20,7 +20,6 @@ class CreateReceiptsTable extends Migration
             $table->unsignedBigInteger('vendor_trucking_id')->default(0);
             $table->unsignedBigInteger('truck_id')->default(0);
             $table->string('article_code')->nullable();
-            $table->string('license_plate')->nullable();
             $table->string('driver_name')->nullable();
             $table->date('receipt_date')->nullable();
             $table->string('remarks')->nullable();

@@ -74,6 +74,17 @@ class WarehouseInflowController extends Controller
                 ));
             }
 
+            $this->purchaseOrderService->addReceipt(
+                $request['po_id'],
+                $receiptsArr,
+                $receiptDetailArr
+            );
+
+            $this->purchaseOrderService->addExpenses(
+                $request['po_id'],
+                $expenseArr
+            );
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
