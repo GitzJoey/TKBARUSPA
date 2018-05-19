@@ -238,16 +238,16 @@ var poVue = new Vue ({
         },
         setDiscountValue: function(index) {
             if (this.po.items[index] != undefined) {
-                this.po.items[index].discount =
-                    (this.po.items[index].discount_percentage / 100) *
-                    (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price);
+                var result = (this.po.items[index].discount_percentage / 100) * (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price);
+                if (!isNaN(result)) { this.po.items[index].discount = result; }
             }
         },
         setDiscountPercentage: function(index) {
             if (this.po.items[index] != undefined) {
-                this.po.items[index].discount_percentage =
-                    (this.po.items[index].discount /
-                        (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price)) * 100;
+                var result = (this.po.items[index].discount / (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price)) * 100;
+                if (!isNaN(result)) {
+                    this.po.items[index].discount_percentage = result;
+                }
             }
         },
         setTotalDiscountValue: function(index) {
