@@ -69,8 +69,7 @@ return [
             'total_table' => [
                 'header' => [
                     'subtotal' => 'Sub Total',
-                    'disc_total_pct' => 'Discount %',
-                    'disc_total_value' => 'Discount',
+                    'discount' => 'Discount',
                     'grandtotal' => 'TOTAL',
                 ],
             ],
@@ -87,6 +86,5 @@ return [
         'shipping_date' => 'Shipping Date',
         'warehouse' => 'Warehouse',
         'vendor_trucking' => 'Vendor Trucking',
-        'po_copy_code' => '',
     ],
 ];

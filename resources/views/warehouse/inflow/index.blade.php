@@ -204,28 +204,31 @@
                                             <input type="hidden" name="conversion_value[]" v-model="rd.selected_product_units.conversion_value">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" type="text" class="form-control text-right" name="brutto[]"
+                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" type="text" class="form-control text-right"
                                                     v-model="rd.brutto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'brutto_' + rdIdx"
                                                     v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('brutto', rdIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="brutto[]" v-model="rd.brutto">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('netto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" type="text" class="form-control text-right" name="netto[]"
+                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" type="text" class="form-control text-right"
                                                     v-model="rd.netto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'netto_' + rdIdx"
                                                     v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('netto', rdIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="netto[]" v-model="rd.netto">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tare_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" type="text" class="form-control text-right" name="tare[]"
+                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" type="text" class="form-control text-right"
                                                     v-model="rd.tare" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'tare_' + rdIdx"
                                                     v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('tare', rdIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="tare[]" v-model="rd.tare">
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-danger btn-md" v-on:click="removeReceipt(rdIdx)" disabled><span class="fa fa-minus"/></button>
@@ -306,11 +309,12 @@
                                     </td>
                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                            <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
+                                            <vue-autonumeric type="text" class="form-control text-align-right"
                                                              v-model="expense.amount" v-validate="'required'"
                                                              v-bind:options="defaultCurrencyConfig"
                                                              v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
                                                              v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
+                                            <input type="hidden" name="expense_amount[]" v-model="expense.amount">
                                         </template>
                                     </td>
                                 </tr>

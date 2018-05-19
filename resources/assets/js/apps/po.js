@@ -23,7 +23,6 @@ var poVue = new Vue ({
                 hId: '',
                 name: ''
             },
-            discount_percentage: 0,
             discount: 0,
             subtotal: 0,
             grandtotal: 0
@@ -112,26 +111,20 @@ var poVue = new Vue ({
             this.mode = 'edit';
             this.errors.clear();
             this.po  = _.merge({
-                discount_percentage: 0,
                 discount: 0,
                 subtotal: 0,
                 grandtotal: 0,
-                items: [
-                    { discount_percentage: 0 }
-                ]
+                items: []
             }, this.poList[idx]);
         },
         showSelected: function (idx) {
             this.mode = 'show';
             this.errors.clear();
             this.po  = _.merge({
-                discount_percentage: 0,
                 discount: 0,
                 subtotal: 0,
                 grandtotal: 0,
-                items: [
-                    { discount_percentage: 0 }
-                ]
+                items: []
             }, this.poList[idx]);
         },
         deleteSelected: function (idx) {
@@ -165,7 +158,6 @@ var poVue = new Vue ({
                     hId: '',
                     name: ''
                 },
-                discount_percentage: 0,
                 discount: 0,
                 subtotal: 0,
                 grandtotal: 0
@@ -183,7 +175,6 @@ var poVue = new Vue ({
                     base_product_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
                     quantity: 0,
                     price: 0,
-                    discount_percentage: 0,
                     discount: 0,
                     total: 0
                 });
@@ -235,26 +226,6 @@ var poVue = new Vue ({
                     reject(e.response.data.message);
                 });
             });
-        },
-        setDiscountValue: function(index) {
-            if (this.po.items[index] != undefined) {
-                var result = (this.po.items[index].discount_percentage / 100) * (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price);
-                if (!isNaN(result)) { this.po.items[index].discount = result; }
-            }
-        },
-        setDiscountPercentage: function(index) {
-            if (this.po.items[index] != undefined) {
-                var result = (this.po.items[index].discount / (this.po.items[index].selected_product_unit.conversion_value * this.po.items[index].quantity * this.po.items[index].price)) * 100;
-                if (!isNaN(result)) {
-                    this.po.items[index].discount_percentage = result;
-                }
-            }
-        },
-        setTotalDiscountValue: function(index) {
-            this.po.discount = (this.po.discount_percentage / 100) * this.po.subtotal;
-        },
-        setTotalDiscountPercentage: function(index) {
-            this.po.disc_total_percent = (this.po.discount / this.po.subtotal) * 100;
         },
         getSupplierType: function() {
             return new Promise((resolve, reject) => {

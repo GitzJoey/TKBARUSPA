@@ -374,7 +374,7 @@
                                                     <th class="text-center">@lang('purchase_order.index.table.item_table.header.quantity')</th>
                                                     <th class="text-center">@lang('purchase_order.index.table.item_table.header.unit')</th>
                                                     <th class="text-center">@lang('purchase_order.index.table.item_table.header.price_unit')</th>
-                                                    <th class="text-center" colspan="2">@lang('purchase_order.index.table.item_table.header.discount')</th>
+                                                    <th class="text-center">@lang('purchase_order.index.table.item_table.header.discount')</th>
                                                     <th>&nbsp;</th>
                                                     <th class="text-center">@lang('purchase_order.index.table.item_table.header.total_price')</th>
                                                 </tr>
@@ -428,33 +428,23 @@
                                                     </td>
                                                     <td width="13%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="item_price[]"
-                                                                             v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('price_' + iIdx) }"
+                                                            <vue-autonumeric type="text" class="form-control text-align-right"
                                                                              v-model="i.price" v-validate="'required'"
                                                                              v-bind:options="defaultCurrencyConfig"
                                                                              v-bind:data-vv-name="'price_' + iIdx"
                                                                              v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.price_unit') }} ' + (iIdx + 1)"></vue-autonumeric>
+                                                            <input type="hidden" name="item_price[]" v-model="i.price">
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-model="i.price" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
                                                         </template>
                                                     </td>
-                                                    <td width="9%">
-                                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right"
-                                                                            v-model="i.discount_percentage"
-                                                                            v-bind:options="defaultPercentageConfig" v-on:input="setDiscountValue(iIdx)"></vue-autonumeric>
-                                                        </template>
-                                                        <template v-if="mode == 'show'">
-                                                            <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount_percentage" v-bind:options="percentageFormatToString"></vue-autonumeric></div>
-                                                        </template>
-                                                    </td>
                                                     <td width="10%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="item_discount[]" class="form-control text-align-right"
+                                                            <vue-autonumeric type="text" class="form-control text-align-right"
                                                                             v-model="i.discount"
-                                                                            v-bind:options="defaultCurrencyConfig"
-                                                                            v-on:input="setDiscountPercentage(iIdx)"></vue-autonumeric>
+                                                                            v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <input type="hidden" name="item_discount[]" v-model="i.discount">
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-model="i.discount" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
@@ -561,11 +551,12 @@
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric name="expense_amount[]" type="text" class="form-control text-align-right"
+                                                            <vue-autonumeric type="text" class="form-control text-align-right"
                                                                              v-model="expense.amount" v-validate="'required'"
                                                                              v-bind:options="defaultCurrencyConfig"
                                                                              v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
                                                                              v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
+                                                            <input type="hidden" name="expense_amount[]" v-model="expense.amount">
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-model="expense.amount" v-bind:options="currencyFormatToString"></vue-autonumeric></div>
@@ -585,21 +576,11 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_pct')</td>
+                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.discount')</td>
                                                     <td width="12%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.discount_percentage" v-bind:options="defaultPercentageConfig" v-on:input="setTotalDiscountValue"></vue-autonumeric>
-                                                        </template>
-                                                        <template v-if="mode == 'show'">
-                                                            <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="percentageFormatToString" v-model="po.discount_percentage"></vue-autonumeric></div>
-                                                        </template>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.disc_total_value')</td>
-                                                    <td width="12%">
-                                                        <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="discount" class="form-control text-align-right" v-model="po.discount" v-bind:options="defaultCurrencyConfig" v-on:input="setTotalDiscountPercentage"></vue-autonumeric>
+                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <input type="hidden" name="discount" v-model="po.discount">
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="po.discount"></vue-autonumeric></div>

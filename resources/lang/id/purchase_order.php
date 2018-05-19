@@ -69,8 +69,7 @@ return [
             'total_table' => [
                 'header' => [
                     'subtotal' => 'Sub Total',
-                    'disc_total_pct' => 'Diskon %',
-                    'disc_total_value' => 'Diskon',
+                    'discount' => 'Diskon',
                     'grandtotal' => 'TOTAL',
                 ],
             ],
@@ -81,7 +80,6 @@ return [
         'supplier_name' => 'Nama',
         'supplier_details' => 'Detil',
         'po_code' => 'Kode',
-        'po_copy_code' => 'Duplikat',
         'po_type' => 'Tipe',
         'po_created' => 'Tanggal PO',
         'shipping_date' => 'Tgl Pengiriman',

@@ -161,8 +161,9 @@ Vue.mixin({
                 roundingMethod: 'U',
                 minimumValue: '0',
                 unformatOnSubmit: true,
+                caretPositionOnFocus: null,
                 selectOnFocus: true,
-                selectNumberOnly: false
+                selectNumberOnly: true
             }
         },
         defaultNumericConfig: function() {
@@ -175,8 +176,9 @@ Vue.mixin({
                 roundingMethod: 'U',
                 minimumValue: '0',
                 unformatOnSubmit: true,
+                caretPositionOnFocus: null,
                 selectOnFocus: true,
-                selectNumberOnly: false
+                selectNumberOnly: true
             }
         },
         defaultPercentageConfig: function() {
@@ -190,8 +192,9 @@ Vue.mixin({
                 maximumValue: '100',
                 unformatOnSubmit: true,
                 showWarnings: false,
+                caretPositionOnFocus: null,
                 selectOnFocus: true,
-                selectNumberOnly: false
+                selectNumberOnly: true
             }
         },
         defaultDateFormat: function() {
