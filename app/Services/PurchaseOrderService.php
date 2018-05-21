@@ -47,6 +47,7 @@ interface PurchaseOrderService
         $walk_in_supplier,
         $walk_in_supplier_detail,
         $warehouse_id,
+        $vendor_trucking_id,
         $discount,
         $status,
         $remarks,

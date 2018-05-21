@@ -40,7 +40,7 @@ class WarehouseInflowController extends Controller
         try {
             $receiptsArr = array(
                 'company_id' => Auth::user()->company->id,
-                'po_id' => $request['po_id'],
+                'po_id' => Hashids::decode($request['po_id'])[0],
                 'vendor_trucking_id' => $request['vendor_trucking_id'] == '' ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
                 'truck_id' => $request['truck_id'] == '' ? 0:Hashids::decode($request['truck_id'])[0],
                 'article_code' => '',
@@ -75,13 +75,13 @@ class WarehouseInflowController extends Controller
             }
 
             $this->purchaseOrderService->addReceipt(
-                $request['po_id'],
+                Hashids::decode($request['po_id'])[0],
                 $receiptsArr,
                 $receiptDetailArr
             );
 
             $this->purchaseOrderService->addExpenses(
-                $request['po_id'],
+                Hashids::decode($request['po_id'])[0],
                 $expenseArr
             );
 

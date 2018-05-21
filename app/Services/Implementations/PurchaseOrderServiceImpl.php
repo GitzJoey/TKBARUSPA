@@ -130,6 +130,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $walk_in_supplier,
         $walk_in_supplier_detail,
         $warehouse_id,
+        $vendor_trucking_id,
         $discount,
         $status,
         $remarks,
@@ -210,11 +211,10 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
     public function addReceipt($poId, $receipt, $receiptDetailArr)
     {
-        $currentPO = PurchaseOrder::with('receipts')->whereId($poId);
+        $currentPO = PurchaseOrder::findOrFail($poId);
 
         $r = new Receipt();
         $r->company_id = $receipt['company_id'];
-        $r->po_id = $receipt['po_id'];
         $r->vendor_trucking_id = $receipt['vendor_trucking_id'];
         $r->truck_id = $receipt['truck_id'];
         $r->article_code = $receipt['article_code'];
@@ -222,7 +222,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $r->receipt_date = $receipt['receipt_date'];
         $r->remarks = $receipt['remarks'];
 
-        $currentPO->receipts()->save($r);
+        $rObj = $currentPO->receipts()->save($r);
 
         for ($i = 0; $i < count($receiptDetailArr); $i++) {
             $rd = new ReceiptDetail();
@@ -238,7 +238,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $rd->tare = $receiptDetailArr[$i]['tare'];
             $rd->base_tare = $receiptDetailArr[$i]['conversion_value'] * $receiptDetailArr[$i]['tare'];
 
-            $r->receiptDetails()->save(rd);
+            $rObj->receiptDetails()->save($rd);
         }
     }
 

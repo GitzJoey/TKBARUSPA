@@ -425,6 +425,8 @@
                         this.errors.clear();
                         if (this.mode == 'create') {
                             axios.post(route('api.post.warehouse.inflow.save', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
+                                this.backToList();
+                                this.loadingPanel('#inflowCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
                             });
@@ -439,8 +441,19 @@
                 createNew: function(index) {
                     this.mode = 'create';
                     this.errors.clear();
-                    this.po = Object.assign({ }, this.poWAList[index]);
+                    this.po = this.poWAList[index];
 
+                    this.receipt = {
+                        hId: '',
+                        receipt_date: new Date(),
+                        vendorTruckingHId: '',
+                        truckHId: '',
+                        article_code: '',
+                        driver_name: '',
+                        receipt_details: [],
+                        remarks: ''
+                    };
+                    this.expenses = [];
                     for (var i = 0; i < this.po.items.length; i++) {
                         this.receipt.receipt_details.push({
                             item: _.cloneDeep(this.po.items[i]),

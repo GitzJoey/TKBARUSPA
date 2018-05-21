@@ -36,8 +36,7 @@ use App\Traits\CompanyFilter;
  * @property string|null $internal_remarks
  * @property string|null $private_remarks
  * @property string|null $status
- * @property float|null $disc_percent
- * @property float|null $disc_value
+ * @property float $discount
  * @property int $created_by
  * @property int $updated_by
  * @property int $deleted_by
@@ -45,12 +44,20 @@ use App\Traits\CompanyFilter;
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property-read \App\Models\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
  * @property-read mixed $company_h_id
  * @property-read mixed $h_id
+ * @property-read mixed $po_type_i18n
+ * @property-read mixed $status_i18n
  * @property-read mixed $supplier_h_id
+ * @property-read mixed $supplier_type_i18n
+ * @property-read mixed $vendor_trucking_h_id
  * @property-read mixed $warehouse_h_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Item[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Receipt[] $receipts
  * @property-read \App\Models\Supplier $supplier
+ * @property-read \App\Models\VendorTrucking $vendorTrucking
+ * @property-read \App\Models\Warehouse $warehouse
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder onlyTrashed()
  * @method static bool|null restore()
@@ -61,8 +68,7 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDeletedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscPercent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereInternalRemarks($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder wherePoCreated($value)
@@ -82,16 +88,6 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withoutTrashed()
  * @mixin \Eloquent
- * @property float|null $discount
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
- * @property-read mixed $status_i18n
- * @property-read mixed $vendor_trucking_h_id
- * @property-read \App\Models\VendorTrucking $vendorTrucking
- * @property-read \App\Models\Warehouse $warehouse
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PurchaseOrder whereDiscount($value)
- * @property-read mixed $po_type_i18n
- * @property-read mixed $supplier_type_i18n
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Receipt[] $receipts
  */
 class PurchaseOrder extends Model
 {
@@ -195,7 +191,22 @@ class PurchaseOrder extends Model
 
     public function receipts()
     {
-        return $this->hasManyThrough('App\Models\Receipt', 'App\Models\Item', 'itemable_id', 'item_id', 'id');
+        return $this->hasMany('App\Models\Receipt', 'po_id');
+    }
+
+    public function payments()
+    {
+        return null;//$this->morphMany('App\Models\Payment', 'payable');
+    }
+
+    public function expenses()
+    {
+        return $this->morphMany('App\Models\Expense', 'expensable');
+    }
+
+    public function copies()
+    {
+        return null;//$this->hasMany('App\Models\PurchaseOrderCopy', 'main_po_id');
     }
 
     public function supplier()
@@ -216,21 +227,6 @@ class PurchaseOrder extends Model
     public function warehouse()
     {
         return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
-    }
-
-    public function payments()
-    {
-        return null;//$this->morphMany('App\Models\Payment', 'payable');
-    }
-
-    public function expenses()
-    {
-        return $this->morphMany('App\Models\Expense', 'expensable');
-    }
-
-    public function copies()
-    {
-        return null;//$this->hasMany('App\Models\PurchaseOrderCopy', 'main_po_id');
     }
 
     public function totalAmount()

@@ -91,6 +91,7 @@ class Receipt extends Model
 
     protected $appends = [
         'hId',
+        'poHId',
         'selectedProductUnitsHId',
         'baseProductUnitHId',
         'companyHId',
@@ -101,6 +102,11 @@ class Receipt extends Model
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getPoHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['po_id']);
     }
 
     public function getItemHIdAttribute()
@@ -141,6 +147,11 @@ class Receipt extends Model
     public function baseProductUnit()
     {
         return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
+    }
+
+    public function purchaseOrder()
+    {
+        return $this->belongTo('App\Models\PurchaseOrder', 'id');
     }
 
     public static function boot()

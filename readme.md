@@ -1,3 +1,5 @@
 ## TKBARU - Toko Baru 
 
-Coming Soon...
+Laravel based general trading system inspired by Toko Baru
+
+contact : gitzjoey[at]yahoo.com

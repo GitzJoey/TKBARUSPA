@@ -61,6 +61,11 @@ use Vinkla\Hashids\Facades\Hashids;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ReceiptDetail withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ReceiptDetail withoutTrashed()
  * @mixin \Eloquent
+ * @property-read mixed $base_product_unit_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $item_h_id
+ * @property-read mixed $selected_product_units_h_id
+ * @property-read \App\Models\Item $item
  */
 class ReceiptDetail extends Model
 {
