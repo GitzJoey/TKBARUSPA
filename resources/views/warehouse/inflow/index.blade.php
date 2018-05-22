@@ -59,7 +59,7 @@
                                 <td>@{{ p.code }}</td>
                                 <td>@{{ p.supplier_type == 'SUPPLIERTYPE.WI' ? p.walk_in_supplier : p.supplier.name }}</td>
                                 <td>@{{ p.shipping_date }}</td>
-                                <td>0</td>
+                                <td>@{{ p.receipts == undefined? 0:p.receipts.length }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-secondary" v-on:click="createNew(pIdx)">

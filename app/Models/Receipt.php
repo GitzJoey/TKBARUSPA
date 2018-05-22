@@ -69,7 +69,6 @@ class Receipt extends Model
 
     protected $fillable = [
         'article_code',
-        'license_plate',
         'driver_name',
         'receipt_date',
         'remarks',
@@ -77,10 +76,10 @@ class Receipt extends Model
 
     protected $hidden = [
         'id',
+        'company_id',
         'po_id',
         'vendor_trucking_id',
         'truck_id',
-        'company_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -91,10 +90,8 @@ class Receipt extends Model
 
     protected $appends = [
         'hId',
-        'poHId',
-        'selectedProductUnitsHId',
-        'baseProductUnitHId',
         'companyHId',
+        'poHId',
         'vendorTruckingHId',
         'truckHId',
     ];
@@ -104,24 +101,14 @@ class Receipt extends Model
         return HashIds::encode($this->attributes['id']);
     }
 
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
     public function getPoHIdAttribute()
     {
         return HashIds::encode($this->attributes['po_id']);
-    }
-
-    public function getItemHIdAttribute()
-    {
-        return HashIds::encode($this->attributes['item_id']);
-    }
-
-    public function getSelectedProductUnitsHIdAttribute()
-    {
-        return HashIds::encode($this->attributes['selected_product_unit_id']);
-    }
-
-    public function getBaseProductUnitHIdAttribute()
-    {
-        return HashIds::encode($this->attributes['base_product_unit_id']);
     }
 
     public function getVendorTruckingHIdAttribute()
@@ -137,16 +124,6 @@ class Receipt extends Model
     public function receiptDetails()
     {
         return $this->hasMany('App\Models\ReceiptDetail');
-    }
-
-    public function selectedProductUnit()
-    {
-        return $this->belongsTo('App\Models\ProductUnit', 'selected_product_unit_id');
-    }
-
-    public function baseProductUnit()
-    {
-        return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
     }
 
     public function purchaseOrder()

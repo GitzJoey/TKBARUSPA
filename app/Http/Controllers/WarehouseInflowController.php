@@ -66,11 +66,11 @@ class WarehouseInflowController extends Controller
             $expenseArr = array();
             for($i = 0; $i < count($request->input('expense_id')); $i++){
                 array_push($expenseArr, array (
-                    'expense_name' => $request->input("expense_name.$i"),
-                    'expense_type' => $request->input("expense_type.$i"),
+                    'name' => $request->input("expense_name.$i"),
+                    'type' => $request->input("expense_type.$i"),
                     'is_internal_expense' => 1,
-                    'expense_amount' => floatval($request->input("expense_amount.$i")),
-                    'expense_remarks' => $request->input("expense_remarks.$i")
+                    'amount' => floatval($request->input("expense_amount.$i")),
+                    'remarks' => $request->input("expense_remarks.$i")
                 ));
             }
 

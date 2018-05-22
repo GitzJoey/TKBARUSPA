@@ -244,7 +244,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
 
     public function addExpenses($poId, $expensesArr)
     {
-        $currentPO = PurchaseOrder::with('expenses')->whereId($poId);
+        $currentPO = PurchaseOrder::findOrFail($poId);
 
         for($i = 0; $i < count($expensesArr); $i++){
             $expense = new Expense();
@@ -333,8 +333,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'expenses'
             ,'warehouse'
             ,'vendorTrucking'
-            //,'receipts.item.product'
-            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+            ,'receipts.receiptDetails'
         ])->where('po_created', 'like', $date.'%')->get();
 
         return $purchaseOrders;
@@ -351,8 +350,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'expenses'
             ,'warehouse'
             ,'vendorTrucking'
-            //,'receipts.item.product'
-            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+            ,'receipts.receiptDetails'
         ])->where('status', '=', $status)->get();
 
         return $purchaseOrders;
@@ -369,8 +367,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'expenses'
             ,'warehouse'
             ,'vendorTrucking'
-            //,'receipts.item.product'
-            //,'receipts.item.selectedUnit' => function($q) { $q->with('unit')->withTrashed(); }
+            ,'receipts.receiptDetails'
         ])->where('status', '=', $status)->where('warehouse_id', '=', $warehouseId)->get();
 
         return $purchaseOrders;

@@ -87,6 +87,8 @@ class ReceiptDetail extends Model
 
     protected $hidden = [
         'id',
+        'company_id',
+        'receipt_id',
         'item_id',
         'selected_product_unit_id',
         'base_product_unit_id',
@@ -94,6 +96,8 @@ class ReceiptDetail extends Model
 
     protected $appends = [
         'hId',
+        'companyHId',
+        'receiptHId',
         'itemHId',
         'selectedProductUnitHId',
         'baseProductUnitHId',
@@ -114,12 +118,22 @@ class ReceiptDetail extends Model
         return HashIds::encode($this->attributes['id']);
     }
 
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getReceiptHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['receipt_id']);
+    }
+
     public function getItemHIdAttribute()
     {
         return HashIds::encode($this->attributes['item_id']);
     }
 
-    public function getSelectedProductUnitsHIdAttribute()
+    public function getSelectedProductUnitHIdAttribute()
     {
         return HashIds::encode($this->attributes['selected_product_unit_id']);
     }
@@ -127,6 +141,11 @@ class ReceiptDetail extends Model
     public function getBaseProductUnitHIdAttribute()
     {
         return HashIds::encode($this->attributes['base_product_unit_id']);
+    }
+
+    public function receipt()
+    {
+        return $this->belongTo('App\Models\Receipt');
     }
 
     public function item()
