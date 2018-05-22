@@ -25,6 +25,15 @@ return [
                     'status' => 'Status',
                 ],
             ],
+            'receipt_details_table' => [
+                'header' => [
+                    'receipt_date' => 'Tgl Terima',
+                    'unit' => 'Unit',
+                    'brutto' => 'Brutto',
+                    'netto' => 'Netto',
+                    'tare' => 'Tare',
+                ]
+            ],
             'item_table' => [
                 'header' => [
                     'product_name' => 'Nama Produk',

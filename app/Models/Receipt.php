@@ -128,7 +128,7 @@ class Receipt extends Model
 
     public function purchaseOrder()
     {
-        return $this->belongTo('App\Models\PurchaseOrder', 'id');
+        return $this->belongsTo('App\Models\PurchaseOrder', 'id');
     }
 
     public static function boot()

@@ -13,7 +13,7 @@ use Config;
 
 class AppConfig
 {
-    public static function get()
+    public static function get($config = '')
     {
         $separator = '|';
         $sessionTimeout = '0';
@@ -39,23 +39,31 @@ class AppConfig
             }
         }
 
-        $result =
-            $sessionTimeout         //[0]
-            .$separator
-            .$dateFormat            //[1]
-            .$separator
-            .$timeFormat            //[2]
-            .$separator
-            .$thousandSeparator     //[3]
-            .$separator
-            .$decimalSeparator      //[4]
-            .$separator
-            .$decimalDigit          //[5]
-            .$separator
-            .$databaseDateFormat    //[6]
-            .$separator
-            .$databaseTimeFormat    //[7]
-        ;
+        switch(strtoupper($config)) {
+            case 'DATETIME':
+                $result = $dateFormat.' '.$timeFormat;
+                break;
+            case '':
+            default:
+                $result =
+                    $sessionTimeout         //[0]
+                    .$separator
+                    .$dateFormat            //[1]
+                    .$separator
+                    .$timeFormat            //[2]
+                    .$separator
+                    .$thousandSeparator     //[3]
+                    .$separator
+                    .$decimalSeparator      //[4]
+                    .$separator
+                    .$decimalDigit          //[5]
+                    .$separator
+                    .$databaseDateFormat    //[6]
+                    .$separator
+                    .$databaseTimeFormat    //[7]
+                ;
+                break;
+        }
 
         return $result;
     }

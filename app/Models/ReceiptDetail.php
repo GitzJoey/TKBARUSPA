@@ -145,12 +145,22 @@ class ReceiptDetail extends Model
 
     public function receipt()
     {
-        return $this->belongTo('App\Models\Receipt');
+        return $this->belongsTo('App\Models\Receipt', 'receipt_id');
     }
 
     public function item()
     {
-        return $this->belongsTo('App\Models\Item');
+        return $this->belongsTo('App\Models\Item', 'item_id');
+    }
+
+    public function selectedProductUnit()
+    {
+        return $this->belongsTo('App\Models\ProductUnit', 'selected_product_unit_id');
+    }
+
+    public function baseProductUnit()
+    {
+        return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
     }
 
     public static function boot()

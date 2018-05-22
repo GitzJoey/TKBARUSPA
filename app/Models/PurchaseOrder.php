@@ -14,6 +14,8 @@ use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Utils\AppConfig;
+
 use App\Traits\CompanyFilter;
 
 /**
@@ -137,6 +139,7 @@ class PurchaseOrder extends Model
         'statusI18n',
         'supplierTypeI18n',
         'poTypeI18n',
+        'receiptSummaries',
     ];
 
     protected $casts = [
@@ -231,36 +234,34 @@ class PurchaseOrder extends Model
 
     public function totalAmount()
     {
-        $itemAmounts = $this->items->map(function($item){
-            return $item->price * $item->to_base_quantity;
-        });
-
-        $itemTotalAmount = count($itemAmounts) > 0 ? $itemAmounts->sum() : 0;
-
-        $itemDiscounts = $this->items->map(function ($item) {
-            return $item->discounts->map(function ($discount) {
-                return $discount->item_disc_value;
-            })->all();
-        })->flatten();
-
-        $itemDiscountAmount = count($itemDiscounts) > 0 ? $itemDiscounts->sum() : 0;
-
-        $expenseAmounts = $this->expenses->map(function ($expense){
-            return $expense->type === 'EXPENSETYPE.ADD' ? $expense->amount : ($expense->amount * -1);
-        });
-
-        $expenseTotalAmount = count($expenseAmounts) > 0 ? $expenseAmounts->sum() : 0;
-
-        return $itemTotalAmount + $expenseTotalAmount - $itemDiscountAmount - $this->disc_value;
+        return 0;
     }
 
     public function totalAmountPaid()
     {
-        return $this->payments->filter(function ($payment, $key){
-            return $payment->status !== 'TRFPAYMENTSTATUS.UNCONFIRMED'
-            && $payment->status !== 'GIROPAYMENTSTATUS.WE'
-            && $payment->status !== 'PAYMENTTYPE.FR';
-        })->sum('total_amount');
+        return 0;
+    }
+
+    public function getReceiptSummariesAttribute()
+    {
+        $result = [];
+
+        foreach ($this->items as $i) {
+            foreach ($this->receipts as $r) {
+                foreach ($r->receiptDetails as $rd) {
+                    if ($rd->item->product_id == $i->id)
+                    array_push($result, array(
+                        'receipt_date' => $r->receipt_date->format(AppConfig::get('DATETIME')),
+                        'unit' => $rd->selectedProductUnit->unit->unitName,
+                        'brutto' => $rd->brutto,
+                        'netto' => $rd->netto,
+                        'tare' => $rd->tare,
+                    ));
+                }
+            }
+        }
+
+        return $result;
     }
 
     public static function boot()

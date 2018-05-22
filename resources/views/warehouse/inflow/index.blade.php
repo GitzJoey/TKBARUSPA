@@ -127,6 +127,38 @@
                             <input type="hidden" name="po_id" v-model="po.hId">
                         </div>
                     </div>
+                    <div class="form-group row" v-show="po.receiptSummaries != 0">
+                        <label for="inputPOReceiptDetail" class="col-3 col-form-label">&nbsp;</label>
+                        <div class="col-md-9">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.receipt_date')</th>
+                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.brutto')</th>
+                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.netto')</th>
+                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.tare')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(r, rIdx) in po.receiptSummaries">
+                                        <td>
+                                            @{{ r.receipt_date }}
+                                        </td>
+                                        <td class="text-right">
+                                            @{{ r.brutto }} @{{ r.unit }}
+                                        </td>
+                                        <td class="text-right">
+                                            @{{ r.netto }} @{{ r.unit }}
+                                        </td>
+                                        <td class="text-right">
+                                            @{{ r.tare }} @{{ r.unit }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-control-plaintext">Total : @{{ totalReceipt }} @{{ po.receiptSummaries ? po.receiptSummaries[0].unit:'' }}</div>
+                        </div>
+                    </div>
                     <hr/>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('receipt_date') }">
                         <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
@@ -441,7 +473,7 @@
                 createNew: function(index) {
                     this.mode = 'create';
                     this.errors.clear();
-                    this.po = this.poWAList[index];
+                    this.po = Object.assign({ }, this.poWAList[index]);
 
                     this.receipt = {
                         hId: '',
@@ -597,6 +629,15 @@
                     var result = 0;
                     _.each(this.expenses, function(e) {
                         result += e.amount;
+                    });
+
+                    return result;
+                },
+                totalReceipt: function() {
+                    var result = 0;
+
+                    _.each(this.po.receiptSummaries, function(r) {
+                        result += r.netto;
                     });
 
                     return result;

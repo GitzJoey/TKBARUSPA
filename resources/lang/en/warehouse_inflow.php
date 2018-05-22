@@ -25,6 +25,15 @@ return [
                     'status' => 'Status',
                 ],
             ],
+            'receipt_details_table' => [
+                'header' => [
+                    'receipt_date' => 'Receipt Date',
+                    'unit' => 'Unit',
+                    'brutto' => 'Brutto',
+                    'netto' => 'Netto',
+                    'tare' => 'Tare',
+                ]
+            ],
             'item_table' => [
                 'header' => [
                     'product_name' => 'Product Name',
