@@ -63,5 +63,6 @@ return [
         'vendor_trucking' => 'Penyedia Angkutan',
         'license_plate' => 'Plat Nomor',
         'remarks' => 'Keterangan',
+        'receipt_no' => 'Penerimaan'
     ],
 ];

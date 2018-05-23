@@ -63,5 +63,6 @@ return [
         'vendor_trucking' => 'Vendor Trucking',
         'license_plate' => 'License Plate',
         'remarks' => 'Remarks',
+        'receipt_no' => 'Receipt'
     ],
 ];

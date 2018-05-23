@@ -65,30 +65,16 @@
                                         <button class="btn btn-sm btn-secondary" v-on:click="createNew(pIdx)">
                                             <span class="fa fa-plus fa-fw"></span>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-pencil fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnEdit">
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Receipt 1
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Receipt 2
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Final Receipt
+                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
+                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
                                             </a>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled><span class="fa fa-close fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-close fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnDelete">
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Receipt 1
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Receipt 2
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void(0)">
-                                                Final Receipt
+                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
+                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
                                             </a>
                                         </div>
                                     </div>
@@ -156,7 +142,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="form-control-plaintext">Total : @{{ totalReceipt }} @{{ po.receiptSummaries ? po.receiptSummaries[0].unit:'' }}</div>
+                            <div class="form-control-plaintext">Total : @{{ totalReceipt }} @{{ po.receiptSummaries.length != 0 ? po.receiptSummaries[0].unit:'' }}</div>
                         </div>
                     </div>
                     <hr/>
@@ -411,7 +397,9 @@
                 expenseTypeDDL: [],
                 selectedWarehouse: '',
                 poWAList: [],
-                po: { },
+                po: {
+                    receiptSummaries: []
+                },
                 receipt: {
                     hId: '',
                     receipt_date: new Date(),
@@ -473,7 +461,7 @@
                 createNew: function(index) {
                     this.mode = 'create';
                     this.errors.clear();
-                    this.po = Object.assign({ }, this.poWAList[index]);
+                    this.po = this.poWAList[index];
 
                     this.receipt = {
                         hId: '',
@@ -549,6 +537,9 @@
                 backToList: function() {
                     this.mode = 'list';
                     this.errors.clear();
+                    this.po = {
+                        receiptSummaries: []
+                    };
                     this.renderInflowtData();
                 },
                 getExpenseType: function() {
@@ -625,13 +616,19 @@
                 }
             },
             computed: {
-                totalExpense: function() {
-                    var result = 0;
-                    _.each(this.expenses, function(e) {
-                        result += e.amount;
-                    });
+                totalExpense: {
+                    get: function() {
+                        var result = 0;
 
-                    return result;
+                        _.each(this.expenses, function(e) {
+                            result += e.amount;
+                        });
+
+                        return result;
+                    },
+                    set: function(newValue) {
+                        return newValue;
+                    }
                 },
                 totalReceipt: function() {
                     var result = 0;
