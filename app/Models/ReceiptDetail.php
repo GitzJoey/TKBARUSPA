@@ -163,6 +163,11 @@ class ReceiptDetail extends Model
         return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
     }
 
+    public function stock()
+    {
+        return $this->morphMany('App\Models\Stock', 'owner');
+    }
+
     public static function boot()
     {
         parent::boot();

@@ -77,8 +77,10 @@ class Stock extends Model
     protected $table = 'stocks';
 
     protected $fillable = [
-        'quantity',
-        'current_quantity',
+        'is_current',
+        'quantity_in',
+        'quantity_out',
+        'quantity_current',
     ];
 
     protected $hidden = [
@@ -99,6 +101,13 @@ class Stock extends Model
         'productHId',
         'baseProductUnitHId',
         'displayProductUnitHId',
+    ];
+
+    protected $casts = [
+        'is_current' => 'integer',
+        'quantity_in' => 'float',
+        'quantity_out' => 'float',
+        'quantity_current' => 'float',
     ];
 
     public function getHIdAttribute()
@@ -154,6 +163,12 @@ class Stock extends Model
     public function warehouse()
     {
         return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
+    }
+
+    public function owner()
+    {
+        // ReceiptDetail | DeliveryDetail
+        return $this->morphTo();
     }
 
     public static function boot()
