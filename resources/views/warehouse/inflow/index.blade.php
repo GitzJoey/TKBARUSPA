@@ -222,7 +222,7 @@
                                             <input type="hidden" name="conversion_value[]" v-model="rd.selected_product_units.conversion_value">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" type="text" class="form-control text-right"
+                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" class="form-control text-right"
                                                     v-model="rd.brutto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'brutto_' + rdIdx"
@@ -231,7 +231,7 @@
                                             <input type="hidden" name="brutto[]" v-model="rd.brutto">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('netto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" type="text" class="form-control text-right"
+                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" class="form-control text-right"
                                                     v-model="rd.netto" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'netto_' + rdIdx"
@@ -240,7 +240,7 @@
                                             <input type="hidden" name="netto[]" v-model="rd.netto">
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('tare_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" type="text" class="form-control text-right"
+                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" class="form-control text-right"
                                                     v-model="rd.tare" v-validate="'required|checkequal:' + rdIdx"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (rdIdx + 1)"
                                                     v-bind:data-vv-name="'tare_' + rdIdx"

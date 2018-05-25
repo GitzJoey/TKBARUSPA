@@ -138,7 +138,7 @@
                         <label for="inputCost" class="col-2 col-form-label">@lang('truck_maintenance.fields.cost')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <vue-autonumeric id="inputCost" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.cost') }}" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                <vue-autonumeric id="inputCost" class="form-control" placeholder="@lang('truck_maintenance.fields.cost')" v-model="truckMaintenance.cost" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.cost') }}" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                 <div v-show="errors.has('cost')" class="invalid-feedback">@{{ errors.first('cost') }}</div>
                                 <input type="hidden" name="cost" v-model="truckMaintenance.cost">
                             </template>
@@ -151,7 +151,7 @@
                         <label for="inputOdometer" class="col-2 col-form-label">@lang('truck_maintenance.fields.odometer')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                            	<vue-autonumeric id="inputOdometer" type="text" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="defaultNumericConfig"></vue-autonumeric>
+                            	<vue-autonumeric id="inputOdometer" class="form-control" placeholder="@lang('truck_maintenance.fields.odometer')" value="" v-model="truckMaintenance.odometer" v-validate="'required'" data-vv-as="{{ trans('truck_maintenance.fields.odometer') }}" v-bind:options="defaultNumericConfig"></vue-autonumeric>
                                 <div v-show="errors.has('odometer')" class="invalid-feedback">@{{ errors.first('odometer') }}</div>
                                 <input type="hidden" name="odometer" v-model="truckMaintenance.odometer">
                             </template>

@@ -396,12 +396,12 @@
                                                     </td>
                                                     <td width="5%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" name="item_quantity[]"
-                                                                             v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
+                                                            <vue-autonumeric v-bind:class="{ 'form-control text-align-right':true, 'is-invalid':errors.has('quantity_' + iIdx) }"
                                                                              v-bind:options="defaultNumericConfig"
                                                                              v-bind:data-vv-name="'quantity_' + iIdx"
                                                                              v-bind:data-vv-as="'{{ trans('purchase_order.index.table.item_table.header.quantity') }} ' + (iIdx + 1)"
                                                                              v-model="i.quantity" v-validate="'required'"></vue-autonumeric>
+                                                            <input type="hidden" name="item_quantity[]" v-model="i.quantity">
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-model="i.quantity" v-bind:options="numericFormatToString"></vue-autonumeric></div>
@@ -428,7 +428,7 @@
                                                     </td>
                                                     <td width="13%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right"
+                                                            <vue-autonumeric class="form-control text-align-right"
                                                                              v-model="i.price" v-validate="'required'"
                                                                              v-bind:options="defaultCurrencyConfig"
                                                                              v-bind:data-vv-name="'price_' + iIdx"
@@ -441,7 +441,7 @@
                                                     </td>
                                                     <td width="10%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right"
+                                                            <vue-autonumeric class="form-control text-align-right"
                                                                             v-model="i.discount"
                                                                             v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                                             <input type="hidden" name="item_discount[]" v-model="i.discount">
@@ -551,7 +551,7 @@
                                                     </td>
                                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_amount_' + expenseIndex) }">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right"
+                                                            <vue-autonumeric class="form-control text-align-right"
                                                                              v-model="expense.amount" v-validate="'required'"
                                                                              v-bind:options="defaultCurrencyConfig"
                                                                              v-bind:data-vv-as="'{{ trans('purchase_order.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
@@ -579,7 +579,7 @@
                                                     <td colspan="7" class="text-align-right">@lang('purchase_order.index.table.total_table.header.discount')</td>
                                                     <td width="12%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <vue-autonumeric type="text" class="form-control text-align-right" v-model="po.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <vue-autonumeric class="form-control text-align-right" v-model="po.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
                                                             <input type="hidden" name="discount" v-model="po.discount">
                                                         </template>
                                                         <template v-if="mode == 'show'">
