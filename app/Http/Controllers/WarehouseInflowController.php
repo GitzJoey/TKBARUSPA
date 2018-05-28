@@ -74,18 +74,21 @@ class WarehouseInflowController extends Controller
                 ));
             }
 
-            $this->purchaseOrderService->addReceipt(
+            $r = $this->purchaseOrderService->addReceipt(
                 Hashids::decode($request['po_id'])[0],
                 $receiptsArr,
                 $receiptDetailArr
             );
+
+            $this->stockService->createStockByReceipt($r);
 
             $this->purchaseOrderService->addExpenses(
                 Hashids::decode($request['po_id'])[0],
                 $expenseArr
             );
 
-            DB::commit();
+            DB::rollBack();
+            //DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

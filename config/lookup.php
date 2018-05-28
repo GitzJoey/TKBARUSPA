@@ -24,6 +24,8 @@ return [
         'TRUCK_MAINTENANCE_TYPE' => 'TRUCKMTCTYPE',
         'PRICELEVEL_TYPE' => 'PRICELEVELTYPE',
         'GIRO_STATUS' => 'GIROSTATUS',
+        'RECEIPT_STATUS' => 'RECEIPTSTATUS',
+        'DELIVER_STATUS' => 'DELIVERSTATUS',
         'EMPLOYEE_SALARY_ACTION' => 'EMPSALARYACTION',
         'STOCK_MERGE_TYPE' => 'STOCKMERGETYPE',
         'EXPENSE_TYPE' => 'EXPENSETYPE',
@@ -112,6 +114,18 @@ return [
             'NEW' => 'GIROSTATUS.N',
             'USED_FOR_PAYMENT' => 'GIROSTATUS.UP',
             'RETURNED' => 'GIROSTATUS.R',
+        ],
+        'RECEIPT_STATUS' => [
+            'NEW' => 'RECEIPTSTATUS.N',
+            'MISSING_PO' => 'RECEIPTSTATUS.PO_MIS',
+            'PROCESSED' => 'RECEIPTSTATUS.PR',
+            'REVOKED' => 'RECEIPTSTATUS.RV',
+        ],
+        'DELIVER_STATUS' => [
+            'NEW' => 'DELIVERSTATUS.N',
+            'MISSING_SO' => 'DELIVERSTATUS.SO_MIS',
+            'PROCESSED' => 'DELIVERSTATUS.PR',
+            'REVOKED' => 'RECEIPTSTATUS.RV',
         ],
         'BANK_UPLOAD' => [
             'BCA' => 'BANKUPLOAD.BCA',

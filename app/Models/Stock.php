@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\CompanyFilter;
+use App\Traits\CurrentStockFilter;
 
 /**
  * App\Models\Stock
@@ -71,6 +72,8 @@ class Stock extends Model
     use SoftDeletes;
 
     use CompanyFilter;
+
+    use CurrentStockFilter;
 
     protected $dates = ['deleted_at'];
 

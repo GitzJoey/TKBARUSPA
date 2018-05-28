@@ -10,9 +10,9 @@ namespace App\Traits;
 
 use App\Scopes\CurrentStockFilterScope;
 
-class CurrentStockFilter
+trait CurrentStockFilter
 {
-    public static function bootCompanyFilter()
+    public static function bootCurrentStockFilter()
     {
         static::addGlobalScope(new CurrentStockFilterScope);
     }

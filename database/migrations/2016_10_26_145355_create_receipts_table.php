@@ -22,6 +22,7 @@ class CreateReceiptsTable extends Migration
             $table->string('article_code')->nullable();
             $table->string('driver_name')->nullable();
             $table->date('receipt_date')->nullable();
+            $table->string('status')->nullable();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

@@ -112,7 +112,8 @@ class Product extends Model
         'hId',
         'companyHId',
         'productTypeHId',
-        'baseUnitSymbol',
+        'baseProductUnitHId',
+        'displayProductUnitHId',
         'statusI18n',
         'stockMergeTypeI18n'
     ];
@@ -142,14 +143,26 @@ class Product extends Model
         return Lang::get('lookup.'.$this->attributes['stock_merge_type']);
     }
 
-    public function company()
+    public function getBaseProductUnitHIdAttribute()
     {
-        return $this->belongsTo('App\Models\Company', 'company_id');
+        $ret = '';
+        foreach ($this->productUnits as $produnit) {
+            if ($produnit->is_base) {
+                $ret = Hashids::encode($produnit->id);
+            }
+        }
+        return $ret;
     }
 
-    public function productType()
+    public function getDisplayProductUnitHIdAttribute()
     {
-        return $this->belongsTo('App\Models\ProductType', 'product_type_id');
+        $ret = '';
+        foreach ($this->productUnits as $produnit) {
+            if ($produnit->display) {
+                $ret = Hashids::encode($produnit->id);
+            }
+        }
+        return $ret;
     }
 
     public function productUnits()
@@ -167,15 +180,14 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Supplier');
     }
 
-    public function getBaseUnitSymbolAttribute()
+    public function company()
     {
-        $ret = '';
-        foreach ($this->productUnits as $produnit) {
-            if ($produnit->is_base) {
-                $ret = $produnit->unit->symbol;
-            }
-        }
-        return $ret;
+        return $this->belongsTo('App\Models\Company', 'company_id');
+    }
+
+    public function productType()
+    {
+        return $this->belongsTo('App\Models\ProductType', 'product_type_id');
     }
 
     public static function boot()

@@ -71,6 +71,7 @@ class Receipt extends Model
         'article_code',
         'driver_name',
         'receipt_date',
+        'status',
         'remarks',
     ];
 

@@ -220,9 +220,10 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $r->article_code = $receipt['article_code'];
         $r->driver_name = $receipt['driver_name'];
         $r->receipt_date = $receipt['receipt_date'];
+        $r->status = Config::get('lookup.VALUE.RECEIPT_STATUS.NEW');
         $r->remarks = $receipt['remarks'];
 
-        $rObj = $currentPO->receipts()->save($r);
+        $currentPO->receipts()->save($r);
 
         for ($i = 0; $i < count($receiptDetailArr); $i++) {
             $rd = new ReceiptDetail();
@@ -238,8 +239,10 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $rd->tare = $receiptDetailArr[$i]['tare'];
             $rd->base_tare = $receiptDetailArr[$i]['conversion_value'] * $receiptDetailArr[$i]['tare'];
 
-            $rObj->receiptDetails()->save($rd);
+            $r->receiptDetails()->save($rd);
         }
+
+        return $r;
     }
 
     public function addExpenses($poId, $expensesArr)

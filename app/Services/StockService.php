@@ -8,45 +8,13 @@
 
 namespace App\Services;
 
+use App\Models\Receipt;
+
 interface StockService
 {
-    public function createPOStockFlowIn(
-        $companyId,
-        $poId,
-        $warehouseId,
-        $productId,
-        $baseProductUnitId,
-        $displayProductUnitId,
-        $quantity
-    );
+    public function addStockByReceipt(Receipt $r);
 
-    public function createPOReStockFlowIn(
-        $companyId,
-        $poId,
-        $warehouseId,
-        $productId,
-        $baseProductUnitId,
-        $displayProductUnitId,
-        $quantity
-    );
+    public function substractStockByDeliver();
 
-    public function createSOStockFlowOut(
-        $companyId,
-        $soId,
-        $warehouseId,
-        $productId,
-        $baseProductUnitId,
-        $displayProductUnitId,
-        $quantity
-    );
-
-    public function createSOReStockFlowOut(
-        $companyId,
-        $soId,
-        $warehouseId,
-        $productId,
-        $baseProductUnitId,
-        $displayProductUnitId,
-        $quantity
-    );
+    public function getAllCurrentStock();
 }
