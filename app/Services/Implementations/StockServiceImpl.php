@@ -71,10 +71,10 @@ class StockServiceImpl implements StockService
 
     public function getAllCurrentStock($warehouseId = '')
     {
-        if ($warehouseId == -'') {
-            return Stock::get();
+        if ($warehouseId == '') {
+            return Stock::with('warehouse', 'product')->get();
         } else {
-            return Stock::whereWarehouseId($warehouseId)->get();
+            return Stock::with('warehouse', 'product')->whereWarehouseId($warehouseId)->get();
         }
     }
 

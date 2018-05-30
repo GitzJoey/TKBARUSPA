@@ -114,6 +114,7 @@ class Stock extends Model
         'baseProductUnitHId',
         'displayProductUnitHId',
         'lastOpnameDate',
+        'quantityDisplayUnit',
     ];
 
     protected $casts = [
@@ -151,6 +152,20 @@ class Stock extends Model
     public function getDisplayProductUnitHIdAttribute()
     {
         return HashIds::encode($this->attributes['display_product_unit_id']);
+    }
+
+    public function getQuantityDisplayUnitAttribute()
+    {
+        $unit = '';
+        $convVal = 1;
+        foreach ($this->product->productUnits as $pu) {
+            if ($pu->display) {
+                $unit = $pu->unit->unitName;
+                $convVal = $pu->conversion_value;
+            }
+        }
+
+        return $this->quantity_current * $convVal . ' ' . $unit;
     }
 
     public function getLastOpnameDateAttribute()

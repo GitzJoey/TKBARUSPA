@@ -70,10 +70,10 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'warehouse'], function () {
         Route::get('read', 'WarehouseController@read')->name('api.get.warehouse.read');
-    });
 
-    Route::group(['prefix' => 'warehouse'], function () {
-        Route::get('read', 'WarehouseController@read')->name('api.get.warehouse.read');
+        Route::group(['prefix' => 'stock'], function () {
+            Route::get('all/current/stock', 'StockController@getCurrentStocks')->name('api.get.warehouse.stock.all.current.stock');
+        });
     });
 
     Route::group(['prefix' => 'bank'], function () {

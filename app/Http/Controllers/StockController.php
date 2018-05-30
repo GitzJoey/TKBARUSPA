@@ -9,7 +9,7 @@ use Vinkla\Hashids\Facades\Hashids;
 
 use App\Services\StockService;
 
-class StockOpnameController extends Controller
+class StockController extends Controller
 {
     private $stockService;
 
@@ -19,8 +19,8 @@ class StockOpnameController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function getCurrentStocks()
     {
-        return view('warehouse.stock.opname.index');
+        return $this->stockService->getAllCurrentStock();
     }
 }
