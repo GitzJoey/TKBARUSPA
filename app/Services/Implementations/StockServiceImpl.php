@@ -21,20 +21,23 @@ class StockServiceImpl implements StockService
         foreach ($r->receiptDetails as $rd) {
             $productId = $rd->item->product->id;
             $receiptDetailId = $rd->id;
-            $warehouseId = $rd->receipt()->first()->purchaseOrder()->warehouse_id;
+            $warehouseId = $rd->receipt()->first()->purchaseOrder()->first()->warehouse_id;
 
             $sList = Stock::whereProductId($productId)
                 ->where('owner_id', '=', $receiptDetailId)
                 ->where('owner_type', '=', 'App\Models\ReceiptDetail')->get();
 
-            if (empty($sList)) {
+            $baseProductUnitId = $this->getBaseProductUnitId($rd->item->product);
+            $displayProductUnitId = $this->getDisplayProductUnitId($rd->item->product);
+
+            if (count($sList) == 0) {
                 //NEW
                 $stock = new Stock();
                 $stock->company_id = $rd->company_id;
-                $stock->warehouse_id = '';
+                $stock->warehouse_id = $warehouseId;
                 $stock->product_id = $productId;
-                $stock->base_product_unit_id = $rd->item->product->base_product_unit_id;
-                $stock->display_product_unit_id = $rd->item->product->display_product_unit_id;
+                $stock->base_product_unit_id = $baseProductUnitId;
+                $stock->display_product_unit_id = $displayProductUnitId;
                 $stock->is_current = 1;
                 $stock->quantity_in = $rd->base_netto;
                 $stock->quantity_out = 0;
@@ -56,8 +59,8 @@ class StockServiceImpl implements StockService
                 $stock->quantity_out = 0;
                 $stock->quantity_current = $rd->base_netto;
 
+                $rd->stock()->save($stock);
             }
-
         }
     }
 
@@ -66,9 +69,13 @@ class StockServiceImpl implements StockService
 
     }
 
-    public function getAllCurrentStock()
+    public function getAllCurrentStock($warehouseId = '')
     {
-        return Stock::get();
+        if ($warehouseId == -'') {
+            return Stock::get();
+        } else {
+            return Stock::whereWarehouseId($warehouseId)->get();
+        }
     }
 
     public function resetCurrentStock($stockId)
@@ -80,5 +87,23 @@ class StockServiceImpl implements StockService
         $stock->updated_at = Carbon::now();
 
         $stock->save();
+    }
+
+    private function getBaseProductUnitId($product)
+    {
+        foreach ($product->productUnits as $pu) {
+            if ($pu->is_base) {
+                return $pu->id;
+            }
+        }
+    }
+
+    private function getDisplayProductUnitId($product)
+    {
+        foreach ($product->productUnits as $pu) {
+            if ($pu->display) {
+                return $pu->id;
+            }
+        }
     }
 }

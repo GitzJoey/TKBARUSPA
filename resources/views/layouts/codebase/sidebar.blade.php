@@ -104,29 +104,35 @@
                                     </li>
                                 @endpermission
                                 @permission('menu-warehouse_inflow')
-                                <li>
-                                    <a class="{{ active_class(if_route_pattern('db.warehouse.inflow') || if_route_pattern('db.warehouse.inflow.*')) }}" href="{{ route('db.warehouse.inflow') }}">
-                                        <span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')
-                                    </a>
-                                </li>
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.warehouse.inflow') || if_route_pattern('db.warehouse.inflow.*')) }}" href="{{ route('db.warehouse.inflow') }}">
+                                            <span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.inflow')
+                                        </a>
+                                    </li>
                                 @endpermission
                                 <li>
                                     <a href="#"><span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')</a>
                                 </li>
-                                <li>
-                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock')</a>
-                                    <ul>
-                                        <li>
-                                            <a href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.opname')</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><span class="fa fa-refresh fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.transfer')</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><span class="fa fa-sort-amount-asc fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.merger')</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                @permission('menu-stock_opname|menu-stock_transfer|menu-stock_merger')
+                                    <li>
+                                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock')</a>
+                                        <ul>
+                                            @permission('menu-stock_opname')
+                                                <li>
+                                                    <a class="{{ active_class(if_route_pattern('db.warehouse.stock.opname') || if_route_pattern('db.warehouse.stock.opname.*')) }}" href="{{ route('db.warehouse.stock.opname') }}">
+                                                        <span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.opname')
+                                                    </a>
+                                                </li>
+                                            @endpermission
+                                            <li>
+                                                <a href="#"><span class="fa fa-refresh fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.transfer')</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><span class="fa fa-sort-amount-asc fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock.merger')</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endpermission
                             </ul>
                         @endpermission
                     </li>

@@ -90,6 +90,7 @@ use App\Traits\CompanyFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PurchaseOrder withoutTrashed()
  * @mixin \Eloquent
+ * @property-read mixed $receipt_summaries
  */
 class PurchaseOrder extends Model
 {

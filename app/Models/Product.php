@@ -72,6 +72,8 @@ use App\Traits\CompanyFilter;
  * @property string|null $stock_merge_type
  * @property-read mixed $stock_merge_type_i18n
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereStockMergeType($value)
+ * @property-read mixed $base_product_unit_h_id
+ * @property-read mixed $display_product_unit_h_id
  */
 class Product extends Model
 {

@@ -80,15 +80,14 @@ class WarehouseInflowController extends Controller
                 $receiptDetailArr
             );
 
-            $this->stockService->createStockByReceipt($r);
+            $this->stockService->addStockByReceipt($r);
 
             $this->purchaseOrderService->addExpenses(
                 Hashids::decode($request['po_id'])[0],
                 $expenseArr
             );
 
-            DB::rollBack();
-            //DB::commit();
+            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;

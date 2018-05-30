@@ -66,6 +66,15 @@ use App\Traits\CurrentStockFilter;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Stock withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Stock withoutTrashed()
  * @mixin \Eloquent
+ * @property int $is_current
+ * @property float $quantity_in
+ * @property float $quantity_out
+ * @property float $quantity_current
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $owner
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereIsCurrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityCurrent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityIn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityOut($value)
  */
 class Stock extends Model
 {
@@ -104,6 +113,7 @@ class Stock extends Model
         'productHId',
         'baseProductUnitHId',
         'displayProductUnitHId',
+        'lastOpnameDate',
     ];
 
     protected $casts = [
@@ -143,6 +153,15 @@ class Stock extends Model
         return HashIds::encode($this->attributes['display_product_unit_id']);
     }
 
+    public function getLastOpnameDateAttribute()
+    {
+        if (count($this->stockOpnames) > 0) {
+            return $this->stockOpnames()->latest()->first()->opname_date;
+        } else {
+            return null;
+        }
+    }
+
     public function company()
     {
         return $this->belongsTo('App\Models\Company', 'company_id');
@@ -166,6 +185,11 @@ class Stock extends Model
     public function warehouse()
     {
         return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
+    }
+
+    public function stockOpnames()
+    {
+        return $this->hasMany('App\Models\StockOpname');
     }
 
     public function owner()

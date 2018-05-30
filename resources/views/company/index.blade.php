@@ -505,5 +505,5 @@
     <script type="application/javascript">
 
     </script>
-    <script type="application/javascript" src="{{ mix('js/apps/company.min.js') }}"></script>
+    <script type="application/javascript" src="{{ mix('js/apps/company.js') }}"></script>
 @endsection

@@ -66,6 +66,13 @@ use Vinkla\Hashids\Facades\Hashids;
  * @property-read mixed $item_h_id
  * @property-read mixed $selected_product_units_h_id
  * @property-read \App\Models\Item $item
+ * @property-read \App\Models\ProductUnit $baseProductUnit
+ * @property-read mixed $company_h_id
+ * @property-read mixed $receipt_h_id
+ * @property-read mixed $selected_product_unit_h_id
+ * @property-read \App\Models\Receipt $receipt
+ * @property-read \App\Models\ProductUnit $selectedProductUnit
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stock[] $stock
  */
 class ReceiptDetail extends Model
 {

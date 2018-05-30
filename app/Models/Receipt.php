@@ -58,6 +58,11 @@ use Vinkla\Hashids\Facades\Hashids;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Receipt withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Receipt withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $status
+ * @property-read mixed $company_h_id
+ * @property-read mixed $po_h_id
+ * @property-read \App\Models\PurchaseOrder $purchaseOrder
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereStatus($value)
  */
 class Receipt extends Model
 {
@@ -129,7 +134,7 @@ class Receipt extends Model
 
     public function purchaseOrder()
     {
-        return $this->belongsTo('App\Models\PurchaseOrder', 'id');
+        return $this->belongsTo('App\Models\PurchaseOrder', 'po_id');
     }
 
     public static function boot()

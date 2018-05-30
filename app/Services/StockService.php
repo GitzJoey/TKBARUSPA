@@ -16,5 +16,5 @@ interface StockService
 
     public function substractStockByDeliver();
 
-    public function getAllCurrentStock();
+    public function getAllCurrentStock($warehouseId = '');
 }
