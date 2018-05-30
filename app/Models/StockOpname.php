@@ -63,7 +63,7 @@ class StockOpname extends Model
 
     public function stock()
     {
-        return $this->belongsTo('App\Model\Stock');
+        return $this->morphMany('App\Models\Stock', 'owner');
     }
 
     public static function boot()

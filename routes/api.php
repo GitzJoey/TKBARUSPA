@@ -123,6 +123,12 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::group(['prefix' => 'inflow'], function () {
             Route::post('save/{id}', 'WarehouseInflowController@store')->name('api.post.warehouse.inflow.save');
         });
+
+        Route::group(['prefix' => 'stock'], function () {
+            Route::group(['prefix' => 'opname'], function () {
+                Route::post('save', 'StockOpnameController@store')->name('api.post.warehouse.stock.opname.save');
+            });
+        });
     });
 
     Route::group(['prefix' => 'product'], function () {

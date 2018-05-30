@@ -62,6 +62,7 @@ return [
         ],
         'warehouse_stock' => [
             'api.get.warehouse.stock.*',
+            'api.post.warehouse.stock.opname.*',
         ],
         'price_level' => [
             'api.get.lookup.*',

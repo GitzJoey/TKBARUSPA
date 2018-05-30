@@ -10,6 +10,7 @@ namespace App\Services\Implementations;
 
 use App\Models\Stock;
 use App\Models\Receipt;
+use App\Models\StockOpname;
 
 use App\Services\StockService;
 use Carbon\Carbon;
@@ -64,9 +65,61 @@ class StockServiceImpl implements StockService
         }
     }
 
-    public function substractStockByDeliver()
+    public function subtractStockByDeliver()
     {
 
+    }
+
+    public function adjustStockByOpname($companyId, $stockId, $opnameDate, $isMatch, $newQuantity, $reason)
+    {
+        $stock = Stock::find($stockId);
+
+        $qtyMode = $this->determineQtyMode($newQuantity, $stock->quantity_current);
+        $diff = abs($newQuantity - $stock->quantity_current);
+
+        $previousQty = $stock->quantity_current;
+
+        $nextStock = new Stock();
+        $nextStock->company_id = $stock->company_id;
+        $nextStock->warehouse_id = $stock->warehouse_id;
+        $nextStock->product_id = $stock->product_id;
+        $nextStock->base_product_unit_id = $stock->base_product_unit_id;
+        $nextStock->display_product_unit_id = $stock->display_product_unit_id;
+        $nextStock->is_current = 1;
+        switch (strtoupper($qtyMode)) {
+            case 'IN':
+                $nextStock->quantity_in = $diff;
+                $nextStock->quantity_out = 0;
+                $nextStock->quantity_current += $diff;
+                $adjustedQty = $nextStock->quantity_current;
+                break;
+            case 'OUT':
+                $nextStock->quantity_in = 0;
+                $nextStock->quantity_out = $diff;
+                $nextStock->quantity_current -= $diff;
+                $adjustedQty = $nextStock->quantity_current;
+                break;
+            case 'NOCHANGE':
+            default:
+                $nextStock->quantity_in = $stock->quantity_in;
+                $nextStock->quantity_out = $stock->quantity_out;
+                $nextStock->quantity_current = $stock->quantity_current;
+                $adjustedQty = $nextStock->quantity_current;
+                break;
+        }
+
+        $stockopname = new StockOpname();
+        $stockopname->company_id = $companyId;
+        $stockopname->opname_date = $opnameDate;
+        $stockopname->is_match = 0;
+        $stockopname->previous_quantity = $previousQty;
+        $stockopname->adjusted_quantity = $adjustedQty;
+        $stockopname->reason = $reason;
+
+        $stockopname->save();
+        $stockopname->stock()->save($nextStock);
+
+        $this->resetCurrentStock($stockId);
     }
 
     public function getAllCurrentStock($warehouseId = '')
@@ -105,5 +158,17 @@ class StockServiceImpl implements StockService
                 return $pu->id;
             }
         }
+    }
+
+    private function determineQtyMode($newQty, $oldQty)
+    {
+        if ($newQty > $oldQty) {
+            return 'IN';
+        } else if ($newQty < $oldQty) {
+            return 'OUT';
+        } else {
+            return 'NOCHANGE';
+        }
+
     }
 }

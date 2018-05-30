@@ -14,7 +14,9 @@ interface StockService
 {
     public function addStockByReceipt(Receipt $r);
 
-    public function substractStockByDeliver();
+    public function subtractStockByDeliver();
 
     public function getAllCurrentStock($warehouseId = '');
+
+    public function adjustStockByOpname($companyId, $stockId, $opnameDate, $isMatch, $newQuantity, $reason);
 }

@@ -115,6 +115,8 @@ class Stock extends Model
         'displayProductUnitHId',
         'lastOpnameDate',
         'quantityDisplayUnit',
+        'displayUnit',
+        'baseUnit',
     ];
 
     protected $casts = [
@@ -168,6 +170,30 @@ class Stock extends Model
         return $this->quantity_current * $convVal . ' ' . $unit;
     }
 
+    public function getDisplayUnitAttribute()
+    {
+        $unit = '';
+        foreach ($this->product->productUnits as $pu) {
+            if ($pu->display) {
+                $unit = $pu->unit->unitName;
+            }
+        }
+
+        return $unit;
+    }
+
+    public function getBaseUnitAttribute()
+    {
+        $unit = '';
+        foreach ($this->product->productUnits as $pu) {
+            if ($pu->is_base) {
+                $unit = $pu->unit->unitName;
+            }
+        }
+
+        return $unit;
+    }
+
     public function getLastOpnameDateAttribute()
     {
         if (count($this->stockOpnames) > 0) {
@@ -189,12 +215,12 @@ class Stock extends Model
 
     public function baseProductUnit()
     {
-        return $this->belongTo('App\Models\ProductUnit', 'base_product_unit_id');
+        return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
     }
 
     public function displayProductUnit()
     {
-        return $this->belongTo('App\Models\ProductUnit', 'display_product_unit_id');
+        return $this->belongsTo('App\Models\ProductUnit', 'display_product_unit_id');
     }
 
     public function warehouse()
@@ -202,14 +228,9 @@ class Stock extends Model
         return $this->belongsTo('App\Models\Warehouse', 'warehouse_id');
     }
 
-    public function stockOpnames()
-    {
-        return $this->hasMany('App\Models\StockOpname');
-    }
-
     public function owner()
     {
-        // ReceiptDetail | DeliveryDetail
+        // ReceiptDetail | DeliveryDetail | StockOpname
         return $this->morphTo();
     }
 
