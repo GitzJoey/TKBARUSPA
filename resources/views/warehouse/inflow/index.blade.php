@@ -443,17 +443,20 @@
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) { return; }
                         this.errors.clear();
+                        this.loadingPanel('#inflowCRUDBlock', 'TOGGLE');
                         if (this.mode == 'create') {
                             axios.post(route('api.post.warehouse.inflow.save', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
                                 this.backToList();
                                 this.loadingPanel('#inflowCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
+                                this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
                             axios.post(route('api.post.warehouse.inflow.edit', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
                             }).catch(e => {
                                 this.handleErrors(e);
+                                this.loadingPanel('#unitCRUDBlock', 'TOGGLE');
                             });
                         } else { }
                     });
@@ -538,7 +541,7 @@
                     this.mode = 'list';
                     this.errors.clear();
                     this.po = {
-                        receiptSummaries: []
+                        receipts: []
                     };
                     this.renderInflowtData();
                 },

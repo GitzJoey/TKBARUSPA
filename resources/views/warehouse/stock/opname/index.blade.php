@@ -241,7 +241,7 @@
                 backToList: function() {
                     this.mode = 'list';
                     this.errors.clear();
-                    this.getAllUnit();
+                    this.getAllStock();
                 },
                 onChangeIsMatch: function() {
                     if (this.newOpname.is_match) {

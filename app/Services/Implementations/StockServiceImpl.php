@@ -65,7 +65,7 @@ class StockServiceImpl implements StockService
 
         foreach ($new->receiptDetails as $rd) {
             foreach ($refStockList as $s) {
-                if ($rd->product_id == $s->product_id) {
+                if ($rd->item->product_id == $s->product_id) {
                     $stock = new Stock();
                     $stock->company_id = $s->company_id;
                     $stock->warehouse_id = $s->warehouse_id;
@@ -77,9 +77,9 @@ class StockServiceImpl implements StockService
                     $stock->quantity_out = 0;
                     $stock->quantity_current = $s->quantity_current + $rd->base_netto;
 
+                    $new->stock()->save($stock);
+
                     $s->is_current = 0;
-                    $s->updated_by = Auth::user()->id;
-                    $s->updated_at = Carbon::now();
                     $s->save();
                 }
             }
