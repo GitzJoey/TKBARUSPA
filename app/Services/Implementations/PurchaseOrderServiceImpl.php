@@ -370,7 +370,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             ,'expenses'
             ,'warehouse'
             ,'vendorTrucking'
-            ,'receipts.receiptDetails'
+            ,'receipts.receiptDetails.item.product'
         ])->where('status', '=', $status)->where('warehouse_id', '=', $warehouseId)->get();
 
         return $purchaseOrders;

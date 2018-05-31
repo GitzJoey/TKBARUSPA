@@ -140,7 +140,6 @@ class PurchaseOrder extends Model
         'statusI18n',
         'supplierTypeI18n',
         'poTypeI18n',
-        'receiptSummaries',
     ];
 
     protected $casts = [
@@ -241,28 +240,6 @@ class PurchaseOrder extends Model
     public function totalAmountPaid()
     {
         return 0;
-    }
-
-    public function getReceiptSummariesAttribute()
-    {
-        $result = [];
-
-        foreach ($this->items as $i) {
-            foreach ($this->receipts as $r) {
-                foreach ($r->receiptDetails as $rd) {
-                    if ($rd->item->product_id == $i->id)
-                    array_push($result, array(
-                        'receipt_date' => $r->receipt_date->format(AppConfig::get('DATETIME')),
-                        'unit' => $rd->selectedProductUnit->unit->unitName,
-                        'brutto' => $rd->brutto,
-                        'netto' => $rd->netto,
-                        'tare' => $rd->tare,
-                    ));
-                }
-            }
-        }
-
-        return $result;
     }
 
     public static function boot()

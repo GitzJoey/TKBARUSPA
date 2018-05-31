@@ -108,6 +108,8 @@ class ReceiptDetail extends Model
         'itemHId',
         'selectedProductUnitHId',
         'baseProductUnitHId',
+        'selectedUnit',
+        'baseUnit',
     ];
 
     protected $casts = [
@@ -148,6 +150,24 @@ class ReceiptDetail extends Model
     public function getBaseProductUnitHIdAttribute()
     {
         return HashIds::encode($this->attributes['base_product_unit_id']);
+    }
+
+    public function getBaseUnitAttribute()
+    {
+        $unit = '';
+
+        $unit = $this->baseProductUnit->unit->unitName;
+
+        return $unit;
+    }
+
+    public function getSelectedUnitAttribute()
+    {
+        $unit = '';
+
+        $unit = $this->selectedProductUnit->unit->unitName;
+
+        return $unit;
     }
 
     public function receipt()

@@ -46,7 +46,7 @@ class StockServiceImpl implements StockService
 
                 $rd->stock()->save($stock);
             } else {
-                $stockId = 0;
+                $stockId = $this->getCurrentStock($warehouseId, $productId);
                 $this->resetCurrentStock($stockId);
 
                 $stock = new Stock();

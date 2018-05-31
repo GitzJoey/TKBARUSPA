@@ -27,6 +27,7 @@ return [
             ],
             'receipt_details_table' => [
                 'header' => [
+                    'product' => 'Product',
                     'receipt_date' => 'Receipt Date',
                     'unit' => 'Unit',
                     'brutto' => 'Brutto',

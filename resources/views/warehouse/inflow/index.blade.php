@@ -113,36 +113,40 @@
                             <input type="hidden" name="po_id" v-model="po.hId">
                         </div>
                     </div>
-                    <div class="form-group row" v-show="po.receiptSummaries != 0">
+                    <div class="form-group row" v-show="po.receipts.length != 0">
                         <label for="inputPOReceiptDetail" class="col-3 col-form-label">&nbsp;</label>
                         <div class="col-md-9">
-                            <table class="table table-bordered">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.receipt_date')</th>
-                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.brutto')</th>
-                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.netto')</th>
-                                        <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.tare')</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(r, rIdx) in po.receiptSummaries">
-                                        <td>
-                                            @{{ r.receipt_date }}
-                                        </td>
-                                        <td class="text-right">
-                                            @{{ r.brutto }} @{{ r.unit }}
-                                        </td>
-                                        <td class="text-right">
-                                            @{{ r.netto }} @{{ r.unit }}
-                                        </td>
-                                        <td class="text-right">
-                                            @{{ r.tare }} @{{ r.unit }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="form-control-plaintext">Total : @{{ totalReceipt }} @{{ po.receiptSummaries.length != 0 ? po.receiptSummaries[0].unit:'' }}</div>
+                            <template v-for="(r, rIdx) in po.receipts">
+                                <table class="table table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th colspan="4">@lang('warehouse_inflow.index.table.receipt_details_table.header.receipt_date')&nbsp;&nbsp;&nbsp;@{{ r.receipt_date }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.product')</th>
+                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.brutto')</th>
+                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.netto')</th>
+                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.tare')</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(rd, rdIdx) in r.receipt_details">
+                                            <td>
+                                                @{{ rd.item.product.name }}
+                                            </td>
+                                            <td class="text-right">
+                                                @{{ rd.brutto }} @{{ rd.selectedUnit }}
+                                            </td>
+                                            <td class="text-right">
+                                                @{{ rd.netto }} @{{ rd.selectedUnit }}
+                                            </td>
+                                            <td class="text-right">
+                                                @{{ rd.tare }} @{{ rd.selectedUnit }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </template>
                         </div>
                     </div>
                     <hr/>
@@ -398,7 +402,7 @@
                 selectedWarehouse: '',
                 poWAList: [],
                 po: {
-                    receiptSummaries: []
+                    receipts: []
                 },
                 receipt: {
                     hId: '',
@@ -629,15 +633,6 @@
                     set: function(newValue) {
                         return newValue;
                     }
-                },
-                totalReceipt: function() {
-                    var result = 0;
-
-                    _.each(this.po.receiptSummaries, function(r) {
-                        result += r.netto;
-                    });
-
-                    return result;
                 },
                 defaultPleaseSelect: function() {
                     return '';
