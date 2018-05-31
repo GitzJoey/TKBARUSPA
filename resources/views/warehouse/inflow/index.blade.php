@@ -185,7 +185,7 @@
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver_name') }">
                         <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_inflow.fields.driver_name')</label>
                         <div class="col-md-9">
-                            <input id="inputDriverName" name="driver" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
+                            <input id="inputDriverName" name="driver_name" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
                         </div>
                         <span v-show="errors.has('driver_name')" class="invalid-feedback">@{{ errors.first('driver_name') }}</span>
                     </div>
@@ -200,7 +200,6 @@
                                         <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.brutto')</th>
                                         <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.netto')</th>
                                         <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.tare')</th>
-                                        <th width="5%" class="text-center">&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -251,9 +250,6 @@
                                                     v-bind:options="defaultNumericConfig"
                                                     v-on:input="reValidate('tare', rdIdx)"></vue-autonumeric>
                                             <input type="hidden" name="tare[]" v-model="rd.tare">
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeReceipt(rdIdx)" disabled><span class="fa fa-minus"/></button>
                                         </td>
                                     </tr>
                                 </tbody>

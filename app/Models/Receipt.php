@@ -63,6 +63,7 @@ use Vinkla\Hashids\Facades\Hashids;
  * @property-read mixed $po_h_id
  * @property-read \App\Models\PurchaseOrder $purchaseOrder
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Receipt whereStatus($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stock[] $stock
  */
 class Receipt extends Model
 {
@@ -135,6 +136,11 @@ class Receipt extends Model
     public function purchaseOrder()
     {
         return $this->belongsTo('App\Models\PurchaseOrder', 'po_id');
+    }
+
+    public function stock()
+    {
+        return $this->morphMany('App\Models\Stock', 'owner');
     }
 
     public static function boot()

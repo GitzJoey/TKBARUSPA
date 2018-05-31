@@ -10,6 +10,20 @@ use Vinkla\Hashids\Facades\Hashids;
 
 use App\Traits\CompanyFilter;
 
+/**
+ * App\Models\StockOpname
+ *
+ * @property-read mixed $company_h_id
+ * @property-read mixed $h_id
+ * @property-read mixed $stock_h_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stock[] $stock
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StockOpname onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StockOpname withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StockOpname withoutTrashed()
+ * @mixin \Eloquent
+ */
 class StockOpname extends Model
 {
     use SoftDeletes;

@@ -75,6 +75,12 @@ use App\Traits\CurrentStockFilter;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityCurrent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityIn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Stock whereQuantityOut($value)
+ * @property-read \App\Models\ProductUnit $baseProductUnit
+ * @property-read \App\Models\ProductUnit $displayProductUnit
+ * @property-read mixed $base_unit
+ * @property-read mixed $display_unit
+ * @property-read mixed $last_opname_date
+ * @property-read mixed $quantity_display_unit
  */
 class Stock extends Model
 {
@@ -230,7 +236,7 @@ class Stock extends Model
 
     public function owner()
     {
-        // ReceiptDetail | DeliveryDetail | StockOpname
+        // Receipt | Deliver | StockOpname
         return $this->morphTo();
     }
 

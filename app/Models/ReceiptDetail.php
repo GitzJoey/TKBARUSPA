@@ -73,6 +73,8 @@ use Vinkla\Hashids\Facades\Hashids;
  * @property-read \App\Models\Receipt $receipt
  * @property-read \App\Models\ProductUnit $selectedProductUnit
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stock[] $stock
+ * @property-read mixed $base_unit
+ * @property-read mixed $selected_unit
  */
 class ReceiptDetail extends Model
 {
@@ -188,11 +190,6 @@ class ReceiptDetail extends Model
     public function baseProductUnit()
     {
         return $this->belongsTo('App\Models\ProductUnit', 'base_product_unit_id');
-    }
-
-    public function stock()
-    {
-        return $this->morphMany('App\Models\Stock', 'owner');
     }
 
     public static function boot()

@@ -13,54 +13,75 @@ use App\Models\Receipt;
 use App\Models\StockOpname;
 
 use App\Services\StockService;
+
+use Auth;
+use Config;
 use Carbon\Carbon;
 
 class StockServiceImpl implements StockService
 {
-    public function addStockByReceipt(Receipt $r)
+    public function addStockByReceipt(Receipt $newReceipt)
     {
+        //Get last receipts for this PO
+        $lastReceipt = $newReceipt->purchaseOrder->receipts()
+            ->where('status', '=', Config::get('lookup.VALUE.RECEIPT_STATUS.PROCESSED'))->latest();
+
+        if ($lastReceipt->count() == 0) {
+            $this->addStockByReceipt_NEW($newReceipt);
+        } else {
+            $this->addStockByReceipt_RESTOCK($newReceipt, $lastReceipt->first());
+        }
+
+        $newReceipt->status = Config::get('lookup.VALUE.RECEIPT_STATUS.PROCESSED');
+        $newReceipt->save();
+    }
+
+    private function addStockByReceipt_NEW(Receipt $r)
+    {
+        $warehouseId = $r->purchaseOrder()->first()->warehouse_id;
+
         foreach ($r->receiptDetails as $rd) {
-            $productId = $rd->item->product->id;
-            $receiptDetailId = $rd->id;
-            $warehouseId = $rd->receipt()->first()->purchaseOrder()->first()->warehouse_id;
-
-            $sList = Stock::whereProductId($productId)
-                ->where('owner_id', '=', $receiptDetailId)
-                ->where('owner_type', '=', 'App\Models\ReceiptDetail')->get();
-
             $baseProductUnitId = $this->getBaseProductUnitId($rd->item->product);
             $displayProductUnitId = $this->getDisplayProductUnitId($rd->item->product);
 
-            if (count($sList) == 0) {
-                //NEW
-                $stock = new Stock();
-                $stock->company_id = $rd->company_id;
-                $stock->warehouse_id = $warehouseId;
-                $stock->product_id = $productId;
-                $stock->base_product_unit_id = $baseProductUnitId;
-                $stock->display_product_unit_id = $displayProductUnitId;
-                $stock->is_current = 1;
-                $stock->quantity_in = $rd->base_netto;
-                $stock->quantity_out = 0;
-                $stock->quantity_current = $rd->base_netto;
+            $stock = new Stock();
+            $stock->company_id = $rd->company_id;
+            $stock->warehouse_id = $warehouseId;
+            $stock->product_id = $rd->item->product->id;
+            $stock->base_product_unit_id = $baseProductUnitId;
+            $stock->display_product_unit_id = $displayProductUnitId;
+            $stock->is_current = 1;
+            $stock->quantity_in = $rd->base_netto;
+            $stock->quantity_out = 0;
+            $stock->quantity_current = $rd->base_netto;
 
-                $rd->stock()->save($stock);
-            } else {
-                $stockId = $this->getCurrentStock($warehouseId, $productId);
-                $this->resetCurrentStock($stockId);
+            $r->stock()->save($stock);
+        }
+    }
 
-                $stock = new Stock();
-                $stock->company_id = $rd->company_id;
-                $stock->warehouse_id = '';
-                $stock->product_id = $productId;
-                $stock->base_product_unit_id = $rd->item->product->base_product_unit_id;
-                $stock->display_product_unit_id = $rd->item->product->display_product_unit_id;
-                $stock->is_current = 1;
-                $stock->quantity_in = $rd->base_netto;
-                $stock->quantity_out = 0;
-                $stock->quantity_current = $rd->base_netto;
+    private function addStockByReceipt_RESTOCK(Receipt $new, Receipt $last)
+    {
+        $refStockList = Stock::where('owner_id', '=', $last->id)->where('owner_type', '=', 'App\Models\Receipt')->get();
 
-                $rd->stock()->save($stock);
+        foreach ($new->receiptDetails as $rd) {
+            foreach ($refStockList as $s) {
+                if ($rd->product_id == $s->product_id) {
+                    $stock = new Stock();
+                    $stock->company_id = $s->company_id;
+                    $stock->warehouse_id = $s->warehouse_id;
+                    $stock->product_id = $s->product_id;
+                    $stock->base_product_unit_id = $s->base_product_unit_id;
+                    $stock->display_product_unit_id = $s->display_product_unit_id;
+                    $stock->is_current = 1;
+                    $stock->quantity_in = $rd->base_netto;
+                    $stock->quantity_out = 0;
+                    $stock->quantity_current = $s->quantity_current + $rd->base_netto;
+
+                    $s->is_current = 0;
+                    $s->updated_by = Auth::user()->id;
+                    $s->updated_at = Carbon::now();
+                    $s->save();
+                }
             }
         }
     }
