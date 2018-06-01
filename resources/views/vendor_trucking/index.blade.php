@@ -296,14 +296,17 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputMaintenanceByCompany" class="col-2 col-form-label">@lang('vendor_trucking.fields.maintenance_by_company')</label>
+                        <label for="inputMaintenanceByCompany" class="col-2 col-form-label">@lang('vendor_trucking.fields.maintenance_by')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input type="checkbox" v-model="vendorTrucking.maintenance_by_company">
+                                <label class="css-control css-control-primary css-checkbox" for="inputMaintenanceByCompany">
+                                    <input class="css-control-input" id="inputMaintenanceByCompany" type="checkbox" v-model="vendorTrucking.maintenance_by_company" true-value="1" false-value="0">
+                                    <span class="css-control-indicator"></span>&nbsp;@lang('vendor_trucking.fields.company')
+                                </label>
                             </template>
                             <template v-if="mode == 'show'">
                             </template>
-                            <input type="hidden" v-model="vendorTrucking.maintenance_by_company" name="maintenance_by_company[]" />
+                            <input type="hidden" v-model="vendorTrucking.maintenance_by_company" name="maintenance_by_company" />
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('status') }">
@@ -338,7 +341,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-2 col-form-label" for="inputButton">&nbsp;</label>
-                        <div class="col-10">
+                        <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <button type="submit" class="btn btn-primary min-width-125">
                                     @lang('buttons.submit_button')

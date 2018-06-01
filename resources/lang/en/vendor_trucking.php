@@ -56,6 +56,7 @@ return [
         'truck_list' => 'Truck Lists',
         'license_plate' => 'License Plate',
         'driver' => 'Driver',
-        'maintenance_by_company' => 'Maintenance By Company'
+        'maintenance_by' => 'Maintenance By',
+        'company' => 'Company',
     ],
 ];

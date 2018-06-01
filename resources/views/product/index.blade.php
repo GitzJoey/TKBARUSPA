@@ -278,35 +278,31 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <div class="custom-control custom-checkbox mb-5">
-                                                    <input class="custom-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)">
-                                                    <label class="custom-control-label text-primary" v-bind:for="'punit_is_base_' + (punitIdx + 1)"></label>
-                                                </div>
+                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_is_base_' + (punitIdx + 1)">
+                                                    <input class="css-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)">
+                                                    <span class="css-control-indicator"></span>
+                                                </label>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext">
-                                                    <div class="custom-control custom-checkbox mb-5">
-                                                        <input class="custom-control-input" type="checkbox" name="is_base[]" v-model="punit.is_base" v-bind:id="'punit_is_base_' + (punitIdx + 1)" disabled="disabled">
-                                                        <label class="custom-control-label text-primary" v-bind:for="'punit_is_base_' + (punitIdx + 1)"></label>
-                                                    </div>
-                                                </div>
+                                                <label class="css-control css-control-primary css-checkbox" for="'punit_is_base_' + (punitIdx + 1)">
+                                                    <input class="css-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)" disabled="disabled">
+                                                    <span class="css-control-indicator"></span>
+                                                </label>
                                             </template>
                                             <input type="hidden" v-model="punit.is_base" name="is_base[]"/>
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <div class="custom-control custom-checkbox mb-5">
-                                                    <input class="custom-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)">
-                                                    <label class="custom-control-label text-primary" v-bind:for="'punit_display_' + (punitIdx + 1)"></label>
-                                                </div>
+                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_display_' + (punitIdx + 1)">
+                                                    <input class="css-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)">
+                                                    <span class="css-control-indicator"></span>
+                                                </label>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext">
-                                                    <div class="custom-control custom-checkbox mb-5">
-                                                        <input class="custom-control-input" type="checkbox" name="display[]" v-model="punit.display" v-bind:id="'punit_display_' + (punitIdx + 1)" disabled="disabled">
-                                                        <label class="custom-control-label text-primary" v-bind:for="'punit_display_' + (punitIdx + 1)"></label>
-                                                    </div>
-                                                </div>
+                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_display_' + (punitIdx + 1)">
+                                                    <input class="css-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)" disabled="disabled">
+                                                    <span class="css-control-indicator"></span>
+                                                </label>
                                             </template>
                                             <input type="hidden" v-model="punit.display" name="display[]"/>
                                         </td>

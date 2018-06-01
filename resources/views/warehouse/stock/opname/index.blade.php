@@ -104,11 +104,11 @@
                         <label for="inputIsMatch"
                                class="col-2 col-form-label">@lang('stock_opname.index.fields.is_match')</label>
                         <div class="col-md-10">
-                            <div class="custom-control custom-checkbox mb-5">
-                                <input class="custom-control-input" type="checkbox" id="inputIsMatch" v-model="newOpname.is_match" v-on:change="onChangeIsMatch" true-value="1" false-value="0">
-                                <label class="custom-control-label text-primary" for="inputIsMatch">&nbsp;</label>
-                                <input type="hidden" name="is_match" v-model="newOpname.is_match">
-                            </div>
+                            <label class="css-control css-control-primary css-checkbox" for="inputIsMatch">
+                                <input class="css-control-input" id="inputIsMatch" type="checkbox" v-model="newOpname.is_match" v-on:change="onChangeIsMatch" true-value="1" false-value="0">
+                                <span class="css-control-indicator"></span>
+                            </label>
+                            <input type="hidden" name="is_match" v-model="newOpname.is_match">
                         </div>
                     </div>
                     <div class="form-group row">

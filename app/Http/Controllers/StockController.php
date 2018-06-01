@@ -23,4 +23,9 @@ class StockController extends Controller
     {
         return $this->stockService->getAllCurrentStock();
     }
+
+    public function getCurrentStocksGroupByWarehouse()
+    {
+
+    }
 }

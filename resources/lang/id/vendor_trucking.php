@@ -56,6 +56,7 @@ return [
         'truck_list' => 'Daftar Truk',
         'license_plate' => 'Plat Nomor',
         'driver' => 'Sopir',
-        'maintenance_by_company' => 'Pemeliharaan Oleh Perusahaan'
+        'maintenance_by' => 'Pemeliharaan Oleh',
+        'company' => 'Perusahaan'
     ],
 ];
