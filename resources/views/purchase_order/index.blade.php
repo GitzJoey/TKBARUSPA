@@ -151,7 +151,7 @@
                                                         <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                         <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
                                                     </select>
-                                                    <span v-show="errors.has('supplier_id')" class="help-block" v-cloak>@{{ errors.first('supplier_id') }}</span>
+                                                    <span v-show="errors.has('supplier_id')" class="help-block">@{{ errors.first('supplier_id') }}</span>
                                                 </template>
                                                 <template v-if="mode == 'show'">
                                                     <div class="form-control-plaintext">@{{ po.supplier.name }}</div>
@@ -232,7 +232,7 @@
                                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                     <option v-for="(poType, poTypeIdx) of poTypeDDL" v-bind:value="poType.code">@{{ poType.description }}</option>
                                                 </select>
-                                                <span v-show="errors.has('po_type')" class="invalid-feedback" v-cloak>@{{ errors.first('po_type') }}</span>
+                                                <span v-show="errors.has('po_type')" class="invalid-feedback">@{{ errors.first('po_type') }}</span>
                                             </template>
                                             <template v-if="mode == 'show'">
                                                 <div class="form-control-plaintext">@{{ po.poTypeI18n }}</div>

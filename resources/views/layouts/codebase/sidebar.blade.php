@@ -58,13 +58,16 @@
                             </ul>
                         </li>
                     @endpermission
-                    @permission('menu-po|menu-po_payment|menu-po_copy')
+                    @permission('menu-so|menu-so_payment|menu-so_copy')
                         <li>
                             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cart-arrow-down fa-fw"></i><span class="sidebar-mini-hide">@lang('sidebar.menu.so')</span></a>
                             <ul>
-                                <li>
-                                    <a href="#"><span class="fa fa-cart-arrow-down fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so')</a>
-                                </li>
+                                @permission('menu-so')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.so') || if_route_pattern('db.so.*')) }}" href="{{ route('db.so') }}">
+                                            <span class="fa fa-cart-arrow-down fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so')</a>
+                                    </li>
+                                @endpermission
                                 <li>
                                     <a href="#"><span class="fa fa-calculator fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.so.payment')</a>
                                 </li>

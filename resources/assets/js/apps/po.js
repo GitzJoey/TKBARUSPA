@@ -64,7 +64,6 @@ var poVue = new Vue ({
                         this.backToList();
                         this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                     }).catch(e => {
-                        console.log(e);
                         this.handleErrors(e);
                         this.loadingPanel('#poCRUDBlock', 'TOGGLE');
                     });

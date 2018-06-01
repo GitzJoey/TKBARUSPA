@@ -57,4 +57,5 @@ mix.copy('resources/assets/js/apps/company.js', 'public/js/apps')
     .copy('resources/assets/js/apps/product_type.js', 'public/js/apps')
     .copy('resources/assets/js/apps/warehouse_inflow.js', 'public/js/apps')
     .copy('resources/assets/js/apps/stock_opname.js', 'public/js/apps')
+    .copy('resources/assets/js/apps/so.js', 'public/js/apps')
     .version();

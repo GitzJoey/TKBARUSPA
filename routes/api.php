@@ -33,6 +33,12 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
         Route::get('generate/po_code', 'PurchaseOrderController@generatePOCode')->name('api.get.po.generate.po_code');
     });
 
+    Route::group(['prefix' => 'so'], function () {
+        Route::get('read', 'SalesOrderController@read')->name('api.get.so.read');
+        Route::get('status/waiting/delivery/{warehouseId}', 'SalesOrderController@getAllWaitingDeliverySO')->name('api.get.so.status.waiting_delivery');
+        Route::get('generate/so_code', 'SalesOrderController@generateSOCode')->name('api.get.so.generate.so_code');
+    });
+
     Route::group(['prefix' => 'price'], function () {
         Route::group(['prefix' => 'price_level'], function () {
             Route::get('read', 'PriceLevelController@read')->name('api.get.price.price_level.read');

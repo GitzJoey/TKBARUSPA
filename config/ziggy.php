@@ -37,6 +37,15 @@ return [
             'api.get.truck.vendor_trucking.*',
             'api.post.po.*',
         ],
+        'sales_order' => [
+            'api.get.lookup.*',
+            'api.get.so.*',
+            'api.get.customer.*',
+            'api.get.warehouse.*',
+            'api.get.product.*',
+            'api.get.truck.vendor_trucking.*',
+            'api.post.so.*',
+        ],
         'phone_provider' => [
             'api.get.lookup.*',
             'api.get.settings.phone_provider.*',

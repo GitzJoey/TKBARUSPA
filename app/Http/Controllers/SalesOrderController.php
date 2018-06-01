@@ -23,4 +23,25 @@ class SalesOrderController extends Controller
         $this->middleware('auth');
         $this->salesOrderService = $salesOrderService;
     }
+
+    public function index()
+    {
+        return view('sales_order.index');
+    }
+
+    public function read(Request $request)
+    {
+        $date = $request->query('date');
+
+        if ($date) {
+            return $this->salesOrderService->searchSOByDate($date);
+        } else {
+            return $this->salesOrderService->read();
+        }
+    }
+
+    public function generateSOCode()
+    {
+        return $this->salesOrderService->generateSOCode();
+    }
 }

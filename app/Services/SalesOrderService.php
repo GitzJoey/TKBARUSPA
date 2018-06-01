@@ -30,7 +30,9 @@ interface SalesOrderService
         $internal_remarks,
         $private_remarks
     );
+
     public function read();
+
     public function update(
         $id,
         $company_id,
@@ -47,10 +49,25 @@ interface SalesOrderService
         $walk_in_customer,
         $walk_in_customer_detail,
         $warehouse_id,
+        $vendor_trucking_id,
         $discount,
         $status,
         $remarks,
         $internal_remarks,
         $private_remarks
     );
+
+    public function addDeliver($soId, $deliver, $deliverDetailArr);
+
+    public function addExpenses($soId, $expensesArr);
+
+    public function generateSOCode();
+
+    public function getSOById($id);
+
+    public function searchSOByDate($date);
+
+    public function searchSOByStatus($status);
+
+    public function getAllWaitingDeliverSO($warehouseId, $status);
 }
