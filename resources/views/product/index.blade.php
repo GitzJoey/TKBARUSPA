@@ -278,13 +278,13 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_is_base_' + (punitIdx + 1)">
+                                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" v-bind:for="'punit_is_base_' + (punitIdx + 1)">
                                                     <input class="css-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)">
                                                     <span class="css-control-indicator"></span>
                                                 </label>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <label class="css-control css-control-primary css-checkbox" for="'punit_is_base_' + (punitIdx + 1)">
+                                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" for="'punit_is_base_' + (punitIdx + 1)">
                                                     <input class="css-control-input" type="checkbox" v-bind:id="'punit_is_base_' + (punitIdx + 1)" v-model="punit.is_base" v-on:change="changeIsBase(punitIdx)" disabled="disabled">
                                                     <span class="css-control-indicator"></span>
                                                 </label>
@@ -293,13 +293,13 @@
                                         </td>
                                         <td class="text-center">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_display_' + (punitIdx + 1)">
+                                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" v-bind:for="'punit_display_' + (punitIdx + 1)">
                                                     <input class="css-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)">
                                                     <span class="css-control-indicator"></span>
                                                 </label>
                                             </template>
                                             <template v-if="mode == 'show'">
-                                                <label class="css-control css-control-primary css-checkbox" v-bind:for="'punit_display_' + (punitIdx + 1)">
+                                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" v-bind:for="'punit_display_' + (punitIdx + 1)">
                                                     <input class="css-control-input" type="checkbox" v-bind:id="'punit_display_' + (punitIdx + 1)" v-model="punit.display" v-on:change="changeDisplay(punitIdx)" disabled="disabled">
                                                     <span class="css-control-indicator"></span>
                                                 </label>

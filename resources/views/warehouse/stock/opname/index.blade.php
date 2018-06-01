@@ -104,7 +104,7 @@
                         <label for="inputIsMatch"
                                class="col-2 col-form-label">@lang('stock_opname.index.fields.is_match')</label>
                         <div class="col-md-10">
-                            <label class="css-control css-control-primary css-checkbox" for="inputIsMatch">
+                            <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" for="inputIsMatch">
                                 <input class="css-control-input" id="inputIsMatch" type="checkbox" v-model="newOpname.is_match" v-on:change="onChangeIsMatch" true-value="1" false-value="0">
                                 <span class="css-control-indicator"></span>
                             </label>

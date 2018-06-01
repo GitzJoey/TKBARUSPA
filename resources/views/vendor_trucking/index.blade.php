@@ -299,7 +299,7 @@
                         <label for="inputMaintenanceByCompany" class="col-2 col-form-label">@lang('vendor_trucking.fields.maintenance_by')</label>
                         <div class="col-md-10">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <label class="css-control css-control-primary css-checkbox" for="inputMaintenanceByCompany">
+                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" for="inputMaintenanceByCompany">
                                     <input class="css-control-input" id="inputMaintenanceByCompany" type="checkbox" v-model="vendorTrucking.maintenance_by_company" true-value="1" false-value="0">
                                     <span class="css-control-indicator"></span>&nbsp;@lang('vendor_trucking.fields.company')
                                 </label>
