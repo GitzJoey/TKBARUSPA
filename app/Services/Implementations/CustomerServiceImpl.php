@@ -215,4 +215,17 @@ class CustomerServiceImpl implements CustomerService
 
         $customer->delete();
     }
+
+    public function searchCustomer($query)
+    {
+        $param = $query;
+        $customer = Customer::with('personsInCharge.phoneNumbers.provider', 'bankAccounts.bank', 'priceLevel')
+            ->where('name', 'like', '%'.$param.'%')
+            ->orWhereHas('personsInCharge', function ($query) use ($param) {
+                $query->where('first_name', 'like', '%'.$param.'%')
+                    ->orWhere('last_name', 'like', '%'.$param.'%');
+            })->get();
+
+        return $customer;
+    }
 }

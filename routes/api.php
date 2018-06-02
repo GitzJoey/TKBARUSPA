@@ -61,6 +61,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'customer'], function () {
         Route::get('read', 'CustomerController@read')->name('api.get.customer.read');
         Route::get('readall', 'CustomerController@readAll')->name('api.get.customer.readall');
+        Route::get('search/{query}', 'CustomerController@searchCustomer')->name('api.get.customer.search');
     });
 
     Route::group(['prefix' => 'truck'], function () {
