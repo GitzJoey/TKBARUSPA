@@ -33,12 +33,12 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
     .sass('resources/assets/sass/codebase/codebase/themes/flat.scss', 'public/css/codebase/themes')
     .sass('resources/assets/sass/codebase/codebase/themes/pulse.scss', 'public/css/codebase/themes')
     .styles([
-        'node_modules/fullcalendar/dist/fullcalendar.css',
-        'public/css/codebase/main.css',
-        'node_modules/animate.css/animate.css',
-        'node_modules/flatpickr/dist/flatpickr.css',
-        'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.css',
-        'node_modules/vue-multiselect/dist/vue-multiselect.min.css'
+        'node_modules/fullcalendar/dist/fullcalendar.css'
+        ,'public/css/codebase/main.css'
+        ,'node_modules/animate.css/animate.css'
+        ,'node_modules/flatpickr/dist/flatpickr.css'
+        ,'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.css'
+        ,'node_modules/vue-multiselect/dist/vue-multiselect.min.css'
     ], 'public/css/codebase/main.css')
     .version();
 

@@ -16,6 +16,21 @@
 
 @endsection
 
+@section('custom_css')
+    <style type="text/css">
+        .multiselect-container .multiselect, .multiselect-container .multiselect__input, .multiselect-container .multiselect__single {
+            font-size: 14px;
+
+        }
+        .multiselect-container .multiselect__input, .multiselect-container .multiselect__single {
+            padding-left: 9.5px;
+        }
+        .multiselect-container .multiselect__tags {
+            height: 34px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div id="soVue">
         @include ('layouts.common.error')
@@ -136,6 +151,10 @@
                                             <label for="inputCustomerId" class="col-3 col-form-label">@lang('sales_order.fields.customer_name')</label>
                                             <div class="col-md-7">
                                                 <template v-if="mode == 'create' || mode == 'edit'">
+                                                    <div class="multiselect-container">
+                                                        <multiselect v-model="so.customerHId" v-bind:options="customerDDL"></multiselect>
+                                                    </div>
+                                                    <br/>
                                                     <select id="inputCustomerId" name="customer_id" class="form-control"
                                                             v-validate="so.customer_type == 'CUSTOMERTYPE.R' ? 'required':''"
                                                             data-vv-as="{{ trans('sales_order.fields.customer_name') }}"
