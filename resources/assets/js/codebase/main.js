@@ -52,11 +52,14 @@ window.flatPickr = require('vue-flatpickr-component');
 const flatPickrID = require('flatpickr/dist/l10n/id').default.id;
 Vue.use(flatPickr);
 
+window.vueMultiSelect = require('vue-multiselect');
+
 //Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 //Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 //Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('vue-autonumeric', require('vue-autonumeric'));
+Vue.component('multiselect', vueMultiSelect.default);
 
 Vue.mixin({
     methods: {

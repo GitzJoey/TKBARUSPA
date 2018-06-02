@@ -8,6 +8,7 @@
 
 @section('content')
     <div id="test1">
+            <multiselect v-model="value" :options="options"></multiselect>
     </div>
 
     <br><br><br>
@@ -27,7 +28,8 @@
         var test1 = new Vue({
             el: '#test1',
             data: {
-                date:''
+                options: ['list', 'of', 'options'],
+                value: ''
             }
         });
 

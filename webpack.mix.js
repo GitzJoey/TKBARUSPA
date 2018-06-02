@@ -37,7 +37,8 @@ mix.js('resources/assets/js/codebase/main.js', 'public/js/codebase')
         'public/css/codebase/main.css',
         'node_modules/animate.css/animate.css',
         'node_modules/flatpickr/dist/flatpickr.css',
-        'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.css'
+        'node_modules/flatpickr/dist/plugins/confirmDate/confirmDate.css',
+        'node_modules/vue-multiselect/dist/vue-multiselect.min.css'
     ], 'public/css/codebase/main.css')
     .version();
 
