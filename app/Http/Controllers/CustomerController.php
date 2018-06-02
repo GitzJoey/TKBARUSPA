@@ -196,4 +196,9 @@ class CustomerController extends Controller
             throw $e;
         }
     }
+
+    public function searchCustomer($query)
+    {
+        return $this->customerService->searchCustomer($query);
+    }
 }
