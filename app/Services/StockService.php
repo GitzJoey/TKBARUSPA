@@ -18,5 +18,7 @@ interface StockService
 
     public function getAllCurrentStock($warehouseId = '');
 
+    public function getCurrentStocksGrouped();
+
     public function adjustStockByOpname($companyId, $stockId, $opnameDate, $isMatch, $newQuantity, $reason);
 }

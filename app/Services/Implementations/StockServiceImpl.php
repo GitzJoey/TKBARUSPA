@@ -9,6 +9,7 @@
 namespace App\Services\Implementations;
 
 use App\Models\Stock;
+use App\Models\Product;
 use App\Models\Receipt;
 use App\Models\StockOpname;
 
@@ -146,10 +147,35 @@ class StockServiceImpl implements StockService
     public function getAllCurrentStock($warehouseId = '')
     {
         if ($warehouseId == '') {
-            return Stock::with('warehouse', 'product')->get();
+            return Stock::with('warehouse', 'product.productType')->get();
         } else {
             return Stock::with('warehouse', 'product')->whereWarehouseId($warehouseId)->get();
         }
+    }
+
+    public function getCurrentStocksGrouped()
+    {
+        /* Group By
+         * 1. Product Type
+         * 2. Product
+         * 3. In Stock
+         * 4. Warehouse
+         * 5. Receipt Date
+         */
+
+        $result = [];
+
+        $product = Product::with('productType')->get();
+
+        foreach($product as $p) {
+
+        }
+
+        $stock = Stock::with(
+            'warehouse',
+            'product.productType',
+            ''
+        );
     }
 
     public function resetCurrentStock($stockId)

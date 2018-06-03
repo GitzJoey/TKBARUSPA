@@ -151,7 +151,7 @@
                                                         <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                         <option v-for="(supplier, supplierIdx) of supplierDDL" v-bind:value="supplier.hId">@{{ supplier.name }}</option>
                                                     </select>
-                                                    <span v-show="errors.has('supplier_id')" class="help-block">@{{ errors.first('supplier_id') }}</span>
+                                                    <span v-show="errors.has('supplier_id')" class="invalid-feedback">@{{ errors.first('supplier_id') }}</span>
                                                 </template>
                                                 <template v-if="mode == 'show'">
                                                     <div class="form-control-plaintext">@{{ po.supplier.name }}</div>

@@ -20,13 +20,12 @@
     <style type="text/css">
         .multiselect-container .multiselect, .multiselect-container .multiselect__input, .multiselect-container .multiselect__single {
             font-size: 14px;
-
         }
         .multiselect-container .multiselect__input, .multiselect-container .multiselect__single {
             padding-left: 9.5px;
         }
-        .multiselect-container .multiselect__tags {
-            height: 34px;
+        .multiselect-container .is-invalid .multiselect__tags {
+            border-color: red;
         }
     </style>
 @endsection
@@ -147,22 +146,29 @@
                                         </div>
                                     </div>
                                     <template v-if="so.customer_type == 'CUSTOMERTYPE.R'">
-                                        <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('customer_id') }">
+                                        <div class="form-group row">
                                             <label for="inputCustomerId" class="col-3 col-form-label">@lang('sales_order.fields.customer_name')</label>
                                             <div class="col-md-7">
                                                 <template v-if="mode == 'create' || mode == 'edit'">
                                                     <div class="multiselect-container">
-                                                        <multiselect v-model="so.customerHId" v-bind:options="customerDDL"></multiselect>
+                                                        <div v-bind:class="{ 'is-invalid':errors.has('customer_id') }">
+                                                            <multiselect id="inputCustomerId" name="customer_id"
+                                                                         v-model="so.customer"
+                                                                         v-bind:options="customerDDL"
+                                                                         v-validate="so.customer_type == 'CUSTOMERTYPE.R' ? 'required':''"
+                                                                         data-vv-as="{{ trans('sales_order.fields.customer_name') }}"
+                                                                         v-on:search-change="searchCustomerOnSearchChange"
+                                                                         v-on:input="searchCustomerOnInput"
+                                                                         label="name"
+                                                                         track-by="hId"
+                                                                         v-bind:internal-search="false"
+                                                                         v-bind:show-no-results="false"
+                                                                         v-bind:hide-selected="false"
+                                                                         v-bind:loading="searchCustomerLoading">
+                                                            </multiselect>
+                                                            <label class="typo__label form__label invalid-feedback" v-show="errors.has('customer_id')">@{{ errors.first('customer_id') }}</label>
+                                                        </div>
                                                     </div>
-                                                    <br/>
-                                                    <select id="inputCustomerId" name="customer_id" class="form-control"
-                                                            v-validate="so.customer_type == 'CUSTOMERTYPE.R' ? 'required':''"
-                                                            data-vv-as="{{ trans('sales_order.fields.customer_name') }}"
-                                                            v-model="so.customerHId" v-on:change="populateCustomer(so.customerHId)">
-                                                        <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                        <option v-for="(customer, customerIdx) of customerDDL" v-bind:value="customer.hId">@{{ customer.name }}</option>
-                                                    </select>
-                                                    <span v-show="errors.has('customer_id')" class="help-block">@{{ errors.first('customer_id') }}</span>
                                                 </template>
                                                 <template v-if="mode == 'show'">
                                                     <div class="form-control-plaintext">@{{ so.customer.name }}</div>
@@ -714,15 +720,15 @@
                 product_options: [],
                 productSelected: '',
                 isFinishLoadingMounted: false,
+                searchCustomerLoading: false,
                 allProduct: [],
+                allStock: [],
                 mode: '',
                 so: {
                     items:[],
                     expenses: [],
-                    customer: {
-                        hId: '',
-                        name: ''
-                    },
+                    customer: '',
+                    price_level: {},
                     discount: 0,
                     subtotal: 0,
                     grandtotal: 0
@@ -739,6 +745,7 @@
                     this.getWarehouse(),
                     this.getVendorTrucking(),
                     this.getAllProduct(),
+                    this.getAllStock(),
                     this.getExpenseType()
                 ]).then(() => {
                     this.isFinishLoadingMounted = true;
@@ -851,10 +858,8 @@
                         productHId: '',
                         items: [],
                         expenses: [],
-                        customer: {
-                            hId: '',
-                            name: ''
-                        },
+                        customer: '',
+                        price_level: { },
                         discount: 0,
                         subtotal: 0,
                         grandtotal: 0
@@ -970,6 +975,17 @@
                         });
                     });
                 },
+                getAllStock: function() {
+                    return new Promise((resolve, reject) => {
+                        axios.get(route('api.get.warehouse.stock.all.current.stock').url()).then(response => {
+                            this.allStock = response.data;
+                            resolve(true);
+                        }).catch(e => {
+                            this.handleErrors(e);
+                            reject(e.response.data.message);
+                        });
+                    });
+                },
                 generateSOCode: function() {
                     axios.get(route('api.get.so.generate.so_code').url()).then(
                         response => { this.so.code = response.data; }
@@ -1003,16 +1019,33 @@
                 },
                 populateCustomer: function(id) {
                     this.so.customer = _.cloneDeep(_.find(this.customerDDL, { hId: id }));
+                },
+                searchCustomerOnSearchChange: function(query) {
+                    if (query != '') {
+                        this.searchCustomerLoading = true;
+                        axios.get(route('api.get.customer.search', query).url()).then(
+                            response => {
+                                this.customerDDL = response.data;
+                                this.searchCustomerLoading = false;
+                            }
+                        );
+                    }
+                },
+                searchCustomerOnInput: function() {
+                    if (this.so.customer == null) {
+                        this.so.customerHId = '';
+                    } else {
+                        this.selectedCustomer = this.so.customer;
+                        this.so.customerHId = this.so.customer.hId;
+                    }
                 }
             },
             watch: {
                 'so.customerHId': function() {
                     if (this.so.customerHId == '') {
                         this.selectedCustomer = {};
-                        this.product_options = [];
                     } else {
-                        this.selectedCustomer = _.find(this.customerDDL, { hId: this.so.customerHId });
-                        this.product_options = this.selectedCustomer.products;
+                        this.selectedCustomer = this.so.customer;
                     }
                 },
                 'so.customer_type': function() {
