@@ -16,6 +16,7 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id')->default(0);
+            $table->unsignedBigInteger('stock_id')->default(0);
             $table->unsignedBigInteger('product_id')->default(0);
             $table->unsignedBigInteger('selected_product_unit_id')->default(0);
             $table->unsignedBigInteger('base_product_unit_id')->default(0);

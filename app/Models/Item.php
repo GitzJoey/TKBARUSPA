@@ -87,6 +87,7 @@ class Item extends Model
     protected $hidden = [
         'id',
         'company_id',
+        'stock_id',
         'product_id',
         'base_product_unit_id',
         'selected_product_unit_id',
@@ -102,6 +103,11 @@ class Item extends Model
 
     protected $appends = [
         'hId',
+        'companyHId',
+        'stockHId',
+        'productHId',
+        'baseProductUnitHId',
+        'selectedProductUnitHId',
     ];
 
     protected $casts = [
@@ -115,6 +121,32 @@ class Item extends Model
     public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
+    }
+
+    public function getCompanyHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getStockHIdAttribute()
+    {
+        if ($this->attributes['stock_id'] == 0) return '';
+        return HashIds::encode($this->attributes['stock_id']);
+    }
+
+    public function getProductHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['product_id']);
+    }
+
+    public function getBaseProductUnitHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['base_product_unit_id']);
+    }
+
+    public function getSelectedProductUnitHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['selected_product_unit_id']);
     }
 
     public function product()
