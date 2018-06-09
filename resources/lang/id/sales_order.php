@@ -83,7 +83,6 @@ return [
         'so_type' => 'Tipe',
         'so_created' => 'Tanggal SO',
         'shipping_date' => 'Tgl Pengiriman',
-        'warehouse' => 'Gudang',
         'vendor_trucking' => 'Layanan Angkutan',
         'so_status' => 'Status',
         'transaction_type' => 'Tipe',

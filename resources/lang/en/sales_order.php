@@ -84,7 +84,6 @@ return [
         'so_created' => 'Date',
         'so_status' => 'Status',
         'shipping_date' => 'Shipping Date',
-        'warehouse' => 'Warehouse',
         'vendor_trucking' => 'Vendor Trucking',
         'transaction_type' => 'Type',
         'transaction_in_stock' => 'In Stock',

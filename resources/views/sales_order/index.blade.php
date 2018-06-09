@@ -310,24 +310,6 @@
                                             </template>
                                         </div>
                                     </div>
-                                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('warehouse_id') }">
-                                        <label for="inputWarehouse" class="col-3 col-form-label">@lang('sales_order.fields.warehouse')</label>
-                                        <div class="col-sm-9">
-                                            <template v-if="mode == 'create' || mode == 'edit'">
-                                                <select id="inputWarehouse" name="warehouse_id" class="form-control"
-                                                        v-model="so.warehouseHId"
-                                                        v-validate="'required'"
-                                                        data-vv-as="{{ trans('sales_order.fields.warehouse') }}">
-                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                    <option v-for="(warehouse, warehouseIdx) of warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.remarks ? '('+warehouse.remarks+')':'' }}</option>
-                                                </select>
-                                                <span v-show="errors.has('warehouse_id')" class="invalid-feedback">@{{ errors.first('warehouse_id') }}</span>
-                                            </template>
-                                            <template v-if="mode == 'show'">
-                                                <div class="form-control-plaintext">@{{ so.warehouse.name }} @{{ so.warehouse.remarks ? '(' + so.warehouse.remarks + ')':'' }}</div>
-                                            </template>
-                                        </div>
-                                    </div>
                                     <hr>
                                     <div class="form-group row">
                                         <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('sales_order.fields.vendor_trucking')</label>
@@ -361,7 +343,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <multiselect id="selectProduct" v-model="productSelected" v-bind:options="allStockByProduct" v-on:input="productSelectedOnInput">
+                                                <multiselect id="selectProduct" v-model="productSelected" v-bind:options="product_options" v-on:input="productSelectedOnInput">
                                                     <template slot="singleLabel" slot-scope="props">
                                                         @{{ props.option.product_name }}
                                                     </template>
@@ -377,6 +359,7 @@
                                                             </template>
                                                         </small>
                                                     </template>
+                                                    <template slot="noResult">@lang('labels.DATA_NOT_FOUND')</template>
                                                 </multiselect>
                                             </template>
                                             <template v-if="mode == 'show'">
@@ -473,7 +456,7 @@
                                                     </td>
                                                     <td width="3%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
+                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(iIdx)"><span class="fa fa-minus"></span></button>
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                         </template>
@@ -717,7 +700,6 @@
                 customerDDL: [],
                 vendorTruckingDDL: [],
                 expenseTypeDDL: [],
-                warehouseDDL: [],
                 selectedDate: new Date(),
                 selectedCustomer: {},
                 soStatusDesc: '',
@@ -726,7 +708,7 @@
                 isFinishLoadingMounted: false,
                 searchCustomerLoading: false,
                 productSelectedLoading: false,
-                allStockByProduct: [],
+                allStockAndProduct: [],
                 mode: '',
                 so: {
                     items:[],
@@ -746,9 +728,8 @@
                 Promise.all([
                     this.getCustomerType(),
                     this.getSOType(),
-                    this.getWarehouse(),
                     this.getVendorTrucking(),
-                    this.getAllStockByProduct(),
+                    this.getAllStockAndProduct(),
                     this.getExpenseType()
                 ]).then(() => {
                     this.isFinishLoadingMounted = true;
@@ -854,7 +835,6 @@
                         shipping_date: new Date(),
                         customer_type: '',
                         customerHId: '',
-                        warehouseHId: '',
                         vendorTruckingHId: '',
                         so_type: '',
                         status: 'SOSTATUS.D',
@@ -944,17 +924,6 @@
                         });
                     });
                 },
-                getWarehouse: function() {
-                    return new Promise((resolve, reject) => {
-                        axios.get(route('api.get.warehouse.read').url()).then(response => {
-                            this.warehouseDDL = response.data;
-                            resolve(true);
-                        }).catch(e => {
-                            this.handleErrors(e);
-                            reject(e.response.data.message);
-                        });
-                    });
-                },
                 getVendorTrucking: function() {
                     return new Promise((resolve, reject) => {
                         axios.get(route('api.get.truck.vendor_trucking.read').url()).then(response => {
@@ -966,13 +935,12 @@
                         });
                     });
                 },
-                getAllStockByProduct: function() {
+                getAllStockAndProduct: function() {
                     return new Promise((resolve, reject) => {
-                        axios.get(route('api.get.warehouse.stock.all.current.stock.byproduct').url()).then(response => {
-                            this.allStockByProduct = response.data;
+                        axios.get(route('api.get.warehouse.stock.all.current.stock.and.product').url()).then(response => {
+                            this.allStockAndProduct = response.data;
                             resolve(true);
                         }).catch(e => {
-                            console.log(e);
                             this.handleErrors(e);
                             reject(e.response.data.message);
                         });
@@ -1042,11 +1010,13 @@
                 },
                 'so.so_type': function() {
                     if (this.so.so_type == 'SOTYPE.S') {
-                        this.product_options = _.filter(this.allStockByProduct, { in_stock: 1 });
-                    } else if (this.so.so_type =='SOTYPE.SVC') {
-                        this.product_options = this.allStockByProduct;
-                    } else if (this.so.so_type =='SOTYPE.AC') {
-                        this.product_options = _.filter(this.allStockByProduct, { in_stock: 1 });
+                        this.product_options = _.filter(this.allStockAndProduct, { in_stock: 1 });
+                    } else if (this.so.so_type == 'SOTYPE.SVC') {
+                        this.product_options = _.filter(this.allStockAndProduct, { in_stock: 0 });
+                    } else if (this.so.so_type == 'SOTYPE.AC') {
+                        this.product_options = _.filter(this.allStockAndProduct, { in_stock: 1 });
+                    } else {
+                        this.product_options = [];
                     }
                 },
                 'so.status': function() {

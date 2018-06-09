@@ -26,8 +26,8 @@ class StockController extends Controller
         return $this->stockService->getAllCurrentStock($warehouseId);
     }
 
-    public function getStockByProduct()
+    public function getStockAndProduct()
     {
-        return $this->stockService->getStockByProduct();
+        return $this->stockService->getStockAndProduct();
     }
 }

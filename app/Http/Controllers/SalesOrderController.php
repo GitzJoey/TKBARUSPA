@@ -44,4 +44,9 @@ class SalesOrderController extends Controller
     {
         return $this->salesOrderService->generateSOCode();
     }
+
+    public function store(Request $request)
+    {
+
+    }
 }

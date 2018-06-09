@@ -80,7 +80,7 @@ Route::group(['prefix' => 'get', 'middleware' => 'auth:api'], function () {
 
         Route::group(['prefix' => 'stock'], function () {
             Route::get('all/current/stock', 'StockController@getCurrentStocks')->name('api.get.warehouse.stock.all.current.stock');
-            Route::get('all/current/stock/byproduct', 'StockController@getStockByProduct')->name('api.get.warehouse.stock.all.current.stock.byproduct');
+            Route::get('all/current/stock/and/product', 'StockController@getStockAndProduct')->name('api.get.warehouse.stock.all.current.stock.and.product');
         });
     });
 

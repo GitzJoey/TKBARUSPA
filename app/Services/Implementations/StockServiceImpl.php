@@ -18,6 +18,7 @@ use App\Services\StockService;
 use Auth;
 use Config;
 use Carbon\Carbon;
+use Vinkla\Hashids\Facades\Hashids;
 
 class StockServiceImpl implements StockService
 {
@@ -153,7 +154,7 @@ class StockServiceImpl implements StockService
         }
     }
 
-    public function getStockByProduct()
+    public function getStockAndProduct()
     {
         $result = [];
 
@@ -165,7 +166,8 @@ class StockServiceImpl implements StockService
             if($stock->count() > 0) {
                 foreach ($stock as $s) {
                     array_push($result, array(
-                        'stock_product_id' => $s->id.'_'.$p->id,
+                        'stock_id' => $s->id,
+                        'product_id' => Hashids::encode($p->id),
                         'product_type' => $p->productType->name,
                         'product_name' => $p->name,
                         'product' => $p,
@@ -178,21 +180,22 @@ class StockServiceImpl implements StockService
                         'in_stock_date' => $s->stockDate
                     ));
                 }
-            } else {
-                array_push($result, array(
-                    'stock_product_id' => '0_'.$p->id,
-                    'product_type' => $p->productType->name,
-                    'product_name' => $p->name,
-                    'product' => $p,
-                    'in_stock' => 0,
-                    'warehouse_name' => '',
-                    'base_total' => 0,
-                    'base_unit' => $p->baseUnit,
-                    'display_total' => 0,
-                    'display_unit' => $p->displayUnit,
-                    'in_stock_date' => ''
-                ));
             }
+
+            array_push($result, array(
+                'stock_id' => 0,
+                'product_id' => Hashids::encode($p->id),
+                'product_type' => $p->productType->name,
+                'product_name' => $p->name,
+                'product' => $p,
+                'in_stock' => 0,
+                'warehouse_name' => '',
+                'base_total' => 0,
+                'base_unit' => $p->baseUnit,
+                'display_total' => 0,
+                'display_unit' => $p->displayUnit,
+                'in_stock_date' => ''
+            ));
         }
 
         return $result;

@@ -46,7 +46,6 @@ class SalesOrder extends Model
         'id',
         'company_id',
         'customer_id',
-        'warehouse_id',
         'vendor_trucking_id',
         'created_by',
         'created_at',
@@ -61,7 +60,6 @@ class SalesOrder extends Model
         'companyHId',
         'customerHId',
         'vendorTruckingHId',
-        'warehouseHId',
         'statusI18n',
         'customerTypeI18n',
         'soTypeI18n',
@@ -85,11 +83,6 @@ class SalesOrder extends Model
     {
         if ($this->attributes['customer_id'] == 0) return '';
         return HashIds::encode($this->attributes['customer_id']);
-    }
-
-    public function getWarehouseHIdAttribute()
-    {
-        return HashIds::encode($this->attributes['warehouse_id']);
     }
 
     public function getVendorTruckingHIdAttribute()
@@ -125,11 +118,6 @@ class SalesOrder extends Model
     public function customer()
     {
         return $this->belongsTo('App\Model\Customer', 'customer_id');
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo('App\Model\Warehouse', 'warehouse_id');
     }
 
     public function vendorTrucking()
