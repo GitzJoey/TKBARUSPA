@@ -153,29 +153,54 @@ class StockServiceImpl implements StockService
         }
     }
 
-    public function getCurrentStocksGrouped()
+    public function getStockByProduct()
     {
-        /* Group By
-         * 1. Product Type
-         * 2. Product
-         * 3. In Stock
-         * 4. Warehouse
-         * 5. Receipt Date
-         */
-
         $result = [];
 
         $product = Product::with('productType')->get();
 
-        foreach($product as $p) {
+        foreach ($product as $p) {
+            $stock = $this->getInStock($p->id);
 
+            if($stock->count() > 0) {
+                foreach ($stock as $s) {
+                    array_push($result, array(
+                        'stock_product_id' => $s->id.'_'.$p->id,
+                        'product_type' => $p->productType->name,
+                        'product_name' => $p->name,
+                        'in_stock' => 1,
+                        'warehouse' => $s->warehouse->name,
+                        'base_total' => $s->quantity_current,
+                        'base_unit' => $s->baseProductUnit->unit->unitName,
+                        'display_total' => 0,
+                        'display_unit' => $s->displayProductUnit->unit->unitName,
+                        'in_stock_date' => ''
+                    ));
+                }
+            } else {
+                array_push($result, array(
+                    'stock_product_id' => '0_'.$p->id,
+                    'product_type' => $p->productType->name,
+                    'product_name' => $p->name,
+                    'in_stock' => 0,
+                    'warehouse' => '',
+                    'base_total' => 0,
+                    'base_unit' => '',
+                    'display_total' => 0,
+                    'display_unit' => '',
+                    'in_stock_date' => ''
+                ));
+            }
         }
 
-        $stock = Stock::with(
-            'warehouse',
-            'product.productType',
-            ''
-        );
+        return $result;
+    }
+
+    private function getInStock($productId)
+    {
+        $stock = Stock::with('warehouse', 'owner')->whereProductId($productId)->get();
+
+        return $stock;
     }
 
     public function resetCurrentStock($stockId)

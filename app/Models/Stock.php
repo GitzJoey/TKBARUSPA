@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Auth;
+use Config;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -120,6 +121,7 @@ class Stock extends Model
         'baseProductUnitHId',
         'displayProductUnitHId',
         'lastOpnameDate',
+        'stockDate',
         'quantityDisplayUnit',
         'displayUnit',
         'baseUnit',
@@ -205,7 +207,21 @@ class Stock extends Model
         if (count($this->stockOpnames) > 0) {
             return $this->stockOpnames()->latest()->first()->opname_date;
         } else {
-            return null;
+            return '';
+        }
+    }
+
+    public function getStockDateAttribute()
+    {
+        switch ($this->attributes['owner_type']) {
+            case 'App\Models\Receipt':
+                return $this->owner->receipt_date->format(Config::get('const.DATETIME_FORMAT.PHP_DATETIME'));
+                break;
+            case 'App\Models\Deliver':
+                break;
+            default:
+                return '';
+                break;
         }
     }
 

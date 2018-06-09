@@ -363,7 +363,6 @@
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
                                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                    <option v-for="(p, pIdx) in product_options" v-bind:value="p.hId">@{{ p.name }}</option>
                                                 </select>
                                             </template>
                                             <template v-if="mode == 'show'">
@@ -721,8 +720,8 @@
                 productSelected: '',
                 isFinishLoadingMounted: false,
                 searchCustomerLoading: false,
-                allProduct: [],
-                allStock: [],
+                productSelectedLoading: false,
+                allStockByProduct: [],
                 mode: '',
                 so: {
                     items:[],
@@ -744,8 +743,7 @@
                     this.getSOType(),
                     this.getWarehouse(),
                     this.getVendorTrucking(),
-                    this.getAllProduct(),
-                    this.getAllStock(),
+                    this.getAllStockByProduct(),
                     this.getExpenseType()
                 ]).then(() => {
                     this.isFinishLoadingMounted = true;
@@ -865,8 +863,8 @@
                         grandtotal: 0
                     }
                 },
-                onChangeProductSelected(productId) {
-                    this.insertItem(productId);
+                productSelectedOnInput() {
+                    this.insertItem(this.productSelected);
                 },
                 insertItem: function (productId) {
                     if(productId != ''){
@@ -964,23 +962,13 @@
                         });
                     });
                 },
-                getAllProduct: function() {
+                getAllStockByProduct: function() {
                     return new Promise((resolve, reject) => {
-                        axios.get(route('api.get.product.readall').url()).then(response => {
-                            this.allProduct = response.data;
+                        axios.get(route('api.get.warehouse.stock.all.current.stock.byproduct').url()).then(response => {
+                            this.allStockByProduct = response.data;
                             resolve(true);
                         }).catch(e => {
-                            this.handleErrors(e);
-                            reject(e.response.data.message);
-                        });
-                    });
-                },
-                getAllStock: function() {
-                    return new Promise((resolve, reject) => {
-                        axios.get(route('api.get.warehouse.stock.all.current.stock').url()).then(response => {
-                            this.allStock = response.data;
-                            resolve(true);
-                        }).catch(e => {
+                            console.log(e);
                             this.handleErrors(e);
                             reject(e.response.data.message);
                         });
@@ -1048,9 +1036,13 @@
                         this.selectedCustomer = this.so.customer;
                     }
                 },
-                'so.customer_type': function() {
-                    if (this.so.customer_type == 'CUSTOMERTYPE.WI') {
-                        this.product_options = this.allProduct;
+                'so.so_type': function() {
+                    if (this.so.so_type == 'SOTYPE.S') {
+                        this.product_options = _.filter(this.allStockByProduct, { in_stock: 1 });
+                    } else if (this.so.so_type =='SOTYPE.SVC') {
+                        this.product_options = this.allStockByProduct;
+                    } else if (this.so.so_type =='SOTYPE.AC') {
+                        this.product_options = _.filter(this.allStockByProduct, { in_stock: 1 });
                     }
                 },
                 'so.status': function() {

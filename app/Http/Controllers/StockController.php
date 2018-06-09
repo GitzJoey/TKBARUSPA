@@ -19,13 +19,15 @@ class StockController extends Controller
         $this->middleware('auth');
     }
 
-    public function getCurrentStocks()
+    public function getCurrentStocks(Request $request)
     {
-        return $this->stockService->getAllCurrentStock();
+        $warehouseId = $request->has('w') ? $request->query('w'):'';
+
+        return $this->stockService->getAllCurrentStock($warehouseId);
     }
 
-    public function getCurrentStocksGrouped()
+    public function getStockByProduct()
     {
-        return $this->stockService->getCurrentStocksGrouped();
+        return $this->stockService->getStockByProduct();
     }
 }

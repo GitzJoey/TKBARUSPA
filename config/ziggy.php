@@ -42,7 +42,6 @@ return [
             'api.get.so.*',
             'api.get.customer.*',
             'api.get.warehouse.*',
-            'api.get.product.*',
             'api.get.truck.vendor_trucking.*',
             'api.post.so.*',
         ],
