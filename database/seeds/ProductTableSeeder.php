@@ -133,9 +133,9 @@ class ProductTableSeeder extends Seeder
         $prod23 = new Product();
         $prod23->company_id = 1;
         $prod23->product_type_id = 2;
-        $prod23->name = 'Product Type 2 Product 2';
+        $prod23->name = 'Product Type 2 Product 3';
         $prod23->short_code = 'PRD2-2';
-        $prod23->description = 'Product Type 2 Product 2';
+        $prod23->description = 'Product Type 2 Product 3';
         $prod23->image_filename = '';
         $prod23->status = 'STATUS.ACTIVE';
         $prod23->stock_merge_type = 'STOCKMERGETYPE.FIFO';

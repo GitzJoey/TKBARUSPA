@@ -359,20 +359,25 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="row">
-                                        <div class="col-11">
+                                        <div class="col-12">
                                             <template v-if="mode == 'create' || mode == 'edit'">
-                                                <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
-                                                    <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
-                                                </select>
-                                            </template>
-                                            <template v-if="mode == 'show'">
-                                            </template>
-                                        </div>
-                                        <div class="col-1">
-                                            <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button id="customerDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customerDetailModal" v-on:click="insertItem(productSelected)">
-                                                    <span class="fa fa-plus fa-fw"></span>
-                                                </button>
+                                                <multiselect id="selectProduct" v-model="productSelected" v-bind:options="allStockByProduct" v-on:input="productSelectedOnInput">
+                                                    <template slot="singleLabel" slot-scope="props">
+                                                        @{{ props.option.product_name }}
+                                                    </template>
+                                                    <template slot="option" slot-scope="props">
+                                                        @{{ props.option.product_name }}<br/>
+                                                        <small>
+                                                            <strong>@lang('sales_order.fields.transaction_type'):</strong>&nbsp;@{{ props.option.product_type }}&nbsp;&nbsp;&nbsp;
+                                                            <template v-if="props.option.in_stock">
+                                                                <strong>@lang('sales_order.fields.transaction_in_stock'):</strong>&nbsp;<template v-if="props.option.in_stock">@lang('sales_order.fields.transaction_in_stock_yes')</template><template v-else>@lang('sales_order.fields.transaction_in_stock_no')</template>&nbsp;&nbsp;&nbsp;
+                                                                <strong>@lang('sales_order.fields.transaction_warehouse_name'):</strong>&nbsp;@{{ props.option.warehouse_name }}&nbsp;&nbsp;&nbsp;
+                                                                <strong>@lang('sales_order.fields.transaction_in_stock_date'):</strong>&nbsp;@{{ props.option.in_stock_date }}&nbsp;&nbsp;&nbsp;
+                                                                <strong>@lang('sales_order.fields.transaction_total'):</strong>&nbsp;@{{ props.option.base_total }} @{{ props.option.base_unit }}
+                                                            </template>
+                                                        </small>
+                                                    </template>
+                                                </multiselect>
                                             </template>
                                             <template v-if="mode == 'show'">
                                             </template>
@@ -508,7 +513,7 @@
                                                     <th width="3%">&nbsp;</th>
                                                     <th width="12%"
                                                         class="text-center">@lang('sales_order.index.table.expense_table.header.amount')</th>
-                                            </tr>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-if="so.expenses.length == 0">
@@ -585,30 +590,30 @@
                                     <div class="table-responsive">
                                         <table id="itemsTotalListTable" class="table table-bordered table-vcenter">
                                             <tbody>
-                                            <tr>
-                                                <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.subtotal')</td>
-                                                <td width="12%" class="text-align-right">
-                                                    <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.subtotal"></vue-autonumeric>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.discount')</td>
-                                                <td width="12%">
-                                                    <template v-if="mode == 'create' || mode == 'edit'">
-                                                        <vue-autonumeric class="form-control text-align-right" v-model="so.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
-                                                        <input type="hidden" name="discount" v-model="so.discount">
-                                                    </template>
-                                                    <template v-if="mode == 'show'">
-                                                        <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.discount"></vue-autonumeric></div>
-                                                    </template>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.grandtotal')</td>
-                                                <td width="12%" class="text-align-right">
-                                                    <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.grandtotal"></vue-autonumeric>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.subtotal')</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.subtotal"></vue-autonumeric>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.discount')</td>
+                                                    <td width="12%">
+                                                        <template v-if="mode == 'create' || mode == 'edit'">
+                                                            <vue-autonumeric class="form-control text-align-right" v-model="so.discount" v-bind:options="defaultCurrencyConfig"></vue-autonumeric>
+                                                            <input type="hidden" name="discount" v-model="so.discount">
+                                                        </template>
+                                                        <template v-if="mode == 'show'">
+                                                            <div class="form-control-plaintext text-align-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.discount"></vue-autonumeric></div>
+                                                        </template>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7" class="text-align-right">@lang('sales_order.index.table.total_table.header.grandtotal')</td>
+                                                    <td width="12%" class="text-align-right">
+                                                        <vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="so.grandtotal"></vue-autonumeric>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -865,20 +870,19 @@
                 },
                 productSelectedOnInput() {
                     this.insertItem(this.productSelected);
+
+                    this.productSelected = '';
                 },
-                insertItem: function (productId) {
-                    if(productId != ''){
-                        let prd = _.cloneDeep(_.find(this.product_options, { hId: productId }));
-                        this.so.items.push({
-                            product: prd,
-                            selected_product_unit: this.defaultProductUnit(),
-                            base_product_unit: _.cloneDeep(_.find(prd.product_units, {is_base: 1})),
-                            quantity: 0,
-                            price: 0,
-                            discount: 0,
-                            total: 0
-                        });
-                    }
+                insertItem: function (productSelected) {
+                    this.so.items.push({
+                        product: productSelected.product,
+                        selected_product_unit: this.defaultProductUnit(),
+                        base_product_unit: _.cloneDeep(_.find(productSelected.product.product_units, { is_base: 1 })),
+                        quantity: 0,
+                        price: 0,
+                        discount: 0,
+                        total: 0
+                    });
                 },
                 removeItem: function (index) {
                     this.so.items.splice(index, 1);

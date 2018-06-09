@@ -116,6 +116,8 @@ class Product extends Model
         'productTypeHId',
         'baseProductUnitHId',
         'displayProductUnitHId',
+        'baseUnit',
+        'displayUnit',
         'statusI18n',
         'stockMergeTypeI18n'
     ];
@@ -162,6 +164,28 @@ class Product extends Model
         foreach ($this->productUnits as $produnit) {
             if ($produnit->display) {
                 $ret = Hashids::encode($produnit->id);
+            }
+        }
+        return $ret;
+    }
+
+    public function getBaseUnitAttribute()
+    {
+        $ret = '';
+        foreach ($this->productUnits as $produnit) {
+            if ($produnit->is_base) {
+                $ret = $produnit->unit->unitName;
+            }
+        }
+        return $ret;
+    }
+
+    public function getDisplayUnitAttribute()
+    {
+        $ret = '';
+        foreach ($this->productUnits as $produnit) {
+            if ($produnit->display) {
+                $ret = $produnit->unit->unitName;
             }
         }
         return $ret;

@@ -86,5 +86,12 @@ return [
         'shipping_date' => 'Shipping Date',
         'warehouse' => 'Warehouse',
         'vendor_trucking' => 'Vendor Trucking',
+        'transaction_type' => 'Type',
+        'transaction_in_stock' => 'In Stock',
+        'transaction_in_stock_yes' => 'Yes',
+        'transaction_in_stock_no' => 'No',
+        'transaction_warehouse_name' => 'Warehouse',
+        'transaction_in_stock_date' => 'Stock Date',
+        'transaction_total' => 'Total',
     ],
 ];

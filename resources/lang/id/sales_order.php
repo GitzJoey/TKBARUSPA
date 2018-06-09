@@ -86,5 +86,12 @@ return [
         'warehouse' => 'Gudang',
         'vendor_trucking' => 'Layanan Angkutan',
         'so_status' => 'Status',
+        'transaction_type' => 'Tipe',
+        'transaction_in_stock' => 'Di Stok',
+        'transaction_in_stock_yes' => 'Ya',
+        'transaction_in_stock_no' => 'Tidak',
+        'transaction_warehouse_name' => 'Gudang',
+        'transaction_in_stock_date' => 'Tanggal Stok',
+        'transaction_total' => 'Total',
     ],
 ];

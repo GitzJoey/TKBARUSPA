@@ -157,7 +157,7 @@ class StockServiceImpl implements StockService
     {
         $result = [];
 
-        $product = Product::with('productType')->get();
+        $product = Product::with('productType', 'productUnits.unit')->get();
 
         foreach ($product as $p) {
             $stock = $this->getInStock($p->id);
@@ -168,13 +168,14 @@ class StockServiceImpl implements StockService
                         'stock_product_id' => $s->id.'_'.$p->id,
                         'product_type' => $p->productType->name,
                         'product_name' => $p->name,
+                        'product' => $p,
                         'in_stock' => 1,
-                        'warehouse' => $s->warehouse->name,
+                        'warehouse_name' => $s->warehouse->name,
                         'base_total' => $s->quantity_current,
-                        'base_unit' => $s->baseProductUnit->unit->unitName,
+                        'base_unit' => $s->baseUnit,
                         'display_total' => 0,
-                        'display_unit' => $s->displayProductUnit->unit->unitName,
-                        'in_stock_date' => ''
+                        'display_unit' => $s->displayUnit,
+                        'in_stock_date' => $s->stockDate
                     ));
                 }
             } else {
@@ -182,12 +183,13 @@ class StockServiceImpl implements StockService
                     'stock_product_id' => '0_'.$p->id,
                     'product_type' => $p->productType->name,
                     'product_name' => $p->name,
+                    'product' => $p,
                     'in_stock' => 0,
-                    'warehouse' => '',
+                    'warehouse_name' => '',
                     'base_total' => 0,
-                    'base_unit' => '',
+                    'base_unit' => $p->baseUnit,
                     'display_total' => 0,
-                    'display_unit' => '',
+                    'display_unit' => $p->displayUnit,
                     'in_stock_date' => ''
                 ));
             }
