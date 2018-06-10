@@ -166,7 +166,7 @@ class StockServiceImpl implements StockService
             if($stock->count() > 0) {
                 foreach ($stock as $s) {
                     array_push($result, array(
-                        'stock_id' => $s->id,
+                        'stock_id' => Hashids::encode($s->id),
                         'product_id' => Hashids::encode($p->id),
                         'product_type' => $p->productType->name,
                         'product_name' => $p->name,

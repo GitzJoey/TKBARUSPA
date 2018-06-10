@@ -396,7 +396,8 @@
                                                         <template v-if="mode == 'show'">
                                                             <div class="form-control-plaintext">@{{ i.product.name }}</div>
                                                         </template>
-                                                        <input type="hidden" name="item_id[]" v-model="i.hId" />
+                                                        <input type="hidden" name="item_id[]" v-model="i.hId">
+                                                        <input type="hidden" name="item_stock_id[]" v-model="i.stockHId">
                                                     </td>
                                                     <td width="5%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
@@ -529,12 +530,11 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <input type="checkbox" v-model="expense.is_internal_expense">
+                                                            <input type="checkbox" v-model="expense.is_internal_expense" true-value="1" false-value="0">
                                                         </template>
                                                         <template v-if="mode == 'show'">
-                                                            <input type="checkbox" v-model="expense.is_internal_expense" disabled>
+                                                            <input type="checkbox" v-model="expense.is_internal_expense" true-value="1" false-value="0" disabled>
                                                         </template>
-                                                        <input type="hidden" name="is_internal_expense" v-model="expense.is_internal_expense_val">
                                                     </td>
                                                     <td>
                                                         <template v-if="mode == 'create' || mode == 'edit'">
@@ -855,6 +855,7 @@
                 },
                 insertItem: function (productSelected) {
                     this.so.items.push({
+                        stockHId: productSelected.stock_id,
                         product: productSelected.product,
                         selected_product_unit: this.defaultProductUnit(),
                         base_product_unit: _.cloneDeep(_.find(productSelected.product.product_units, { is_base: 1 })),
@@ -872,8 +873,7 @@
                         hId: '',
                         name: '',
                         type: '',
-                        is_internal_expense: false,
-                        is_internal_expense_val: 0,
+                        is_internal_expense: 0,
                         amount: 0,
                         remarks: ''
                     });

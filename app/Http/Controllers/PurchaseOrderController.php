@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
@@ -90,26 +92,34 @@ class PurchaseOrderController extends Controller
             );
         }
 
-        $this->purchaseOrderService->create(
-            Auth::user()->company->id,
-            $request['code'],
-            $request['po_type'],
-            $request['po_created'],
-            $request['shipping_date'],
-            $request['supplier_type'],
-            $items,
-            $expenses,
-            is_null($request['supplier_id']) ? 0:Hashids::decode($request['supplier_id'])[0],
-            $request['walk_in_supplier'],
-            $request['walk_in_supplier_detail'],
-            Hashids::decode($request['warehouse_id'])[0],
-            is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
-            $request['discount'],
-            $request['status'],
-            $request['remarks'],
-            $request['internal_remarks'],
-            $request['private_remarks']
-        );
+        DB::beginTransaction();
+        try {
+            $this->purchaseOrderService->create(
+                Auth::user()->company->id,
+                $request['code'],
+                $request['po_type'],
+                $request['po_created'],
+                $request['shipping_date'],
+                $request['supplier_type'],
+                $items,
+                $expenses,
+                is_null($request['supplier_id']) ? 0:Hashids::decode($request['supplier_id'])[0],
+                $request['walk_in_supplier'],
+                $request['walk_in_supplier_detail'],
+                Hashids::decode($request['warehouse_id'])[0],
+                is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
+                $request['discount'],
+                $request['status'],
+                $request['remarks'],
+                $request['internal_remarks'],
+                $request['private_remarks']
+            );
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function update($id, Request $request)
@@ -163,29 +173,38 @@ class PurchaseOrderController extends Controller
             array_push($inputtedExpenseIds, is_null($request["expense_id"][$i]) ? '':Hashids::decode($request["expense_id"][$i])[0]);
         }
 
-        $this->purchaseOrderService->update(
-            $id,
-            Auth::user()->company->id,
-            $request['code'],
-            $request['po_type'],
-            $request['po_created'],
-            $request['shipping_date'],
-            $request['supplier_type'],
-            $items,
-            $inputtedItemIds,
-            $expenses,
-            $inputtedExpenseIds,
-            is_null($request['supplier_id']) ? 0:Hashids::decode($request['supplier_id'])[0],
-            $request['walk_in_supplier'],
-            $request['walk_in_supplier_detail'],
-            Hashids::decode($request['warehouse_id'])[0],
-            is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
-            $request['discount'],
-            $request['status'],
-            $request['remarks'],
-            $request['internal_remarks'],
-            $request['private_remarks']
-        );
+        DB::beginTransaction();
+
+        try {
+            $this->purchaseOrderService->update(
+                $id,
+                Auth::user()->company->id,
+                $request['code'],
+                $request['po_type'],
+                $request['po_created'],
+                $request['shipping_date'],
+                $request['supplier_type'],
+                $items,
+                $inputtedItemIds,
+                $expenses,
+                $inputtedExpenseIds,
+                is_null($request['supplier_id']) ? 0:Hashids::decode($request['supplier_id'])[0],
+                $request['walk_in_supplier'],
+                $request['walk_in_supplier_detail'],
+                Hashids::decode($request['warehouse_id'])[0],
+                is_null($request['vendor_trucking_id']) ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
+                $request['discount'],
+                $request['status'],
+                $request['remarks'],
+                $request['internal_remarks'],
+                $request['private_remarks']
+            );
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function getPOByStatus($status)

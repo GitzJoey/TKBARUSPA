@@ -14,9 +14,7 @@ use App\Models\Receipt;
 use App\Models\ReceiptDetail;
 use App\Models\PurchaseOrder;
 
-use DB;
 use Config;
-use Exception;
 use Carbon\Carbon;
 
 use App\Services\PurchaseOrderService;
@@ -45,67 +43,58 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
             $private_remarks
     )
     {
-        DB::beginTransaction();
+        if ($supplier_type == 'SUPPLIERTYPE.R'){
+            $supplier_id = empty($supplier_id) ? 0 : $supplier_id;
+            $walk_in_supplier = '';
+            $walk_in_supplier_detail = '';
+        } else {
+            $supplier_id = 0;
+        }
 
-        try {
-            if ($supplier_type == 'SUPPLIERTYPE.R'){
-                $supplier_id = empty($supplier_id) ? 0 : $supplier_id;
-                $walk_in_supplier = '';
-                $walk_in_supplier_detail = '';
-            } else {
-                $supplier_id = 0;
-            }
+        $po = new PurchaseOrder;
+        $po->code = $code;
+        $po->po_type = $po_type;
+        $po->po_created = date('Y-m-d H:i:s', strtotime($po_created));
+        $po->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
+        $po->supplier_type = $supplier_type;
+        $po->walk_in_supplier = $walk_in_supplier;
+        $po->walk_in_supplier_detail = $walk_in_supplier_detail;
+        $po->remarks = $remarks;
+        $po->internal_remarks = $internal_remarks;
+        $po->private_remarks = $private_remarks;
+        $po->status = 'POSTATUS.WA';
+        $po->supplier_id = $supplier_id;
+        $po->vendor_trucking_id = $vendor_trucking_id;
+        $po->warehouse_id = $warehouse_id;
+        $po->company_id = $company_id;
+        $po->discount = $discount;
 
-            $po = new PurchaseOrder;
-            $po->code = $code;
-            $po->po_type = $po_type;
-            $po->po_created = date('Y-m-d H:i:s', strtotime($po_created));
-            $po->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
-            $po->supplier_type = $supplier_type;
-            $po->walk_in_supplier = $walk_in_supplier;
-            $po->walk_in_supplier_detail = $walk_in_supplier_detail;
-            $po->remarks = $remarks;
-            $po->internal_remarks = $internal_remarks;
-            $po->private_remarks = $private_remarks;
-            $po->status = 'POSTATUS.WA';
-            $po->supplier_id = $supplier_id;
-            $po->vendor_trucking_id = $vendor_trucking_id;
-            $po->warehouse_id = $warehouse_id;
-            $po->company_id = $company_id;
-            $po->discount = $discount;
+        $po->save();
 
-            $po->save();
+        for ($i = 0; $i < count($items); $i++) {
+            $item = new Item();
+            $item->product_id = $items[$i]["product_id"];
+            $item->company_id = $items[$i]["company_id"];
+            $item->selected_product_unit_id = $items[$i]["selected_product_unit_id"];
+            $item->base_product_unit_id = $items[$i]["base_product_unit_id"];
+            $item->conversion_value = $items[$i]["conversion_value"];
+            $item->quantity = $items[$i]["quantity"];
+            $item->discount = $items[$i]["discount"];
+            $item->price = $items[$i]["price"];
+            $item->to_base_quantity = $item->quantity * $item->conversion_value;
 
-            for ($i = 0; $i < count($items); $i++) {
-                $item = new Item();
-                $item->product_id = $items[$i]["product_id"];
-                $item->company_id = $items[$i]["company_id"];
-                $item->selected_product_unit_id = $items[$i]["selected_product_unit_id"];
-                $item->base_product_unit_id = $items[$i]["base_product_unit_id"];
-                $item->conversion_value = $items[$i]["conversion_value"];
-                $item->quantity = $items[$i]["quantity"];
-                $item->discount = $items[$i]["discount"];
-                $item->price = $items[$i]["price"];
-                $item->to_base_quantity = $item->quantity * $item->conversion_value;
+            $po->items()->save($item);
+        }
 
-                $po->items()->save($item);
-            }
+        for($i = 0; $i < count($expenses); $i++){
+            $expense = new Expense();
+            $expense->name = $expenses[$i]["name"];
+            $expense->type = $expenses[$i]["type"];
+            $expense->is_internal_expense = !empty($expenses[$i]["is_internal_expense"]);
+            $expense->amount = $expenses[$i]["amount"];
+            $expense->remarks = $expenses[$i]["remarks"];
 
-            for($i = 0; $i < count($expenses); $i++){
-                $expense = new Expense();
-                $expense->name = $expenses[$i]["name"];
-                $expense->type = $expenses[$i]["type"];
-                $expense->is_internal_expense = !empty($expenses[$i]["is_internal_expense"]);
-                $expense->amount = $expenses[$i]["amount"];
-                $expense->remarks = $expenses[$i]["remarks"];
-
-                $po->expenses()->save($expense);
-            }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+            $po->expenses()->save($expense);
         }
     }
 
@@ -138,75 +127,66 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService
         $private_remarks
     )
     {
-        DB::beginTransaction();
+        // Get current PO
+        $currentPo = PurchaseOrder::with('items', 'expenses')->find($id);
 
-        try {
-            // Get current PO
-            $currentPo = PurchaseOrder::with('items', 'expenses')->find($id);
+        // Get IDs of current PO's items
+        $poItemsId = $currentPo->items->map(function ($item) {
+            return $item->id;
+        })->all();
 
-            // Get IDs of current PO's items
-            $poItemsId = $currentPo->items->map(function ($item) {
-                return $item->id;
-            })->all();
+        // Get the id of removed items
+        $poItemsToBeDeleted = array_diff($poItemsId, $inputtedItemIds);
 
-            // Get the id of removed items
-            $poItemsToBeDeleted = array_diff($poItemsId, $inputtedItemIds);
+        // Remove the items that removed on the revise page
+        Item::destroy($poItemsToBeDeleted);
 
-            // Remove the items that removed on the revise page
-            Item::destroy($poItemsToBeDeleted);
+        $currentPo->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
+        $currentPo->warehouse_id = $warehouse_id;
+        $currentPo->vendor_trucking_id = empty($vendor_trucking_id) ? 0 : $vendor_trucking_id;
+        $currentPo->remarks = $remarks;
+        $currentPo->internal_remarks = $internal_remarks;
+        $currentPo->private_remarks = $private_remarks;
+        $currentPo->discount = $discount;
 
-            $currentPo->shipping_date = date('Y-m-d H:i:s', strtotime($shipping_date));
-            $currentPo->warehouse_id = $warehouse_id;
-            $currentPo->vendor_trucking_id = empty($vendor_trucking_id) ? 0 : $vendor_trucking_id;
-            $currentPo->remarks = $remarks;
-            $currentPo->internal_remarks = $internal_remarks;
-            $currentPo->private_remarks = $private_remarks;
-            $currentPo->discount = $discount;
+        for ($i = 0; $i < count($inputtedItemIds); $i++) {
+            $item = Item::findOrNew($inputtedItemIds[$i]);
+            $item->product_id = $items[$i]['product_id'];
+            $item->company_id = $items[$i]['company_id'];
+            $item->selected_product_unit_id = $items[$i]['selected_product_unit_id'];
+            $item->base_product_unit_id = $items[$i]['base_product_unit_id'];
+            $item->conversion_value = $items[$i]['conversion_value'];
+            $item->quantity = $items[$i]['quantity'];
+            $item->price = $items[$i]['price'];
+            $item->discount = $items[$i]['discount'];
+            $item->to_base_quantity = $item->quantity * $item->conversion_value;
 
-            for ($i = 0; $i < count($inputtedItemIds); $i++) {
-                $item = Item::findOrNew($inputtedItemIds[$i]);
-                $item->product_id = $items[$i]['product_id'];
-                $item->company_id = $items[$i]['company_id'];
-                $item->selected_product_unit_id = $items[$i]['selected_product_unit_id'];
-                $item->base_product_unit_id = $items[$i]['base_product_unit_id'];
-                $item->conversion_value = $items[$i]['conversion_value'];
-                $item->quantity = $items[$i]['quantity'];
-                $item->price = $items[$i]['price'];
-                $item->discount = $items[$i]['discount'];
-                $item->to_base_quantity = $item->quantity * $item->conversion_value;
-
-                $currentPo->items()->save($item);
-            }
-
-            // Get IDs of current PO's expenses
-            $poExpensesId = $currentPo->expenses->map(function ($expense) {
-                return $expense->id;
-            })->all();
-
-            // Get the id of removed expenses
-            $poExpensesToBeDeleted = array_diff($poExpensesId, $inputtedExpenseIds);
-
-            // Remove the expenses that removed on the revise page
-            Expense::destroy($poExpensesToBeDeleted);
-
-            for($i = 0; $i < count($inputtedExpenseIds); $i++){
-                $expense = Expense::findOrNew($inputtedExpenseIds[$i]);
-                $expense->name = $expenses[$i]['name'];
-                $expense->type = $expenses[$i]['type'];
-                $expense->is_internal_expense = $expenses[$i]['is_internal_expense'];
-                $expense->amount = $expenses[$i]['amount'];
-                $expense->remarks = $expenses[$i]['remarks'];
-
-                $currentPo->expenses()->save($expense);
-            }
-
-            $currentPo->save();
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+            $currentPo->items()->save($item);
         }
+
+        // Get IDs of current PO's expenses
+        $poExpensesId = $currentPo->expenses->map(function ($expense) {
+            return $expense->id;
+        })->all();
+
+        // Get the id of removed expenses
+        $poExpensesToBeDeleted = array_diff($poExpensesId, $inputtedExpenseIds);
+
+        // Remove the expenses that removed on the revise page
+        Expense::destroy($poExpensesToBeDeleted);
+
+        for($i = 0; $i < count($inputtedExpenseIds); $i++){
+            $expense = Expense::findOrNew($inputtedExpenseIds[$i]);
+            $expense->name = $expenses[$i]['name'];
+            $expense->type = $expenses[$i]['type'];
+            $expense->is_internal_expense = $expenses[$i]['is_internal_expense'];
+            $expense->amount = $expenses[$i]['amount'];
+            $expense->remarks = $expenses[$i]['remarks'];
+
+            $currentPo->expenses()->save($expense);
+        }
+
+        $currentPo->save();
     }
 
     public function addReceipt($poId, $receipt, $receiptDetailArr)

@@ -123,6 +123,11 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
         Route::post('edit/{id}', 'PurchaseOrderController@update')->name('api.post.po.edit');
     });
 
+    Route::group(['prefix' => 'so'], function () {
+        Route::post('save', 'SalesOrderController@store')->name('api.post.so.save');
+        Route::post('edit/{id}', 'SalesOrderController@update')->name('api.post.so.edit');
+    });
+
     Route::group(['prefix' => 'warehouse'], function () {
         Route::post('save', 'WarehouseController@store')->name('api.post.warehouse.save');
         Route::post('edit/{id}', 'WarehouseController@update')->name('api.post.warehouse.edit');
