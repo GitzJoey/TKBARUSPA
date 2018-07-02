@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Auth;
+use Lang;
 use Vinkla\Hashids\Facades\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -107,7 +108,7 @@ class SalesOrder extends Model
 
     public function items()
     {
-        return $this->morphMany('App\Model\Item', 'itemable');
+        return $this->morphMany('App\Models\Item', 'itemable');
     }
 
     public function delivers()
@@ -117,17 +118,17 @@ class SalesOrder extends Model
 
     public function customer()
     {
-        return $this->belongsTo('App\Model\Customer', 'customer_id');
+        return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
 
     public function vendorTrucking()
     {
-        return $this->belongsTo('App\Model\VendorTrucking', 'vendor_trucking_id');
+        return $this->belongsTo('App\Models\VendorTrucking', 'vendor_trucking_id');
     }
 
     public function company()
     {
-        return $this->belongsTo('App\Model\Company', 'company_id');
+        return $this->belongsTo('App\Models\Company', 'company_id');
     }
 
     public function payments()
@@ -136,7 +137,7 @@ class SalesOrder extends Model
     }
 
     public function expenses(){
-        return $this->morphMany('App\Model\Expense', 'expensable');
+        return $this->morphMany('App\Models\Expense', 'expensable');
     }
 
     public function copies()

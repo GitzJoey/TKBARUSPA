@@ -159,6 +159,11 @@ class Item extends Model
         return $this->belongsTo('App\Models\ProductUnit', 'selected_product_unit_id');
     }
 
+    public function stock()
+    {
+        return $this->belongsTo('App\Models\Stock', 'stock_id');
+    }
+
     public function itemable()
     {
         // SalesOrder | SalesOrderCopy | PurchaseOrder | PurchaseOrderCopy

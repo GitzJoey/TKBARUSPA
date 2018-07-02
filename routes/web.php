@@ -56,8 +56,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
 
         Route::group(['prefix' => 'warehouse'], function () {
             Route::get('', 'WarehouseController@index')->name('db.warehouse');
+
             Route::group(['prefix' => 'inflow'], function () {
                 Route::get('', 'WarehouseInflowController@index')->name('db.warehouse.inflow');
+            });
+
+            Route::group(['prefix' => 'outflow'], function () {
+                Route::get('', 'WarehouseOutflowController@index')->name('db.warehouse.outflow');
             });
 
             Route::group(['prefix' => 'stock'], function() {

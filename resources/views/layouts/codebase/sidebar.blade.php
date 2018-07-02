@@ -113,9 +113,13 @@
                                         </a>
                                     </li>
                                 @endpermission
-                                <li>
-                                    <a href="#"><span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')</a>
-                                </li>
+                                @permission('menu-warehouse_inflow')
+                                    <li>
+                                        <a class="{{ active_class(if_route_pattern('db.warehouse.outflow') || if_route_pattern('db.warehouse.outflow.*')) }}" href="{{ route('db.warehouse.outflow') }}">
+                                            <span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.outflow')
+                                        </a>
+                                    </li>
+                                @endpermission
                                 @permission('menu-stock_opname|menu-stock_transfer|menu-stock_merger')
                                     <li>
                                         <a class="nav-submenu" data-toggle="nav-submenu" href="#"><span class="fa fa-database fa-fw"></span>&nbsp;&nbsp;@lang('sidebar.menu.warehouse.stock')</a>

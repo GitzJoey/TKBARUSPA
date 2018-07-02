@@ -12,7 +12,7 @@
     "devDependencies": {
         "axios": "^0.18",
         "bootstrap": "^4.1.1",
-        "cross-env": "^5.1.5",
+        "cross-env": "^5.2.0",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.10",
@@ -30,13 +30,13 @@
         "jquery.appear": "^1.0.1",
         "jquery.cookie": "^1.4.1",
         "laravel-vue-pagination": "^1.2.0",
-        "moment": "^2.22.1",
+        "moment": "^2.22.2",
         "moment-duration-format": "^2.2.2",
         "pdfjs-dist": "^2.0.489",
         "simple-line-icons": "^2.4.1",
         "vee-validate": "^2.0.9",
-        "vue-autonumeric": "^1.2.3",
-        "vue-flatpickr-component": "^7.0.2",
+        "vue-autonumeric": "^1.2.5",
+        "vue-flatpickr-component": "^7.0.4",
         "vue-multiselect": "^2.1.0"
     }
 }

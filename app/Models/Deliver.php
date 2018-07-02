@@ -53,7 +53,7 @@ class Deliver extends Model
 
     public function item()
     {
-        return $this->belongsTo('App\Model\Item', 'item_id');
+        return $this->belongsTo('App\Models\Item', 'item_id');
     }
 
     public static function boot()

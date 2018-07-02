@@ -152,7 +152,7 @@
                                                 <template v-if="mode == 'create' || mode == 'edit'">
                                                     <div class="multiselect-container">
                                                         <div v-bind:class="{ 'is-invalid':errors.has('customer_id') }">
-                                                            <multiselect id="inputCustomerId" name="customer_id"
+                                                            <multiselect id="inputCustomerId"
                                                                          v-model="so.customer"
                                                                          v-bind:options="customerDDL"
                                                                          v-validate="so.customer_type == 'CUSTOMERTYPE.R' ? 'required':''"
@@ -168,6 +168,7 @@
                                                             </multiselect>
                                                             <label class="typo__label form__label invalid-feedback" v-show="errors.has('customer_id')">@{{ errors.first('customer_id') }}</label>
                                                         </div>
+                                                        <input type="hidden" name="customer_id" v-model="so.customerHId">
                                                     </div>
                                                 </template>
                                                 <template v-if="mode == 'show'">

@@ -1,16 +1,16 @@
 @extends('layouts.codebase.master')
 
 @section('title')
-    @lang('warehouse_inflow.index.title')
+    @lang('warehouse_outflow.index.title')
 @endsection
 
 @section('page_title')
-    <span class="fa fa-mail-forward fa-rotate-90 fa-fw"></span>
-    @lang('warehouse_inflow.index.page_title')
+    <span class="fa fa-mail-reply fa-rotate-90 fa-fw"></span>
+    @lang('warehouse_outflow.index.page_title')
 @endsection
 
 @section('page_title_desc')
-    @lang('warehouse_inflow.index.page_title_desc')
+    @lang('warehouse_outflow.index.page_title_desc')
 @endsection
 
 @section('breadcrumbs')
@@ -18,14 +18,14 @@
 @endsection
 
 @section('content')
-    <div id="inflowVue">
+    <div id="outflowVue">
         @include ('layouts.common.error')
-        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="inflowListBlock">
+        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="outflowListBlock">
             <div class="block-header block-header-default">
-                <h3 class="block-title">@lang('warehouse_inflow.index.panel.list_panel.title')</h3>
+                <h3 class="block-title">@lang('warehouse_outflow.index.panel.list_panel.title')</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                    <button type="button" class="btn-block-option" v-on:click="renderInflowData">
+                    <button type="button" class="btn-block-option" v-on:click="renderOutflowData">
                         <i class="si si-refresh"></i>
                     </button>
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
@@ -35,7 +35,7 @@
                 <select id="inputWarehouse"
                         class="form-control"
                         v-model="selectedWarehouse"
-                        v-on:change="renderInflowData(selectedWarehouse)">
+                        v-on:change="renderOutflowData(selectedWarehouse)">
                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                     <option v-for="warehouse in warehouseDDL" v-bind:value="warehouse.hId">@{{ warehouse.name }} @{{ warehouse.address != '' ? '- ' + warehouse.address:''}}</option>
                 </select>
@@ -44,37 +44,37 @@
                     <table class="table table-bordered table-striped table-vcenter">
                         <thead class="thead-light">
                             <tr>
-                                <th>@lang('warehouse_inflow.index.table.po_list.header.code')</th>
-                                <th>@lang('warehouse_inflow.index.table.po_list.header.supplier')</th>
-                                <th>@lang('warehouse_inflow.index.table.po_list.header.shipping_date')</th>
-                                <th>@lang('warehouse_inflow.index.table.po_list.header.receipt')</th>
+                                <th>@lang('warehouse_outflow.index.table.so_list.header.code')</th>
+                                <th>@lang('warehouse_outflow.index.table.so_list.header.customer')</th>
+                                <th>@lang('warehouse_outflow.index.table.so_list.header.shipping_date')</th>
+                                <th>@lang('warehouse_outflow.index.table.so_list.header.deliver')</th>
                                 <th class="text-center" width="10%">@lang('labels.ACTION')</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="poWAList.length == 0">
+                            <tr v-if="soWDList.length == 0">
                                 <td colspan="5" class="text-center">@lang('labels.DATA_NOT_FOUND')</td>
                             </tr>
-                            <tr v-for="(p, pIdx) in poWAList">
-                                <td>@{{ p.code }}</td>
-                                <td>@{{ p.supplier_type == 'SUPPLIERTYPE.WI' ? p.walk_in_supplier : p.supplier.name }}</td>
-                                <td>@{{ p.shipping_date }}</td>
-                                <td>@{{ p.receipts == undefined? 0:p.receipts.length }}</td>
+                            <tr v-for="(s, sIdx) in soWDList">
+                                <td>@{{ s.code }}</td>
+                                <td>@{{ s.customer_type == 'CUSTOMERTYPE.WI' ? s.walk_in_cust : s.customer.name }}</td>
+                                <td>@{{ s.shipping_date }}</td>
+                                <td>@{{ s.delivers == undefined? 0:s.delivers.length }}</td>
                                 <td class="text-center">
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-secondary" v-on:click="createNew(pIdx)">
+                                        <button class="btn btn-sm btn-secondary" v-on:click="createNew(sIdx)">
                                             <span class="fa fa-plus fa-fw"></span>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-pencil fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="s.delivers == 0 ? true:false"><span class="fa fa-pencil fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnEdit">
-                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
-                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
+                                            <a class="dropdown-item" href="#" v-for="(s, sIdx) in s.delivers">
+                                                @lang('warehouse_outflow.fields.deliver_no') @{{ sIdx + 1}}
                                             </a>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-close fa-fw"></span></button>
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="s.delivers == 0 ? true:false"><span class="fa fa-close fa-fw"></span></button>
                                         <div class="dropdown-menu" aria-labelledby="btnDelete">
-                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
-                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
+                                            <a class="dropdown-item" href="#" v-for="(s, sIdx) in s.delivers">
+                                                @lang('warehouse_outflow.fields.deliver_no') @{{ sIdx + 1}}
                                             </a>
                                         </div>
                                     </div>
@@ -92,12 +92,12 @@
                 </div>
             </div>
         </div>
-        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="inflowCRUDBlock">
+        <div class="block block-shadow-on-hover block-mode-loading-refresh" id="outflowCRUDBlock">
             <div class="block-header block-header-default">
                 <h3 class="block-title">
-                    <template v-if="mode == 'create'">@lang('warehouse_inflow.index.panel.crud_panel.title_create')</template>
-                    <template v-if="mode == 'show'">@lang('warehouse_inflow.index.panel.crud_panel.title_show')</template>
-                    <template v-if="mode == 'edit'">@lang('warehouse_inflow.index.panel.crud_panel.title_edit')</template>
+                    <template v-if="mode == 'create'">@lang('warehouse_outflow.index.panel.crud_panel.title_create')</template>
+                    <template v-if="mode == 'show'">@lang('warehouse_outflow.index.panel.crud_panel.title_show')</template>
+                    <template v-if="mode == 'edit'">@lang('warehouse_outflow.index.panel.crud_panel.title_edit')</template>
                 </h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
@@ -105,43 +105,43 @@
                 </div>
             </div>
             <div class="block-content">
-                <form id="inflowForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
+                <form id="outflowForm" method="post" v-on:submit.prevent="validateBeforeSubmit">
                     <div class="form-group row">
-                        <label for="inputPODetail" class="col-3 col-form-label">@lang('warehouse_inflow.fields.po_detail')</label>
+                        <label for="inputSODetail" class="col-3 col-form-label">@lang('warehouse_outflow.fields.so_detail')</label>
                         <div class="col-md-9">
-                            <div class="form-control-plaintext">@{{ po.code }}</div>
-                            <input type="hidden" name="po_id" v-model="po.hId">
+                            <div class="form-control-plaintext">@{{ so.code }}</div>
+                            <input type="hidden" name="so_id" v-model="so.hId">
                         </div>
                     </div>
-                    <div class="form-group row" v-show="po.receipts.length != 0">
-                        <label for="inputPOReceiptDetail" class="col-3 col-form-label">&nbsp;</label>
+                    <div class="form-group row" v-show="so.delivers.length != 0">
+                        <label for="inputSODeliverDetail" class="col-3 col-form-label">&nbsp;</label>
                         <div class="col-md-9">
-                            <template v-for="(r, rIdx) in po.receipts">
+                            <template v-for="(s, sIdx) in so.delivers">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th colspan="4">@lang('warehouse_inflow.index.table.receipt_details_table.header.receipt_date')&nbsp;&nbsp;&nbsp;@{{ r.receipt_date }}</th>
+                                            <th colspan="4">@lang('warehouse_outflow.index.table.deliver_details_table.header.deliver_date')&nbsp;&nbsp;&nbsp;@{{ s.deliver_date }}</th>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.product')</th>
-                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.brutto')</th>
-                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.netto')</th>
-                                            <th class="text-center">@lang('warehouse_inflow.index.table.receipt_details_table.header.tare')</th>
+                                            <th class="text-center">@lang('warehouse_outflow.index.table.deliver_details_table.header.product')</th>
+                                            <th class="text-center">@lang('warehouse_outflow.index.table.deliver_details_table.header.brutto')</th>
+                                            <th class="text-center">@lang('warehouse_outflow.index.table.deliver_details_table.header.netto')</th>
+                                            <th class="text-center">@lang('warehouse_outflow.index.table.deliver_details_table.header.tare')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(rd, rdIdx) in r.receipt_details">
+                                        <tr v-for="(sd, sdIdx) in s.deliver_details">
                                             <td>
-                                                @{{ rd.item.product.name }}
+                                                @{{ sd.item.product.name }}
                                             </td>
                                             <td class="text-right">
-                                                @{{ rd.brutto }} @{{ rd.selectedUnit }}
+                                                @{{ sd.brutto }} @{{ sd.selectedUnit }}
                                             </td>
                                             <td class="text-right">
-                                                @{{ rd.netto }} @{{ rd.selectedUnit }}
+                                                @{{ sd.netto }} @{{ sd.selectedUnit }}
                                             </td>
                                             <td class="text-right">
-                                                @{{ rd.tare }} @{{ rd.selectedUnit }}
+                                                @{{ sd.tare }} @{{ sd.selectedUnit }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -150,22 +150,22 @@
                         </div>
                     </div>
                     <hr/>
-                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('receipt_date') }">
-                        <label for="inputReceiptDate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.receipt_date')</label>
+                    <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('deliver_date') }">
+                        <label for="inputDeliverDate" class="col-3 col-form-label">@lang('warehouse_outflow.fields.deliver_date')</label>
                         <div class="col-md-9">
-                            <flat-pickr id="inputReceiptDate" class="form-control" name="receipt_date"
-                                        v-model="receipt.receipt_date" v-bind:config="defaultFlatPickrConfig"
-                                        v-validate="'required'" data-vv-as="{{ trans('warehouse_inflow.fields.receipt_date') }}"
-                                        data-vv-name="{{ trans('warehouse_inflow.fields.receipt_date') }}"></flat-pickr>
-                            <span v-show="errors.has('receipt_date')" class="invalid-feedback">@{{ errors.first('receipt_date') }}</span>
+                            <flat-pickr id="inputDeliverDate" class="form-control" name="deliver_date"
+                                        v-model="deliver.deliver_date" v-bind:config="defaultFlatPickrConfig"
+                                        v-validate="'required'" data-vv-as="{{ trans('warehouse_outflow.fields.deliver_date') }}"
+                                        data-vv-name="{{ trans('warehouse_outflow.fields.deliver_date') }}"></flat-pickr>
+                            <span v-show="errors.has('deliver_date')" class="invalid-feedback">@{{ errors.first('deliver_date') }}</span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('warehouse_inflow.fields.vendor_trucking')</label>
+                        <label for="inputVendorTrucking" class="col-3 col-form-label">@lang('warehouse_outflow.fields.vendor_trucking')</label>
                         <div class="col-md-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
                                 <select id="inputVendorTrucking" name="vendor_trucking_id" class="form-control"
-                                        v-model="receipt.vendorTruckingHId" v-on:change="onChangeVendorTrucking">
+                                        v-model="deliver.vendorTruckingHId" v-on:change="onChangeVendorTrucking">
                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                     <option v-for="(vendorTrucking, vendorTruckingIdx) of vendorTruckingDDL" v-bind:value="vendorTrucking.hId">@{{ vendorTrucking.name }}</option>
                                 </select>
@@ -173,83 +173,83 @@
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('license_plate') }">
-                        <label for="inputLicensePlate" class="col-3 col-form-label">@lang('warehouse_inflow.fields.license_plate')</label>
+                        <label for="inputLicensePlate" class="col-3 col-form-label">@lang('warehouse_outflow.fields.license_plate')</label>
                         <div class="col-md-9">
                             <select id="selectLicensePlate" class="form-control" name="truck_id"
-                                    v-model="receipt.truckHId">
+                                    v-model="deliver.truckHId">
                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                 <option v-for="(truck, truckIdx) of truckDDL" v-bind:value="truck.hId">@{{ truck.license_plate }}</option>
                             </select>
                         </div>
                     </div>
                     <div v-bind:class="{ 'form-group row':true, 'is-invalid':errors.has('driver_name') }">
-                        <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_inflow.fields.driver_name')</label>
+                        <label for="inputDriverName" class="col-3 col-form-label">@lang('warehouse_outflow.fields.driver_name')</label>
                         <div class="col-md-9">
-                            <input id="inputDriverName" name="driver_name" v-model="receipt.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_inflow.fields.driver_name') }}">
+                            <input id="inputDriverName" name="driver_name" v-model="deliver.driver_name" type="text" class="form-control" placeholder="{{ trans('warehouse_outflow.fields.driver_name') }}">
                         </div>
                         <span v-show="errors.has('driver_name')" class="invalid-feedback">@{{ errors.first('driver_name') }}</span>
                     </div>
                     <br/>
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="receiptListTable" class="table table-bordered table-hover">
+                            <table id="deliverListTable" class="table table-bordered table-hover">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th width="50%">@lang('warehouse_inflow.index.table.item_table.header.product_name')</th>
-                                        <th width="15%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.unit')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.brutto')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.netto')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.item_table.header.tare')</th>
+                                        <th width="50%">@lang('warehouse_outflow.index.table.item_table.header.product_name')</th>
+                                        <th width="15%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.unit')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.brutto')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.netto')</th>
+                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.tare')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(rd, rdIdx) in receipt.receipt_details">
+                                    <tr v-for="(dd, ddIdx) in deliver.deliver_details">
                                         <td>
-                                            @{{ rd.item.product.name }}
-                                            <input type="hidden" name="receipt_detail_id" v-model="rd.hId">
-                                            <input type="hidden" name="item_id[]" v-model="rd.item.hId">
-                                            <input type="hidden" name="product_id[]" v-model="rd.item.product.hId">
-                                            <input type="hidden" name="base_product_unit_id[]" v-model="rd.item.base_product_unit.hId">
+                                            @{{ dd.item.product.name }}
+                                            <input type="hidden" name="deliver_detail_id" v-model="dd.hId">
+                                            <input type="hidden" name="item_id[]" v-model="dd.item.hId">
+                                            <input type="hidden" name="product_id[]" v-model="dd.item.product.hId">
+                                            <input type="hidden" name="base_product_unit_id[]" v-model="dd.item.base_product_unit.hId">
                                         </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('punit_' + rdIdx) }">
+                                        <td v-bind:class="{ 'is-invalid':errors.has('punit_' + ddIdx) }">
                                             <select name="selected_product_unit_id[]"
                                                     class="form-control"
-                                                    v-model="rd.selectedProductUnitsHId"
-                                                    v-validate="'required|checkequal:' + rdIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.unit') }} ' + (rdIdx + 1)"
-                                                    v-bind:data-vv-name="'punit_' + rdIdx"
-                                                    v-on:change="onChangeSelectedProductUnit(rdIdx)">
+                                                    v-model="dd.selectedProductUnitsHId"
+                                                    v-validate="'required|checkequal:' + ddIdx"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.unit') }} ' + (ddIdx + 1)"
+                                                    v-bind:data-vv-name="'punit_' + ddIdx"
+                                                    v-on:change="onChangeSelectedProductUnit(ddIdx)">
                                                 <option value="">@lang('labels.PLEASE_SELECT')</option>
-                                                <option v-for="product_unit in rd.item.product.product_units" v-bind:value="product_unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
+                                                <option v-for="product_unit in dd.item.product.product_units" v-bind:value="product_unit.hId">@{{ product_unit.unit.name }} (@{{ product_unit.unit.symbol }})</option>
                                             </select>
-                                            <input type="hidden" name="conversion_value[]" v-model="rd.selected_product_units.conversion_value">
+                                            <input type="hidden" name="conversion_value[]" v-model="dd.selected_product_units.conversion_value">
                                         </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'brutto_' + rdIdx" class="form-control text-right"
-                                                    v-model="rd.brutto" v-validate="'required|checkequal:' + rdIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.brutto') }} ' + (rdIdx + 1)"
-                                                    v-bind:data-vv-name="'brutto_' + rdIdx"
+                                        <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + ddIdx) }">
+                                            <vue-autonumeric v-bind:id="'brutto_' + ddIdx" class="form-control text-right"
+                                                    v-model="dd.brutto" v-validate="'required|checkequal:' + ddIdx"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.brutto') }} ' + (ddIdx + 1)"
+                                                    v-bind:data-vv-name="'brutto_' + ddIdx"
                                                     v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('brutto', rdIdx)"></vue-autonumeric>
-                                            <input type="hidden" name="brutto[]" v-model="rd.brutto">
+                                                    v-on:input="reValidate('brutto', ddIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="brutto[]" v-model="dd.brutto">
                                         </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('netto_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'netto_' + rdIdx" class="form-control text-right"
-                                                    v-model="rd.netto" v-validate="'required|checkequal:' + rdIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.netto') }} ' + (rdIdx + 1)"
-                                                    v-bind:data-vv-name="'netto_' + rdIdx"
+                                        <td v-bind:class="{ 'is-invalid':errors.has('netto_' + ddIdx) }">
+                                            <vue-autonumeric v-bind:id="'netto_' + ddIdx" class="form-control text-right"
+                                                    v-model="dd.netto" v-validate="'required|checkequal:' + ddIdx"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.netto') }} ' + (ddIdx + 1)"
+                                                    v-bind:data-vv-name="'netto_' + ddIdx"
                                                     v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('netto', rdIdx)"></vue-autonumeric>
-                                            <input type="hidden" name="netto[]" v-model="rd.netto">
+                                                    v-on:input="reValidate('netto', ddIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="netto[]" v-model="dd.netto">
                                         </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('tare_' + rdIdx) }">
-                                            <vue-autonumeric v-bind:id="'tare_' + rdIdx" class="form-control text-right"
-                                                    v-model="rd.tare" v-validate="'required|checkequal:' + rdIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.item_table.header.tare') }} ' + (rdIdx + 1)"
-                                                    v-bind:data-vv-name="'tare_' + rdIdx"
+                                        <td v-bind:class="{ 'is-invalid':errors.has('tare_' + ddIdx) }">
+                                            <vue-autonumeric v-bind:id="'tare_' + ddIdx" class="form-control text-right"
+                                                    v-model="dd.tare" v-validate="'required|checkequal:' + ddIdx"
+                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.tare') }} ' + (ddIdx + 1)"
+                                                    v-bind:data-vv-name="'tare_' + ddIdx"
                                                     v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('tare', rdIdx)"></vue-autonumeric>
-                                            <input type="hidden" name="tare[]" v-model="rd.tare">
+                                                    v-on:input="reValidate('tare', ddIdx)"></vue-autonumeric>
+                                            <input type="hidden" name="tare[]" v-model="dd.tare">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -261,7 +261,7 @@
                         <table id="expensesListTable" class="table table-bordered table-striped table-vcenter">
                             <thead class="thead-light">
                                 <tr>
-                                    <th colspan="5">@lang('warehouse_inflow.index.table.expense_table.header.title')</th>
+                                    <th colspan="5">@lang('warehouse_outflow.index.table.expense_table.header.title')</th>
                                     <th class="text-align-right">
                                         <template v-if="mode == 'create' || mode == 'edit'">
                                             <button type="button" class="btn-block-option"
@@ -275,12 +275,12 @@
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th width="20%">@lang('warehouse_inflow.index.table.expense_table.header.name')</th>
-                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.type')</th>
-                                    <th width="10%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.internal_expense')</th>
-                                    <th width="25%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.remarks')</th>
+                                    <th width="20%">@lang('warehouse_outflow.index.table.expense_table.header.name')</th>
+                                    <th width="20%" class="text-center">@lang('warehouse_outflow.index.table.expense_table.header.type')</th>
+                                    <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.expense_table.header.internal_expense')</th>
+                                    <th width="25%" class="text-center">@lang('warehouse_outflow.index.table.expense_table.header.remarks')</th>
                                     <th width="5%">&nbsp;</th>
-                                    <th width="20%" class="text-center">@lang('warehouse_inflow.index.table.expense_table.header.amount')</th>
+                                    <th width="20%" class="text-center">@lang('warehouse_outflow.index.table.expense_table.header.amount')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -291,7 +291,7 @@
                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_name_' + expenseIndex) }">
                                         <template v-if="mode == 'create' || mode == 'edit'">
                                             <input name="expense_name[]" type="text" class="form-control"
-                                                   v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
+                                                   v-model="expense.name" v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.expense_table.header.name') }} ' + (expenseIndex + 1)"
                                                    v-bind:data-vv-name="'expense_name_' + expenseIndex">
                                         </template>
                                         <input type="hidden" name="expense_id[]" v-model="expense.hId" />
@@ -299,7 +299,7 @@
                                     <td v-bind:class="{ 'is-invalid':errors.has('expense_type_' + expenseIndex) }">
                                         <template v-if="mode == 'create' || mode == 'edit'">
                                             <select class="form-control" v-model="expense.type"
-                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
+                                                    v-validate="'required'" v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.expense_table.header.type') }} ' + (expenseIndex + 1)"
                                                     v-bind:data-vv-name="'expense_type_' + expenseIndex" disabled>
                                                 <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                 <option v-for="(expenseType, expenseTypeIdx) in expenseTypeDDL" v-bind:value="expenseType.code">@{{ expenseType.description }}</option>
@@ -330,7 +330,7 @@
                                             <vue-autonumeric type="text" class="form-control text-align-right"
                                                              v-model="expense.amount" v-validate="'required'"
                                                              v-bind:options="defaultCurrencyConfig"
-                                                             v-bind:data-vv-as="'{{ trans('warehouse_inflow.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
+                                                             v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.expense_table.header.amount') }} ' + (expenseIndex + 1)"
                                                              v-bind:data-vv-name="'expense_amount_' + expenseIndex"><</vue-autonumeric>
                                             <input type="hidden" name="expense_amount[]" v-model="expense.amount">
                                         </template>
@@ -339,7 +339,7 @@
                             </tbody>
                             <tbody>
                                 <tr v-if="expenses.length != 0">
-                                    <td colspan="5" class="text-right">@lang('warehouse_inflow.index.table.expense_table.header.total')</td>
+                                    <td colspan="5" class="text-right">@lang('warehouse_outflow.index.table.expense_table.header.total')</td>
                                     <td class="text-right"><vue-autonumeric v-bind:tag="'span'" v-bind:options="currencyFormatToString" v-model="totalExpense"></vue-autonumeric></td>
                                 </tr>
                             </tbody>
@@ -347,13 +347,13 @@
                     </div>
                     <br/>
                     <div class="form-group row">
-                        <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_inflow.fields.remarks')</label>
+                        <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_outflow.fields.remarks')</label>
                         <div class="col-md-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
-                                <input type="text" class="form-control" id="inputRemarks" name="remarks" v-model="receipt.remarks" placeholder="@lang('warehouse_inflow.fields.remarks')">
+                                <input type="text" class="form-control" id="inputRemarks" name="remarks" v-model="deliver.remarks" placeholder="@lang('warehouse_outflow.fields.remarks')">
                             </template>
                             <template v-if="mode == 'show'">
-                                <div class="form-control-plaintext">@{{ receipt.remarks }}</div>
+                                <div class="form-control-plaintext">@{{ deliver.remarks }}</div>
                             </template>
                         </div>
                     </div>
@@ -382,13 +382,13 @@
 @endsection
 
 @section('ziggy')
-    @routes('warehouse_inflow')
+    @routes('warehouse_outflow')
 @endsection
 
 @section('custom_js')
     <script type="application/javascript">
-        var inflowVue = new Vue ({
-            el: '#inflowVue',
+        var outflowVue = new Vue ({
+            el: '#outflowVue',
             data: {
                 mode: '',
                 warehouseDDL: [],
@@ -396,18 +396,18 @@
                 truckDDL: [],
                 expenseTypeDDL: [],
                 selectedWarehouse: '',
-                poWAList: [],
-                po: {
-                    receipts: []
+                soWDList: [],
+                so: {
+                    delivers: []
                 },
-                receipt: {
+                deliver: {
                     hId: '',
-                    receipt_date: new Date(),
+                    deliver_date: new Date(),
                     vendorTruckingHId: '',
                     truckHId: '',
                     article_code: '',
                     driver_name: '',
-                    receipt_details: [],
+                    deliver_details: [],
                     remarks: ''
                 },
                 expenses: [
@@ -424,10 +424,10 @@
                         var result = false;
                         var itemIdx = args[0];
 
-                        if (this.receipt.receipt_details[itemIdx] == undefined) return true;
+                        if (this.deliver.deliver_details[itemIdx] == undefined) return true;
 
-                        if (this.receipt.receipt_details[itemIdx].brutto ==
-                            this.receipt.receipt_details[itemIdx].netto + this.receipt.receipt_details[itemIdx].tare) {
+                        if (this.deliver.deliver_details[itemIdx].brutto ==
+                            this.deliver.deliver_details[itemIdx].netto + this.deliver.deliver_details[itemIdx].tare) {
                             result = true;
                         }
 
@@ -436,24 +436,24 @@
                 });
 
                 this.mode = 'list';
-                this.renderInflowData();
+                this.renderOutflowData();
             },
             methods: {
                 validateBeforeSubmit: function() {
                     this.$validator.validateAll().then(isValid => {
                         if (!isValid) { return; }
                         this.errors.clear();
-                        this.loadingPanel('#inflowCRUDBlock', 'TOGGLE');
+                        this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                         if (this.mode == 'create') {
-                            axios.post(route('api.post.warehouse.inflow.save', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
+                            axios.post(route('api.post.warehouse.outflow.save', this.po.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
                                 this.backToList();
-                                this.loadingPanel('#inflowCRUDBlock', 'TOGGLE');
+                                this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             }).catch(e => {
                                 this.handleErrors(e);
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.warehouse.inflow.edit', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
+                            axios.post(route('api.post.warehouse.outflow.edit', this.po.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
                             }).catch(e => {
                                 this.handleErrors(e);
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
@@ -464,28 +464,28 @@
                 createNew: function(index) {
                     this.mode = 'create';
                     this.errors.clear();
-                    this.po = this.poWAList[index];
+                    this.so = this.soWDList[index];
 
-                    this.receipt = {
+                    this.deliver = {
                         hId: '',
-                        receipt_date: new Date(),
+                        deliver_date: new Date(),
                         vendorTruckingHId: '',
                         truckHId: '',
                         article_code: '',
                         driver_name: '',
-                        receipt_details: [],
+                        deliver_details: [],
                         remarks: ''
                     };
                     this.expenses = [];
-                    for (var i = 0; i < this.po.items.length; i++) {
-                        this.receipt.receipt_details.push({
-                            item: _.cloneDeep(this.po.items[i]),
+                    for (var i = 0; i < this.so.items.length; i++) {
+                        this.deliver.deliver_details.push({
+                            item: _.cloneDeep(this.so.items[i]),
                             selected_product_units: {
                                 hId: ''
                             },
                             selectedProductUnitsHId: '',
-                            base_product_unit: _.cloneDeep(_.find(this.po.items[i].product.product_units, { is_base: 1 })),
-                            baseProductUnitHId: _.cloneDeep(_.find(this.po.items[i].product.product_units, { is_base: 1 })).hId,
+                            base_product_unit: _.cloneDeep(_.find(this.so.items[i].product.product_units, { is_base: 1 })),
+                            baseProductUnitHId: _.cloneDeep(_.find(this.so.items[i].product.product_units, { is_base: 1 })).hId,
                             brutto: 0,
                             netto: 0,
                             tare: 0
@@ -498,15 +498,15 @@
                 },
                 deleteSelected: function(idx) {
                 },
-                renderInflowData: function() {
-                    this.loadingPanel('#inflowListBlock', 'TOGGLE');
+                renderOutflowData: function() {
+                    this.loadingPanel('#outflowListBlock', 'TOGGLE');
                     Promise.all([
                         this.getWarehouse(),
                         this.getVendorTrucking(),
                         this.getExpenseType(),
-                        this.getPOWAList(this.selectedWarehouse)
+                        this.getSOWDList(this.selectedWarehouse)
                     ]).then(() => {
-                        this.loadingPanel('#inflowListBlock', 'TOGGLE');
+                        this.loadingPanel('#outflowListBlock', 'TOGGLE');
                     });
                 },
                 getWarehouse: function() {
@@ -520,16 +520,16 @@
                         });
                     });
                 },
-                getPOWAList: function(warehouseId) {
+                getSOWDList: function(warehouseId) {
                     return new Promise((resolve, reject) => {
                         if (warehouseId == '') {
                             resolve(true);
                             return;
                         }
 
-                        this.poWAList = [];
-                        axios.get(route('api.get.po.status.waiting_arrival', warehouseId).url()).then(response => {
-                            this.poWAList = response.data;
+                        this.soWDList = [];
+                        axios.get(route('api.get.so.status.waiting_delivery', warehouseId).url()).then(response => {
+                            this.soWDList = response.data;
                             resolve(true);
                         }).catch(e => {
                             this.handleErrors(e);
@@ -540,10 +540,10 @@
                 backToList: function() {
                     this.mode = 'list';
                     this.errors.clear();
-                    this.po = {
-                        receipts: []
+                    this.so = {
+                        delivers: []
                     };
-                    this.renderInflowData();
+                    this.renderOutflowData();
                 },
                 getExpenseType: function() {
                     axios.get(route('api.get.lookup.bycategory', 'EXPENSE_TYPE').url()).then(
@@ -574,16 +574,16 @@
                     }
                 },
                 onChangeSelectedProductUnit: function(itemIndex) {
-                    if (this.receipt.receipt_details[itemIndex].selectedProductUnitsHId != '') {
-                        var pUnit = _.find(this.receipt.receipt_details[itemIndex].item.product.product_units, { hId: this.receipt.receipt_details[itemIndex].selectedProductUnitsHId });
-                        this.receipt.receipt_details[itemIndex].selected_product_units = pUnit;
+                    if (this.deliver.deliver_details[itemIndex].selectedProductUnitsHId != '') {
+                        var pUnit = _.find(this.deliver.deliver_details[itemIndex].item.product.product_units, { hId: this.deliver.deliver_details[itemIndex].selectedProductUnitsHId });
+                        this.deliver.deliver_details[itemIndex].selected_product_units = pUnit;
                     }
                 },
                 onChangeVendorTrucking: function() {
                     this.truckDDL = [];
-                    this.receipt.truckHId = '';
-                    if (this.receipt.vendorTruckingHId != '') {
-                        this.truckDDL = _.find(this.vendorTruckingDDL, { hId: this.receipt.vendorTruckingHId }).trucks;
+                    this.deliver.truckHId = '';
+                    if (this.deliver.vendorTruckingHId != '') {
+                        this.truckDDL = _.find(this.vendorTruckingDDL, { hId: this.deliver.vendorTruckingHId }).trucks;
                     }
                 },
                 addExpense: function () {
@@ -607,13 +607,13 @@
                         case 'create':
                         case 'edit':
                         case 'show':
-                            this.contentPanel('#inflowListBlock', 'CLOSE')
-                            this.contentPanel('#inflowCRUDBlock', 'OPEN')
+                            this.contentPanel('#outflowListBlock', 'CLOSE')
+                            this.contentPanel('#outflowCRUDBlock', 'OPEN')
                             break;
                         case 'list':
                         default:
-                            this.contentPanel('#inflowListBlock', 'OPEN')
-                            this.contentPanel('#inflowCRUDBlock', 'CLOSE')
+                            this.contentPanel('#outflowListBlock', 'OPEN')
+                            this.contentPanel('#outflowCRUDBlock', 'CLOSE')
                             break;
                     }
                 }
@@ -647,5 +647,5 @@
             }
         });
     </script>
-    <script type="application/javascript" src="{{ mix('js/apps/warehouse_inflow.js') }}"></script>
+    <script type="application/javascript" src="{{ mix('js/apps/warehouse_outflow.js') }}"></script>
 @endsection
