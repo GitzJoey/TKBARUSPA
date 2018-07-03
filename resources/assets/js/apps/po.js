@@ -164,6 +164,8 @@ var poVue = new Vue ({
         },
         onChangeProductSelected(productId) {
             this.insertItem(productId);
+
+            this.productSelected = '';
         },
         insertItem: function (productId) {
             if(productId != ''){
