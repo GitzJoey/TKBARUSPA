@@ -195,7 +195,7 @@ class SalesOrderServiceImpl implements SalesOrderService
         $d->truck_id = $deliver['truck_id'];
         $d->article_code = $deliver['article_code'];
         $d->driver_name = $deliver['driver_name'];
-        $d->receipt_date = $deliver['receipt_date'];
+        $d->deliver_date = $deliver['deliver_date'];
         $d->status = Config::get('lookup.VALUE.DELIVER_STATUS.NEW');
         $d->remarks = $deliver['remarks'];
 
@@ -215,7 +215,7 @@ class SalesOrderServiceImpl implements SalesOrderService
             $dd->tare = $deliverDetailArr[$i]['tare'];
             $dd->base_tare = $deliverDetailArr[$i]['conversion_value'] * $deliverDetailArr[$i]['tare'];
 
-            $d->receiptDetails()->save($dd);
+            $d->deliverDetails()->save($dd);
         }
 
         return $d;
@@ -312,27 +312,9 @@ class SalesOrderServiceImpl implements SalesOrderService
             ,'expenses'
             ,'vendorTrucking'
             ,'delivers.deliverDetails.item.product'
-        ])->where('status', '=', $status)->get();
+        ])->whereHas('items.stock', function($s) use ($warehouseId) { $s->where('warehouse_id', '=', $warehouseId); })->where('status', '=', $status)->get();
 
-        $result = collect();
-        foreach ($salesOrders as $so) {
-            if ($this->hasItemStockInWarehouse($so, $warehouseId)) {
-                $result->push($so);
-            }
-        }
 
-        return $result;
-    }
-
-    private function hasItemStockInWarehouse($salesOrder, $warehouseId) {
-        $result = false;
-        foreach ($salesOrder->items as $i) {
-            if ($i->stock_id != 0 && $i->stock->warehouse_id == $warehouseId) {
-                $result = true;
-                break;
-            }
-        }
-
-        return $result;
+        return $salesOrders;
     }
 }

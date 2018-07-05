@@ -20,24 +20,20 @@ class Deliver extends Model
     protected $dates = ['deleted_at', 'deliver_date', 'confirm_receive_date'];
 
     protected $fillable = [
-        'item_id',
-        'license_plate',
+        'article_code',
+        'driver_name',
         'deliver_date',
+        'status',
+        'remarks',
         'confirm_receive_date',
-        'conversion_value',
-        'brutto',
-        'base_brutto',
-        'netto',
-        'base_netto',
-        'tare',
-        'base_tare',
-        'selected_unit_id',
-        'base_unit_id',
-        'store_id',
-        'remarks'
+        'confirm_remarks',
     ];
 
     protected $hidden = [
+        'company_id',
+        'so_id',
+        'vendor_trucking_id',
+        'truck_id',
         'created_by',
         'created_at',
         'updated_by',
@@ -46,14 +42,47 @@ class Deliver extends Model
         'deleted_at',
     ];
 
-    public function hId()
+    protected $appends = [
+        'hId',
+        'companyHId',
+        'soHId',
+        'vendorTruckingHId',
+        'truckHId',
+    ];
+
+    public function getHIdAttribute()
     {
         return HashIds::encode($this->attributes['id']);
     }
 
-    public function item()
+    public function getCompanyHIdAttribute()
     {
-        return $this->belongsTo('App\Models\Item', 'item_id');
+        return HashIds::encode($this->attributes['company_id']);
+    }
+
+    public function getSoHIdAttribute()
+    {
+        return HashIds::encode($this->attributes['so_id']);
+    }
+
+    public function getVendorTruckingHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['vendor_trucking_id']);
+    }
+
+    public function getTruckHIdAttribute()
+    {
+        return Hashids::encode($this->attributes['truck_id']);
+    }
+
+    public function deliverDetails()
+    {
+        return $this->hasMany('App\Models\DeliverDetail');
+    }
+
+    public function salesOrder()
+    {
+        return $this->belongsTo('App\Models\SalesOrder', 'so_id');
     }
 
     public static function boot()

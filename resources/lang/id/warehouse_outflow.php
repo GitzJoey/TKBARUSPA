@@ -31,8 +31,6 @@ return [
                     'deliver_date' => 'Tgl Kirim',
                     'unit' => 'Unit',
                     'brutto' => 'Brutto',
-                    'netto' => 'Netto',
-                    'tare' => 'Tare',
                 ]
             ],
             'item_table' => [
@@ -64,6 +62,7 @@ return [
         'vendor_trucking' => 'Penyedia Angkutan',
         'license_plate' => 'Plat Nomor',
         'remarks' => 'Keterangan',
-        'deliver_no' => 'Pengiriman'
+        'deliver_no' => 'Pengiriman',
+        'customer_confirmation' => 'Konfirmasi Pelanggan',
     ],
 ];

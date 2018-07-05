@@ -9,12 +9,13 @@
 namespace App\Services;
 
 use App\Models\Receipt;
+use App\Models\Deliver;
 
 interface StockService
 {
     public function addStockByReceipt(Receipt $r);
 
-    public function subtractStockByDeliver();
+    public function subtractStockByDeliver(Deliver $d);
 
     public function getAllCurrentStock($warehouseId = '');
 

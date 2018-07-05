@@ -195,11 +195,9 @@
                             <table id="deliverListTable" class="table table-bordered table-hover">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th width="50%">@lang('warehouse_outflow.index.table.item_table.header.product_name')</th>
+                                        <th>@lang('warehouse_outflow.index.table.item_table.header.product_name')</th>
                                         <th width="15%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.unit')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.brutto')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.netto')</th>
-                                        <th width="10%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.tare')</th>
+                                        <th width="15%" class="text-center">@lang('warehouse_outflow.index.table.item_table.header.brutto')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -215,7 +213,7 @@
                                             <select name="selected_product_unit_id[]"
                                                     class="form-control"
                                                     v-model="dd.selectedProductUnitsHId"
-                                                    v-validate="'required|checkequal:' + ddIdx"
+                                                    v-validate="'required'"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.unit') }} ' + (ddIdx + 1)"
                                                     v-bind:data-vv-name="'punit_' + ddIdx"
                                                     v-on:change="onChangeSelectedProductUnit(ddIdx)">
@@ -226,30 +224,11 @@
                                         </td>
                                         <td v-bind:class="{ 'is-invalid':errors.has('brutto_' + ddIdx) }">
                                             <vue-autonumeric v-bind:id="'brutto_' + ddIdx" class="form-control text-right"
-                                                    v-model="dd.brutto" v-validate="'required|checkequal:' + ddIdx"
+                                                    v-model="dd.brutto" v-validate="'required'"
                                                     v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.brutto') }} ' + (ddIdx + 1)"
                                                     v-bind:data-vv-name="'brutto_' + ddIdx"
-                                                    v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('brutto', ddIdx)"></vue-autonumeric>
+                                                    v-bind:options="defaultNumericConfig"></vue-autonumeric>
                                             <input type="hidden" name="brutto[]" v-model="dd.brutto">
-                                        </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('netto_' + ddIdx) }">
-                                            <vue-autonumeric v-bind:id="'netto_' + ddIdx" class="form-control text-right"
-                                                    v-model="dd.netto" v-validate="'required|checkequal:' + ddIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.netto') }} ' + (ddIdx + 1)"
-                                                    v-bind:data-vv-name="'netto_' + ddIdx"
-                                                    v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('netto', ddIdx)"></vue-autonumeric>
-                                            <input type="hidden" name="netto[]" v-model="dd.netto">
-                                        </td>
-                                        <td v-bind:class="{ 'is-invalid':errors.has('tare_' + ddIdx) }">
-                                            <vue-autonumeric v-bind:id="'tare_' + ddIdx" class="form-control text-right"
-                                                    v-model="dd.tare" v-validate="'required|checkequal:' + ddIdx"
-                                                    v-bind:data-vv-as="'{{ trans('warehouse_outflow.index.table.item_table.header.tare') }} ' + (ddIdx + 1)"
-                                                    v-bind:data-vv-name="'tare_' + ddIdx"
-                                                    v-bind:options="defaultNumericConfig"
-                                                    v-on:input="reValidate('tare', ddIdx)"></vue-autonumeric>
-                                            <input type="hidden" name="tare[]" v-model="dd.tare">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -347,6 +326,19 @@
                     </div>
                     <br/>
                     <div class="form-group row">
+                        <label for="inputConfirmation" class="col-3 col-form-label">@lang('warehouse_outflow.fields.customer_confirmation')</label>
+                        <div class="col-md-9">
+                            <template v-if="mode == 'create' || mode == 'edit'">
+                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" for="inputConfirmation">
+                                    <input class="css-control-input" type="checkbox" id="inputConfirmation" name="customer_confirmation">
+                                    <span class="css-control-indicator"></span>&nbsp;@lang('labels.REQUIRED')
+                                </label>
+                            </template>
+                            <template v-if="mode == 'show'">
+                            </template>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_outflow.fields.remarks')</label>
                         <div class="col-md-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
@@ -415,26 +407,6 @@
                 ]
             },
             mounted: function () {
-                this.$validator.extend('checkequal', {
-                    getMessage: (field, args) => {
-                        return this.$validator.locale == 'id' ?
-                            'Nilai bersih dan Tara tidak sama dengan Nilai Kotor':'Netto and Tare value not equal with Bruto';
-                    },
-                    validate: (value, args) => {
-                        var result = false;
-                        var itemIdx = args[0];
-
-                        if (this.deliver.deliver_details[itemIdx] == undefined) return true;
-
-                        if (this.deliver.deliver_details[itemIdx].brutto ==
-                            this.deliver.deliver_details[itemIdx].netto + this.deliver.deliver_details[itemIdx].tare) {
-                            result = true;
-                        }
-
-                        return result;
-                    }
-                });
-
                 this.mode = 'list';
                 this.renderOutflowData();
             },
@@ -445,7 +417,7 @@
                         this.errors.clear();
                         this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                         if (this.mode == 'create') {
-                            axios.post(route('api.post.warehouse.outflow.save', this.po.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
+                            axios.post(route('api.post.warehouse.outflow.save', this.so.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
                                 this.backToList();
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             }).catch(e => {
@@ -453,7 +425,7 @@
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             });
                         } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.warehouse.outflow.edit', this.po.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
+                            axios.post(route('api.post.warehouse.outflow.edit', this.so.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
                             }).catch(e => {
                                 this.handleErrors(e);
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
@@ -476,8 +448,10 @@
                         deliver_details: [],
                         remarks: ''
                     };
+
                     this.expenses = [];
                     for (var i = 0; i < this.so.items.length; i++) {
+                        if (this.so.items[i].stock.warehouseHId != this.selectedWarehouse) continue;
                         this.deliver.deliver_details.push({
                             item: _.cloneDeep(this.so.items[i]),
                             selected_product_units: {
@@ -522,12 +496,13 @@
                 },
                 getSOWDList: function(warehouseId) {
                     return new Promise((resolve, reject) => {
+                        this.soWDList = [];
+
                         if (warehouseId == '') {
                             resolve(true);
                             return;
                         }
 
-                        this.soWDList = [];
                         axios.get(route('api.get.so.status.waiting_delivery', warehouseId).url()).then(response => {
                             this.soWDList = response.data;
                             resolve(true);
@@ -560,18 +535,6 @@
                             reject(e.response.data.message);
                         });
                     });
-                },
-                reValidate: function(field, idx) {
-                    if (field == 'brutto') {
-                        this.$validator.validate('netto_' + idx);
-                        this.$validator.validate('tare_' + idx);
-                    } else if (field == 'netto') {
-                        this.$validator.validate('brutto_' + idx);
-                        this.$validator.validate('tare_' + idx);
-                    } else {
-                        this.$validator.validate('brutto_' + idx);
-                        this.$validator.validate('netto_' + idx);
-                    }
                 },
                 onChangeSelectedProductUnit: function(itemIndex) {
                     if (this.deliver.deliver_details[itemIndex].selectedProductUnitsHId != '') {

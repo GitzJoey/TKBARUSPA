@@ -16,4 +16,5 @@ return [
     'CREATE_NEW' => 'Buat Baru',
     'CHOOSE_FILE' => 'Pilih File',
     'START_TYPING' => 'Mulai Ketik Untuk Mencari',
+    'REQUIRED' => 'Dibutuhkan',
 ];

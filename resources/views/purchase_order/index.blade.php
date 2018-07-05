@@ -342,21 +342,12 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="row">
-                                        <div class="col-11">
+                                        <div class="col-12">
                                             <template v-if="mode == 'create' || mode == 'edit'">
                                                 <select class="form-control" v-model="productSelected" v-on:change="onChangeProductSelected(productSelected)">
                                                     <option v-bind:value="defaultPleaseSelect">@lang('labels.PLEASE_SELECT')</option>
                                                     <option v-for="(p, pIdx) in product_options" v-bind:value="p.hId">@{{ p.name }}</option>
                                                 </select>
-                                            </template>
-                                            <template v-if="mode == 'show'">
-                                            </template>
-                                        </div>
-                                        <div class="col-1">
-                                            <template v-if="mode == 'create' || mode == 'edit'">
-                                                <button id="supplierDetailButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#supplierDetailModal" v-on:click="insertItem(productSelected)">
-                                                    <span class="fa fa-plus fa-fw"></span>
-                                                </button>
                                             </template>
                                             <template v-if="mode == 'show'">
                                             </template>
@@ -452,7 +443,7 @@
                                                     </td>
                                                     <td width="3%">
                                                         <template v-if="mode == 'create' || mode == 'edit'">
-                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(itemIndex)"><span class="fa fa-minus"></span></button>
+                                                            <button type="button" class="btn btn-danger btn-md" v-on:click="removeItem(iIdx)"><span class="fa fa-minus"></span></button>
                                                         </template>
                                                         <template v-if="mode == 'show'">
                                                         </template>

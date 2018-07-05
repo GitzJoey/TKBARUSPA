@@ -40,7 +40,7 @@ class WarehouseOutflowController extends Controller
         try {
             $deliversArr = array(
                 'company_id' => Auth::user()->company->id,
-                'so_id' => Hashids::decode($request['po_id'])[0],
+                'so_id' => Hashids::decode($request['so_id'])[0],
                 'vendor_trucking_id' => $request['vendor_trucking_id'] == '' ? 0:Hashids::decode($request['vendor_trucking_id'])[0],
                 'truck_id' => $request['truck_id'] == '' ? 0:Hashids::decode($request['truck_id'])[0],
                 'article_code' => '',
@@ -49,17 +49,26 @@ class WarehouseOutflowController extends Controller
                 'remarks' => $request['remarks']
             );
 
+            $customerConfirmation = $request['customer_confirmation'] ? true:false;
+
             $deliverDetailArr = array();
             for($i = 0; $i < count($request->input('item_id')); $i++){
-                array_push($receiptDetailArr, array (
+
+                $brutto = floatval($request['brutto'][$i]);
+                $baseBrutto = floatval($request['conversion_value'][$i]) * floatval($request['brutto'][$i]);
+
+                array_push($deliverDetailArr, array (
                     'company_id' => Auth::user()->company->id,
                     'item_id' => Hashids::decode($request['item_id'][$i])[0],
                     'selected_product_unit_id' => Hashids::decode($request['selected_product_unit_id'][$i])[0],
                     'base_product_unit_id' => Hashids::decode($request['base_product_unit_id'][$i])[0],
                     'conversion_value' => floatval($request['conversion_value'][$i]),
-                    'brutto' => floatval($request['brutto'][$i]),
-                    'netto' => floatval($request['netto'][$i]),
-                    'tare' => floatval($request['tare'][$i]),
+                    'brutto' => $brutto,
+                    'base_brutto' => $baseBrutto,
+                    'netto' => !$customerConfirmation ? $brutto:0,
+                    'base_netto' => !$customerConfirmation ? $baseBrutto:0,
+                    'tare' => !$customerConfirmation ? $brutto:0,
+                    'base_tare' => !$customerConfirmation ? $baseBrutto:0,
                 ));
             }
 
@@ -74,18 +83,20 @@ class WarehouseOutflowController extends Controller
                 ));
             }
 
-            $r = $this->salesOrderService->addDeliver(
+            $d = $this->salesOrderService->addDeliver(
                 Hashids::decode($request['so_id'])[0],
                 $deliversArr,
                 $deliverDetailArr
             );
 
-            $this->stockService->addStockByReceipt($r);
+            $this->stockService->subtractStockByDeliver($d);
 
-            $this->purchaseOrderService->addExpenses(
-                Hashids::decode($request['po_id'])[0],
+            $this->salesOrderService->addExpenses(
+                Hashids::decode($request['so_id'])[0],
                 $expenseArr
             );
+
+            throw new Exception('a');
 
             DB::commit();
         } catch (Exception $e) {

@@ -137,6 +137,10 @@ Route::group(['prefix' => 'post', 'middleware' => 'auth:api'], function () {
             Route::post('save/{id}', 'WarehouseInflowController@store')->name('api.post.warehouse.inflow.save');
         });
 
+        Route::group(['prefix' => 'outflow'], function () {
+            Route::post('save/{id}', 'WarehouseOutflowController@store')->name('api.post.warehouse.outflow.save');
+        });
+
         Route::group(['prefix' => 'stock'], function () {
             Route::group(['prefix' => 'opname'], function () {
                 Route::post('save', 'StockOpnameController@store')->name('api.post.warehouse.stock.opname.save');

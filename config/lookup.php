@@ -124,6 +124,7 @@ return [
         'DELIVER_STATUS' => [
             'NEW' => 'DELIVERSTATUS.N',
             'MISSING_SO' => 'DELIVERSTATUS.SO_MIS',
+            'LOADING_GOODS' => 'DELIVERYSTATUS.LOAD',
             'PROCESSED' => 'DELIVERSTATUS.PR',
             'REVOKED' => 'RECEIPTSTATUS.RV',
         ],

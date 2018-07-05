@@ -31,8 +31,6 @@ return [
                     'deliver_date' => 'Deliver Date',
                     'unit' => 'Unit',
                     'brutto' => 'Brutto',
-                    'netto' => 'Netto',
-                    'tare' => 'Tare',
                 ]
             ],
             'item_table' => [
@@ -64,6 +62,7 @@ return [
         'vendor_trucking' => 'Vendor Trucking',
         'license_plate' => 'License Plate',
         'remarks' => 'Remarks',
-        'deliver_no' => 'Deliver'
+        'deliver_no' => 'Deliver',
+        'customer_confirmation' => 'Customer Confirmation',
     ],
 ];

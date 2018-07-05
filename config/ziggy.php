@@ -68,6 +68,13 @@ return [
             'api.get.truck.vendor_trucking.*',
             'api.post.warehouse.inflow.*',
         ],
+        'warehouse_outflow' => [
+            'api.get.so.*',
+            'api.get.lookup.*',
+            'api.get.warehouse.*',
+            'api.get.truck.vendor_trucking.*',
+            'api.post.warehouse.outflow.*',
+        ],
         'warehouse_stock' => [
             'api.get.warehouse.stock.*',
             'api.post.warehouse.stock.opname.*',

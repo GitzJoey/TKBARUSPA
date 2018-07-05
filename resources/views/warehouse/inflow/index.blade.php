@@ -476,6 +476,7 @@
                         receipt_details: [],
                         remarks: ''
                     };
+
                     this.expenses = [];
                     for (var i = 0; i < this.po.items.length; i++) {
                         this.receipt.receipt_details.push({

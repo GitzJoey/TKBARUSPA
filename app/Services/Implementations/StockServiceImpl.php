@@ -8,6 +8,7 @@
 
 namespace App\Services\Implementations;
 
+use App\Models\Deliver;
 use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Receipt;
@@ -88,9 +89,12 @@ class StockServiceImpl implements StockService
         }
     }
 
-    public function subtractStockByDeliver()
+    public function subtractStockByDeliver(Deliver $d)
     {
-
+        foreach ($d->deliverDetails() as $dd) {
+            //get the stock
+            $stockId = $dd->items->stock->id;
+        }
     }
 
     public function adjustStockByOpname($companyId, $stockId, $opnameDate, $isMatch, $newQuantity, $reason)

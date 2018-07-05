@@ -16,4 +16,5 @@ return [
     'CREATE_NEW' => 'Create New',
     'CHOOSE_FILE' => 'Choose File',
     'START_TYPING' => 'Start Typing To Search',
+    'REQUIRED' => 'Required',
 ];
