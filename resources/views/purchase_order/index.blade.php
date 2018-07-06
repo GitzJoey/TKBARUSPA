@@ -474,15 +474,11 @@
                                                 </tr>
                                                 <tr>
                                                     <th>@lang('purchase_order.index.table.expense_table.header.name')</th>
-                                                    <th width="15%"
-                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.type')</th>
-                                                    <th width="10%"
-                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.internal_expense')</th>
-                                                    <th width="30%"
-                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.remarks')</th>
+                                                    <th width="15%" class="text-center">@lang('purchase_order.index.table.expense_table.header.type')</th>
+                                                    <th width="10%" class="text-center">@lang('purchase_order.index.table.expense_table.header.internal_expense')</th>
+                                                    <th width="30%" class="text-center">@lang('purchase_order.index.table.expense_table.header.remarks')</th>
                                                     <th width="3%">&nbsp;</th>
-                                                    <th width="12%"
-                                                        class="text-center">@lang('purchase_order.index.table.expense_table.header.amount')</th>
+                                                    <th width="12%" class="text-center">@lang('purchase_order.index.table.expense_table.header.amount')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

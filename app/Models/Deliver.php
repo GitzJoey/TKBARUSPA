@@ -85,6 +85,11 @@ class Deliver extends Model
         return $this->belongsTo('App\Models\SalesOrder', 'so_id');
     }
 
+    public function stock()
+    {
+        return $this->morphMany('App\Models\Stock', 'owner');
+    }
+
     public static function boot()
     {
         parent::boot();

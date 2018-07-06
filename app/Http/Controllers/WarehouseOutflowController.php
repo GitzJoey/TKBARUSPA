@@ -96,8 +96,6 @@ class WarehouseOutflowController extends Controller
                 $expenseArr
             );
 
-            throw new Exception('a');
-
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

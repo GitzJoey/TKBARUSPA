@@ -91,9 +91,36 @@ class StockServiceImpl implements StockService
 
     public function subtractStockByDeliver(Deliver $d)
     {
-        foreach ($d->deliverDetails() as $dd) {
+        foreach ($d->deliverDetails as $dd) {
             //get the stock
-            $stockId = $dd->items->stock->id;
+            $stockId = $dd->item->stock->id;
+
+            //get the warehouse from stock
+            $warehouseId = $dd->item->stock->warehouse_id;
+
+            //get stock current quantity
+            $quantity_current = $dd->item->stock->quantity_current;
+
+            $this->resetCurrentStock($stockId);
+
+            foreach ($d->deliverDetails as $dd) {
+                $baseProductUnitId = $this->getBaseProductUnitId($dd->item->product);
+                $displayProductUnitId = $this->getDisplayProductUnitId($dd->item->product);
+
+                $stock = new Stock();
+                $stock->company_id = $dd->company_id;
+                $stock->warehouse_id = $warehouseId;
+                $stock->product_id = $dd->item->product->id;
+                $stock->base_product_unit_id = $baseProductUnitId;
+                $stock->display_product_unit_id = $displayProductUnitId;
+                $stock->is_current = 1;
+                $stock->quantity_in = 0;
+                $stock->quantity_out = $dd->base_netto;
+                $stock->quantity_current = $quantity_current - $dd->base_netto;
+
+                $d->stock()->save($stock);
+            }
+
         }
     }
 
