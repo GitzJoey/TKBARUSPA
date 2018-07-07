@@ -65,18 +65,6 @@
                                         <button class="btn btn-sm btn-secondary" v-on:click="createNew(sIdx)">
                                             <span class="fa fa-plus fa-fw"></span>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="s.delivers == 0 ? true:false"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnEdit">
-                                            <a class="dropdown-item" href="#" v-for="(s, sIdx) in s.delivers">
-                                                @lang('warehouse_outflow.fields.deliver_no') @{{ sIdx + 1}}
-                                            </a>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="s.delivers == 0 ? true:false"><span class="fa fa-close fa-fw"></span></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnDelete">
-                                            <a class="dropdown-item" href="#" v-for="(s, sIdx) in s.delivers">
-                                                @lang('warehouse_outflow.fields.deliver_no') @{{ sIdx + 1}}
-                                            </a>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -326,19 +314,6 @@
                     </div>
                     <br/>
                     <div class="form-group row">
-                        <label for="inputConfirmation" class="col-3 col-form-label">@lang('warehouse_outflow.fields.customer_confirmation')</label>
-                        <div class="col-md-9">
-                            <template v-if="mode == 'create' || mode == 'edit'">
-                                <label class="css-control css-control-primary css-checkbox css-checkbox-rounded" for="inputConfirmation">
-                                    <input class="css-control-input" type="checkbox" id="inputConfirmation" name="customer_confirmation">
-                                    <span class="css-control-indicator"></span>&nbsp;@lang('labels.REQUIRED')
-                                </label>
-                            </template>
-                            <template v-if="mode == 'show'">
-                            </template>
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="inputRemarks" class="col-3 col-form-label">@lang('warehouse_outflow.fields.remarks')</label>
                         <div class="col-md-9">
                             <template v-if="mode == 'create' || mode == 'edit'">
@@ -424,12 +399,6 @@
                                 this.handleErrors(e);
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             });
-                        } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.warehouse.outflow.edit', this.so.hId).url(), new FormData($('#outflowForm')[0])).then(response => {
-                            }).catch(e => {
-                                this.handleErrors(e);
-                                this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
-                            });
                         } else { }
                     });
                 },
@@ -465,12 +434,6 @@
                             tare: 0
                         });
                     };
-                },
-                editSelected: function(idx) {
-                    this.mode = 'edit';
-                    this.errors.clear();
-                },
-                deleteSelected: function(idx) {
                 },
                 renderOutflowData: function() {
                     this.loadingPanel('#outflowListBlock', 'TOGGLE');

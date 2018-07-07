@@ -65,18 +65,6 @@
                                         <button class="btn btn-sm btn-secondary" v-on:click="createNew(pIdx)">
                                             <span class="fa fa-plus fa-fw"></span>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-pencil fa-fw"></span></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnEdit">
-                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
-                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
-                                            </a>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" id="btnDelete" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-bind:disabled="p.receipts == 0 ? true:false"><span class="fa fa-close fa-fw"></span></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnDelete">
-                                            <a class="dropdown-item" href="#" v-for="(r, rIdx) in p.receipts">
-                                                @lang('warehouse_inflow.fields.receipt_no') @{{ rIdx + 1}}
-                                            </a>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -452,12 +440,6 @@
                                 this.handleErrors(e);
                                 this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
                             });
-                        } else if (this.mode == 'edit') {
-                            axios.post(route('api.post.warehouse.inflow.edit', this.po.hId).url(), new FormData($('#inflowForm')[0])).then(response => {
-                            }).catch(e => {
-                                this.handleErrors(e);
-                                this.loadingPanel('#outflowCRUDBlock', 'TOGGLE');
-                            });
                         } else { }
                     });
                 },
@@ -492,12 +474,6 @@
                             tare: 0
                         });
                     };
-                },
-                editSelected: function(idx) {
-                    this.mode = 'edit';
-                    this.errors.clear();
-                },
-                deleteSelected: function(idx) {
                 },
                 renderInflowData: function() {
                     this.loadingPanel('#inflowListBlock', 'TOGGLE');

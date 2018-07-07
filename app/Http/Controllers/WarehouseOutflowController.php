@@ -45,7 +45,7 @@ class WarehouseOutflowController extends Controller
                 'truck_id' => $request['truck_id'] == '' ? 0:Hashids::decode($request['truck_id'])[0],
                 'article_code' => '',
                 'driver_name' => $request['driver_name'],
-                'deliver_date' => $request['receipt_date'],
+                'deliver_date' => $request['deliver_date'],
                 'remarks' => $request['remarks']
             );
 

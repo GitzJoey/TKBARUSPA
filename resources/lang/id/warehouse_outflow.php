@@ -31,6 +31,8 @@ return [
                     'deliver_date' => 'Tgl Kirim',
                     'unit' => 'Unit',
                     'brutto' => 'Brutto',
+                    'netto' => 'Netto',
+                    'tare' => 'Tare',
                 ]
             ],
             'item_table' => [

@@ -312,7 +312,9 @@ class SalesOrderServiceImpl implements SalesOrderService
             ,'expenses'
             ,'vendorTrucking'
             ,'delivers.deliverDetails.item.product'
-        ])->whereHas('items.stock', function($s) use ($warehouseId) { $s->where('warehouse_id', '=', $warehouseId); })->where('status', '=', $status)->get();
+        ])->whereHas('items.stock', function($s) use ($warehouseId) {
+            $s->where('warehouse_id', '=', $warehouseId);
+        })->where('status', '=', $status)->get();
 
 
         return $salesOrders;

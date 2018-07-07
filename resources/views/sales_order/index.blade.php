@@ -1022,7 +1022,7 @@
                 },
                 'so.status': function() {
                     if (this.so.status != '') {
-                        axios.get(route('api.get.lookup.description.byvalue', 'SOSTATUS.D').url()).then(
+                        axios.get(route('api.get.lookup.description.byvalue', this.so.status).url()).then(
                             response => { this.soStatusDesc = response.data; }
                         );
                     }

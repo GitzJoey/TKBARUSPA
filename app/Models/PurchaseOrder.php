@@ -164,7 +164,7 @@ class PurchaseOrder extends Model
 
     public function getWarehouseHIdAttribute()
     {
-        return HashIds::encode($this->attributes['supplier_id']);
+        return HashIds::encode($this->attributes['warehouse_id']);
     }
 
     public function getVendorTruckingHIdAttribute()

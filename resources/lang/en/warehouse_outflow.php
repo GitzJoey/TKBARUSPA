@@ -31,6 +31,8 @@ return [
                     'deliver_date' => 'Deliver Date',
                     'unit' => 'Unit',
                     'brutto' => 'Brutto',
+                    'netto' => 'Netto',
+                    'tare' => 'Tare',
                 ]
             ],
             'item_table' => [
